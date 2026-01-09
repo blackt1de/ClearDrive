@@ -197,8 +197,117 @@
       "car_complaints": {},
       "repairpal": {},
       "cached_at": "2026-01-09T15:23:29.788683"
+    },
+    "p0174_dodge_charger_2019_": {
+      "code": "P0174",
+      "trim": "",
+      "engine": "6.4L V8",
+      "obd_codes": {
+        "source": "OBD-Codes.com",
+        "url": "https://www.obd-codes.com/p0174",
+        "code": "P0174",
+        "definition": "System Too Lean (Bank 2)",
+        "causes": [
+          "The MAF (Mass Air Flow) Sensor is dirty or faulty (if equipped). Note: The use of \"oiled\" air filters can cause the MAF to become contaminated if the filter is over-oiled. There is also an issue with some vehicles where the MAF sensors leak the silicone potting material used to protect the circuitry.",
+          "There could be a vacuum leak downstream of the MAF sensor",
+          "Fuel problem (rail/injectors/pump/regulator)"
+        ],
+        "symptoms": [
+          "lack of power",
+          "increased fuel consumption",
+          "detonation (spark knock)",
+          "hesitation/surge on acceleration"
+        ],
+        "diagnostic_steps": []
+      },
+      "car_complaints": {},
+      "repairpal": {},
+      "engine_specific": {
+        "source": "Web Search",
+        "engine_issues": [],
+        "trim_issues": [],
+        "search_terms": [
+          "2019 Dodge Charger 6.4L engine problems"
+        ]
+      },
+      "cached_at": "2026-01-09T15:53:10.816867"
+    },
+    "p0174_bmw_328i_convertible_2013_": {
+      "code": "P0174",
+      "trim": "",
+      "engine": "3.0L V6",
+      "obd_codes": {
+        "source": "OBD-Codes.com",
+        "url": "https://www.obd-codes.com/p0174",
+        "code": "P0174",
+        "definition": "System Too Lean (Bank 2)",
+        "causes": [
+          "The MAF (Mass Air Flow) Sensor is dirty or faulty (if equipped). Note: The use of \"oiled\" air filters can cause the MAF to become contaminated if the filter is over-oiled. There is also an issue with some vehicles where the MAF sensors leak the silicone potting material used to protect the circuitry.",
+          "There could be a vacuum leak downstream of the MAF sensor",
+          "Fuel problem (rail/injectors/pump/regulator)"
+        ],
+        "symptoms": [
+          "lack of power",
+          "increased fuel consumption",
+          "detonation (spark knock)",
+          "hesitation/surge on acceleration"
+        ],
+        "diagnostic_steps": []
+      },
+      "car_complaints": {},
+      "repairpal": {},
+      "engine_specific": {
+        "source": "Web Search",
+        "engine_issues": [],
+        "trim_issues": [],
+        "search_terms": [
+          "2013 BMW 328i Convertible 3.0L engine problems"
+        ]
+      },
+      "cached_at": "2026-01-09T16:13:14.012116"
+    },
+    "p0128_dodge_charger_2014_": {
+      "code": "P0128",
+      "trim": "",
+      "engine": "5.7L V8",
+      "obd_codes": {
+        "source": "OBD-Codes.com",
+        "url": "https://www.obd-codes.com/p0128",
+        "code": "P0128",
+        "definition": "Coolant Thermostat (Coolant Temperature Below Thermostat Regulating Temperature)",
+        "causes": [
+          "Low engine coolant level",
+          "Leaking or stuck open thermostat (likely)",
+          "Faulty cooling fan (running too much)",
+          "Faulty coolant temperature (ECT) sensor",
+          "Faulty intake air temperature (IAT) sensor"
+        ],
+        "symptoms": [
+          "Engine takes longer to warm up",
+          "Engine temperature drops while driving at higher speeds"
+        ],
+        "diagnostic_steps": [
+          "codes P013A and P0128 2007 Jeep Commander 5.7 HemiMy Jeep is throwing those codes, but only in cold weather. After the fist time the Check Engine light came on I had the coolant checked when I had an oil change. It was slightly low and the technician replaced the radiator cap and reset the codes. A few days later the check engine light came on. I c...",
+          "2006 Dodge Stratus. 2.4 code P0128The code P0128 came up so I changed the thermostat, housing and coolant temperature sensor. The same code came up and my car cut off while driving. What other reason could be my troubles?...",
+          "2005 Chevy Optra Trouble codes P0128 and P0420Good day Guys, My Optra has these trouble codes which I'm trying to fix myself and I need your help :oops: I searched in youtube DIY's for reasons and possible solutions to this. I first tried the Dura Lube severe catalytic and exhaust treatment, change my gas from 87 to 91 octane then run the car...",
+          "'02 Volvo V70 2.4 NonTurbo 75k miles P0128 coolant temp....Check engine light is on. Comes up with a PO128. -Engine revving at stop lights and stalling on occasion when I'm at a low speed. -Noticed the other day that the fan isn't coming on at all. Replaced the thermostat and replacing the sensor tonight. Do anyone feel the revving has anything to do...",
+          "Engine codes P0300 P0128 P0449 P0601 on 2006 Chevy Trailblazeron my 2006 Chevy Trailblazer i have multiple engine codes after replacing the alternator. codes are P-0030, P-0128, P-0135, P-0449, and P-0601. it has a 4.3 l v-6. could there be a common problem for all of these codes? i also replaced the battery if that helps...thanks in advance. Doug....",
+          "P0410 and P0128 codes 2005 chevy trailblazer LSMy 2005 Chevy Trailblazer is running rough when it is cold and put in drive. It runs fine when in Park and Reverse and Neutral but when in Drive it is loud and has a vibrating sound. My check engine light is also on and when checked with the code reader, the 2 codes that came up were P0128 and P04..."
+        ]
+      },
+      "car_complaints": {},
+      "repairpal": {},
+      "engine_specific": {
+        "source": "Web Search",
+        "engine_issues": [],
+        "trim_issues": [],
+        "search_terms": [
+          "2014 Dodge Charger 5.7L engine problems"
+        ]
+      },
+      "cached_at": "2026-01-09T16:14:37.763057"
     }
   },
   "vehicles": {},
-  "last_updated": "2026-01-09T15:23:32.816305"
+  "last_updated": "2026-01-09T16:14:39.882200"
 }

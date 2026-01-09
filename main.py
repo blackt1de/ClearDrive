@@ -13,7 +13,7 @@ from vehicle_data import get_available_trims, get_vehicle_by_id, format_vehicle_
 from code_scraper import get_code_info, format_code_context
 from forum_scraper import scrape_reddit_fallback, format_reddit_context
 
-app = FastAPI(title="ClearDrive", version="0.5.0")
+app = FastAPI(title="ClearDrive", version="0.7.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -80,6 +80,7 @@ def parse_guidance(response: str) -> dict:
         "quick_checks": "",
         "urgency": "",
         "repair_cost": "",
+        "known_issues": "",  # NEW: trim-specific issues from database
         "owner_reports": ""
     }
     
@@ -99,6 +100,8 @@ def parse_guidance(response: str) -> dict:
         "WHEN TO SEE": "urgency",
         "REPAIR COST": "repair_cost",
         "ESTIMATED COST": "repair_cost",
+        "KNOWN ISSUES": "known_issues",  # NEW
+        "DATABASE": "known_issues",  # NEW
         "OTHER OWNERS": "owner_reports",
         "COMMUNITY": "owner_reports"
     }
@@ -541,6 +544,7 @@ async def interpret(request: InterpretRequest):
         "quick_checks": "",
         "urgency": "",
         "repair_cost": "",
+        "known_issues": "",  # NEW: trim-specific issues from database
         "owner_reports": "",
         "data_sources": [],
         "obd_source": obd_source,
@@ -599,12 +603,14 @@ RULES:
     make = vehicle_data.get("make", "") if vehicle_data else ""
     model = vehicle_data.get("model", "") if vehicle_data else ""
     year = vehicle_data.get("year", "") if vehicle_data else ""
+    engine_str = response_data.get("engine", "")
     
     for code in codes_list[:2]:
-        code_info = await get_code_info(code, make, model, year)
+        # Pass trim and engine for personalized code info
+        code_info = await get_code_info(code, make, model, year, trim, engine_str)
         
         if code_info:
-            ctx = format_code_context(code_info, vehicle_str)
+            ctx = format_code_context(code_info, vehicle_str, trim, engine_str)
             if ctx:
                 code_context += ctx + "\n\n"
                 
@@ -630,77 +636,80 @@ RULES:
                     response_data["data_sources"].append("Community Forums")
     
     # Build the diagnostic prompt with DEEP vehicle context
-    prompt = f"""You are ClearDrive, a vehicle diagnostic assistant that provides HIGHLY PERSONALIZED advice based on the specific vehicle configuration.
+    prompt = f"""You are ClearDrive, a friendly car expert who explains things in plain English. You're talking to someone who may not know much about cars, so avoid jargon and explain everything clearly.
 
-YOUR TASK: Diagnose trouble codes for this SPECIFIC vehicle. Your advice must be tailored to the exact engine type, forced induction system (if any), displacement, and drivetrain.
+YOUR GOAL: Help the owner understand what's wrong with their car, how serious it is, and what they should do next. Be reassuring but honest.
 
 {vehicle_context}
 
-DIAGNOSTIC TROUBLE CODES: {codes_text}
+TROUBLE CODE(S) DETECTED: {codes_text}
 
-SAFETY RATING DEFINITIONS:
-- SAFE = Minor issue, won't damage vehicle. Safe to drive. Schedule repair when convenient.
-- CAUTION = Needs attention in 1-2 weeks. Safe for short trips but will worsen if ignored.
-- STOP = Continuing to drive could cause PERMANENT DAMAGE. Go to mechanic immediately.
+SAFETY LEVELS (pick ONE):
+- SAFE = This is minor. Your car is fine to drive. Fix it when you get a chance.
+- CAUTION = This needs attention soon (within 1-2 weeks). OK for short trips but don't ignore it.
+- STOP = This is serious. Driving could damage your engine. See a mechanic right away.
 
 """
 
     if code_context:
-        prompt += f"""TECHNICAL REFERENCE DATA:
+        prompt += f"""WHAT WE FOUND FROM CAR DATABASES:
+We checked OBD-Codes.com, CarComplaints.com, and RepairPal.com for information about this code.
+Look for any issues marked "SPECIFIC TO THIS TRIM/ENGINE" - those are from owners with the same engine as you!
+
 {code_context}
 
 """
 
     # Add engine-specific diagnostic guidance based on characteristics (NOT hardcoded makes/models)
     if engine_profile.get("is_supercharged"):
-        prompt += """SUPERCHARGED ENGINE DIAGNOSTIC CONSIDERATIONS:
-- This engine has a supercharger that adds complexity
-- Boost leaks can cause lean conditions and misfires
-- Supercharger belt and tensioner are additional failure points
-- Intercooler issues can affect performance
-- Higher cylinder pressures mean ignition issues are more critical
-- Parts costs are 50-100% higher than naturally aspirated versions
+        prompt += """ABOUT THIS ENGINE - SUPERCHARGED:
+This car has a supercharger (a belt-driven air pump that makes the engine more powerful). This means:
+- There are extra parts that can wear out (the supercharger belt, pulleys)
+- If air is leaking anywhere, the engine won't run right
+- It needs premium fuel and more frequent oil changes
+- Repairs cost more because the parts are pricier (expect 50-100% more than a regular engine)
 
 """
     elif engine_profile.get("is_turbocharged"):
-        prompt += """TURBOCHARGED ENGINE DIAGNOSTIC CONSIDERATIONS:
-- This engine has turbocharger(s) adding complexity
-- Boost leaks cause lean conditions and power loss
-- Wastegate and blow-off valve issues are common
-- Oil quality is critical - turbo bearings need clean oil
-- Carbon buildup on intake valves is common (especially direct injection)
-- Parts costs are 20-50% higher than naturally aspirated versions
+        prompt += """ABOUT THIS ENGINE - TURBOCHARGED:
+This car has a turbo (uses exhaust gases to spin a turbine that pushes more air into the engine). This means:
+- Air leaks in the intake system cause problems
+- The turbo needs clean oil to stay healthy
+- Carbon can build up on the valves over time
+- Repairs cost more than a regular engine (20-50% more)
 
 """
     
     if engine_profile.get("cylinders", 0) >= 8:
-        prompt += """V8 ENGINE DIAGNOSTIC CONSIDERATIONS:
-- Has 8 cylinders with individual ignition coils/plugs
-- More ignition components = more potential failure points
-- Cylinder deactivation systems (if equipped) can cause issues
-- Bank 1 vs Bank 2 matters for diagnosis
-- Oil consumption tends to be higher than smaller engines
+        prompt += """ABOUT THIS ENGINE - V8:
+This car has a V8 engine (8 cylinders). This means:
+- There are 8 spark plugs and 8 ignition coils - more parts that can go bad
+- If a problem is on "Bank 1" or "Bank 2," that tells the mechanic which side of the engine
+- V8s tend to use a bit more oil than smaller engines, which is normal
+- Some V8s shut off half the cylinders to save gas - this system can sometimes cause issues
 
 """
     
     drive = vehicle_data.get("drive", "") if vehicle_data else ""
     if "all" in drive.lower() or "awd" in drive.lower():
-        prompt += """AWD SYSTEM DIAGNOSTIC CONSIDERATIONS:
-- All-wheel drive adds transfer case and extra differential
-- Drivetrain binding can occur if tire sizes don't match
-- More fluids to maintain (transfer case, differentials)
-- AWD issues can cause vibrations, noise, and handling problems
+        prompt += """ABOUT THIS CAR - ALL-WHEEL DRIVE:
+This car sends power to all four wheels. This means:
+- There are extra parts (transfer case, extra differential) that need maintenance
+- All four tires should be the same size and wear level, or you can damage the system
+- There's extra fluid that needs to be changed periodically
+- Vibrations or grinding noises could be from the AWD system
 
 """
     
     cost_mult = engine_profile.get("cost_multiplier", 1.0)
     perf_tier = engine_profile.get("performance_tier", "standard")
     
-    prompt += f"""COST ESTIMATION GUIDANCE:
-This vehicle is classified as "{perf_tier}" with a cost multiplier of {cost_mult}x.
-- Base repair costs should be multiplied by {cost_mult}
-- High-performance variants require specialized parts
-- Dealer vs independent shop price difference is typically 30-50%
+    # Don't mention multiplier to user - just use it internally for guidance
+    prompt += f"""REPAIR COST GUIDANCE:
+This is a {perf_tier} vehicle. Keep in mind:
+- Performance vehicles have pricier parts than economy cars
+- Dealers charge more than independent shops (usually 30-50% more)
+- Some repairs need special tools or expertise
 
 RESPONSE FORMAT - Follow EXACTLY:
 
@@ -708,59 +717,62 @@ SAFETY LEVEL: [SAFE, CAUTION, or STOP]
 
 WHAT'S HAPPENING:
 Start with "Your {vehicle_str_with_trim} is showing code {codes_list[0]}."
-Explain in 4-5 sentences:
-- What this code means (explain technical terms)
-- Why THIS SPECIFIC ENGINE CONFIGURATION might trigger this code
-- If supercharged/turbocharged: mention if boost system could be involved
-- If V8: mention which bank might be affected
-- If AWD: mention if drivetrain could be related
+Explain in 4-5 simple sentences that anyone can understand:
+- What this code actually means (imagine explaining to someone who knows nothing about cars)
+- Why this might be happening on this particular engine
+- Reassure them if it's not serious, or be honest if it is
 
 LIKELY CAUSES:
-List 5 causes, ORDERED BY LIKELIHOOD for THIS engine type:
-1. [Most likely cause for this engine] - [What it is and why it fails on this configuration]
-2. [Second cause] - [Explanation specific to this engine type]
-3. [Third cause] - [Explanation]
-4. [Fourth cause] - [Explanation]
-5. [Fifth cause] - [Explanation]
+List 5 possible causes, starting with the most likely:
+1. [Most likely cause] - Explain in plain English what this part does and why it might fail
+2. [Second cause] - Simple explanation
+3. [Third cause] - Simple explanation
+4. [Fourth cause] - Simple explanation
+5. [Fifth cause] - Simple explanation
 
-For supercharged engines, include boost-related causes.
-For turbocharged engines, include turbo-related causes.
-For V8s, include ignition system causes.
+If we found issues reported by OTHER OWNERS of this same engine, mention those first!
 
 WHAT YOU MIGHT NOTICE:
-List 4 symptoms SPECIFIC to this engine configuration:
-1. [Symptom] - [Why this happens on this engine type]
-2. [Symptom] - [Explanation]
-3. [Symptom] - [Explanation]
-4. [Symptom] - [Explanation]
+List 4 things the driver might experience:
+1. [What they'll feel/hear/see] - Why this happens
+2. [Symptom] - Explanation
+3. [Symptom] - Explanation
+4. [Symptom] - Explanation
 
 IF YOU IGNORE THIS:
-Write 4 sentences explaining:
-- Short term consequences (specific to this engine type)
-- Long term damage potential
-- Cost escalation (using the {cost_mult}x multiplier)
-- Safety implications
+Explain what could happen if they don't fix it:
+- What might happen in the next few days/weeks
+- What could happen long-term
+- How much more expensive it could get
+- Any safety concerns
 
 QUICK CHECKS:
-List 3 checks appropriate for this engine configuration:
-1. [Check specific to this engine] - [Step by step]
-2. [Check] - [Step by step]
-3. [Check] - [Step by step]
+List 3 things they can check themselves (if safe to do so):
+1. [Simple check] - Step by step instructions anyone can follow
+2. [Check] - Step by step
+3. [Check] - Step by step
 
-If supercharged: include boost leak check or belt inspection
-If turbocharged: include intercooler pipe check or wastegate check
-If V8: include coil/plug inspection
+Keep it simple - don't suggest anything that requires special tools or expertise.
 
 WHEN TO SEE A MECHANIC:
-Based on safety level, state urgency and explain why this engine configuration matters.
+Tell them clearly when to go. Examples:
+- "This can wait a week or two, but don't forget about it"
+- "Try to get this looked at in the next few days"
+- "Go to a mechanic today - don't drive more than necessary"
 
 ESTIMATED REPAIR COST:
-Give costs SPECIFIC to this "{perf_tier}" vehicle:
-- Parts: $X - $Y (adjusted for {cost_mult}x multiplier)
-- Labor: $X - $Y
+Give honest cost ranges:
+- Parts: $X - $Y
+- Labor: $X - $Y  
 - Total at independent shop: $X - $Y
-- Total at dealer: $X - $Y (30-50% higher)
-- Note if specialized tools or expertise needed for this engine type"""
+- Total at dealer: $X - $Y (dealers charge more)
+- Let them know if this needs a specialist
+
+KNOWN ISSUES FOR THIS ENGINE (from database):
+If the REAL-WORLD DATA above contains trim-specific or engine-specific issues from CarComplaints.com,
+write 2-3 sentences summarizing what OTHER OWNERS of this exact engine configuration experienced.
+If there are TSBs (Technical Service Bulletins) or recalls mentioned, note them here.
+If no trim-specific data was found, skip this section."""
 
     if reddit_context:
         prompt += f"""
@@ -771,12 +783,13 @@ Based on community data, write 2-3 sentences about what owners of similar vehicl
 
     prompt += """
 
-CRITICAL RULES:
-- Make advice SPECIFIC to this exact engine configuration
-- Mention supercharger/turbo if equipped and relevant
-- Use the cost multiplier for repair estimates
-- Explain every technical term
-- NO generic advice that could apply to any car
+IMPORTANT RULES:
+- Write like you're talking to a friend who doesn't know much about cars
+- Use the data from other owners when available - real experiences are valuable!
+- Explain any technical terms in parentheses
+- Be specific to this exact car and engine
+- Be reassuring but honest
+- NO jargon without explanation
 - NO analogies or metaphors
 - English only"""
 
@@ -805,6 +818,7 @@ CRITICAL RULES:
     response_data["quick_checks"] = parsed["quick_checks"]
     response_data["urgency"] = parsed["urgency"]
     response_data["repair_cost"] = parsed["repair_cost"]
+    response_data["known_issues"] = parsed["known_issues"]  # NEW: trim-specific issues
     response_data["owner_reports"] = parsed["owner_reports"]
     
     # Log scan
