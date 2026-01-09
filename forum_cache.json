@@ -56,7 +56,22 @@
       "model": "Mustang",
       "insights": [],
       "cached_at": "2026-01-09T09:24:55.055520"
+    },
+    "dodge_charger_p0128": {
+      "code": "P0128",
+      "make": "Dodge",
+      "model": "Charger",
+      "insights": [
+        {
+          "title": "Check engine code P0128 - 2013 Dodge Journey SXT",
+          "comments": [
+            "Fuse is $200 installed?  A thermostat is $500 installed.  Dude... fucking RUN from that shop.  \n\nCall the dealership.  \"I've got a P0128 code for sticking thermostat.  How much to confirm and replace it?\""
+          ],
+          "subreddit": "Cartalk"
+        }
+      ],
+      "cached_at": "2026-01-09T15:23:50.997655"
     }
   },
-  "last_updated": "2026-01-09T09:24:55.055520"
+  "last_updated": "2026-01-09T15:23:50.997655"
 }

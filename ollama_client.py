@@ -5,7 +5,7 @@ OLLAMA_URL = "http://localhost:11434/api/generate"
 async def ask_ollama(prompt: str) -> str:
     """Send a prompt to Ollama and get a response."""
     try:
-        async with httpx.AsyncClient(timeout=120.0) as client:
+        async with httpx.AsyncClient(timeout=180.0) as client:
             response = await client.post(
                 OLLAMA_URL,
                 json={
@@ -14,7 +14,7 @@ async def ask_ollama(prompt: str) -> str:
                     "stream": False,
                     "options": {
                         "temperature": 0.7,
-                        "num_predict": 1500,
+                        "num_predict": 2000,
                     }
                 }
             )

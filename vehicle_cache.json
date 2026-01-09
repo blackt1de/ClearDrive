@@ -1,125 +1,102 @@
 {
   "vehicles": {
-    "vehicle_39648": {
-      "vehicle_id": "39648",
+    "vehicle_39058": {
+      "vehicle_id": "39058",
       "year": "2018",
-      "make": "Ford",
-      "model": "Mustang",
-      "full_name": "2018 Ford Mustang",
-      "engine": "2.3L Turbo I4",
-      "displacement": "2.3",
-      "cylinders": "4",
+      "make": "Dodge",
+      "model": "Charger",
+      "full_name": "2018 Dodge Charger",
+      "engine": "6.4L V8",
+      "displacement": "6.4",
+      "cylinders": "8",
       "supercharged": false,
-      "turbocharged": true,
-      "transmission": "Automatic (S10)",
+      "turbocharged": false,
+      "transmission": "Automatic 8-spd",
       "drive": "Rear-Wheel Drive",
-      "fuel_type": "Regular",
-      "mpg_city": "21",
-      "mpg_highway": "32",
+      "fuel_type": "Premium",
+      "mpg_city": "15",
+      "mpg_highway": "25",
       "ev_motor": "",
-      "vehicle_class": "Subcompact Cars",
-      "cached_at": "2026-01-09T09:24:37.928252"
+      "vehicle_class": "Large Cars",
+      "cached_at": "2026-01-09T15:23:29.763121"
     }
   },
   "trims": {
-    "trims_2021_honda_civic": {
+    "trims_2018_dodge_charger": {
       "options": [
         {
-          "id": "43357",
-          "name": "EX (Auto (AV-S7), 4 cyl, 2.0 L)",
-          "full_name": "Auto (AV-S7), 4 cyl, 2.0 L",
-          "model_variant": "Civic 4Dr",
-          "trim": "EX",
-          "specs": "Auto (AV-S7), 4 cyl, 2.0 L"
+          "id": "39056",
+          "name": "GT (Auto 8-spd, 6 cyl, 3.6 L, FFV)",
+          "full_name": "Auto 8-spd, 6 cyl, 3.6 L, FFV",
+          "model_variant": "Charger",
+          "trim": "GT",
+          "specs": "Auto 8-spd, 6 cyl, 3.6 L, FFV"
         },
         {
-          "id": "43055",
-          "name": "EX-L Navi (Man 6-spd, 4 cyl, 1.5 L, Turbo)",
-          "full_name": "Man 6-spd, 4 cyl, 1.5 L, Turbo",
-          "model_variant": "Civic 5Dr",
-          "trim": "EX-L Navi",
-          "specs": "Man 6-spd, 4 cyl, 1.5 L, Turbo"
+          "id": "39062",
+          "name": "GT AWD (Auto 8-spd, 6 cyl, 3.6 L, FFV)",
+          "full_name": "Auto 8-spd, 6 cyl, 3.6 L, FFV",
+          "model_variant": "Charger AWD",
+          "trim": "GT AWD",
+          "specs": "Auto 8-spd, 6 cyl, 3.6 L, FFV"
         },
         {
-          "id": "43643",
-          "name": "EX-L Navi (Man 6-spd, 4 cyl, 2.0 L, Turbo)",
-          "full_name": "Man 6-spd, 4 cyl, 2.0 L, Turbo",
-          "model_variant": "Civic 5Dr",
-          "trim": "EX-L Navi",
-          "specs": "Man 6-spd, 4 cyl, 2.0 L, Turbo"
+          "id": "39055",
+          "name": "SE (Auto 8-spd, 6 cyl, 3.6 L)",
+          "full_name": "Auto 8-spd, 6 cyl, 3.6 L",
+          "model_variant": "Charger",
+          "trim": "SE",
+          "specs": "Auto 8-spd, 6 cyl, 3.6 L"
         },
         {
-          "id": "43355",
-          "name": "LX (Auto (AV-S7), 4 cyl, 1.5 L, Turbo)",
-          "full_name": "Auto (AV-S7), 4 cyl, 1.5 L, Turbo",
-          "model_variant": "Civic 4Dr",
-          "trim": "LX",
-          "specs": "Auto (AV-S7), 4 cyl, 1.5 L, Turbo"
+          "id": "39061",
+          "name": "SXT AWD (Auto 8-spd, 6 cyl, 3.6 L)",
+          "full_name": "Auto 8-spd, 6 cyl, 3.6 L",
+          "model_variant": "Charger AWD",
+          "trim": "SXT AWD",
+          "specs": "Auto 8-spd, 6 cyl, 3.6 L"
         },
         {
-          "id": "43356",
-          "name": "Sport (Auto (variable gear ratios), 4 cyl, 1.5 L, Turbo)",
-          "full_name": "Auto (variable gear ratios), 4 cyl, 1.5 L, Turbo",
-          "model_variant": "Civic 4Dr",
-          "trim": "Sport",
-          "specs": "Auto (variable gear ratios), 4 cyl, 1.5 L, Turbo"
+          "id": "39057",
+          "name": "R/T (Auto 8-spd, 8 cyl, 5.7 L)",
+          "full_name": "Auto 8-spd, 8 cyl, 5.7 L",
+          "model_variant": "Charger",
+          "trim": "R/T",
+          "specs": "Auto 8-spd, 8 cyl, 5.7 L"
         },
         {
-          "id": "43358",
-          "name": "Touring (Auto (variable gear ratios), 4 cyl, 2.0 L)",
-          "full_name": "Auto (variable gear ratios), 4 cyl, 2.0 L",
-          "model_variant": "Civic 4Dr",
-          "trim": "Touring",
-          "specs": "Auto (variable gear ratios), 4 cyl, 2.0 L"
+          "id": "39059",
+          "name": "SRT Hellcat (Auto 8-spd, 8 cyl, 6.2 L, Sup Charg)",
+          "full_name": "Auto 8-spd, 8 cyl, 6.2 L, Sup Charg",
+          "model_variant": "Charger SRT",
+          "trim": "SRT Hellcat",
+          "specs": "Auto 8-spd, 8 cyl, 6.2 L, Sup Charg"
+        },
+        {
+          "id": "39058",
+          "name": "R/T Scat Pack (Auto 8-spd, 8 cyl, 6.4 L)",
+          "full_name": "Auto 8-spd, 8 cyl, 6.4 L",
+          "model_variant": "Charger",
+          "trim": "R/T Scat Pack",
+          "specs": "Auto 8-spd, 8 cyl, 6.4 L"
+        },
+        {
+          "id": "39060",
+          "name": "SRT 392 (Auto 8-spd, 8 cyl, 6.4 L)",
+          "full_name": "Auto 8-spd, 8 cyl, 6.4 L",
+          "model_variant": "Charger SRT",
+          "trim": "SRT 392",
+          "specs": "Auto 8-spd, 8 cyl, 6.4 L"
         }
       ],
-      "cached_at": "2026-01-09T09:22:46.788210"
-    },
-    "trims_2018_ford_mustang": {
-      "options": [
-        {
-          "id": "39648",
-          "name": "EcoBoost (Auto (S10), 4 cyl, 2.3 L, Turbo)",
-          "full_name": "Auto (S10), 4 cyl, 2.3 L, Turbo",
-          "model_variant": "Mustang",
-          "trim": "EcoBoost",
-          "specs": "Auto (S10), 4 cyl, 2.3 L, Turbo"
-        },
-        {
-          "id": "39642",
-          "name": "EcoBoost (Man 6-spd, 4 cyl, 2.3 L, Turbo)",
-          "full_name": "Man 6-spd, 4 cyl, 2.3 L, Turbo",
-          "model_variant": "Mustang",
-          "trim": "EcoBoost",
-          "specs": "Man 6-spd, 4 cyl, 2.3 L, Turbo"
-        },
-        {
-          "id": "39650",
-          "name": "GT (Auto (S10), 8 cyl, 5.0 L)",
-          "full_name": "Auto (S10), 8 cyl, 5.0 L",
-          "model_variant": "Mustang",
-          "trim": "GT",
-          "specs": "Auto (S10), 8 cyl, 5.0 L"
-        },
-        {
-          "id": "39645",
-          "name": "GT (Man 6-spd, 8 cyl, 5.0 L)",
-          "full_name": "Man 6-spd, 8 cyl, 5.0 L",
-          "model_variant": "Mustang",
-          "trim": "GT",
-          "specs": "Man 6-spd, 8 cyl, 5.0 L"
-        },
-        {
-          "id": "39646",
-          "name": "Shelby GT350 (Man 6-spd, 8 cyl, 5.2 L)",
-          "full_name": "Man 6-spd, 8 cyl, 5.2 L",
-          "model_variant": "Shelby GT350 Mustang",
-          "trim": "Shelby GT350",
-          "specs": "Man 6-spd, 8 cyl, 5.2 L"
-        }
-      ],
-      "cached_at": "2026-01-09T09:24:32.307454"
+      "cached_at": "2026-01-09T15:23:19.963746"
     }
   },
-  "last_updated": "2026-01-09T09:24:37.928252"
+  "wikipedia": {
+    "wiki_2018_dodge_chargger": {
+      "trims": [],
+      "cached_at": "2026-01-09T15:22:01.322692"
+    }
+  },
+  "last_updated": "2026-01-09T15:23:29.763121"
 }
