@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearDrive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(145deg, #0a0f0a 0%, #1a2a1a 50%, #0d1510 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            padding: 20px;
+        }
+        
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        .header { text-align: center; padding: 40px 0 30px; }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #22c55e 0%, #15803d 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+        
+        .logo-icon svg { width: 24px; height: 24px; stroke: white; fill: none; stroke-width: 2; }
+        .logo-text { font-size: 24px; font-weight: 700; }
+        .tagline { color: #9ca3af; font-size: 14px; }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        
+        .input-row { display: flex; gap: 12px; }
+        .input-group { margin-bottom: 16px; flex: 1; }
+        .input-group.small { flex: 0 0 80px; }
+        
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: #ffffff;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #22c55e;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+        }
+        
+        .input-group input::placeholder { color: #4b5563; }
+        
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 8px;
+        }
+        
+        .mode-info span { display: block; }
+        .mode-label { font-size: 14px; font-weight: 500; }
+        .mode-status { font-size: 12px; color: #6b7280; }
+        .mode-status.active { color: #22c55e; }
+        
+        .switch { position: relative; width: 52px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+            border-radius: 28px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background: #ffffff;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider { background: #22c55e; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        
+        .btn {
+            width: 100%;
+            background: #ffffff;
+            color: #0a0f0a;
+            border: none;
+            border-radius: 16px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 16px;
+        }
+        
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+            transform: none;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active { display: flex; }
+        
+        .modal {
+            background: linear-gradient(145deg, #1a2a1a 0%, #0d1510 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .modal-subtitle { font-size: 14px; color: #9ca3af; margin-bottom: 20px; }
+        
+        .trim-list {
+            flex: 1;
+            overflow-y: auto;
+            margin: 0 -24px;
+            padding: 0 24px;
+            max-height: 400px;
+        }
+        
+        .trim-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .trim-option:hover {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+        
+        .trim-option.selected {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+        }
+        
+        .trim-name { font-size: 14px; font-weight: 500; }
+        
+        .modal-actions { display: flex; gap: 12px; margin-top: 20px; }
+        .modal-actions .btn { margin-bottom: 0; flex: 1; }
+        
+        #loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(34, 197, 94, 0.2);
+            border-top-color: #22c55e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        #result { display: none; }
+        
+        .safety-banner {
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .safety-banner.safe {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(21, 128, 61, 0.2) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .safety-banner.caution {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.2) 0%, rgba(161, 98, 7, 0.2) 100%);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+        }
+        
+        .safety-banner.stop {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(185, 28, 28, 0.2) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .safety-label { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; margin-bottom: 4px; }
+        .safety-value { font-size: 28px; font-weight: 700; }
+        .safety-banner.safe .safety-value { color: #22c55e; }
+        .safety-banner.caution .safety-value { color: #eab308; }
+        .safety-banner.stop .safety-value { color: #ef4444; }
+        
+        .vehicle-display {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .vehicle-name { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        
+        .vehicle-status {
+            font-size: 13px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; }
+        
+        /* Stats */
+        .stats-dashboard {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .stats-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 10px;
+            text-align: center;
+        }
+        
+        .stat-card.wide { grid-column: span 2; }
+        .stat-card.full { grid-column: span 3; }
+        
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            margin: 0 auto 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stat-icon svg { width: 18px; height: 18px; stroke-width: 2; fill: none; }
+        
+        .stat-icon.green { background: rgba(34, 197, 94, 0.15); }
+        .stat-icon.green svg { stroke: #22c55e; }
+        .stat-icon.blue { background: rgba(59, 130, 246, 0.15); }
+        .stat-icon.blue svg { stroke: #3b82f6; }
+        .stat-icon.orange { background: rgba(249, 115, 22, 0.15); }
+        .stat-icon.orange svg { stroke: #f97316; }
+        .stat-icon.purple { background: rgba(139, 92, 246, 0.15); }
+        .stat-icon.purple svg { stroke: #8b5cf6; }
+        .stat-icon.cyan { background: rgba(6, 182, 212, 0.15); }
+        .stat-icon.cyan svg { stroke: #06b6d4; }
+        .stat-icon.red { background: rgba(239, 68, 68, 0.15); }
+        .stat-icon.red svg { stroke: #ef4444; }
+        
+        .stat-value { font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 2px; }
+        .stat-value.small { font-size: 13px; font-weight: 600; }
+        .stat-label { font-size: 10px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .badge-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        
+        .badge {
+            font-size: 9px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        
+        .badge.supercharged { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .badge.turbo { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .badge.hybrid { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .badge.electric { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+        
+        .codes-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .codes-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .codes-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        
+        .code-chip {
+            background: rgba(234, 179, 8, 0.2);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            color: #fbbf24;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: monospace;
+        }
+        
+        .data-sources { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        
+        .source-tag {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+        
+        .info-card h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #22c55e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-card h3 svg { width: 16px; height: 16px; stroke: #22c55e; fill: none; stroke-width: 2; }
+        .info-card .content { font-size: 14px; line-height: 1.7; color: #d1d5db; }
+        
+        .info-card .content .list-item {
+            margin-bottom: 10px;
+            padding-left: 8px;
+            border-left: 2px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .info-card .content .list-number { color: #22c55e; font-weight: 600; margin-right: 6px; }
+        
+        .info-card.urgency {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border-color: rgba(34, 197, 94, 0.2);
+        }
+        
+        .info-card.owners {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+        
+        .info-card.owners h3 { color: #818cf8; }
+        .info-card.owners h3 svg { stroke: #818cf8; }
+        
+        .obd-status { padding: 12px 16px; border-radius: 12px; font-size: 13px; margin-top: 12px; }
+        .obd-status.connected { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .obd-status.disconnected { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; }
+        
+        /* Chat */
+        .chat-section { margin-top: 24px; }
+        .chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .chat-title { font-size: 14px; font-weight: 600; color: #9ca3af; }
+        .chat-remaining { font-size: 12px; color: #6b7280; background: rgba(255, 255, 255, 0.05); padding: 4px 10px; border-radius: 12px; }
+        .chat-remaining.warning { color: #fbbf24; background: rgba(234, 179, 8, 0.1); }
+        .chat-remaining.exhausted { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
+        
+        .chat-messages {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            min-height: 60px;
+        }
+        
+        .chat-empty { color: #6b7280; text-align: center; font-size: 13px; padding: 10px; }
+        
+        .chat-message { margin-bottom: 12px; padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.6; }
+        .chat-message.user { background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.3); margin-left: 20%; }
+        .chat-message.assistant { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); margin-right: 10%; }
+        .chat-message.system { background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.2); color: #fbbf24; text-align: center; font-size: 13px; }
+        
+        .chat-input-area { display: flex; gap: 10px; }
+        .chat-input { flex: 1; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 14px 16px; color: #ffffff; font-size: 14px; font-family: inherit; resize: none; }
+        .chat-input:focus { outline: none; border-color: #22c55e; }
+        .chat-input::placeholder { color: #4b5563; }
+        .chat-input:disabled { opacity: 0.5; }
+        
+        .chat-send { background: #22c55e; color: #0a0f0a; border: none; border-radius: 12px; padding: 14px 20px; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .chat-send:disabled { opacity: 0.5; }
+        
+        .chat-examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .chat-example { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #9ca3af; padding: 8px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+        .chat-example:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+        
+        .chat-loading { display: flex; align-items: center; gap: 8px; padding: 12px; color: #9ca3af; }
+        .chat-loading-dots { display: flex; gap: 4px; }
+        .chat-loading-dots span { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+        .chat-loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .chat-loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <span class="logo-text">ClearDrive</span>
+            </div>
+            <p class="tagline">Your car's best friend</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Vehicle Information</div>
+            
+            <div class="input-row">
+                <div class="input-group small">
+                    <label>Year</label>
+                    <input type="number" id="year" placeholder="2018" min="1996" max="2026">
+                </div>
+                <div class="input-group">
+                    <label>Make</label>
+                    <input type="text" id="make" placeholder="Jeep">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label>Model</label>
+                <input type="text" id="model" placeholder="Grand Cherokee">
+            </div>
+            
+            <div class="mode-toggle">
+                <div class="mode-info">
+                    <span class="mode-label">Data Source</span>
+                    <span class="mode-status" id="mode-status">Demo Mode</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="obd-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div id="obd-status" class="obd-status" style="display: none;"></div>
+        </div>
+        
+        <button class="btn" id="findTrimsBtn">Find My Vehicle</button>
+        
+        <div id="loading">
+            <div class="loading-spinner"></div>
+            <p id="loading-text">Finding your vehicle...</p>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+    
+    <!-- Trim Modal -->
+    <div class="modal-overlay" id="trimModal">
+        <div class="modal">
+            <div class="modal-title">Select Your Trim</div>
+            <div class="modal-subtitle" id="modalSubtitle">Choose your exact configuration</div>
+            
+            <div class="trim-list" id="trimList"></div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelTrimBtn">Cancel</button>
+                <button class="btn" id="selectTrimBtn" disabled>Run Diagnostic</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedTrimId = null;
+        let scanContext = null;
+        let followUpsRemaining = 3;
+        let chatHistory = [];
+        
+        const obdToggle = document.getElementById('obd-toggle');
+        const modeStatus = document.getElementById('mode-status');
+        const obdStatusEl = document.getElementById('obd-status');
+        
+        obdToggle.addEventListener('change', async function() {
+            if (this.checked) {
+                modeStatus.textContent = 'Checking...';
+                obdStatusEl.style.display = 'block';
+                obdStatusEl.textContent = 'Searching for OBD adapter...';
+                
+                try {
+                    const response = await fetch('/obd/status');
+                    const data = await response.json();
+                    
+                    if (data.connected) {
+                        obdStatusEl.textContent = '✓ Connected to ' + (data.port || 'adapter');
+                        obdStatusEl.className = 'obd-status connected';
+                        modeStatus.textContent = 'Live OBD';
+                        modeStatus.classList.add('active');
+                    } else {
+                        obdStatusEl.textContent = '✗ ' + (data.message || 'Adapter not found');
+                        obdStatusEl.className = 'obd-status disconnected';
+                        this.checked = false;
+                        modeStatus.textContent = 'Demo Mode';
+                    }
+                } catch (error) {
+                    obdStatusEl.textContent = '✗ Connection error';
+                    obdStatusEl.className = 'obd-status disconnected';
+                    this.checked = false;
+                    modeStatus.textContent = 'Demo Mode';
+                }
+            } else {
+                obdStatusEl.style.display = 'none';
+                modeStatus.textContent = 'Demo Mode';
+            }
+        });
+        
+        document.getElementById('findTrimsBtn').addEventListener('click', async function() {
+            const year = document.getElementById('year').value;
+            const make = document.getElementById('make').value;
+            const model = document.getElementById('model').value;
+            
+            if (!year || !make || !model) {
+                alert('Please enter year, make, and model');
+                return;
+            }
+            
+            this.disabled = true;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loading-text').textContent = 'Finding available trims...';
+            document.getElementById('result').style.display = 'none';
+            
+            try {
+                const response = await fetch('/trims', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ year, make, model })
+                });
+                
+                const data = await response.json();
+                document.getElementById('loading').style.display = 'none';
+                
+                if (data.trims && data.trims.length > 0) {
+                    showTrimModal(data.trims, year, make, model);
+                } else {
+                    alert(`No trims found for ${year} ${make} ${model}. Check spelling.`);
+                }
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                alert('Error: ' + error.message);
+            }
+            
+            this.disabled = false;
+        });
+        
+        function showTrimModal(trims, year, make, model) {
+            const modal = document.getElementById('trimModal');
+            const trimList = document.getElementById('trimList');
+            
+            document.getElementById('modalSubtitle').textContent = `${year} ${make} ${model} - ${trims.length} configurations`;
+            
+            trimList.innerHTML = trims.map(t => `
+                <div class="trim-option" data-id="${t.id}">
+                    <div class="trim-name">${t.name}</div>
+                </div>
+            `).join('');
+            
+            trimList.querySelectorAll('.trim-option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    trimList.querySelectorAll('.trim-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedTrimId = this.dataset.id;
+                    document.getElementById('selectTrimBtn').disabled = false;
+                });
+            });
+            
+            selectedTrimId = null;
+            document.getElementById('selectTrimBtn').disabled = true;
+            modal.classList.add('active');
+        }
+        
+        document.getElementById('cancelTrimBtn').addEventListener('click', function() {
+            document.getElementById('trimModal').classList.remove('active');
+        });
+        
+        document.getElementById('selectTrimBtn').addEventListener('click', async function() {
+            if (!selectedTrimId) return;
+            
+            document.getElementById('trimModal').classList.remove('active');
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loading-text').textContent = 'Analyzing your vehicle...';
+            
+            followUpsRemaining = 3;
+            chatHistory = [];
+            
+            try {
+                const response = await fetch('/interpret', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        vehicle_id: selectedTrimId,
+                        use_live_obd: obdToggle.checked
+                    })
+                });
+                
+                const data = await response.json();
+                
+                scanContext = {
+                    vehicle: data.vehicle,
+                    engine: data.engine,
+                    codes: data.codes,
+                    safety_level: data.safety_level,
+                    summary: data.dont_panic,
+                    likely_causes: data.likely_causes
+                };
+                
+                renderResults(data);
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+            
+            document.getElementById('loading').style.display = 'none';
+        });
+        
+        function formatContent(text) {
+            if (!text) return '';
+            
+            // Fix broken OBD codes
+            text = text.replace(/\b([PBCU])\s*(\d)\s*(\d)\s*(\d)\s*(\d)\b/gi, '$1$2$3$4$5');
+            text = text.replace(/([PBCU])\n(\d)\n(\d)\n(\d)\n(\d)/gi, '$1$2$3$4$5');
+            text = text.replace(/([PBCU])[\s\n]+(\d)[\s\n]+(\d)[\s\n]+(\d)[\s\n]+(\d)/gi, '$1$2$3$4$5');
+            
+            // Remove orphan digits
+            text = text.replace(/^\s*\d\s*$/gm, '');
+            
+            // Clean multiple blank lines
+            text = text.replace(/\n{3,}/g, '\n\n');
+            text = text.trim();
+            
+            // Handle numbered lists
+            const hasNumberedList = /^\d+[\.\:]\s/m.test(text);
+            
+            if (hasNumberedList) {
+                const parts = text.split(/(?=^\d+[\.\:]\s)/m);
+                let html = '';
+                let itemNumber = 1;
+                
+                parts.forEach(item => {
+                    item = item.trim();
+                    if (!item) return;
+                    
+                    const match = item.match(/^\d+[\.\:]\s*(.+)/s);
+                    if (match) {
+                        html += `<div class="list-item"><span class="list-number">${itemNumber}.</span>${match[1].trim()}</div>`;
+                        itemNumber++;
+                    } else if (item) {
+                        html += `<div style="margin-bottom: 10px;">${item}</div>`;
+                    }
+                });
+                
+                return html;
+            }
+            
+            return text;
+        }
+        
+        function renderResults(data) {
+            const result = document.getElementById('result');
+            
+            let badges = '';
+            if (data.supercharged) badges += '<span class="badge supercharged">Supercharged</span>';
+            if (data.turbocharged) badges += '<span class="badge turbo">Turbo</span>';
+            if (data.hybrid) badges += '<span class="badge hybrid">Hybrid</span>';
+            if (data.electric) badges += '<span class="badge electric">Electric</span>';
+            
+            let drive = data.drive || '--';
+            if (drive.toLowerCase().includes('rear')) drive = 'RWD';
+            else if (drive.toLowerCase().includes('front')) drive = 'FWD';
+            else if (drive.toLowerCase().includes('all') || drive.toLowerCase().includes('4')) drive = 'AWD';
+            
+            let fuel = data.fuel_type || '--';
+            if (fuel.toLowerCase().includes('premium')) fuel = 'Premium';
+            else if (fuel.toLowerCase().includes('regular')) fuel = 'Regular';
+            else if (fuel.toLowerCase().includes('diesel')) fuel = 'Diesel';
+            
+            let html = `
+                <div class="safety-banner ${data.safety_level.toLowerCase()}">
+                    <div class="safety-label">Safety Status</div>
+                    <div class="safety-value">${data.safety_level}</div>
+                </div>
+                
+                <div class="vehicle-display">
+                    <div class="vehicle-name">${data.vehicle}</div>
+                    <div class="vehicle-status">
+                        <span class="status-dot"></span>
+                        <span>${data.obd_source}</span>
+                    </div>
+                </div>
+                
+                <div class="stats-dashboard">
+                    <div class="stats-title">Vehicle Stats</div>
+                    <div class="stats-grid">
+                        <div class="stat-card wide">
+                            <div class="stat-icon green"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/></svg></div>
+                            <div class="stat-value small">${data.engine || '--'}</div>
+                            <div class="stat-label">Engine</div>
+                            <div class="badge-row">${badges}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon purple"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div>
+                            <div class="stat-value">${drive}</div>
+                            <div class="stat-label">Drive</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red"><svg viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg></div>
+                            <div class="stat-value">${data.coolant_temp || '--'}°F</div>
+                            <div class="stat-label">Temp</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon blue"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                            <div class="stat-value">${data.rpm || '--'}</div>
+                            <div class="stat-label">RPM</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon cyan"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/><circle cx="12" cy="12" r="4"/></svg></div>
+                            <div class="stat-value">${data.speed || '--'}</div>
+                            <div class="stat-label">MPH</div>
+                        </div>
+                        <div class="stat-card full">
+                            <div class="stat-icon orange"><svg viewBox="0 0 24 24"><path d="M3 22V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/><path d="M13 10h4a2 2 0 0 1 2 2v8a2 2 0 0 0 2 2"/></svg></div>
+                            <div class="stat-value small">${fuel}</div>
+                            <div class="stat-label">Fuel Type</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            if (data.codes && data.codes.length > 0) {
+                html += `
+                    <div class="codes-display">
+                        <div class="codes-label">Diagnostic Codes</div>
+                        <div class="codes-list">${data.codes.map(c => `<span class="code-chip">${c}</span>`).join('')}</div>
+                    </div>
+                `;
+            }
+            
+            if (data.data_sources && data.data_sources.length > 0) {
+                html += `<div class="data-sources">${data.data_sources.map(s => `<span class="source-tag">${s}</span>`).join('')}</div>`;
+            }
+            
+            const cards = [
+                { id: 'panic', title: "What's Happening", data: data.dont_panic, icon: '<circle cx="12" cy="12" r="10"/><path d="M12 16v.01M12 8v4"/>' },
+                { id: 'causes', title: 'Likely Causes', data: data.likely_causes, icon: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>' },
+                { id: 'symptoms', title: 'What You Might Notice', data: data.symptoms, icon: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>' },
+                { id: 'ignored', title: 'If You Ignore This', data: data.if_ignored, icon: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>' },
+                { id: 'checks', title: 'Quick Checks', data: data.quick_checks, icon: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>' },
+                { id: 'urgency', title: 'When To See A Mechanic', data: data.urgency, icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>', cls: 'urgency' },
+                { id: 'cost', title: 'Estimated Repair Cost', data: data.repair_cost, icon: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
+                { id: 'owners', title: 'Other Owners Report', data: data.owner_reports, icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>', cls: 'owners' }
+            ];
+            
+            cards.forEach(card => {
+                if (card.data) {
+                    html += `
+                        <div class="info-card ${card.cls || ''}">
+                            <h3><svg viewBox="0 0 24 24">${card.icon}</svg>${card.title}</h3>
+                            <div class="content">${formatContent(card.data)}</div>
+                        </div>
+                    `;
+                }
+            });
+            
+            if (data.codes && data.codes.length > 0) {
+                html += `
+                    <div class="chat-section">
+                        <div class="chat-header">
+                            <span class="chat-title">Have a follow-up question?</span>
+                            <span class="chat-remaining" id="chat-remaining">3 questions left</span>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="chat-empty">Ask a question about your diagnosis</div>
+                        </div>
+                        <div class="chat-input-area">
+                            <textarea class="chat-input" id="chat-input" placeholder="Ask about your diagnosis..." rows="1"></textarea>
+                            <button class="chat-send" id="chat-send">Send</button>
+                        </div>
+                        <div class="chat-examples">
+                            <span class="chat-example" data-question="How much will this repair cost?">💰 Repair cost?</span>
+                            <span class="chat-example" data-question="Can I drive to work tomorrow?">🚗 Safe to drive?</span>
+                            <span class="chat-example" data-question="What parts might need replacing?">🔧 Parts needed?</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            result.innerHTML = html;
+            result.style.display = 'block';
+            bindChatHandlers();
+        }
+        
+        function bindChatHandlers() {
+            const sendBtn = document.getElementById('chat-send');
+            const inputEl = document.getElementById('chat-input');
+            if (!sendBtn) return;
+            
+            sendBtn.addEventListener('click', () => {
+                const q = inputEl.value.trim();
+                if (q && followUpsRemaining > 0) sendFollowUp(q);
+            });
+            
+            inputEl.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    const q = inputEl.value.trim();
+                    if (q && followUpsRemaining > 0) sendFollowUp(q);
+                }
+            });
+            
+            document.querySelectorAll('.chat-example').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (followUpsRemaining > 0) sendFollowUp(this.dataset.question);
+                });
+            });
+        }
+        
+        function updateChatRemaining() {
+            const el = document.getElementById('chat-remaining');
+            if (!el) return;
+            el.textContent = followUpsRemaining + ' question' + (followUpsRemaining !== 1 ? 's' : '') + ' left';
+            if (followUpsRemaining === 0) {
+                el.className = 'chat-remaining exhausted';
+                document.getElementById('chat-input').disabled = true;
+                document.getElementById('chat-send').disabled = true;
+            } else if (followUpsRemaining === 1) {
+                el.className = 'chat-remaining warning';
+            }
+        }
+        
+        function addChatMessage(text, type) {
+            const messages = document.getElementById('chat-messages');
+            const empty = messages.querySelector('.chat-empty');
+            if (empty) empty.remove();
+            const msg = document.createElement('div');
+            msg.className = 'chat-message ' + type;
+            msg.textContent = text;
+            messages.appendChild(msg);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        async function sendFollowUp(question) {
+            if (followUpsRemaining <= 0 || !scanContext) return;
+            
+            addChatMessage(question, 'user');
+            chatHistory.push({ role: 'user', content: question });
+            followUpsRemaining--;
+            updateChatRemaining();
+            
+            document.getElementById('chat-input').value = '';
+            document.getElementById('chat-send').disabled = true;
+            document.getElementById('chat-input').disabled = true;
+            
+            const messages = document.getElementById('chat-messages');
+            const loading = document.createElement('div');
+            loading.className = 'chat-loading';
+            loading.innerHTML = '<div class="chat-loading-dots"><span></span><span></span><span></span></div><span>Thinking...</span>';
+            messages.appendChild(loading);
+            
+            try {
+                const response = await fetch('/followup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question, context: scanContext, history: chatHistory.slice(-4) })
+                });
+                
+                const data = await response.json();
+                loading.remove();
+                addChatMessage(data.answer, 'assistant');
+                chatHistory.push({ role: 'assistant', content: data.answer });
+                
+                if (followUpsRemaining === 0) {
+                    addChatMessage('No more follow-up questions. Run a new scan for more help.', 'system');
+                }
+            } catch (error) {
+                loading.remove();
+                addChatMessage('Error. Please try again.', 'system');
+                followUpsRemaining++;
+                updateChatRemaining();
+            }
+            
+            if (followUpsRemaining > 0) {
+                document.getElementById('chat-send').disabled = false;
+                document.getElementById('chat-input').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+{
+    "vehicles": [
+        {
+            "make": "Honda",
+            "model": "Accord",
+            "year_start": 2008,
+            "year_end": 2012,
+            "general_issues": "The 2.4L engine in these years is known for intake manifold gasket failures. Watch for rough idle or check engine light with P0171. Also check oil level regularly - some consume oil.",
+            "codes": {
+                "P0171": "Common issue on 2.4L engines. The intake manifold gasket often fails, causing a vacuum leak and lean condition. Relatively inexpensive fix if caught early."
+            }
+        },
+        {
+            "make": "Toyota",
+            "model": "Camry",
+            "year_start": 2007,
+            "year_end": 2011,
+            "general_issues": "The 2AZ-FE 4-cylinder engine has a known oil consumption issue. Toyota extended warranty coverage for some VINs. Check oil every 1,000 miles.",
+            "codes": {
+                "P0171": "Known oil consumption issue on 2AZ-FE engine can cause lean codes. Check oil level regularly.",
+                "P0420": "May be triggered by oil burning past piston rings and contaminating the catalytic converter."
+            }
+        },
+        {
+            "make": "Ford",
+            "model": "F-150",
+            "year_start": 2011,
+            "year_end": 2017,
+            "general_issues": "The 3.5L EcoBoost can have turbo and timing chain issues at higher mileage. Listen for rattling on cold start. The 5.0L V8 is generally more reliable long-term.",
+            "codes": {
+                "P0420": "The 3.5L EcoBoost is known for turbo and wastegate issues that can trigger catalyst codes."
+            }
+        },
+        {
+            "make": "BMW",
+            "model": "328i",
+            "year_start": 2012,
+            "year_end": 2018,
+            "general_issues": "The N20/N26 engines have known timing chain and VANOS issues. Oil changes every 5,000 miles recommended despite longer factory intervals. Water pump and thermostat are common failures around 60-80k miles.",
+            "codes": {
+                "P0171": "Common on N20/N26 engines. Often caused by cracked intake boot or failing VANOS solenoid seals.",
+                "P0300": "Ignition coils and spark plugs are common failure points. BMW recommends replacement every 60k miles."
+            }
+        },
+        {
+            "make": "Chevrolet",
+            "model": "Silverado",
+            "year_start": 2014,
+            "year_end": 2018,
+            "general_issues": "The 5.3L V8 with AFM (Active Fuel Management) can have lifter failures. Some owners disable AFM to prevent issues. Transmission shudder is also common - fluid change may help.",
+            "codes": {
+                "P0420": "GM issued TSB for catalytic converter issues on some 5.3L V8 engines."
+            }
+        },
+        {
+            "make": "Volkswagen",
+            "model": "Jetta",
+            "year_start": 2011,
+            "year_end": 2018,
+            "general_issues": "DSG transmission (if equipped) requires fluid change every 40k miles - often skipped by owners. The 2.0T engines can have carbon buildup on intake valves. Water pump failures are common.",
+            "codes": {
+                "P0171": "Common causes include PCV valve failure and intake manifold flap issues.",
+                "P0420": "Frequent on high-mileage TDI models after emissions system modifications."
+            }
+        },
+        {
+            "make": "Subaru",
+            "model": "Outback",
+            "year_start": 2010,
+            "year_end": 2015,
+            "general_issues": "Head gasket failures are common on the 2.5L engine, especially if coolant changes were neglected. Watch for external oil leaks and coolant loss. CVT transmission has had reliability concerns.",
+            "codes": {
+                "P0420": "Head gasket issues on 2.5L engines can contaminate the catalytic converter over time."
+            }
+        },
+        {
+            "make": "Nissan",
+            "model": "Altima",
+            "year_start": 2013,
+            "year_end": 2018,
+            "general_issues": "The CVT transmission is a known weak point - shuddering, whining, or failure can occur. Nissan extended CVT warranty on some models. Check for transmission fluid leaks.",
+            "codes": {
+                "P0171": "CVT transmission issues often accompany engine codes. Check transmission fluid level and condition."
+            }
+        },
+        {
+            "make": "Jeep",
+            "model": "Grand Cherokee",
+            "year_start": 2011,
+            "year_end": 2017,
+            "general_issues": "The 3.6L Pentastar V6 is generally reliable but has known issues with rocker arm failures on early models (2011-2013). Thermostat failures are common. Check for oil filter housing leaks.",
+            "codes": {
+                "P0128": "Common thermostat failure on 3.6L Pentastar V6. Usually sticks open, causing slow warmup."
+            }
+        },
+        {
+            "make": "Hyundai",
+            "model": "Sonata",
+            "year_start": 2011,
+            "year_end": 2014,
+            "general_issues": "CRITICAL: These years have an engine recall for connecting rod bearing failure that can cause engine seizure. Check NHTSA.gov with your VIN immediately if you haven't already.",
+            "codes": {
+                "P0300": "Engine recall for connecting rod bearing failure. Check if your VIN is covered before other repairs."
+            }
+        },
+        {
+            "make": "Honda",
+            "model": "Civic",
+            "year_start": 2006,
+            "year_end": 2011,
+            "general_issues": "The 1.8L engine is reliable but can develop a cracked engine block in cold climates - Honda extended warranty for this. A/C compressor failures are common.",
+            "codes": {
+                "P0171": "Often caused by a dirty or failing MAP sensor on these engines."
+            }
+        },
+        {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year_start": 2009,
+            "year_end": 2018,
+            "general_issues": "Very reliable overall. Water pump may need replacement around 100k miles. Some have excessive oil consumption - check level regularly. CVT (if equipped) generally holds up well.",
+            "codes": {
+                "P0420": "Usually appears at high mileage. Often the actual catalytic converter wearing out rather than a sensor issue."
+            }
+        },
+        {
+            "make": "Ford",
+            "model": "Focus",
+            "year_start": 2012,
+            "year_end": 2016,
+            "general_issues": "CRITICAL: The PowerShift dual-clutch automatic transmission has major reliability issues - shuddering, slipping, and failure are common. Ford faced lawsuits over this. Manual transmission models are fine.",
+            "codes": {
+                "P0171": "Often unrelated to the transmission issues - check for vacuum leaks."
+            }
+        },
+        {
+            "make": "Dodge",
+            "model": "Challenger",
+            "year_start": 2015,
+            "year_end": 2023,
+            "general_issues": "The 5.7L and 6.4L HEMI engines are generally reliable. Watch for lifter tick on cold start (often normal). The 8-speed automatic can have shift quality issues - software updates may help.",
+            "codes": {
+                "P0300": "On HEMI engines, often caused by worn spark plugs (16 total on HEMI). MDS (cylinder deactivation) can also cause issues.",
+                "P0420": "Aftermarket exhaust modifications can trigger this code."
+            }
+        },
+        {
+            "make": "Chevrolet",
+            "model": "Equinox",
+            "year_start": 2010,
+            "year_end": 2017,
+            "general_issues": "The 2.4L engine has known issues with timing chain wear and excessive oil consumption. GM issued extended warranty for some. Check oil frequently - do not wait for the oil life monitor.",
+            "codes": {
+                "P0171": "Often related to the PCV system or timing chain issues on the 2.4L.",
+                "P0420": "High oil consumption can foul the catalytic converter over time."
+            }
+        }
+    ]
+}
