@@ -250,6 +250,9 @@
         }
         
         .trim-name { font-size: 14px; font-weight: 500; }
+        .trim-details { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+        .trim-specs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        .trim-spec { background: rgba(255, 255, 255, 0.05); padding: 3px 8px; border-radius: 4px; font-size: 10px; color: #6b7280; }
         
         .modal-actions { display: flex; gap: 12px; margin-top: 20px; }
         .modal-actions .btn { margin-bottom: 0; flex: 1; }
@@ -314,7 +317,33 @@
             border-radius: 16px;
             margin-bottom: 16px;
         }
-        
+
+        .vehicle-image-container {
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .vehicle-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .vehicle-image-loading {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
         .vehicle-name { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
         
         .vehicle-status {
@@ -662,7 +691,7 @@
     
     <!-- Version Footer -->
     <div class="version-footer">
-        <span>v1.2 Alpha</span>
+        <span>v1.3 Alpha</span>
     </div>
 
     <script>
@@ -713,19 +742,28 @@
         
         document.getElementById('findTrimsBtn').addEventListener('click', async function() {
             const year = document.getElementById('year').value;
-            const make = document.getElementById('make').value;
-            const model = document.getElementById('model').value;
-            
+            let make = document.getElementById('make').value;
+            let model = document.getElementById('model').value;
+
             if (!year || !make || !model) {
                 alert('Please enter year, make, and model');
                 return;
             }
-            
+
+            // Auto-correct common input mistakes
+            const normalized = normalizeVehicleInput(make, model);
+            make = normalized.make;
+            model = normalized.model;
+
+            // Update the input fields to show corrected values
+            document.getElementById('make').value = make;
+            document.getElementById('model').value = model;
+
             this.disabled = true;
             document.getElementById('loading').style.display = 'block';
             document.getElementById('loading-text').textContent = 'Finding available trims...';
             document.getElementById('result').style.display = 'none';
-            
+
             try {
                 const response = await fetch('/trims', {
                     method: 'POST',
@@ -737,9 +775,14 @@
                 document.getElementById('loading').style.display = 'none';
                 
                 if (data.trims && data.trims.length > 0) {
-                    showTrimModal(data.trims, year, make, model);
+                    // Check for API errors
+                    if (data.trims[0].error) {
+                        alert(data.trims[0].display_name);
+                    } else {
+                        showTrimModal(data.trims, year, make, model);
+                    }
                 } else {
-                    alert(`No trims found for ${year} ${make} ${model}. Check spelling.`);
+                    showVehicleNotFound(year, make, model);
                 }
             } catch (error) {
                 document.getElementById('loading').style.display = 'none';
@@ -749,6 +792,110 @@
             this.disabled = false;
         });
         
+        function showVehicleNotFound(year, make, model) {
+            let message = `We couldn't find "${year} ${make} ${model}"\n\nTips:\n• Double-check spelling of make and model\n• Try the official model name from your registration\n• Make sure the year is correct for that model`;
+            alert(message);
+        }
+
+        function normalizeVehicleInput(make, model) {
+            // Auto-correct common make nicknames/misspellings
+            const makeCorrections = {
+                'chevy': 'Chevrolet',
+                'chev': 'Chevrolet',
+                'vw': 'Volkswagen',
+                'merc': 'Mercedes-Benz',
+                'mercedes': 'Mercedes-Benz',
+                'benz': 'Mercedes-Benz',
+                'beemer': 'BMW',
+                'bimmer': 'BMW',
+                'jag': 'Jaguar',
+                'alfa': 'Alfa Romeo',
+                'alfaromeo': 'Alfa Romeo',
+                'landrover': 'Land Rover',
+                'mini cooper': 'MINI',
+                'minicooper': 'MINI',
+                'aston': 'Aston Martin',
+                'astonmartin': 'Aston Martin',
+                'rolls': 'Rolls-Royce',
+                'rollsroyce': 'Rolls-Royce'
+            };
+
+            // Auto-correct common model formats
+            const modelCorrections = {
+                // Ford
+                'f150': 'F-150',
+                'f 150': 'F-150',
+                'f250': 'F-250',
+                'f 250': 'F-250',
+                'f350': 'F-350',
+                'f 350': 'F-350',
+                // Chevy
+                'silverado1500': 'Silverado 1500',
+                'silverado 1500': 'Silverado 1500',
+                // BMW
+                '3series': '3 Series',
+                '5series': '5 Series',
+                '7series': '7 Series',
+                'x3': 'X3',
+                'x5': 'X5',
+                'm3': 'M3',
+                'm5': 'M5',
+                // Mercedes
+                'cclass': 'C-Class',
+                'c class': 'C-Class',
+                'eclass': 'E-Class',
+                'e class': 'E-Class',
+                'sclass': 'S-Class',
+                's class': 'S-Class',
+                // Honda
+                'crv': 'CR-V',
+                'cr v': 'CR-V',
+                'hrv': 'HR-V',
+                'hr v': 'HR-V',
+                // Toyota
+                'rav4': 'RAV4',
+                'rav 4': 'RAV4',
+                '4runner': '4Runner',
+                // Jeep
+                'grandcherokee': 'Grand Cherokee',
+                'grand cherokee': 'Grand Cherokee',
+                'wrangler unlimited': 'Wrangler',
+                // Dodge
+                'ram1500': 'Ram 1500',
+                'ram 1500': '1500',
+                // Generic patterns
+            };
+
+            // Normalize make
+            let normalizedMake = make.trim();
+            const makeLower = normalizedMake.toLowerCase();
+            if (makeCorrections[makeLower]) {
+                normalizedMake = makeCorrections[makeLower];
+            } else {
+                // Capitalize first letter of each word
+                normalizedMake = normalizedMake.split(' ')
+                    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+                    .join(' ');
+            }
+
+            // Normalize model
+            let normalizedModel = model.trim();
+            const modelLower = normalizedModel.toLowerCase();
+            if (modelCorrections[modelLower]) {
+                normalizedModel = modelCorrections[modelLower];
+            } else {
+                // Try to fix common patterns
+                // Add hyphen to F150 -> F-150 pattern
+                normalizedModel = normalizedModel.replace(/^([a-zA-Z])(\d{3})$/i, '$1-$2');
+                // Capitalize properly
+                normalizedModel = normalizedModel.split(' ')
+                    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(' ');
+            }
+
+            return { make: normalizedMake, model: normalizedModel };
+        }
+
         function showTrimModal(trims, year, make, model) {
             const modal = document.getElementById('trimModal');
             const trimList = document.getElementById('trimList');
@@ -758,11 +905,26 @@
 
             document.getElementById('modalSubtitle').textContent = `${year} ${make} ${model} - ${trims.length} options`;
 
-            trimList.innerHTML = trims.map((t, idx) => `
-                <div class="trim-option" data-idx="${idx}" data-id="${t.id}" data-name="${t.name}">
-                    <div class="trim-name">${t.name}</div>
-                </div>
-            `).join('');
+            trimList.innerHTML = trims.map((t, idx) => {
+                // Build trim specs display
+                let specs = [];
+                if (t.engine) specs.push(t.engine);
+                if (t.drivetrain) specs.push(t.drivetrain);
+                if (t.transmission) specs.push(t.transmission);
+
+                let specsHtml = specs.length > 0 ?
+                    `<div class="trim-specs">${specs.map(s => `<span class="trim-spec">${s}</span>`).join('')}</div>` : '';
+
+                let msrpHtml = t.msrp ? `<div class="trim-details">MSRP: $${Number(t.msrp).toLocaleString()}</div>` : '';
+
+                return `
+                    <div class="trim-option" data-idx="${idx}" data-id="${t.id}" data-name="${t.name}">
+                        <div class="trim-name">${t.name}</div>
+                        ${specsHtml}
+                        ${msrpHtml}
+                    </div>
+                `;
+            }).join('');
 
             trimList.querySelectorAll('.trim-option').forEach(opt => {
                 opt.addEventListener('click', function() {
@@ -851,29 +1013,57 @@
             followUpsRemaining = 3;
             chatHistory = [];
 
+            // Get the year/make/model for image fetch
+            const year = document.getElementById('year').value;
+            const make = document.getElementById('make').value;
+            const model = document.getElementById('model').value;
+
             try {
-                const response = await fetch('/interpret', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        vehicle_id: selectedTrimId,
-                        use_live_obd: obdToggle.checked
+                // Fetch diagnostic and image in parallel
+                const [diagResponse, imageResponse] = await Promise.all([
+                    fetch('/interpret', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            vehicle_id: selectedTrimId,
+                            use_live_obd: obdToggle.checked
+                        })
+                    }),
+                    fetch('/vehicle-image', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ year, make, model })
                     })
-                });
+                ]);
 
-                const data = await response.json();
+                const data = await diagResponse.json();
+                const imageData = await imageResponse.json();
 
-                // Store trim name for display
+                // Store trim name and image for display
                 data.selected_trim_name = selectedTrimName;
+                data.vehicle_image = imageData.success ? imageData.url : null;
 
+                // Include full trim data for richer context
                 scanContext = {
                     vehicle: data.vehicle,
                     engine: data.engine,
+                    drive: data.drive,
+                    transmission: data.transmission,
                     codes: data.codes,
                     safety_level: data.safety_level,
                     summary: data.dont_panic,
                     likely_causes: data.likely_causes,
-                    trim: data.trim || selectedTrimName
+                    trim: data.trim || selectedTrimName,
+                    supercharged: data.supercharged,
+                    turbocharged: data.turbocharged,
+                    hybrid: data.hybrid,
+                    electric: data.electric,
+                    performance_tier: data.performance_tier,
+                    fuel_type: data.fuel_type,
+                    // Include trim-specific details for follow-ups
+                    msrp: selectedTrimData?.msrp || '',
+                    horsepower: selectedTrimData?.horsepower || '',
+                    body_style: selectedTrimData?.body_style || ''
                 };
 
                 renderResults(data);
@@ -961,13 +1151,25 @@
                 vehicleDisplayName = `${vehicleDisplayName} ${trimName}`;
             }
             
+            // Build vehicle image HTML if available
+            let vehicleImageHtml = '';
+            if (data.vehicle_image) {
+                vehicleImageHtml = `
+                    <div class="vehicle-image-container">
+                        <img src="${data.vehicle_image}" alt="${vehicleDisplayName}" class="vehicle-image" onerror="this.parentElement.style.display='none'">
+                    </div>
+                `;
+            }
+
             let html = `
                 <div class="safety-banner ${data.safety_level.toLowerCase()}">
                     <div class="safety-label">Safety Status</div>
                     <div class="safety-value">${data.safety_level}</div>
                     <div class="safety-urgency">${getUrgencyText(data.safety_level)}</div>
                 </div>
-                
+
+                ${vehicleImageHtml}
+
                 <div class="vehicle-display">
                     <div class="vehicle-name">${vehicleDisplayName}</div>
                     <div class="vehicle-status">

@@ -9,7 +9,7 @@ from schemas import DTCCode, OBDSnapshot
 from ollama_client import ask_ollama, check_ollama
 from database import init_db, log_scan, get_recent_scans
 from obd_reader import get_reader, connect_obd
-from vehicle_data import get_available_trims, get_vehicle_by_id, format_vehicle_string, format_vehicle_context
+from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context
 from code_scraper import get_code_info, format_code_context
 from forum_scraper import scrape_reddit_fallback, format_reddit_context
 
@@ -476,11 +476,32 @@ async def obd_status():
             }
 
 
+class ImageRequest(BaseModel):
+    year: str
+    make: str
+    model: str
+
+
 @app.post("/trims")
 async def get_trims(request: TrimRequest):
-    """Get available trims for a vehicle from FuelEconomy.gov."""
+    """Get available trims for a vehicle from CarsXE API."""
     trims = await get_available_trims(request.year, request.make, request.model)
     return {"trims": trims}
+
+
+@app.post("/vehicle-image")
+async def vehicle_image(request: ImageRequest):
+    """Get a vehicle image from CarsXE API."""
+    image_data = await get_vehicle_image(request.year, request.make, request.model)
+    if image_data:
+        return {
+            "success": True,
+            "url": image_data.get("url", ""),
+            "width": image_data.get("width", 0),
+            "height": image_data.get("height", 0),
+            "thumbnail": image_data.get("thumbnail", "")
+        }
+    return {"success": False, "url": "", "message": "No image found"}
 
 
 @app.post("/interpret")
@@ -556,7 +577,7 @@ async def interpret(request: InterpretRequest):
     }
     
     if vehicle_data:
-        response_data["data_sources"].append("FuelEconomy.gov")
+        response_data["data_sources"].append("CarsXE")
     
     # No codes detected
     if not snapshot.dtc_codes:
@@ -868,11 +889,13 @@ Based on community data, write 2-3 sentences about what owners of similar vehicl
 
 @app.post("/followup")
 async def followup(request: FollowUpRequest):
-    """Handle follow-up questions with full vehicle context."""
-    
+    """Handle follow-up questions with full vehicle context from CarsXE."""
+
+    # Extract all available context
     vehicle = request.context.get("vehicle", "the vehicle")
     engine = request.context.get("engine", "")
     drive = request.context.get("drive", "")
+    transmission = request.context.get("transmission", "")
     trim = request.context.get("trim", "")
     codes = request.context.get("codes", [])
     safety = request.context.get("safety_level", "UNKNOWN")
@@ -880,8 +903,17 @@ async def followup(request: FollowUpRequest):
     turbocharged = request.context.get("turbocharged", False)
     is_hybrid = request.context.get("hybrid", False)
     is_electric = request.context.get("electric", False)
+    performance_tier = request.context.get("performance_tier", "standard")
+    fuel_type = request.context.get("fuel_type", "")
 
-    # Build powertrain description - hybrids and EVs don't use "aspiration"
+    # Additional CarsXE details
+    msrp = request.context.get("msrp", "")
+    horsepower = request.context.get("horsepower", "")
+    body_style = request.context.get("body_style", "")
+    summary = request.context.get("summary", "")
+    likely_causes = request.context.get("likely_causes", "")
+
+    # Build powertrain description
     if is_electric:
         powertrain = "electric"
     elif is_hybrid:
@@ -892,26 +924,69 @@ async def followup(request: FollowUpRequest):
         powertrain = "turbocharged"
     else:
         powertrain = "naturally aspirated"
-    
+
+    # Build rich vehicle context
+    vehicle_details = [f"{vehicle} {trim}".strip()]
+    if engine:
+        vehicle_details.append(f"Engine: {engine}")
+    if horsepower:
+        vehicle_details.append(f"Power: {horsepower} hp")
+    if transmission:
+        vehicle_details.append(f"Trans: {transmission}")
+    if drive:
+        vehicle_details.append(f"Drive: {drive}")
+    if fuel_type:
+        vehicle_details.append(f"Fuel: {fuel_type}")
+    if msrp:
+        vehicle_details.append(f"MSRP: ${msrp}")
+    if body_style:
+        vehicle_details.append(f"Body: {body_style}")
+
+    vehicle_context = " | ".join(vehicle_details)
+
+    # Performance context
+    perf_context = ""
+    if performance_tier == "high-performance":
+        perf_context = "This is a HIGH-PERFORMANCE vehicle - parts and repairs cost 50-100% more than standard."
+    elif performance_tier == "sport":
+        perf_context = "This is a SPORT-tier vehicle - expect 20-50% higher parts costs than economy cars."
+
     history_text = ""
     if request.history:
         history_text = "\n\nPrevious conversation:\n"
         for msg in request.history[-4:]:
             role = "Owner" if msg["role"] == "user" else "Assistant"
             history_text += f"{role}: {msg['content']}\n"
-    
+
+    # Include diagnostic summary for context
+    diag_context = ""
+    if summary:
+        diag_context = f"\nDiagnosis summary: {summary[:200]}..."
+    if likely_causes:
+        diag_context += f"\nLikely causes: {likely_causes[:200]}..."
+
     prompt = f"""[SYSTEM - DO NOT OUTPUT]
-You are ClearDrive. Be specific and actionable.
+You are ClearDrive, a helpful car diagnostic assistant. Be specific and actionable.
+
+RULES:
 - If asked HOW to do something: give numbered step-by-step instructions
 - If asked for videos/links: say "I can't provide links, but here's what to search for: [specific search terms]"
 - If asked about a part: explain what it does and where it's located on this specific vehicle
-- Be specific to this {powertrain} {engine or 'engine'}
+- If asked about cost: factor in the performance tier (high-performance parts cost more!)
+- Be specific to this {powertrain} engine
+- Use the horsepower, MSRP, and trim info to give accurate answers
 - 3-5 sentences unless steps are needed
 - English only
 
-[VEHICLE]
-{vehicle} | {trim or 'Base'} | {engine or 'Unknown engine'} | {drive or 'Unknown drive'}
-Codes: {', '.join(codes) if codes else 'None'} | Safety: {safety}
+[VEHICLE DETAILS]
+{vehicle_context}
+Performance tier: {performance_tier}
+{perf_context}
+
+[CURRENT DIAGNOSTIC]
+Codes: {', '.join(codes) if codes else 'None'}
+Safety Level: {safety}
+{diag_context}
 {history_text}
 
 [QUESTION]
@@ -920,10 +995,10 @@ Codes: {', '.join(codes) if codes else 'None'} | Safety: {safety}
 [ANSWER]"""
 
     response = await ask_ollama(prompt)
-    
+
     if response.startswith("ERROR:"):
         return {"answer": "Sorry, I couldn't process that question. Please try again."}
-    
+
     return {"answer": response.strip()}
 
 
