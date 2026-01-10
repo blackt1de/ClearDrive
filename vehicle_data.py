@@ -96,21 +96,102 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
             print(f"[CarsXE] Found {len(trim_options)} trims")
 
             # Process and format trims
-            processed_trims = []
-            seen_trims = set()
+            # First pass: group by brand trim name to collect body styles
+            trim_groups = {}  # brand_trim_name -> list of variants
 
             for trim_data in trim_options:
                 trim_name = trim_data.get("name", "")
 
-                # Skip duplicates
-                if trim_name in seen_trims:
-                    continue
-                seen_trims.add(trim_name)
+                # Extract body style from the name (e.g., "2dr Coupe" -> "Coupe")
+                body_style_from_name = ""
+                body_match = re.search(r'\d+dr\s+(\w+)', trim_name)
+                if body_match:
+                    body_style_from_name = body_match.group(1)  # Coupe, Convertible, Sedan, etc.
 
-                # Extract engine info
+                # Extract the brand trim name (everything BEFORE "2dr" or "4dr")
+                brand_trim_match = re.match(r'^(.+?)\s+\d+dr\s+', trim_name)
+                if brand_trim_match:
+                    extracted_name = brand_trim_match.group(1).strip()
+                    if extracted_name and not extracted_name.isdigit():
+                        brand_trim_name = extracted_name
+                    else:
+                        brand_trim_name = "Base"
+                elif trim_name.startswith("2dr ") or trim_name.startswith("4dr "):
+                    brand_trim_name = "Base"
+                else:
+                    brand_trim_name = trim_name.split()[0] if trim_name else "Base"
+
+                # Add to group
+                if brand_trim_name not in trim_groups:
+                    trim_groups[brand_trim_name] = []
+                trim_groups[brand_trim_name].append({
+                    "full_name": trim_name,
+                    "body_style": body_style_from_name,
+                    "raw_data": trim_data
+                })
+
+            # Second pass: build processed trims with body style options
+            processed_trims = []
+
+            for brand_trim_name, variants in trim_groups.items():
+                # Use first variant as the representative
+                first_variant = variants[0]
+                trim_data = first_variant["raw_data"]
+                trim_name = first_variant["full_name"]
+
+                # Extract engine info - try API fields first, then features, then parse from name
                 engine_size = trim_data.get("engine_size", "")
                 cylinders = trim_data.get("cylinders", "")
                 horsepower = trim_data.get("horsepower", "")
+                fuel_type_raw = trim_data.get("fuel_type", "")
+                drivetrain_raw = trim_data.get("drivetrain", "")
+                engine_type_raw = ""  # For hybrid/electric detection
+
+                # Check features.standard for Engine, Fuel, and Drive Train info
+                features = trim_data.get("features", {}).get("standard", [])
+                for category in features:
+                    cat_name = category.get("category", "")
+                    for feature in category.get("features", []):
+                        fname = feature.get("name", "").lower()
+                        fvalue = feature.get("value", "") or ""
+
+                        if cat_name == "Engine":
+                            if "engine size" in fname and not engine_size:
+                                # Extract number from "8.0 L"
+                                match = re.search(r'(\d+\.?\d*)', fvalue)
+                                if match:
+                                    engine_size = match.group(1)
+                            elif fname == "cylinders" and not cylinders:
+                                # Extract from "V10" or "V8"
+                                match = re.search(r'V?(\d+)', fvalue)
+                                if match:
+                                    cylinders = match.group(1)
+                            elif "horsepower" in fname and not horsepower:
+                                # Extract from "450 hp @ 5200 rpm"
+                                match = re.search(r'(\d+)\s*hp', fvalue)
+                                if match:
+                                    horsepower = match.group(1)
+                            elif "engine type" in fname and not engine_type_raw:
+                                # Capture engine type (e.g., "hybrid", "electric")
+                                engine_type_raw = fvalue.lower()
+
+                        elif cat_name == "Fuel":
+                            if "fuel type" in fname and not fuel_type_raw:
+                                fuel_type_raw = fvalue
+
+                        elif cat_name == "Drive Train":
+                            if "drive type" in fname and not drivetrain_raw:
+                                drivetrain_raw = fvalue
+
+                # If still not found, parse from name like "(7.0L 8cyl 6M)"
+                if not engine_size:
+                    size_match = re.search(r'(\d+\.?\d*)L', trim_name)
+                    if size_match:
+                        engine_size = size_match.group(1)
+                if not cylinders:
+                    cyl_match = re.search(r'(\d+)cyl', trim_name)
+                    if cyl_match:
+                        cylinders = cyl_match.group(1)
 
                 # Build engine string
                 engine_str = ""
@@ -118,12 +199,15 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                     engine_str = f"{engine_size}L"
                 if cylinders:
                     cyl = str(cylinders)
-                    if int(cyl) >= 6:
-                        engine_str += f" V{cyl}"
-                    elif int(cyl) == 4:
-                        engine_str += " I4"
-                    else:
-                        engine_str += f" {cyl}-cyl"
+                    try:
+                        if int(cyl) >= 6:
+                            engine_str += f" V{cyl}"
+                        elif int(cyl) == 4:
+                            engine_str += " I4"
+                        else:
+                            engine_str += f" {cyl}-cyl"
+                    except ValueError:
+                        pass
 
                 # Check for forced induction from the name
                 name_lower = trim_name.lower()
@@ -157,52 +241,116 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                     else:
                         trans_str = transmission
 
-                # Extract drivetrain
-                drivetrain = trim_data.get("drivetrain", "")
+                # Extract drivetrain (use drivetrain_raw which may come from features)
                 drive_str = ""
-                if drivetrain:
-                    dt_lower = drivetrain.lower()
-                    if "all-wheel" in dt_lower or "awd" in dt_lower:
+                if drivetrain_raw:
+                    dt_lower = drivetrain_raw.lower()
+                    if "all-wheel" in dt_lower or "all wheel" in dt_lower or "awd" in dt_lower:
                         drive_str = "AWD"
-                    elif "four-wheel" in dt_lower or "4wd" in dt_lower or "4x4" in dt_lower:
+                    elif "four-wheel" in dt_lower or "four wheel" in dt_lower or "4wd" in dt_lower or "4x4" in dt_lower:
                         drive_str = "4WD"
-                    elif "front-wheel" in dt_lower or "fwd" in dt_lower:
+                    elif "front-wheel" in dt_lower or "front wheel" in dt_lower or "fwd" in dt_lower:
                         drive_str = "FWD"
-                    elif "rear-wheel" in dt_lower or "rwd" in dt_lower:
+                    elif "rear-wheel" in dt_lower or "rear wheel" in dt_lower or "rwd" in dt_lower:
                         drive_str = "RWD"
 
-                # Clean up trim name - extract just the trim level
-                # Format is usually "TrimName 2dr Coupe (engine specs)"
-                display_name = trim_name
-
-                # Extract body style for later use
-                body_style_from_name = ""
-                body_match = re.search(r'\d+dr\s+(\w+)', trim_name)
-                if body_match:
-                    body_style_from_name = body_match.group(1)  # Coupe, Convertible, etc.
-
-                # Remove body style and engine specs from name for cleaner display
-                # Pattern: "GT 2dr Coupe (3.6L 6cyl 8A)"
-                clean_name_match = re.match(r'^(.+?)\s+\d+dr\s+\w+', trim_name)
-                if clean_name_match:
-                    extracted_name = clean_name_match.group(1).strip()
-                    # If extracted name is empty or just numbers, use body style instead
-                    if extracted_name and not extracted_name.isdigit():
-                        display_name = extracted_name
-                    elif body_style_from_name:
-                        # For cars like Corvette where trim IS the body style
-                        display_name = body_style_from_name
+                # Clean up fuel type - handle all common fuel types
+                fuel_type_str = ""
+                if fuel_type_raw:
+                    ft_lower = fuel_type_raw.lower()
+                    # Check for specific fuel types in order of specificity
+                    if "diesel" in ft_lower:
+                        fuel_type_str = "Diesel"
+                    elif "electric" in ft_lower and "hybrid" not in ft_lower:
+                        fuel_type_str = "Electric"
+                    elif "plug-in hybrid" in ft_lower or "phev" in ft_lower:
+                        fuel_type_str = "Plug-in Hybrid"
+                    elif "hybrid" in ft_lower:
+                        fuel_type_str = "Hybrid"
+                    elif "e85" in ft_lower or "flex" in ft_lower:
+                        fuel_type_str = "Flex Fuel (E85)"
+                    elif "hydrogen" in ft_lower or "fuel cell" in ft_lower:
+                        fuel_type_str = "Hydrogen"
+                    elif "natural gas" in ft_lower or "cng" in ft_lower:
+                        fuel_type_str = "Natural Gas"
+                    elif "premium" in ft_lower:
+                        fuel_type_str = "Premium"
+                    elif "regular" in ft_lower:
+                        fuel_type_str = "Regular"
+                    elif "unleaded" in ft_lower:
+                        # Generic unleaded - default to Regular unless high-performance
+                        fuel_type_str = "Regular"
                     else:
-                        display_name = "Base"
+                        # Unknown type - clean it up and use as-is
+                        fuel_type_str = fuel_type_raw.split("(")[0].strip().title()
+
+                # Also check engine type and engine string for electric/hybrid indicators
+                # This catches cases where fuel type says "regular" but engine type says "hybrid"
+                if engine_type_raw:
+                    if "plug-in" in engine_type_raw or "phev" in engine_type_raw:
+                        fuel_type_str = "Plug-in Hybrid"
+                    elif "hybrid" in engine_type_raw and fuel_type_str not in ["Plug-in Hybrid"]:
+                        fuel_type_str = "Hybrid"
+                    elif "electric" in engine_type_raw and "hybrid" not in engine_type_raw:
+                        fuel_type_str = "Electric"
+
+                # Also check engine string as fallback
+                if not fuel_type_str or fuel_type_str == "Regular":
+                    engine_lower = engine_str.lower() if engine_str else ""
+                    name_lower_check = trim_name.lower()
+                    if "electric" in engine_lower or "electric" in name_lower_check:
+                        if "hybrid" not in engine_lower and "hybrid" not in name_lower_check:
+                            fuel_type_str = "Electric"
+                    elif "hybrid" in engine_lower or "hybrid" in name_lower_check:
+                        fuel_type_str = "Hybrid"
+
+                # Override fuel type for high-performance engines that obviously need premium
+                # API data is sometimes wrong (e.g., says Viper V10 uses regular)
+                try:
+                    cyl_int = int(cylinders) if cylinders else 0
+                    disp_float = float(engine_size) if engine_size else 0
+                    hp_int = int(horsepower) if horsepower else 0
+                except (ValueError, TypeError):
+                    cyl_int, disp_float, hp_int = 0, 0, 0
+
+                # High-performance indicators that require premium:
+                # - V10 or V12 engines
+                # - Large displacement V8s (5.7L+) with high HP (300+)
+                # - Supercharged or turbocharged engines
+                # - Any engine with 400+ HP
+                is_forced_induction = "supercharg" in name_lower or "turbo" in name_lower
+                needs_premium = (
+                    cyl_int >= 10 or  # V10, V12
+                    is_forced_induction or  # Supercharged/Turbo
+                    hp_int >= 400 or  # High HP
+                    (cyl_int == 8 and disp_float >= 5.7 and hp_int >= 300) or  # Performance V8
+                    (cyl_int == 8 and disp_float >= 6.0)  # Big V8s (6.0L+)
+                )
+
+                if needs_premium and fuel_type_str == "Regular":
+                    fuel_type_str = "Premium"
 
                 # Build final display with engine - this is what shows in the list
+                display_name = brand_trim_name
                 if engine_str:
                     full_display = f"{display_name} ({engine_str})"
                 else:
                     full_display = display_name
 
+                # Collect unique body styles for this trim
+                body_style_options = []
+                seen_body_styles = set()
+                for variant in variants:
+                    bs = variant["body_style"]
+                    if bs and bs not in seen_body_styles:
+                        seen_body_styles.add(bs)
+                        body_style_options.append({
+                            "name": bs,
+                            "full_name": variant["full_name"]
+                        })
+
                 processed_trims.append({
-                    "id": trim_name,  # Use full name as ID for lookups
+                    "id": trim_name,  # Use first variant's full name as default ID
                     "name": display_name,
                     "full_name": trim_name,
                     "display_name": full_display,
@@ -210,8 +358,10 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                     "transmission": trans_str,
                     "drivetrain": drive_str,
                     "msrp": trim_data.get("base_msrp", ""),
-                    "body_style": trim_data.get("body_type", ""),
-                    "fuel_type": trim_data.get("fuel_type", ""),
+                    "body_style": first_variant["body_style"],  # Default body style
+                    "body_style_options": body_style_options,  # All available body styles
+                    "has_body_style_choice": len(body_style_options) > 1,
+                    "fuel_type": fuel_type_str,  # Use parsed fuel type
                     "mpg_city": trim_data.get("city_mpg", ""),
                     "mpg_highway": trim_data.get("highway_mpg", ""),
                     "horsepower": horsepower,
@@ -298,9 +448,9 @@ async def get_vehicle_image(year: str, make: str, model: str) -> dict:
                 print(f"[CarsXE] No images found for {year} {make} {model}")
                 return {}
 
-            # Find the best image - prefer larger, PNG images
+            # Find the best image - prefer official stock photos
             best_image = None
-            best_score = 0
+            best_score = -9999
 
             for img in images:
                 score = 0
@@ -312,12 +462,29 @@ async def get_vehicle_image(year: str, make: str, model: str) -> dict:
 
                 # Prefer PNGs (usually cleaner stock photos)
                 if img.get("mime") == "image/png":
-                    score += 100
+                    score += 50
 
-                # Prefer images from known good sources
                 link = img.get("link", "").lower()
-                if "evox" in link or "chrome" in link or "kelley" in link:
+
+                # Prefer images from known good automotive sources
+                if "kelley" in link or "kbb" in link:
+                    score += 500
+                elif "evox" in link:
+                    score += 400
+                elif "chrome" in link or "cstatic" in link:
+                    score += 300
+                elif "autobytel" in link:
                     score += 200
+
+                # Avoid bad sources (game screenshots, user uploads, etc.)
+                if "wikia" in link or "fandom" in link:
+                    score -= 1000  # Game wiki/Forza screenshots
+                if "redd.it" in link or "reddit" in link:
+                    score -= 500   # User uploads
+                if "ebay" in link:
+                    score -= 300   # eBay listings
+                if "forza" in link:
+                    score -= 1000  # Game screenshots
 
                 # Avoid thumbnails
                 if "thumbnail" in link.lower():
@@ -368,7 +535,17 @@ async def get_vehicle_by_id(vehicle_id: str) -> dict:
     # Search through cached trims to find this vehicle
     for cache_key, cached_data in cache.get("trims", {}).items():
         for trim in cached_data.get("options", []):
-            if trim.get("id") == vehicle_id or trim.get("full_name") == vehicle_id:
+            # Check main trim ID
+            matched = trim.get("id") == vehicle_id or trim.get("full_name") == vehicle_id
+
+            # Also check body_style_options for matching full_name
+            if not matched and trim.get("body_style_options"):
+                for body_opt in trim["body_style_options"]:
+                    if body_opt.get("full_name") == vehicle_id:
+                        matched = True
+                        break
+
+            if matched:
                 # Extract year/make/model from cache key
                 # Format: trims_2023_dodge_challenger
                 parts = cache_key.split("_")
@@ -377,6 +554,31 @@ async def get_vehicle_by_id(vehicle_id: str) -> dict:
                     make = parts[2].title()
                     model = " ".join(parts[3:]).title()
 
+                    engine_str = trim.get("engine", "")
+
+                    # Parse displacement from engine string like "8.0L V10"
+                    displacement = 0
+                    disp_match = re.search(r'(\d+\.?\d*)L', engine_str)
+                    if disp_match:
+                        try:
+                            displacement = float(disp_match.group(1))
+                        except:
+                            pass
+
+                    # Parse cylinders from engine string
+                    cylinders = 0
+                    cyl_match = re.search(r'V(\d+)|I(\d+)|(\d+)-cyl', engine_str)
+                    if cyl_match:
+                        try:
+                            cylinders = int(cyl_match.group(1) or cyl_match.group(2) or cyl_match.group(3))
+                        except:
+                            pass
+
+                    # Check for forced induction
+                    engine_lower = engine_str.lower()
+                    is_supercharged = "supercharged" in engine_lower or "supercharger" in engine_lower
+                    is_turbocharged = "turbo" in engine_lower
+
                     return {
                         "vehicle_id": vehicle_id,
                         "year": year,
@@ -384,13 +586,18 @@ async def get_vehicle_by_id(vehicle_id: str) -> dict:
                         "model": model,
                         "trim": trim.get("name", ""),
                         "full_name": f"{year} {make} {model} {trim.get('name', '')}",
-                        "engine": trim.get("engine", ""),
+                        "engine": engine_str,
+                        "displacement": displacement,
+                        "cylinders": cylinders,
+                        "supercharged": is_supercharged,
+                        "turbocharged": is_turbocharged,
                         "transmission": trim.get("transmission", ""),
                         "drive": trim.get("drivetrain", ""),
                         "fuel_type": trim.get("fuel_type", ""),
                         "mpg_city": trim.get("mpg_city", ""),
                         "mpg_highway": trim.get("mpg_highway", ""),
                         "msrp": trim.get("msrp", ""),
+                        "horsepower": trim.get("horsepower", ""),
                         "raw_data": trim.get("raw_data", {})
                     }
 
@@ -447,6 +654,91 @@ def format_vehicle_context(vehicle_data: dict, trim: str = "") -> str:
         parts.append(f"MSRP: ${vehicle_data['msrp']}")
 
     return "\n".join(parts)
+
+
+async def decode_obd_code(code: str) -> dict:
+    """
+    Decode an OBD-II trouble code using CarsXE OBD Codes Decoder API.
+    Returns official diagnosis information for the code.
+
+    Args:
+        code: OBD-II code like "P0420", "P0300", etc.
+
+    Returns:
+        dict with 'code', 'diagnosis', 'success' fields
+    """
+    cache = load_cache()
+    cache_key = f"obd_{code.upper()}"
+
+    # Check cache (codes don't change, cache indefinitely)
+    if "obd_codes" not in cache:
+        cache["obd_codes"] = {}
+
+    if cache_key in cache["obd_codes"]:
+        print(f"[CarsXE] Using cached OBD decode for {code}")
+        return cache["obd_codes"][cache_key]
+
+    print(f"[CarsXE] Decoding OBD code {code}...")
+
+    try:
+        url = f"{CARSXE_BASE}/obdcodesdecoder"
+        params = {
+            "key": CARSXE_API_KEY,
+            "code": code.upper()
+        }
+
+        async with httpx.AsyncClient(headers=HEADERS, timeout=30) as client:
+            response = await client.get(url, params=params)
+
+            if response.status_code != 200:
+                print(f"[CarsXE] OBD API error: {response.status_code}")
+                return {"success": False, "code": code, "diagnosis": ""}
+
+            data = response.json()
+
+            result = {
+                "success": data.get("success", False),
+                "code": data.get("code", code),
+                "diagnosis": data.get("diagnosis", ""),
+                "cached_at": datetime.now().isoformat()
+            }
+
+            # Cache successful results
+            if result["success"] and result["diagnosis"]:
+                cache["obd_codes"][cache_key] = result
+                save_cache(cache)
+                print(f"[CarsXE] Decoded {code}: {result['diagnosis'][:60]}...")
+
+            return result
+
+    except Exception as e:
+        print(f"[CarsXE] OBD decode error: {type(e).__name__}: {e}")
+        return {"success": False, "code": code, "diagnosis": ""}
+
+
+async def decode_obd_codes_batch(codes: list) -> dict:
+    """
+    Decode multiple OBD-II codes efficiently.
+    Returns dict mapping code -> diagnosis info.
+
+    Args:
+        codes: List of OBD-II codes like ["P0420", "P0300"]
+
+    Returns:
+        dict mapping each code to its decode result
+    """
+    import asyncio
+
+    results = {}
+
+    # Decode all codes concurrently
+    tasks = [decode_obd_code(code) for code in codes]
+    decoded = await asyncio.gather(*tasks)
+
+    for code, result in zip(codes, decoded):
+        results[code.upper()] = result
+
+    return results
 
 
 if __name__ == "__main__":

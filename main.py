@@ -9,7 +9,7 @@ from schemas import DTCCode, OBDSnapshot
 from ollama_client import ask_ollama, check_ollama
 from database import init_db, log_scan, get_recent_scans
 from obd_reader import get_reader, connect_obd
-from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context
+from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context, decode_obd_codes_batch
 from code_scraper import get_code_info, format_code_context
 from forum_scraper import scrape_reddit_fallback, format_reddit_context
 
@@ -515,6 +515,11 @@ async def interpret(request: InterpretRequest):
     # Get OBD snapshot
     if request.use_live_obd:
         reader = get_reader()
+        # Try to connect if not already connected
+        if not reader.is_connected():
+            print("[OBD] Attempting to connect...")
+            connect_obd()
+
         if reader.is_connected():
             snapshot = reader.read_snapshot()
             obd_source = "Live OBD-II Data"
@@ -613,15 +618,36 @@ RULES:
         return response_data
     
     # Process codes
-    codes_text = ", ".join([f"{c.code}: {c.description}" for c in snapshot.dtc_codes])
     codes_list = [c.code for c in snapshot.dtc_codes]
     response_data["codes"] = codes_list
-    
+
+    # Get official OBD code diagnoses from CarsXE
+    obd_decoded = await decode_obd_codes_batch(codes_list)
+
+    # Build codes text with official diagnoses when available
+    codes_text_parts = []
+    for c in snapshot.dtc_codes:
+        decoded = obd_decoded.get(c.code.upper(), {})
+        if decoded.get("success") and decoded.get("diagnosis"):
+            # Use CarsXE's official diagnosis
+            codes_text_parts.append(f"{c.code}: {decoded['diagnosis']}")
+        else:
+            # Fall back to OBD reader's description
+            codes_text_parts.append(f"{c.code}: {c.description}")
+    codes_text = ", ".join(codes_text_parts)
+
     print(f"\n[Main] Processing codes: {codes_list}")
     print(f"[Main] Vehicle: {vehicle_str_with_trim}")
     print(f"[Main] Engine: {response_data.get('engine', 'Unknown')}")
     print(f"[Main] Performance Tier: {engine_profile.get('performance_tier', 'standard')}")
     print(f"[Main] Cost Multiplier: {engine_profile.get('cost_multiplier', 1.0)}x")
+
+    # Log decoded OBD info and track data source
+    obd_decoded_count = sum(1 for d in obd_decoded.values() if d.get("success"))
+    if obd_decoded_count > 0:
+        print(f"[Main] CarsXE decoded {obd_decoded_count}/{len(codes_list)} codes")
+        if "CarsXE OBD" not in response_data["data_sources"]:
+            response_data["data_sources"].append("CarsXE OBD")
     
     # Get code info from reliable sources
     code_context = ""
@@ -677,6 +703,19 @@ You are ClearDrive, a friendly car expert. Write like you're talking to a friend
 
 [TROUBLE CODE]
 {codes_text}
+
+[VEHICLE-SPECIFIC CODE ANALYSIS]
+The codes above have been decoded by our OBD database. Now consider how these codes specifically affect THIS vehicle:
+- Engine type: {response_data.get('engine', 'Unknown')} ({engine_profile.get('engine_layout', 'standard')})
+- Aspiration: {'Supercharged' if engine_profile.get('is_supercharged') else 'Turbocharged' if engine_profile.get('is_turbocharged') else 'Naturally Aspirated'}
+- Drivetrain: {response_data.get('drive', 'Unknown')}
+- Performance tier: {engine_profile.get('performance_tier', 'standard')}
+
+When explaining the code, relate it to these specific characteristics. For example:
+- A misfire on a supercharged engine might indicate boost leak or intercooler issues
+- A lean code on a turbo engine could be wastegate or boost control related
+- An O2 sensor code on a V8 affects one bank (4 cylinders) vs both banks
+- AWD vehicles may have additional sensors that can trigger codes
 
 [YOUR RESPONSE - START HERE]
 
