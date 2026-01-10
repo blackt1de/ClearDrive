@@ -906,22 +906,13 @@
             document.getElementById('modalSubtitle').textContent = `${year} ${make} ${model} - ${trims.length} options`;
 
             trimList.innerHTML = trims.map((t, idx) => {
-                // Build trim specs display
-                let specs = [];
-                if (t.engine) specs.push(t.engine);
-                if (t.drivetrain) specs.push(t.drivetrain);
-                if (t.transmission) specs.push(t.transmission);
-
-                let specsHtml = specs.length > 0 ?
-                    `<div class="trim-specs">${specs.map(s => `<span class="trim-spec">${s}</span>`).join('')}</div>` : '';
-
-                let msrpHtml = t.msrp ? `<div class="trim-details">MSRP: $${Number(t.msrp).toLocaleString()}</div>` : '';
+                // Just show trim name and engine - keep it simple
+                let engineHtml = t.engine ? `<div class="trim-details">${t.engine}</div>` : '';
 
                 return `
                     <div class="trim-option" data-idx="${idx}" data-id="${t.id}" data-name="${t.name}">
                         <div class="trim-name">${t.name}</div>
-                        ${specsHtml}
-                        ${msrpHtml}
+                        ${engineHtml}
                     </div>
                 `;
             }).join('');

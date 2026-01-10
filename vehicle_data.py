@@ -175,13 +175,27 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                 # Format is usually "TrimName 2dr Coupe (engine specs)"
                 display_name = trim_name
 
-                # Remove body style from name for cleaner display
+                # Extract body style for later use
+                body_style_from_name = ""
+                body_match = re.search(r'\d+dr\s+(\w+)', trim_name)
+                if body_match:
+                    body_style_from_name = body_match.group(1)  # Coupe, Convertible, etc.
+
+                # Remove body style and engine specs from name for cleaner display
                 # Pattern: "GT 2dr Coupe (3.6L 6cyl 8A)"
                 clean_name_match = re.match(r'^(.+?)\s+\d+dr\s+\w+', trim_name)
                 if clean_name_match:
-                    display_name = clean_name_match.group(1).strip()
+                    extracted_name = clean_name_match.group(1).strip()
+                    # If extracted name is empty or just numbers, use body style instead
+                    if extracted_name and not extracted_name.isdigit():
+                        display_name = extracted_name
+                    elif body_style_from_name:
+                        # For cars like Corvette where trim IS the body style
+                        display_name = body_style_from_name
+                    else:
+                        display_name = "Base"
 
-                # Build final display with engine
+                # Build final display with engine - this is what shows in the list
                 if engine_str:
                     full_display = f"{display_name} ({engine_str})"
                 else:
