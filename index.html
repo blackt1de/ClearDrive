@@ -489,7 +489,15 @@
         
         .info-card.known-issues h3 { color: #fb923c; }
         .info-card.known-issues h3 svg { stroke: #fb923c; }
-        
+
+        .info-card.diy-fix {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border-color: rgba(34, 197, 94, 0.2);
+        }
+
+        .info-card.diy-fix h3 { color: #22c55e; }
+        .info-card.diy-fix h3 svg { stroke: #22c55e; }
+
         .obd-status { padding: 12px 16px; border-radius: 12px; font-size: 13px; margin-top: 12px; }
         .obd-status.connected { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: #22c55e; }
         .obd-status.disconnected { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; }
@@ -622,32 +630,49 @@
         <div class="modal">
             <div class="modal-title">Select Your Trim</div>
             <div class="modal-subtitle" id="modalSubtitle">Choose your exact configuration</div>
-            
+
             <div class="trim-helper">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v.01M12 8v4"/></svg>
                 <span>Select your trim level below. This helps us give you accurate diagnostics for your specific engine and features.</span>
             </div>
-            
+
             <div class="trim-list" id="trimList"></div>
-            
+
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="cancelTrimBtn">Cancel</button>
-                <button class="btn" id="selectTrimBtn" disabled>Run Diagnostic</button>
+                <button class="btn" id="selectTrimBtn" disabled>Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transmission Modal -->
+    <div class="modal-overlay" id="transModal">
+        <div class="modal">
+            <div class="modal-title">Is your car manual or automatic?</div>
+            <div class="modal-subtitle">This helps us give you more accurate information</div>
+
+            <div class="trim-list" id="transList"></div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelTransBtn">Back</button>
+                <button class="btn" id="selectTransBtn" disabled>Run Diagnostic</button>
             </div>
         </div>
     </div>
     
     <!-- Version Footer -->
     <div class="version-footer">
-        <span>v1.1 Alpha</span>
+        <span>v1.2 Alpha</span>
     </div>
 
     <script>
         let selectedTrimId = null;
         let selectedTrimName = null;
+        let selectedTrimData = null;  // Full trim data including engine info
         let scanContext = null;
         let followUpsRemaining = 3;
         let chatHistory = [];
+        let allTrimsData = [];  // Store all trims for reference
         
         const obdToggle = document.getElementById('obd-toggle');
         const modeStatus = document.getElementById('mode-status');
@@ -727,45 +752,105 @@
         function showTrimModal(trims, year, make, model) {
             const modal = document.getElementById('trimModal');
             const trimList = document.getElementById('trimList');
-            
-            document.getElementById('modalSubtitle').textContent = `${year} ${make} ${model} - ${trims.length} configurations`;
-            
-            trimList.innerHTML = trims.map(t => `
-                <div class="trim-option" data-id="${t.id}" data-name="${t.name}">
+
+            // Store trims for later reference
+            allTrimsData = trims;
+
+            document.getElementById('modalSubtitle').textContent = `${year} ${make} ${model} - ${trims.length} options`;
+
+            trimList.innerHTML = trims.map((t, idx) => `
+                <div class="trim-option" data-idx="${idx}" data-id="${t.id}" data-name="${t.name}">
                     <div class="trim-name">${t.name}</div>
                 </div>
             `).join('');
-            
+
             trimList.querySelectorAll('.trim-option').forEach(opt => {
                 opt.addEventListener('click', function() {
                     trimList.querySelectorAll('.trim-option').forEach(o => o.classList.remove('selected'));
                     this.classList.add('selected');
+                    const idx = parseInt(this.dataset.idx);
+                    selectedTrimData = allTrimsData[idx];
                     selectedTrimId = this.dataset.id;
                     selectedTrimName = this.dataset.name;
                     document.getElementById('selectTrimBtn').disabled = false;
                 });
             });
-            
+
             selectedTrimId = null;
             selectedTrimName = null;
+            selectedTrimData = null;
             document.getElementById('selectTrimBtn').disabled = true;
+            modal.classList.add('active');
+        }
+
+        function showTransmissionModal() {
+            const modal = document.getElementById('transModal');
+            const transList = document.getElementById('transList');
+
+            if (!selectedTrimData || !selectedTrimData.transmission_options) {
+                // No transmission choice needed, proceed directly
+                runDiagnostic();
+                return;
+            }
+
+            const options = selectedTrimData.transmission_options;
+
+            transList.innerHTML = options.map(opt => `
+                <div class="trim-option" data-id="${opt.id}" data-label="${opt.label}">
+                    <div class="trim-name">${opt.label}</div>
+                </div>
+            `).join('');
+
+            transList.querySelectorAll('.trim-option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    transList.querySelectorAll('.trim-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedTrimId = this.dataset.id;
+                    document.getElementById('selectTransBtn').disabled = false;
+                });
+            });
+
+            document.getElementById('selectTransBtn').disabled = true;
             modal.classList.add('active');
         }
         
         document.getElementById('cancelTrimBtn').addEventListener('click', function() {
             document.getElementById('trimModal').classList.remove('active');
         });
-        
-        document.getElementById('selectTrimBtn').addEventListener('click', async function() {
-            if (!selectedTrimId) return;
-            
+
+        document.getElementById('selectTrimBtn').addEventListener('click', function() {
+            if (!selectedTrimId || !selectedTrimData) return;
+
             document.getElementById('trimModal').classList.remove('active');
+
+            // Check if this trim has transmission options
+            if (selectedTrimData.has_transmission_choice && selectedTrimData.transmission_options) {
+                showTransmissionModal();
+            } else {
+                runDiagnostic();
+            }
+        });
+
+        // Transmission modal event handlers
+        document.getElementById('cancelTransBtn').addEventListener('click', function() {
+            document.getElementById('transModal').classList.remove('active');
+            // Go back to trim modal
+            document.getElementById('trimModal').classList.add('active');
+        });
+
+        document.getElementById('selectTransBtn').addEventListener('click', function() {
+            if (!selectedTrimId) return;
+            document.getElementById('transModal').classList.remove('active');
+            runDiagnostic();
+        });
+
+        async function runDiagnostic() {
             document.getElementById('loading').style.display = 'block';
             document.getElementById('loading-text').textContent = 'Analyzing your vehicle...';
-            
+
             followUpsRemaining = 3;
             chatHistory = [];
-            
+
             try {
                 const response = await fetch('/interpret', {
                     method: 'POST',
@@ -775,12 +860,12 @@
                         use_live_obd: obdToggle.checked
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 // Store trim name for display
                 data.selected_trim_name = selectedTrimName;
-                
+
                 scanContext = {
                     vehicle: data.vehicle,
                     engine: data.engine,
@@ -790,14 +875,14 @@
                     likely_causes: data.likely_causes,
                     trim: data.trim || selectedTrimName
                 };
-                
+
                 renderResults(data);
             } catch (error) {
                 alert('Error: ' + error.message);
             }
-            
+
             document.getElementById('loading').style.display = 'none';
-        });
+        }
         
         function formatContent(text) {
             if (!text) return '';
@@ -948,6 +1033,7 @@
                 { id: 'symptoms', title: 'What You Might Notice', data: data.symptoms, icon: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>' },
                 { id: 'ignored', title: 'If You Ignore This', data: data.if_ignored, icon: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>' },
                 { id: 'checks', title: 'Quick Checks', data: data.quick_checks, icon: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>' },
+                { id: 'diy', title: 'DIY Fix', data: data.diy_fix, icon: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>', cls: 'diy-fix' },
                 { id: 'urgency', title: 'When To See A Mechanic', data: data.urgency, icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>', cls: 'urgency' },
                 { id: 'cost', title: 'Estimated Repair Cost', data: data.repair_cost, icon: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
                 { id: 'known', title: 'Known Issues For This Engine', data: data.known_issues, icon: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>', cls: 'known-issues' },
@@ -1022,12 +1108,25 @@
             const el = document.getElementById('chat-remaining');
             if (!el) return;
             el.textContent = followUpsRemaining + ' question' + (followUpsRemaining !== 1 ? 's' : '') + ' left';
-            if (followUpsRemaining === 0) {
+            if (followUpsRemaining <= 0) {
                 el.className = 'chat-remaining exhausted';
                 document.getElementById('chat-input').disabled = true;
                 document.getElementById('chat-send').disabled = true;
+                // Also disable the quick-question example buttons
+                document.querySelectorAll('.chat-example').forEach(btn => {
+                    btn.style.pointerEvents = 'none';
+                    btn.style.opacity = '0.5';
+                });
             } else if (followUpsRemaining === 1) {
                 el.className = 'chat-remaining warning';
+            } else {
+                el.className = 'chat-remaining';
+                document.getElementById('chat-input').disabled = false;
+                document.getElementById('chat-send').disabled = false;
+                document.querySelectorAll('.chat-example').forEach(btn => {
+                    btn.style.pointerEvents = 'auto';
+                    btn.style.opacity = '1';
+                });
             }
         }
         
@@ -1044,48 +1143,45 @@
         
         async function sendFollowUp(question) {
             if (followUpsRemaining <= 0 || !scanContext) return;
-            
+
             addChatMessage(question, 'user');
             chatHistory.push({ role: 'user', content: question });
             followUpsRemaining--;
-            updateChatRemaining();
-            
+
+            // Disable inputs while waiting for response
             document.getElementById('chat-input').value = '';
             document.getElementById('chat-send').disabled = true;
             document.getElementById('chat-input').disabled = true;
-            
+
             const messages = document.getElementById('chat-messages');
             const loading = document.createElement('div');
             loading.className = 'chat-loading';
             loading.innerHTML = '<div class="chat-loading-dots"><span></span><span></span><span></span></div><span>Thinking...</span>';
             messages.appendChild(loading);
-            
+
             try {
                 const response = await fetch('/followup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ question, context: scanContext, history: chatHistory.slice(-4) })
                 });
-                
+
                 const data = await response.json();
                 loading.remove();
                 addChatMessage(data.answer, 'assistant');
                 chatHistory.push({ role: 'assistant', content: data.answer });
-                
-                if (followUpsRemaining === 0) {
+
+                if (followUpsRemaining <= 0) {
                     addChatMessage('No more follow-up questions. Run a new scan for more help.', 'system');
                 }
             } catch (error) {
                 loading.remove();
                 addChatMessage('Error. Please try again.', 'system');
-                followUpsRemaining++;
-                updateChatRemaining();
+                followUpsRemaining++;  // Refund the question on error
             }
-            
-            if (followUpsRemaining > 0) {
-                document.getElementById('chat-send').disabled = false;
-                document.getElementById('chat-input').disabled = false;
-            }
+
+            // Update UI based on remaining questions - this handles enable/disable
+            updateChatRemaining();
         }
     </script>
 </body>

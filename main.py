@@ -78,9 +78,10 @@ def parse_guidance(response: str) -> dict:
         "symptoms": "",
         "if_ignored": "",
         "quick_checks": "",
+        "diy_fix": "",
         "urgency": "",
         "repair_cost": "",
-        "known_issues": "",  # NEW: trim-specific issues from database
+        "known_issues": "",  # trim-specific issues from database
         "owner_reports": ""
     }
     
@@ -96,12 +97,14 @@ def parse_guidance(response: str) -> dict:
         "WHAT YOU MIGHT NOTICE": "symptoms",
         "IF YOU IGNORE": "if_ignored",
         "QUICK CHECKS": "quick_checks",
+        "DIY FIX": "diy_fix",
+        "DIY REPAIR": "diy_fix",
         "MECHANIC URGENCY": "urgency",
         "WHEN TO SEE": "urgency",
         "REPAIR COST": "repair_cost",
         "ESTIMATED COST": "repair_cost",
-        "KNOWN ISSUES": "known_issues",  # NEW
-        "DATABASE": "known_issues",  # NEW
+        "KNOWN ISSUES": "known_issues",
+        "DATABASE": "known_issues",
         "OTHER OWNERS": "owner_reports",
         "COMMUNITY": "owner_reports"
     }
@@ -542,9 +545,10 @@ async def interpret(request: InterpretRequest):
         "symptoms": "",
         "if_ignored": "",
         "quick_checks": "",
+        "diy_fix": "",
         "urgency": "",
         "repair_cost": "",
-        "known_issues": "",  # NEW: trim-specific issues from database
+        "known_issues": "",
         "owner_reports": "",
         "data_sources": [],
         "obd_source": obd_source,
@@ -636,18 +640,46 @@ RULES:
                     response_data["data_sources"].append("Community Forums")
     
     # Build the diagnostic prompt with DEEP vehicle context
-    prompt = f"""You are ClearDrive, a friendly car expert who explains things in plain English. You're talking to someone who may not know much about cars, so avoid jargon and explain everything clearly.
+    # NOTE: Structure is important to prevent prompt leakage with smaller models
+    # Instructions go at START, output format in MIDDLE, data at END
+    prompt = f"""[SYSTEM INSTRUCTIONS - DO NOT OUTPUT THIS SECTION]
+You are ClearDrive, a friendly car expert. Write like you're talking to a friend who doesn't know cars.
+- Explain technical terms in parentheses
+- Be specific to this exact car and engine
+- Be reassuring but honest
+- No jargon without explanation
+- No analogies or metaphors
+- English only
 
-YOUR GOAL: Help the owner understand what's wrong with their car, how serious it is, and what they should do next. Be reassuring but honest.
-
+[VEHICLE INFO]
 {vehicle_context}
 
-TROUBLE CODE(S) DETECTED: {codes_text}
+[TROUBLE CODE]
+{codes_text}
 
-SAFETY LEVELS (pick ONE):
-- SAFE = This is minor. Your car is fine to drive. Fix it when you get a chance.
-- CAUTION = This needs attention soon (within 1-2 weeks). OK for short trips but don't ignore it.
-- STOP = This is serious. Driving could damage your engine. See a mechanic right away.
+[YOUR RESPONSE - START HERE]
+
+SAFETY LEVEL: [Pick ONE: SAFE, CAUTION, or STOP]
+
+IMPORTANT - Be consistent! Your safety level MUST match your "WHEN TO SEE A MECHANIC" advice:
+
+- SAFE = Truly minor issues that can wait weeks/months with no consequences.
+  Examples: loose gas cap (P0442), minor O2 sensor drift, small EVAP leaks, cosmetic codes.
+  Your mechanic advice should say "fix whenever convenient" or "can wait a few weeks."
+
+- CAUTION = Needs attention within 1-2 weeks. Won't strand you today, but will get worse or affect performance.
+  Examples: occasional misfires (P0300), catalyst efficiency (P0420), lean/rich codes (P0171/P0174), most sensor failures.
+  Your mechanic advice should say "schedule service soon" or "get checked in the next week or two."
+
+- STOP = Continuing to drive WILL cause expensive damage or is unsafe. Use this for:
+  * Overheating codes (P0217, P0218) - will destroy engine
+  * Oil pressure codes (P0520, P0521) - engine will seize
+  * Severe/constant misfires with flashing CEL - destroys catalytic converter ($1000+)
+  * Transmission overheating/slipping codes - will burn up transmission
+  * Any code with symptoms like: burning smell, smoke, loud knocking, metal shavings, loss of power steering/brakes
+  Your mechanic advice should say "stop driving immediately" or "have it towed" or "go straight to a mechanic."
+
+Don't be afraid to use STOP when warranted - it could save them thousands in damage!
 
 """
 
@@ -714,6 +746,7 @@ This is a {perf_tier} vehicle. Keep in mind:
 RESPONSE FORMAT - Follow EXACTLY:
 
 SAFETY LEVEL: [SAFE, CAUTION, or STOP]
+(Remember: SAFE means truly fine to ignore for weeks. If you're saying "get checked soon" or "in the next few days" - use CAUTION!)
 
 WHAT'S HAPPENING:
 Start with "Your {vehicle_str_with_trim} is showing code {codes_list[0]}."
@@ -754,6 +787,18 @@ List 3 things they can check themselves (if safe to do so):
 
 Keep it simple - don't suggest anything that requires special tools or expertise.
 
+DIY FIX:
+If this is something a beginner/intermediate DIYer could realistically fix at home, provide:
+1. Difficulty level (Beginner/Intermediate/Advanced)
+2. Tools needed (be specific - socket sizes, etc.)
+3. Brief step-by-step approach (3-5 steps)
+4. Estimated time
+
+If this is NOT a good DIY repair, clearly say:
+"This repair is NOT recommended for DIY because [specific reason - needs special tools, requires lifting the car, safety risk, needs computer programming, etc.]. A professional mechanic should handle this."
+
+Be honest - don't encourage DIY if it could make things worse or be dangerous.
+
 WHEN TO SEE A MECHANIC:
 Tell them clearly when to go. Examples:
 - "This can wait a week or two, but don't forget about it"
@@ -769,29 +814,22 @@ Give honest cost ranges:
 - Let them know if this needs a specialist
 
 KNOWN ISSUES FOR THIS ENGINE (from database):
-If the REAL-WORLD DATA above contains trim-specific or engine-specific issues from CarComplaints.com,
-write 2-3 sentences summarizing what OTHER OWNERS of this exact engine configuration experienced.
-If there are TSBs (Technical Service Bulletins) or recalls mentioned, note them here.
+If the data above contains trim-specific or engine-specific issues from CarComplaints.com,
+write 2-3 sentences summarizing what other owners of this exact engine experienced.
+If there are TSBs or recalls mentioned, note them here.
 If no trim-specific data was found, skip this section."""
 
     if reddit_context:
         prompt += f"""
 
-OTHER {make.upper()} {model.upper()} OWNERS REPORT:
+OTHER OWNERS REPORT:
 Based on community data, write 2-3 sentences about what owners of similar vehicles experienced:
 {reddit_context}"""
 
+    # End marker to help model know where to stop
     prompt += """
 
-IMPORTANT RULES:
-- Write like you're talking to a friend who doesn't know much about cars
-- Use the data from other owners when available - real experiences are valuable!
-- Explain any technical terms in parentheses
-- Be specific to this exact car and engine
-- Be reassuring but honest
-- NO jargon without explanation
-- NO analogies or metaphors
-- English only"""
+[END OF RESPONSE FORMAT]"""
 
     # Get AI response
     ai_response = await ask_ollama(prompt)
@@ -816,9 +854,10 @@ IMPORTANT RULES:
     response_data["symptoms"] = parsed["symptoms"]
     response_data["if_ignored"] = parsed["if_ignored"]
     response_data["quick_checks"] = parsed["quick_checks"]
+    response_data["diy_fix"] = parsed["diy_fix"]
     response_data["urgency"] = parsed["urgency"]
     response_data["repair_cost"] = parsed["repair_cost"]
-    response_data["known_issues"] = parsed["known_issues"]  # NEW: trim-specific issues
+    response_data["known_issues"] = parsed["known_issues"]
     response_data["owner_reports"] = parsed["owner_reports"]
     
     # Log scan
@@ -837,17 +876,22 @@ async def followup(request: FollowUpRequest):
     trim = request.context.get("trim", "")
     codes = request.context.get("codes", [])
     safety = request.context.get("safety_level", "UNKNOWN")
-    summary = request.context.get("summary", "")
     supercharged = request.context.get("supercharged", False)
     turbocharged = request.context.get("turbocharged", False)
-    performance_tier = request.context.get("performance_tier", "standard")
-    
-    # Build aspiration context
-    aspiration = "naturally aspirated"
-    if supercharged:
-        aspiration = "supercharged"
+    is_hybrid = request.context.get("hybrid", False)
+    is_electric = request.context.get("electric", False)
+
+    # Build powertrain description - hybrids and EVs don't use "aspiration"
+    if is_electric:
+        powertrain = "electric"
+    elif is_hybrid:
+        powertrain = "hybrid (gas + electric)"
+    elif supercharged:
+        powertrain = "supercharged"
     elif turbocharged:
-        aspiration = "turbocharged"
+        powertrain = "turbocharged"
+    else:
+        powertrain = "naturally aspirated"
     
     history_text = ""
     if request.history:
@@ -856,31 +900,24 @@ async def followup(request: FollowUpRequest):
             role = "Owner" if msg["role"] == "user" else "Assistant"
             history_text += f"{role}: {msg['content']}\n"
     
-    prompt = f"""You are ClearDrive, a vehicle diagnostic assistant.
-
-VEHICLE CONTEXT:
-- Full name: {vehicle}
-- Trim: {trim or 'Not specified'}
-- Engine: {engine or 'Not specified'}
-- Aspiration: {aspiration}
-- Performance tier: {performance_tier}
-- Drivetrain: {drive or 'Not specified'}
-- Codes: {', '.join(codes) if codes else 'None'}
-- Safety Level: {safety}
-- Previous Diagnosis: {summary}
-{history_text}
-
-RULES:
-- Give advice SPECIFIC to this {aspiration} {engine or 'engine'}
-- If supercharged/turbocharged, consider boost system in your answer
-- Use simple language, explain technical terms
-- Keep answers 3-5 sentences unless more detail requested
-- NO analogies or metaphors
+    prompt = f"""[SYSTEM - DO NOT OUTPUT]
+You are ClearDrive. Be specific and actionable.
+- If asked HOW to do something: give numbered step-by-step instructions
+- If asked for videos/links: say "I can't provide links, but here's what to search for: [specific search terms]"
+- If asked about a part: explain what it does and where it's located on this specific vehicle
+- Be specific to this {powertrain} {engine or 'engine'}
+- 3-5 sentences unless steps are needed
 - English only
 
-Question: {request.question}
+[VEHICLE]
+{vehicle} | {trim or 'Base'} | {engine or 'Unknown engine'} | {drive or 'Unknown drive'}
+Codes: {', '.join(codes) if codes else 'None'} | Safety: {safety}
+{history_text}
 
-Answer:"""
+[QUESTION]
+{request.question}
+
+[ANSWER]"""
 
     response = await ask_ollama(prompt)
     

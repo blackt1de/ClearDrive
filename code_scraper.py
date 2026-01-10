@@ -48,6 +48,47 @@ def clean_text(text: str) -> str:
     return text.strip()
 
 
+def extract_base_model(model: str) -> str:
+    """
+    Extract the base model name, stripping trim/variant suffixes.
+    CarComplaints and RepairPal organize by base model, not trim variants.
+
+    Examples:
+        "Challenger SRT8" -> "Challenger"
+        "Charger AWD" -> "Charger"
+        "RAV4 Hybrid" -> "RAV4"
+        "Civic Type R" -> "Civic"
+        "F-150 Raptor" -> "F-150"
+    """
+    if not model:
+        return model
+
+    # Common trim/variant suffixes to strip (case-insensitive)
+    # These are universal patterns, not brand-specific
+    suffixes_to_strip = [
+        # Drivetrain variants
+        r'\s+(AWD|4WD|FWD|RWD|2WD|4x4|4X4)$',
+        # Common performance/trim indicators
+        r'\s+(SRT\d*|GT\d*|RS|SS|RT|R/T|Type\s*R|Si|Sport|Limited|Platinum|Premium)',
+        r'\s+(Touring|Base|SE|SXT|LX|EX|XLE|XSE|LE|DX|LT|LS|SL|SV|SR|TRD)',
+        r'\s+(Hellcat|Redeye|Demon|Raptor|Tremor|Lightning|Nismo|TRD\s*Pro)',
+        r'\s+(Hybrid|Electric|EV|PHEV|Plug-in)',
+        # Body style indicators that might be appended
+        r'\s+(Sedan|Coupe|Hatchback|Wagon|Convertible|Cab)$',
+    ]
+
+    base = model.strip()
+
+    for pattern in suffixes_to_strip:
+        base = re.sub(pattern, '', base, flags=re.IGNORECASE).strip()
+
+    # If we stripped everything, return original
+    if not base:
+        return model.strip()
+
+    return base
+
+
 def extract_engine_keywords(trim: str, engine: str) -> list:
     """
     Extract searchable keywords from trim/engine info.
@@ -98,20 +139,20 @@ async def scrape_obd_codes(code: str) -> dict:
     Returns: definition, possible causes, symptoms
     """
     print(f"[CodeScraper] Checking OBD-Codes.com for {code}...")
-    
+
     code_lower = code.lower()
     url = f"https://www.obd-codes.com/{code_lower}"
-    
+
     try:
         async with httpx.AsyncClient(headers=HEADERS, timeout=15, follow_redirects=True) as client:
             response = await client.get(url)
-            
+
             if response.status_code != 200:
                 print(f"[CodeScraper] OBD-Codes.com returned {response.status_code}")
                 return {}
-            
+
             soup = BeautifulSoup(response.text, 'html.parser')
-            
+
             result = {
                 "source": "OBD-Codes.com",
                 "url": url,
@@ -121,68 +162,64 @@ async def scrape_obd_codes(code: str) -> dict:
                 "symptoms": [],
                 "diagnostic_steps": []
             }
-            
-            # Get definition from multiple possible locations
-            definition_div = soup.find('div', class_='definition')
-            if definition_div:
-                result["definition"] = clean_text(definition_div.get_text())
-            else:
-                # Try article or main content
-                article = soup.find('article') or soup.find('div', class_='entry-content')
-                if article:
-                    first_p = article.find('p')
-                    if first_p:
-                        result["definition"] = clean_text(first_p.get_text())
-                else:
-                    # Try h1 followed by p
-                    h1 = soup.find('h1')
-                    if h1:
-                        next_p = h1.find_next('p')
-                        if next_p:
-                            result["definition"] = clean_text(next_p.get_text())
-            
-            # Get causes - look for various header patterns
-            causes_headers = soup.find_all(['h2', 'h3', 'h4'], string=re.compile(r'cause|reason|why', re.I))
-            for causes_section in causes_headers:
-                causes_list = causes_section.find_next('ul')
+
+            # Get definition - look for "What does that mean?" section
+            what_means = soup.find(['h2', 'h3'], string=re.compile(r'what does', re.I))
+            if what_means:
+                # Get all following paragraphs until next header
+                for sibling in what_means.find_next_siblings():
+                    if sibling.name in ['h2', 'h3', 'h4']:
+                        break
+                    if sibling.name == 'p':
+                        text = clean_text(sibling.get_text())
+                        if text and len(text) > 20:
+                            result["definition"] = text
+                            break
+
+            # Fallback: try Technical Description or first paragraph
+            if not result["definition"]:
+                tech_desc = soup.find(['h2', 'h3'], string=re.compile(r'technical description', re.I))
+                if tech_desc:
+                    p = tech_desc.find_next('p')
+                    if p:
+                        result["definition"] = clean_text(p.get_text())
+
+            # Get causes - look for "Causes" header
+            causes_header = soup.find(['h2', 'h3'], string=re.compile(r'^causes$', re.I))
+            if causes_header:
+                causes_list = causes_header.find_next('ul')
                 if causes_list:
                     for li in causes_list.find_all('li')[:8]:
                         cause = clean_text(li.get_text())
                         if cause and len(cause) > 10 and cause not in result["causes"]:
                             result["causes"].append(cause)
-                    if result["causes"]:
-                        break
-            
+
             # Get symptoms
-            symptoms_headers = soup.find_all(['h2', 'h3', 'h4'], string=re.compile(r'symptom|sign|notice', re.I))
-            for symptoms_section in symptoms_headers:
-                symptoms_list = symptoms_section.find_next('ul')
+            symptoms_header = soup.find(['h2', 'h3'], string=re.compile(r'^symptoms$', re.I))
+            if symptoms_header:
+                symptoms_list = symptoms_header.find_next('ul')
                 if symptoms_list:
                     for li in symptoms_list.find_all('li')[:6]:
                         symptom = clean_text(li.get_text())
                         if symptom and len(symptom) > 10 and symptom not in result["symptoms"]:
                             result["symptoms"].append(symptom)
-                    if result["symptoms"]:
-                        break
-            
-            # Get diagnostic steps if available
-            diag_headers = soup.find_all(['h2', 'h3', 'h4'], string=re.compile(r'diagnos|repair|fix|how to', re.I))
-            for diag_section in diag_headers:
-                diag_list = diag_section.find_next(['ul', 'ol'])
-                if diag_list:
-                    for li in diag_list.find_all('li')[:6]:
+
+            # Get solutions/diagnostic steps
+            solutions_header = soup.find(['h2', 'h3'], string=re.compile(r'possible solutions|how to fix', re.I))
+            if solutions_header:
+                solutions_list = solutions_header.find_next(['ul', 'ol'])
+                if solutions_list:
+                    for li in solutions_list.find_all('li')[:6]:
                         step = clean_text(li.get_text())
                         if step and len(step) > 10:
                             result["diagnostic_steps"].append(step)
-                    if result["diagnostic_steps"]:
-                        break
-            
+
             if result["definition"] or result["causes"]:
-                print(f"[CodeScraper] ✓ Found data on OBD-Codes.com")
+                print(f"[CodeScraper] Found OBD code data: {len(result['causes'])} causes, {len(result['symptoms'])} symptoms")
                 return result
-            
+
             return {}
-            
+
     except Exception as e:
         print(f"[CodeScraper] Error scraping OBD-Codes.com: {e}")
         return {}
@@ -193,100 +230,111 @@ async def scrape_car_complaints(make: str, model: str, year: str, trim: str = ""
     Scrape CarComplaints.com for vehicle-specific issues.
     Now filters for trim-relevant problems when possible.
     """
-    print(f"[CodeScraper] Checking CarComplaints.com for {year} {make} {model}...")
-    
+    # Extract base model - CarComplaints organizes by base model, not trim variants
+    base_model = extract_base_model(model)
+    print(f"[CodeScraper] Checking CarComplaints.com for {year} {make} {base_model}...")
+
     # CarComplaints uses Title Case for URLs
     make_slug = make.title().replace(" ", "_")
-    model_slug = model.title().replace(" ", "_")
+    model_slug = base_model.title().replace(" ", "_")
     url = f"https://www.carcomplaints.com/{make_slug}/{model_slug}/{year}/"
     print(f"[CodeScraper] URL: {url}")
-    
+
     try:
         await asyncio.sleep(0.3)  # Rate limiting
-        
+
         async with httpx.AsyncClient(headers=HEADERS, timeout=15, follow_redirects=True) as client:
             response = await client.get(url)
-            
+
             if response.status_code != 200:
                 print(f"[CodeScraper] CarComplaints.com returned {response.status_code} for {url}")
                 return {}
-            
+
             soup = BeautifulSoup(response.text, 'html.parser')
-            
+
             result = {
                 "source": "CarComplaints.com",
                 "url": url,
                 "problems": [],
                 "worst_problems": [],
-                "engine_problems": [],  # NEW: trim-specific
+                "engine_problems": [],
                 "recalls": 0,
                 "tsbs": 0,
-                "trim_relevant": []  # NEW: problems mentioning this trim/engine
+                "complaints_count": 0,
+                "trim_relevant": []
             }
-            
+
             # Get engine keywords for filtering
             engine_keywords = extract_engine_keywords(trim, engine)
-            
-            # Get problem categories
-            problem_links = soup.find_all('a', class_='problem-area')
-            for link in problem_links[:10]:
-                problem_text = clean_text(link.get_text())
-                count_span = link.find('span', class_='count')
-                count = clean_text(count_span.get_text()) if count_span else ""
-                if problem_text:
+
+            # Parse complaint/recall/TSB counts from links
+            # Look for patterns like "Complaints 83", "Recalls 3", "TSBs 421"
+            for a in soup.find_all('a', href=True):
+                text = a.get_text().strip()
+                href = a.get('href', '')
+
+                # Count complaints
+                if 'Complaints' in text:
+                    match = re.search(r'(\d+)', text)
+                    if match:
+                        result["complaints_count"] = int(match.group(1))
+
+                # Count recalls
+                if '/recalls/' in href or 'Recalls' in text:
+                    match = re.search(r'(\d+)', text)
+                    if match:
+                        result["recalls"] = int(match.group(1))
+
+                # Count TSBs
+                if '/tsbs/' in href or 'TSBs' in text:
+                    match = re.search(r'(\d+)', text)
+                    if match:
+                        result["tsbs"] = int(match.group(1))
+
+            # Find specific problem links (worst problems)
+            # Pattern: links that go to .shtml pages with problem descriptions
+            for a in soup.find_all('a', href=True):
+                href = a.get('href', '')
+                text = clean_text(a.get_text())
+
+                # Problem pages end in .shtml and have descriptive names
+                if '.shtml' in href and f'/{make_slug}/{model_slug}/{year}/' in href:
+                    if text and len(text) > 5 and '#' not in text:
+                        # Clean up the problem text
+                        problem = text.replace('#1:', '').replace('#2:', '').replace('#3:', '').strip()
+                        if problem and problem not in result["worst_problems"]:
+                            result["worst_problems"].append(problem)
+
+                            # Check if relevant to engine/trim
+                            problem_lower = problem.lower()
+                            for kw in engine_keywords:
+                                if kw.lower() in problem_lower:
+                                    result["trim_relevant"].append(problem)
+                                    break
+
+                            # Check for engine-related problems
+                            if any(x in problem_lower for x in ['engine', 'motor', 'turbo', 'supercharg', 'misfire', 'stall']):
+                                if problem not in result["engine_problems"]:
+                                    result["engine_problems"].append(problem)
+
+            # Also try to find problem category sections
+            for cat_class in ['engine', 'brakes', 'drivetrain', 'electrical', 'transmission', 'suspension']:
+                cat_elem = soup.find(['div', 'a'], class_=cat_class)
+                if cat_elem:
+                    # Find associated count
+                    cnt = cat_elem.find(class_='cnt') or cat_elem.find(class_='count')
+                    count = clean_text(cnt.get_text()) if cnt else ""
                     result["problems"].append({
-                        "category": problem_text,
+                        "category": cat_class.title(),
                         "count": count
                     })
-            
-            # Get worst problems - and check if any mention our trim/engine
-            worst_section = soup.find('div', class_='worst-problems')
-            if worst_section:
-                for item in worst_section.find_all(['div', 'li'], class_=re.compile(r'problem|complaint'))[:8]:
-                    title_elem = item.find('a') or item.find(['h3', 'h4', 'span'])
-                    if title_elem:
-                        problem_text = clean_text(title_elem.get_text())
-                        result["worst_problems"].append(problem_text)
-                        
-                        # Check if this problem is relevant to our trim/engine
-                        problem_lower = problem_text.lower()
-                        for kw in engine_keywords:
-                            if kw.lower() in problem_lower:
-                                result["trim_relevant"].append(problem_text)
-                                break
-            
-            # Also search all complaint text for engine-specific issues
-            all_complaints = soup.find_all(['div', 'p'], class_=re.compile(r'complaint|problem|issue'))
-            for complaint in all_complaints[:20]:
-                text = clean_text(complaint.get_text())
-                text_lower = text.lower()
-                
-                # Check for engine-related keywords
-                if any(kw.lower() in text_lower for kw in engine_keywords):
-                    if text not in result["engine_problems"] and len(text) > 20:
-                        result["engine_problems"].append(text[:200])
-            
-            # Get recall/TSB counts
-            recall_link = soup.find('a', href=re.compile(r'recalls'))
-            if recall_link:
-                count_match = re.search(r'\d+', recall_link.get_text())
-                if count_match:
-                    result["recalls"] = int(count_match.group())
-            
-            tsb_link = soup.find('a', href=re.compile(r'tsbs'))
-            if tsb_link:
-                count_match = re.search(r'\d+', tsb_link.get_text())
-                if count_match:
-                    result["tsbs"] = int(count_match.group())
-            
-            if result["problems"] or result["worst_problems"]:
-                print(f"[CodeScraper] ✓ Found {len(result['problems'])} problem areas on CarComplaints.com")
-                if result["trim_relevant"]:
-                    print(f"[CodeScraper] ✓ Found {len(result['trim_relevant'])} trim-specific issues")
+
+            if result["worst_problems"] or result["recalls"] or result["tsbs"]:
+                print(f"[CodeScraper] Found CarComplaints data: {len(result['worst_problems'])} problems, {result['recalls']} recalls, {result['tsbs']} TSBs")
                 return result
-            
+
             return {}
-            
+
     except Exception as e:
         print(f"[CodeScraper] Error scraping CarComplaints.com: {e}")
         return {}
@@ -297,90 +345,89 @@ async def scrape_repairpal(make: str, model: str, year: str, trim: str = "", eng
     Scrape RepairPal.com for repair cost estimates.
     Returns: estimated cost range for common repairs
     """
-    print(f"[CodeScraper] Checking RepairPal.com for {year} {make} {model}...")
-    
+    # Extract base model - RepairPal organizes by base model, not trim variants
+    base_model = extract_base_model(model)
+    print(f"[CodeScraper] Checking RepairPal.com for {year} {make} {base_model}...")
+
     # RepairPal uses lowercase with hyphens, and /cars/ path
     make_slug = make.lower().replace(" ", "-")
-    model_slug = model.lower().replace(" ", "-")
+    model_slug = base_model.lower().replace(" ", "-")
     url = f"https://repairpal.com/cars/{make_slug}/{model_slug}/{year}"
     print(f"[CodeScraper] URL: {url}")
-    
+
     try:
         await asyncio.sleep(0.3)  # Rate limiting
-        
+
         async with httpx.AsyncClient(headers=HEADERS, timeout=15, follow_redirects=True) as client:
             response = await client.get(url)
-            
+
             if response.status_code != 200:
                 print(f"[CodeScraper] RepairPal.com returned {response.status_code} for {url}")
                 return {}
-            
+
             soup = BeautifulSoup(response.text, 'html.parser')
-            
+
             result = {
                 "source": "RepairPal.com",
                 "url": url,
                 "common_repairs": [],
+                "common_problems": [],
                 "reliability_rating": "",
                 "annual_cost": "",
-                "engine_specific_repairs": []  # NEW: for trim-relevant repairs
+                "engine_specific_repairs": []
             }
-            
+
             # Get engine keywords for filtering
             engine_keywords = extract_engine_keywords(trim, engine)
-            
-            # Get common repairs with costs - try multiple selectors
-            repair_selectors = [
-                ('div', 'repair-item'),
-                ('div', 'estimate-item'),
-                ('a', 'estimate-card'),
-                ('div', 'common-repair'),
-                ('tr', 'repair-row'),
-            ]
-            
-            for tag, class_name in repair_selectors:
-                repair_items = soup.find_all(tag, class_=re.compile(class_name, re.I))
-                for item in repair_items[:12]:
-                    # Try to find repair name
-                    name_elem = item.find(['span', 'a', 'h3', 'h4', 'td'], class_=re.compile(r'name|title|repair', re.I))
-                    if not name_elem:
-                        name_elem = item.find(['a', 'h3', 'h4'])
-                    
-                    # Try to find cost
-                    cost_elem = item.find(['span', 'td', 'div'], class_=re.compile(r'cost|price|range', re.I))
-                    
-                    if name_elem:
-                        repair_name = clean_text(name_elem.get_text())
-                        repair_info = {"repair": repair_name}
-                        
-                        if cost_elem:
-                            repair_info["cost"] = clean_text(cost_elem.get_text())
-                        
-                        if repair_name and len(repair_name) > 3:
+
+            # Look for repair-estimates section
+            estimates_section = soup.find(class_='repair-estimates')
+            if estimates_section:
+                for a in estimates_section.find_all('a')[:15]:
+                    text = a.get_text().strip()
+                    if text and len(text) > 10:
+                        # Parse repair name and cost from text like "Dodge ChallengerCrankshaft Position Sensor Replacement$127 - $158"
+                        # Remove the make/model prefix
+                        text = text.replace(f"{make.title()} {model_slug.title()}", "").strip()
+                        text = text.replace(f"{make.title()}{model_slug.title()}", "").strip()
+
+                        # Try to extract cost
+                        cost_match = re.search(r'(\$[\d,]+ *- *\$[\d,]+|\$[\d,]+)', text)
+                        cost = cost_match.group(1) if cost_match else ""
+
+                        # Get repair name (everything before the $)
+                        if '$' in text:
+                            repair_name = text.split('$')[0].strip()
+                        else:
+                            repair_name = text
+
+                        if repair_name and len(repair_name) > 5:
+                            repair_info = {"repair": repair_name, "cost": cost}
                             result["common_repairs"].append(repair_info)
-                            
-                            # Check if relevant to our engine
+
+                            # Check if relevant to engine
                             repair_lower = repair_name.lower()
                             for kw in engine_keywords:
                                 if kw.lower() in repair_lower:
                                     result["engine_specific_repairs"].append(repair_info)
                                     break
-                
-                if result["common_repairs"]:
+
+            # Also look for most common problems
+            problems_header = soup.find('h2', string=re.compile(r'most common.*problems', re.I))
+            if problems_header:
+                for sibling in problems_header.find_next_siblings()[:5]:
+                    for a in sibling.find_all('a')[:8]:
+                        text = clean_text(a.get_text())
+                        if text and len(text) > 10 and text not in result["common_problems"]:
+                            result["common_problems"].append(text)
+
+            # Get reliability rating - look for it in various places
+            for text in soup.find_all(string=re.compile(r'reliability.*rating|rating.*\d+\.?\d*/5', re.I)):
+                rating_text = clean_text(text)
+                if rating_text:
+                    result["reliability_rating"] = rating_text[:100]
                     break
-            
-            # Get reliability rating
-            rating_selectors = [
-                ('div', 'reliability'),
-                ('span', 'rating'),
-                ('div', 'score'),
-            ]
-            for tag, class_name in rating_selectors:
-                rating_elem = soup.find(tag, class_=re.compile(class_name, re.I))
-                if rating_elem:
-                    result["reliability_rating"] = clean_text(rating_elem.get_text())
-                    break
-            
+
             # Get annual cost estimate
             annual_elem = soup.find(string=re.compile(r'annual|yearly|per year', re.I))
             if annual_elem:
@@ -389,13 +436,13 @@ async def scrape_repairpal(make: str, model: str, year: str, trim: str = "", eng
                     cost_match = re.search(r'\$[\d,]+', parent.get_text())
                     if cost_match:
                         result["annual_cost"] = cost_match.group()
-            
-            if result["common_repairs"]:
-                print(f"[CodeScraper] ✓ Found {len(result['common_repairs'])} repair estimates on RepairPal.com")
+
+            if result["common_repairs"] or result["common_problems"]:
+                print(f"[CodeScraper] Found RepairPal data: {len(result['common_repairs'])} repairs, {len(result['common_problems'])} problems")
                 return result
-            
+
             return {}
-            
+
     except Exception as e:
         print(f"[CodeScraper] Error scraping RepairPal.com: {e}")
         return {}

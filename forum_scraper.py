@@ -207,9 +207,9 @@ async def scrape_reddit_fallback(code: str, make: str, model: str, year: str = N
     save_cache(cache)
     
     if insights:
-        print(f"[ForumScraper] ✓ Found {len(insights)} quality Reddit discussions")
+        print(f"[ForumScraper] Found {len(insights)} quality Reddit discussions")
     else:
-        print(f"[ForumScraper] ✗ No quality Reddit data found")
+        print(f"[ForumScraper] No quality Reddit data found")
     
     return result
 
