@@ -674,6 +674,21 @@
         </div>
     </div>
 
+    <!-- Body Style Modal -->
+    <div class="modal-overlay" id="bodyStyleModal">
+        <div class="modal">
+            <div class="modal-title">Select Body Style</div>
+            <div class="modal-subtitle">What type of body does your vehicle have?</div>
+
+            <div class="trim-list" id="bodyStyleList"></div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelBodyStyleBtn">Back</button>
+                <button class="btn" id="selectBodyStyleBtn" disabled>Continue</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Transmission Modal -->
     <div class="modal-overlay" id="transModal">
         <div class="modal">
@@ -691,7 +706,7 @@
     
     <!-- Version Footer -->
     <div class="version-footer">
-        <span>v1.3 Alpha</span>
+        <span>v1.3.1 Alpha</span>
     </div>
 
     <script>
@@ -975,6 +990,53 @@
             if (!selectedTrimId || !selectedTrimData) return;
 
             document.getElementById('trimModal').classList.remove('active');
+
+            // Check if this trim has body style options
+            if (selectedTrimData.has_body_style_choice && selectedTrimData.body_style_options) {
+                showBodyStyleModal();
+            } else if (selectedTrimData.has_transmission_choice && selectedTrimData.transmission_options) {
+                // Check if this trim has transmission options
+                showTransmissionModal();
+            } else {
+                runDiagnostic();
+            }
+        });
+
+        function showBodyStyleModal() {
+            const modal = document.getElementById('bodyStyleModal');
+            const bodyStyleList = document.getElementById('bodyStyleList');
+
+            const options = selectedTrimData.body_style_options;
+
+            bodyStyleList.innerHTML = options.map(opt => `
+                <div class="trim-option" data-id="${opt.full_name}" data-name="${opt.name}">
+                    <div class="trim-name">${opt.name}</div>
+                </div>
+            `).join('');
+
+            bodyStyleList.querySelectorAll('.trim-option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    bodyStyleList.querySelectorAll('.trim-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    // Update the trim ID to the specific body style variant
+                    selectedTrimId = this.dataset.id;
+                    document.getElementById('selectBodyStyleBtn').disabled = false;
+                });
+            });
+
+            document.getElementById('selectBodyStyleBtn').disabled = true;
+            modal.classList.add('active');
+        }
+
+        document.getElementById('cancelBodyStyleBtn').addEventListener('click', function() {
+            document.getElementById('bodyStyleModal').classList.remove('active');
+            // Go back to trim modal
+            document.getElementById('trimModal').classList.add('active');
+        });
+
+        document.getElementById('selectBodyStyleBtn').addEventListener('click', function() {
+            if (!selectedTrimId) return;
+            document.getElementById('bodyStyleModal').classList.remove('active');
 
             // Check if this trim has transmission options
             if (selectedTrimData.has_transmission_choice && selectedTrimData.transmission_options) {
