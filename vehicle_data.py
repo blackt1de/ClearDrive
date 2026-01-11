@@ -13,20 +13,33 @@ CACHE_FILE = Path(__file__).parent / "vehicle_cache.json"
 CARSXE_API_KEY = "***REDACTED_CARSXE***"
 CARSXE_BASE = "https://api.carsxe.com"
 
+# Auto.dev API for high-quality vehicle images
+AUTODEV_API_KEY = "***REDACTED_AUTODEV***"
+AUTODEV_BASE = "https://api.auto.dev"
+
 HEADERS = {
     "Accept": "application/json",
     "User-Agent": "ClearDrive/1.2"
 }
 
 
+IMAGE_CACHE_VERSION = 23  # Bump this to invalidate all cached images
+
 def load_cache() -> dict:
     if CACHE_FILE.exists():
         try:
             with open(CACHE_FILE, "r") as f:
-                return json.load(f)
+                cache = json.load(f)
+                # Check if image cache needs to be invalidated due to version change
+                if cache.get("image_cache_version", 1) < IMAGE_CACHE_VERSION:
+                    print(f"[Cache] Clearing old image cache (version {cache.get('image_cache_version', 1)} -> {IMAGE_CACHE_VERSION})")
+                    cache["images"] = {}
+                    cache["image_cache_version"] = IMAGE_CACHE_VERSION
+                    save_cache(cache)
+                return cache
         except:
             pass
-    return {"vehicles": {}, "trims": {}, "images": {}, "last_updated": None}
+    return {"vehicles": {}, "trims": {}, "images": {}, "image_cache_version": IMAGE_CACHE_VERSION, "last_updated": None}
 
 
 def save_cache(data: dict):
@@ -94,6 +107,9 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                 return []
 
             print(f"[CarsXE] Found {len(trim_options)} trims")
+            # Log raw trim names for debugging
+            for t in trim_options[:5]:
+                print(f"[CarsXE] Raw trim: {t.get('name', '')}")
 
             # Process and format trims
             # First pass: group by brand trim name to collect body styles
@@ -402,33 +418,208 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
         return []
 
 
-async def get_vehicle_image(year: str, make: str, model: str) -> dict:
+async def get_autodev_image(year: str, make: str, model: str, trim: str = "") -> dict:
     """
-    Get a vehicle image using CarsXE Images API.
+    Get vehicle images using Auto.dev API.
+    1. Search listings by year/make/model to find VINs
+    2. Use VIN to get high-quality photos
+
+    Returns dict with image URL and metadata, or empty dict if not found.
+    """
+    if not AUTODEV_API_KEY:
+        print("[Auto.dev] No API key configured, skipping")
+        return {}
+
+    print(f"[Auto.dev] Fetching image for {year} {make} {model} {trim}...")
+
+    try:
+        # Step 1: Search vehicle listings to find a VIN
+        # Note: Using auto.dev/api/listings (not api.auto.dev) and simple param names
+        # Don't pass trim as a filter - it's too restrictive. We'll score by trim instead.
+        search_url = "https://auto.dev/api/listings"
+        search_params = {
+            "apiKey": AUTODEV_API_KEY,
+            "year": year,
+            "make": make,
+            "model": model,
+        }
+
+        print(f"[Auto.dev] Searching listings: {year} {make} {model} {trim}")
+
+        async with httpx.AsyncClient(headers=HEADERS, timeout=20) as client:
+            response = await client.get(search_url, params=search_params)
+
+            if response.status_code != 200:
+                print(f"[Auto.dev] Listings search error: {response.status_code}")
+                # Try to read error message
+                try:
+                    error_data = response.json()
+                    print(f"[Auto.dev] Error details: {error_data}")
+                except:
+                    pass
+                return {}
+
+            data = response.json()
+            records = data.get("records", [])
+
+            if not records:
+                print(f"[Auto.dev] No listings found for {year} {make} {model}")
+                return {}
+
+            print(f"[Auto.dev] Found {len(records)} listings")
+
+            # Find a listing with photos, prefer one matching year/make/model/trim
+            best_listing = None
+            best_score = -1
+
+            for listing in records:
+                vin = listing.get("vin", "")
+                photo_urls = listing.get("photoUrls", [])
+                primary_photo = listing.get("primaryPhotoUrl", "")
+                listing_trim = listing.get("trim", "")
+                listing_year = str(listing.get("year", ""))
+                listing_make = listing.get("make", "").lower()
+                listing_model = listing.get("model", "").lower()
+
+                # Skip listings without images
+                if not primary_photo and not photo_urls:
+                    continue
+
+                # CRITICAL: Skip if year doesn't match (API sometimes returns wrong vehicles)
+                if listing_year != year:
+                    print(f"[Auto.dev] Skipping wrong year ({listing_year} vs {year}): {listing_make} {listing_model}")
+                    continue
+
+                # Skip if make doesn't match
+                if listing_make != make.lower():
+                    print(f"[Auto.dev] Skipping wrong make ({listing_make} vs {make})")
+                    continue
+
+                # Skip if model doesn't match
+                if listing_model != model.lower():
+                    print(f"[Auto.dev] Skipping wrong model ({listing_model} vs {model})")
+                    continue
+
+                # Base score on number of photos
+                score = len(photo_urls) if photo_urls else (1 if primary_photo else 0)
+
+                # Bonus for matching trim
+                if trim and listing_trim and trim.lower() in listing_trim.lower():
+                    score += 100
+
+                if score > best_score:
+                    best_score = score
+                    best_listing = listing
+
+                print(f"[Auto.dev] Listing: VIN={vin[:8]}... trim={listing_trim} photos={len(photo_urls)}")
+
+            if not best_listing:
+                print("[Auto.dev] No listings with images found")
+                return {}
+
+            vin = best_listing.get("vin", "")
+            primary_photo = best_listing.get("primaryPhotoUrl", "")
+            photo_urls = best_listing.get("photoUrls", [])
+
+            # Use the best available photo URL
+            # photoUrls contains high-res versions, primaryPhotoUrl is also good
+            if photo_urls:
+                # Get full-size version (remove width param to get original)
+                image_url = photo_urls[0]
+                # Try to get full resolution by removing size params
+                if "?io=true" in image_url:
+                    # Get base URL without resize params
+                    base_url = image_url.split("?")[0]
+                    image_url = base_url
+                print(f"[Auto.dev] Got {len(photo_urls)} photos, using first")
+                print(f"[Auto.dev] Selected: {image_url[:80]}...")
+                return {
+                    "url": image_url,
+                    "width": 1024,  # These are typically 1024x768
+                    "height": 768,
+                    "thumbnail": primary_photo,
+                    "source": "auto.dev",
+                    "vin": vin,
+                    "cached_at": datetime.now().isoformat()
+                }
+
+            # Fallback: use primaryPhotoUrl from listing
+            if primary_photo:
+                print(f"[Auto.dev] Using primary photo from listing: {primary_photo[:80]}...")
+                return {
+                    "url": primary_photo,
+                    "width": 1024,
+                    "height": 768,
+                    "thumbnail": "",
+                    "source": "auto.dev",
+                    "vin": vin,
+                    "cached_at": datetime.now().isoformat()
+                }
+
+            return {}
+
+    except httpx.TimeoutException:
+        print("[Auto.dev] Request timed out")
+        return {}
+    except Exception as e:
+        print(f"[Auto.dev] Error: {type(e).__name__}: {e}")
+        return {}
+
+
+async def get_vehicle_image(year: str, make: str, model: str, trim: str = "") -> dict:
+    """
+    Get a vehicle image - tries Auto.dev first, falls back to CarsXE.
     Returns dict with image URL and metadata.
+
+    Args:
+        year: Vehicle year
+        make: Vehicle make (e.g., "Dodge")
+        model: Vehicle model (e.g., "Charger")
+        trim: Optional trim level (e.g., "SE", "Scat Pack") for more accurate images
     """
     cache = load_cache()
-    cache_key = f"image_{year}_{make}_{model}".lower().replace(" ", "_")
+    cache_key = f"image_{year}_{make}_{model}_{trim}".lower().replace(" ", "_")
 
     # Check cache (30-day expiry for images)
     if cache_key in cache.get("images", {}):
         cached = cache["images"][cache_key]
         cached_time = datetime.fromisoformat(cached.get("cached_at", "2000-01-01"))
         if (datetime.now() - cached_time).days < 30:
-            print(f"[CarsXE] Using cached image for {year} {make} {model}")
+            source = cached.get("source", "carsxe")
+            print(f"[{source}] Using cached image for {year} {make} {model} {trim}")
             return cached
 
-    print(f"[CarsXE] Fetching image for {year} {make} {model}...")
+    # Try Auto.dev first (higher quality dealer photos)
+    autodev_result = await get_autodev_image(year, make, model, trim)
+    if autodev_result and autodev_result.get("url"):
+        print(f"[Auto.dev] Found image, caching...")
+        # Cache the result
+        if "images" not in cache:
+            cache["images"] = {}
+        cache["images"][cache_key] = autodev_result
+        save_cache(cache)
+        return autodev_result
+
+    # Fallback to CarsXE
+    print(f"[CarsXE] Auto.dev had no results, trying CarsXE for {year} {make} {model} {trim}...")
 
     try:
         # Note: Images API doesn't use /v1/ prefix
         url = f"{CARSXE_BASE}/images"
+        # First try: request transparent images only
         params = {
             "key": CARSXE_API_KEY,
             "year": year,
             "make": make,
-            "model": model
+            "model": model,
+            "transparent": "true"       # Only transparent background images
         }
+
+        # Add trim if provided for more accurate image matching
+        if trim:
+            params["trim"] = trim
+
+        print(f"[CarsXE] Image API params: {params}")
 
         async with httpx.AsyncClient(headers=HEADERS, timeout=15) as client:
             response = await client.get(url, params=params)
@@ -444,11 +635,23 @@ async def get_vehicle_image(year: str, make: str, model: str) -> dict:
                 return {}
 
             images = data.get("images", [])
+            print(f"[CarsXE] API returned {len(images)} images")
+
+            # Log all images for debugging
+            for i, img in enumerate(images[:10]):  # Log first 10
+                w, h = img.get("width", 0), img.get("height", 0)
+                link = img.get("link", "")[:80]
+                thumb = img.get("thumbnailLink", "")[:80]
+                source = img.get("source", "")
+                print(f"[CarsXE] Image {i+1}: {w}x{h} source={source}")
+                print(f"[CarsXE]   Link: {link}...")
+                print(f"[CarsXE]   Thumb: {thumb}...")
+
             if not images:
                 print(f"[CarsXE] No images found for {year} {make} {model}")
                 return {}
 
-            # Find the best image - prefer official stock photos
+            # Find the best image - prefer official stock photos that match year/trim
             best_image = None
             best_score = -9999
 
@@ -457,26 +660,99 @@ async def get_vehicle_image(year: str, make: str, model: str) -> dict:
                 width = img.get("width", 0)
                 height = img.get("height", 0)
 
-                # Prefer larger images
-                score += (width * height) / 10000
+                # CRITICAL: Require minimum resolution - skip tiny images entirely
+                if width < 600 or height < 300:
+                    print(f"[CarsXE] Skipping small image ({width}x{height}): {img.get('link', '')[:50]}...")
+                    continue
 
-                # Prefer PNGs (usually cleaner stock photos)
+                # Heavily prefer larger images - resolution is critical
+                score += (width * height) / 5000  # Double the weight for size
+
+                # Bonus for high-res images (800+ width)
+                if width >= 800:
+                    score += 500
+                if width >= 1000:
+                    score += 300  # Additional bonus for very high res
+
+                # Prefer PNGs (usually cleaner stock photos with transparency)
                 if img.get("mime") == "image/png":
-                    score += 50
+                    score += 100
 
                 link = img.get("link", "").lower()
 
-                # Prefer images from known good automotive sources
-                if "kelley" in link or "kbb" in link:
-                    score += 500
+                # CRITICAL: Check if image matches the requested year
+                # This is the MOST important factor - wrong year = wrong car appearance
+                year_in_link = year in link
+                wrong_year_found = False
+
+                # Check if a different year appears in the URL
+                year_match = re.search(r'20\d{2}|19\d{2}', link)
+                if year_match:
+                    found_year = year_match.group()
+                    if found_year == year:
+                        year_in_link = True
+                    elif found_year != year:
+                        wrong_year_found = True
+                        try:
+                            year_diff = abs(int(found_year) - int(year))
+                            # SKIP images with wrong year entirely if diff > 3 years
+                            # A 2024 Challenger looks COMPLETELY different from 2008
+                            if year_diff > 3:
+                                print(f"[CarsXE] SKIPPING wrong year ({found_year} vs {year}, diff={year_diff}): {link[:60]}...")
+                                continue  # Skip this image entirely
+                            else:
+                                # Small year diff (1-3 years) - penalize but allow
+                                score -= 1000 + (year_diff * 300)
+                                print(f"[CarsXE] Wrong year ({found_year} vs {year}, diff={year_diff}): {link[:60]}...")
+                        except:
+                            print(f"[CarsXE] SKIPPING unparseable year: {link[:60]}...")
+                            continue
+
+                if year_in_link:
+                    score += 2000  # Big bonus for matching year
+                    print(f"[CarsXE] Year matches {year}: {link[:60]}...")
+                elif not wrong_year_found:
+                    # No year in URL - might be generic, allow but no bonus
+                    print(f"[CarsXE] No year in URL: {link[:60]}...")
+
+                # Check if trim appears in the link (e.g., "srt", "rt", "se")
+                if trim:
+                    trim_lower = trim.lower().replace(" ", "").replace("-", "")
+                    # Also check common variations
+                    trim_variations = [trim_lower]
+                    if trim_lower == "r/t" or trim_lower == "rt":
+                        trim_variations.extend(["rt", "r_t", "r-t"])
+                    elif trim_lower == "srt8" or trim_lower == "srt-8":
+                        trim_variations.extend(["srt8", "srt_8", "srt-8", "srt"])
+
+                    link_clean = link.replace("-", "").replace("_", "")
+                    if any(tv in link_clean for tv in trim_variations):
+                        score += 500  # Bonus for matching trim
+                        print(f"[CarsXE] Image matches trim {trim}: {link[:60]}...")
+
+                # CRITICAL: Avoid Cloudflare-protected CDNs that block our proxy
+                # These will always fail and fall back to low-quality thumbnails
+                cf_blocked_domains = [
+                    "sbacdn.com", "chromedata.com", "jdpower.com",
+                    "dealerinspire.com", "tirerack.com", "cstatic.com",
+                    "cdn-sba", "azurefd.net"
+                ]
+                if any(domain in link for domain in cf_blocked_domains):
+                    score -= 3000  # Heavily penalize - these won't load
+                    print(f"[CarsXE] CF-blocked domain detected: {link[:50]}...")
+
+                # Prefer images from accessible sources
+                if "groovecar" in link:
+                    # Groovecar works but has white backgrounds - use as last resort
+                    score -= 500
                 elif "evox" in link:
                     score += 400
-                elif "chrome" in link or "cstatic" in link:
+                elif "kelley" in link or "kbb" in link:
                     score += 300
                 elif "autobytel" in link:
                     score += 200
 
-                # Avoid bad sources (game screenshots, user uploads, etc.)
+                # Avoid bad sources (game screenshots, user uploads)
                 if "wikia" in link or "fandom" in link:
                     score -= 1000  # Game wiki/Forza screenshots
                 if "redd.it" in link or "reddit" in link:
@@ -486,9 +762,13 @@ async def get_vehicle_image(year: str, make: str, model: str) -> dict:
                 if "forza" in link:
                     score -= 1000  # Game screenshots
 
-                # Avoid thumbnails
-                if "thumbnail" in link.lower():
-                    score -= 500
+                # Penalize low-res cropped versions
+                if "cropmedium" in link or "cropsmall" in link:
+                    score -= 300   # Low-res cropped versions
+
+                # Prefer sources known for transparent/clean images
+                if "evox" in link and "transparent" in link:
+                    score += 800  # EVOX transparent images are excellent
 
                 if score > best_score:
                     best_score = score
@@ -497,8 +777,24 @@ async def get_vehicle_image(year: str, make: str, model: str) -> dict:
             if not best_image:
                 best_image = images[0]  # Fallback to first
 
+            print(f"[CarsXE] Selected image with score {best_score}: {best_image.get('link', '')[:60]}...")
+
+            image_url = best_image.get("link", "")
+
+            # Try to upgrade groovecar images to higher resolution
+            if "groovecar" in image_url.lower():
+                # Try upgrading from cropsmall/cropmedium to croplarge
+                if "cropsmall" in image_url:
+                    upgraded_url = image_url.replace("cropsmall", "croplarge")
+                    print(f"[CarsXE] Upgrading groovecar from cropsmall to croplarge")
+                    image_url = upgraded_url
+                elif "cropmedium" in image_url:
+                    upgraded_url = image_url.replace("cropmedium", "croplarge")
+                    print(f"[CarsXE] Upgrading groovecar from cropmedium to croplarge")
+                    image_url = upgraded_url
+
             result = {
-                "url": best_image.get("link", ""),
+                "url": image_url,
                 "width": best_image.get("width", 0),
                 "height": best_image.get("height", 0),
                 "thumbnail": best_image.get("thumbnailLink", ""),
