@@ -23,7 +23,7 @@ HEADERS = {
 }
 
 
-IMAGE_CACHE_VERSION = 23  # Bump this to invalidate all cached images
+IMAGE_CACHE_VERSION = 24  # Bump this to invalidate all cached images
 
 def load_cache() -> dict:
     if CACHE_FILE.exists():
@@ -589,19 +589,8 @@ async def get_vehicle_image(year: str, make: str, model: str, trim: str = "") ->
             print(f"[{source}] Using cached image for {year} {make} {model} {trim}")
             return cached
 
-    # Try Auto.dev first (higher quality dealer photos)
-    autodev_result = await get_autodev_image(year, make, model, trim)
-    if autodev_result and autodev_result.get("url"):
-        print(f"[Auto.dev] Found image, caching...")
-        # Cache the result
-        if "images" not in cache:
-            cache["images"] = {}
-        cache["images"][cache_key] = autodev_result
-        save_cache(cache)
-        return autodev_result
-
-    # Fallback to CarsXE
-    print(f"[CarsXE] Auto.dev had no results, trying CarsXE for {year} {make} {model} {trim}...")
+    # Use CarsXE for stock images (Auto.dev has dealer photos which look unprofessional)
+    print(f"[CarsXE] Fetching stock image for {year} {make} {model} {trim}...")
 
     try:
         # Note: Images API doesn't use /v1/ prefix
