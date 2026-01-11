@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cache files
+*.pyc
+code_cache.json
+vehicle_cache.json
+forum_cache.json
+
+# Database
+*.db
+cleardrive.db
+
+# OS
+.DS_Store
+Thumbs.db

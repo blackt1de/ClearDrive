@@ -8,6 +8,7 @@ import obd
 from typing import Optional
 from schemas import DTCCode, OBDSnapshot
 from datetime import datetime
+import threading
 
 
 class OBDReader:
@@ -21,20 +22,49 @@ class OBDReader:
     
     def connect(self) -> bool:
         """Connect to the OBD adapter. Returns True if successful."""
-        try:
-            if self.port:
-                self.connection = obd.OBD(self.port)
-            else:
-                self.connection = obd.OBD()  # Auto-detect
-            
-            if self.connection.is_connected():
-                print(f"[OBD] Connected to {self.connection.port_name()}")
-                return True
-            else:
-                print("[OBD] Failed to connect")
-                return False
-        except Exception as e:
-            print(f"[OBD] Connection error: {e}")
+        import sys
+
+        print(f"[OBD] Attempting connection on port: {self.port if self.port else 'auto-detect'}", flush=True)
+        sys.stdout.flush()
+
+        # Connection attempt in a separate thread with manual timeout
+        # The python-obd timeout parameter doesn't work reliably on Windows Bluetooth
+        result = {"connection": None, "completed": False}
+
+        def _connect():
+            try:
+                if self.port:
+                    result["connection"] = obd.OBD(self.port, fast=False, timeout=5)
+                else:
+                    result["connection"] = obd.OBD(fast=False, timeout=5)
+                result["completed"] = True
+            except Exception as e:
+                print(f"[OBD] Thread exception: {e}", flush=True)
+                result["completed"] = True
+
+        thread = threading.Thread(target=_connect, daemon=True)
+        thread.start()
+        thread.join(timeout=12.0)  # Wait max 12 seconds
+
+        if not result["completed"]:
+            print("[OBD] ✗ Connection timed out - adapter not responding", flush=True)
+            print("[OBD] This usually means:", flush=True)
+            print("  - Car ignition is OFF (turn key to ON or press start button without brake)", flush=True)
+            print("  - OBD adapter is not fully inserted into port", flush=True)
+            print("  - Adapter is incompatible with your vehicle's protocol", flush=True)
+            return False
+
+        self.connection = result["connection"]
+
+        if self.connection and self.connection.is_connected():
+            print(f"[OBD] ✓ Connected successfully to {self.connection.port_name()}", flush=True)
+            return True
+        else:
+            print("[OBD] ✗ Failed to connect - Adapter found but vehicle not responding", flush=True)
+            print("[OBD] Make sure:", flush=True)
+            print("  - Car ignition is ON (key in ON position or start button pressed)", flush=True)
+            print("  - OBD adapter is fully inserted into port", flush=True)
+            print("  - Wait 10-15 seconds after plugging in adapter", flush=True)
             return False
     
     def disconnect(self):

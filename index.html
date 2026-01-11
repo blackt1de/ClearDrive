@@ -1393,17 +1393,17 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon red"><svg viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg></div>
-                            <div class="stat-value">${data.coolant_temp || '--'}°F</div>
+                            <div class="stat-value" id="live-coolant">${data.coolant_temp || '--'}°F</div>
                             <div class="stat-label">Temp</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon blue"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                            <div class="stat-value">${data.rpm || '--'}</div>
+                            <div class="stat-value" id="live-rpm">${data.rpm || '--'}</div>
                             <div class="stat-label">RPM</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon cyan"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/><circle cx="12" cy="12" r="4"/></svg></div>
-                            <div class="stat-value">${data.speed || '--'}</div>
+                            <div class="stat-value" id="live-speed">${data.speed || '--'}</div>
                             <div class="stat-label">MPH</div>
                         </div>
                         <div class="stat-card full">
@@ -1583,6 +1583,89 @@
 
             // Update UI based on remaining questions - this handles enable/disable
             updateChatRemaining();
+        }
+
+        // Live OBD Data Updates
+        let liveUpdateInterval = null;
+
+        async function updateLiveData() {
+            // Only update if we're in Live OBD mode and results are showing
+            const modeStatus = document.getElementById('mode-status');
+            const liveRpm = document.getElementById('live-rpm');
+            const liveSpeed = document.getElementById('live-speed');
+            const liveCoolant = document.getElementById('live-coolant');
+
+            // Check if elements exist and we're in Live OBD mode
+            if (!liveRpm || !liveSpeed || !liveCoolant || modeStatus.textContent !== 'Live OBD') {
+                return;
+            }
+
+            try {
+                const response = await fetch('/obd/live');
+                const data = await response.json();
+
+                if (data.connected) {
+                    // Update RPM
+                    if (data.rpm !== null && data.rpm !== undefined) {
+                        liveRpm.textContent = data.rpm;
+                    } else {
+                        liveRpm.textContent = '--';
+                    }
+
+                    // Update Speed
+                    if (data.speed !== null && data.speed !== undefined) {
+                        liveSpeed.textContent = data.speed;
+                    } else {
+                        liveSpeed.textContent = '--';
+                    }
+
+                    // Update Coolant Temp
+                    if (data.coolant_temp !== null && data.coolant_temp !== undefined) {
+                        liveCoolant.textContent = data.coolant_temp + '°F';
+                    } else {
+                        liveCoolant.textContent = '--';
+                    }
+                }
+            } catch (error) {
+                // Silently fail - don't spam console
+            }
+        }
+
+        function startLiveUpdates() {
+            if (liveUpdateInterval) {
+                clearInterval(liveUpdateInterval);
+            }
+            // Update every 500ms for responsive RPM changes
+            liveUpdateInterval = setInterval(updateLiveData, 500);
+        }
+
+        function stopLiveUpdates() {
+            if (liveUpdateInterval) {
+                clearInterval(liveUpdateInterval);
+                liveUpdateInterval = null;
+            }
+        }
+
+        // Start live updates when OBD toggle is enabled
+        const originalObdToggleHandler = obdToggle.onchange;
+        obdToggle.addEventListener('change', function() {
+            if (this.checked) {
+                startLiveUpdates();
+            } else {
+                stopLiveUpdates();
+            }
+        });
+
+        // Also start updates when results are displayed (after scan completes)
+        const originalInterpretBtn = document.getElementById('interpretBtn');
+        if (originalInterpretBtn) {
+            originalInterpretBtn.addEventListener('click', function() {
+                const modeStatus = document.getElementById('mode-status');
+                if (modeStatus.textContent === 'Live OBD') {
+                    // Start updates after a short delay to let results render
+                    setTimeout(startLiveUpdates, 1000);
+                }
+            });
         }
     </script>
 </body>

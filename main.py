@@ -1,6 +1,7 @@
 import random
 import urllib.parse
 import httpx
+import obd
 from datetime import datetime
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, Response
@@ -498,10 +499,11 @@ def build_comprehensive_vehicle_context(vehicle_data: dict, trim: str = "") -> s
         lines.append(f"  - Base-level powertrain with standard components")
         lines.append(f"  - Parts are widely available and reasonably priced")
         lines.append(f"  - Any qualified mechanic can service this engine")
-    
-    lines.append(f"  Cost Multiplier: {profile['cost_multiplier']}x compared to economy vehicles")
+
+    # Note: cost_multiplier is used internally for cost estimation guidance
+    # but is NOT shown to the user - keep it as internal logic only
     lines.append("")
-    
+
     # Drivetrain
     drive = vehicle_data.get("drive", "")
     if drive:
@@ -655,8 +657,18 @@ async def obd_status():
             "available_ports": available_ports
         }
     else:
-        # Try auto-connect
-        success = connect_obd()
+        # Try auto-detect first, then common ports
+        success = False
+        for port in [None, "COM3", "COM4", "COM5"]:  # None = auto-detect, then try specific ports
+            print(f"[API] Trying port: {port if port else 'auto-detect'}", flush=True)
+            if port:
+                reader.port = port
+            success = connect_obd(port)
+            if success:
+                print(f"[API] Success on port: {port if port else 'auto-detect'}", flush=True)
+                break
+            print(f"[API] Failed on port: {port if port else 'auto-detect'}", flush=True)
+
         if success:
             return {
                 "connected": True,
@@ -664,11 +676,72 @@ async def obd_status():
                 "available_ports": available_ports
             }
         else:
+            print("[API] All connection attempts failed", flush=True)
             return {
                 "connected": False,
-                "message": "No OBD adapter found. Select a COM port manually or check connection.",
+                "message": "No OBD adapter found on COM3, COM4, or COM5. Select manually or check connection.",
                 "available_ports": available_ports
             }
+
+
+@app.get("/obd/live")
+async def obd_live_data():
+    """Get live OBD data for real-time display."""
+    reader = get_reader()
+
+    if not reader.is_connected():
+        return {
+            "connected": False,
+            "rpm": None,
+            "speed": None,
+            "coolant_temp": None
+        }
+
+    try:
+        # Read live data
+        rpm = None
+        speed = None
+        coolant_temp = None
+
+        # RPM
+        try:
+            rpm_response = reader.connection.query(obd.commands.RPM)
+            if not rpm_response.is_null():
+                rpm = int(rpm_response.value.magnitude)
+        except:
+            pass
+
+        # Speed (convert km/h to mph)
+        try:
+            speed_response = reader.connection.query(obd.commands.SPEED)
+            if not speed_response.is_null():
+                speed = int(speed_response.value.magnitude * 0.621371)
+        except:
+            pass
+
+        # Coolant temp (convert Celsius to Fahrenheit)
+        try:
+            coolant_response = reader.connection.query(obd.commands.COOLANT_TEMP)
+            if not coolant_response.is_null():
+                celsius = coolant_response.value.magnitude
+                coolant_temp = int((celsius * 9/5) + 32)
+        except:
+            pass
+
+        return {
+            "connected": True,
+            "rpm": rpm,
+            "speed": speed,
+            "coolant_temp": coolant_temp
+        }
+    except Exception as e:
+        print(f"[OBD] Error reading live data: {e}", flush=True)
+        return {
+            "connected": False,
+            "rpm": None,
+            "speed": None,
+            "coolant_temp": None
+        }
 
 
 class ImageRequest(BaseModel):
@@ -838,8 +911,16 @@ async def interpret(request: InterpretRequest):
         reader = get_reader()
         # Try to connect if not already connected
         if not reader.is_connected():
-            print("[OBD] Attempting to connect...")
-            connect_obd()
+            print("[OBD] Attempting to connect...", flush=True)
+            # Try auto-detect first, then common ports
+            success = False
+            for port in [None, "COM3", "COM4", "COM5"]:
+                print(f"[OBD] Trying port: {port if port else 'auto-detect'}", flush=True)
+                if port:
+                    reader.port = port
+                success = connect_obd(port)
+                if success:
+                    break
 
         if reader.is_connected():
             snapshot = reader.read_snapshot()
