@@ -1,7 +1,9 @@
 import random
+import urllib.parse
+import httpx
 from datetime import datetime
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
@@ -159,17 +161,137 @@ def parse_guidance(response: str) -> dict:
 def get_mock_snapshot() -> OBDSnapshot:
     """Generate mock OBD data for testing."""
     mock_scenarios = [
+        # No codes
         [],
+        # Catalyst/Emissions
         [DTCCode(code="P0420", description="Catalyst Efficiency Below Threshold")],
+        [DTCCode(code="P0430", description="Catalyst Efficiency Below Threshold Bank 2")],
+        [DTCCode(code="P0421", description="Warm Up Catalyst Efficiency Below Threshold")],
+        # Misfires
         [DTCCode(code="P0300", description="Random Misfire Detected"),
          DTCCode(code="P0301", description="Cylinder 1 Misfire")],
+        [DTCCode(code="P0302", description="Cylinder 2 Misfire"),
+         DTCCode(code="P0303", description="Cylinder 3 Misfire")],
+        [DTCCode(code="P0304", description="Cylinder 4 Misfire")],
+        [DTCCode(code="P0305", description="Cylinder 5 Misfire"),
+         DTCCode(code="P0306", description="Cylinder 6 Misfire")],
+        [DTCCode(code="P0307", description="Cylinder 7 Misfire"),
+         DTCCode(code="P0308", description="Cylinder 8 Misfire")],
+        # Fuel System
         [DTCCode(code="P0171", description="System Too Lean Bank 1")],
-        [DTCCode(code="P0455", description="EVAP System Large Leak")],
-        [DTCCode(code="P0128", description="Coolant Thermostat Below Temp")],
-        [DTCCode(code="P0507", description="Idle Air Control RPM Higher Than Expected")],
-        [DTCCode(code="P0442", description="EVAP System Small Leak")],
-        [DTCCode(code="P0401", description="EGR Flow Insufficient")],
+        [DTCCode(code="P0172", description="System Too Rich Bank 1")],
         [DTCCode(code="P0174", description="System Too Lean Bank 2")],
+        [DTCCode(code="P0175", description="System Too Rich Bank 2")],
+        [DTCCode(code="P0087", description="Fuel Rail Pressure Too Low")],
+        [DTCCode(code="P0088", description="Fuel Rail Pressure Too High")],
+        [DTCCode(code="P0190", description="Fuel Rail Pressure Sensor Circuit")],
+        [DTCCode(code="P0201", description="Injector Circuit Open Cylinder 1")],
+        [DTCCode(code="P0216", description="Injection Timing Control Circuit")],
+        # EVAP System
+        [DTCCode(code="P0455", description="EVAP System Large Leak")],
+        [DTCCode(code="P0442", description="EVAP System Small Leak")],
+        [DTCCode(code="P0440", description="EVAP System Malfunction")],
+        [DTCCode(code="P0446", description="EVAP Vent Control Circuit")],
+        [DTCCode(code="P0456", description="EVAP System Very Small Leak")],
+        [DTCCode(code="P0449", description="EVAP Vent Valve/Solenoid Circuit")],
+        # Cooling System
+        [DTCCode(code="P0128", description="Coolant Thermostat Below Temp")],
+        [DTCCode(code="P0115", description="Engine Coolant Temp Circuit")],
+        [DTCCode(code="P0116", description="Engine Coolant Temp Range/Performance")],
+        [DTCCode(code="P0117", description="Engine Coolant Temp Circuit Low")],
+        [DTCCode(code="P0118", description="Engine Coolant Temp Circuit High")],
+        [DTCCode(code="P0125", description="Insufficient Coolant Temp for Fuel Control")],
+        # Oxygen Sensors
+        [DTCCode(code="P0130", description="O2 Sensor Circuit Bank 1 Sensor 1")],
+        [DTCCode(code="P0131", description="O2 Sensor Low Voltage Bank 1 Sensor 1")],
+        [DTCCode(code="P0132", description="O2 Sensor High Voltage Bank 1 Sensor 1")],
+        [DTCCode(code="P0133", description="O2 Sensor Slow Response Bank 1 Sensor 1")],
+        [DTCCode(code="P0134", description="O2 Sensor No Activity Bank 1 Sensor 1")],
+        [DTCCode(code="P0135", description="O2 Sensor Heater Circuit Bank 1 Sensor 1")],
+        [DTCCode(code="P0136", description="O2 Sensor Circuit Bank 1 Sensor 2")],
+        [DTCCode(code="P0141", description="O2 Sensor Heater Circuit Bank 1 Sensor 2")],
+        [DTCCode(code="P0150", description="O2 Sensor Circuit Bank 2 Sensor 1")],
+        [DTCCode(code="P0155", description="O2 Sensor Heater Circuit Bank 2 Sensor 1")],
+        # MAF/MAP Sensors
+        [DTCCode(code="P0100", description="MAF Sensor Circuit")],
+        [DTCCode(code="P0101", description="MAF Sensor Range/Performance")],
+        [DTCCode(code="P0102", description="MAF Sensor Circuit Low")],
+        [DTCCode(code="P0103", description="MAF Sensor Circuit High")],
+        [DTCCode(code="P0105", description="MAP Sensor Circuit")],
+        [DTCCode(code="P0106", description="MAP Sensor Range/Performance")],
+        [DTCCode(code="P0107", description="MAP Sensor Circuit Low")],
+        [DTCCode(code="P0108", description="MAP Sensor Circuit High")],
+        # Throttle/Idle
+        [DTCCode(code="P0507", description="Idle Air Control RPM Higher Than Expected")],
+        [DTCCode(code="P0506", description="Idle Air Control RPM Lower Than Expected")],
+        [DTCCode(code="P0505", description="Idle Air Control System")],
+        [DTCCode(code="P0120", description="Throttle Position Sensor Circuit")],
+        [DTCCode(code="P0121", description="Throttle Position Sensor Range/Performance")],
+        [DTCCode(code="P0122", description="Throttle Position Sensor Circuit Low")],
+        [DTCCode(code="P0123", description="Throttle Position Sensor Circuit High")],
+        [DTCCode(code="P2135", description="Throttle Position Sensor Correlation")],
+        # EGR System
+        [DTCCode(code="P0401", description="EGR Flow Insufficient")],
+        [DTCCode(code="P0402", description="EGR Flow Excessive")],
+        [DTCCode(code="P0400", description="EGR System Flow")],
+        [DTCCode(code="P0403", description="EGR Control Circuit")],
+        [DTCCode(code="P0404", description="EGR Control Circuit Range/Performance")],
+        # Ignition System
+        [DTCCode(code="P0351", description="Ignition Coil A Primary Circuit")],
+        [DTCCode(code="P0352", description="Ignition Coil B Primary Circuit")],
+        [DTCCode(code="P0353", description="Ignition Coil C Primary Circuit")],
+        [DTCCode(code="P0354", description="Ignition Coil D Primary Circuit")],
+        [DTCCode(code="P0355", description="Ignition Coil E Primary Circuit")],
+        [DTCCode(code="P0356", description="Ignition Coil F Primary Circuit")],
+        [DTCCode(code="P0357", description="Ignition Coil G Primary Circuit")],
+        [DTCCode(code="P0358", description="Ignition Coil H Primary Circuit")],
+        # Crankshaft/Camshaft
+        [DTCCode(code="P0335", description="Crankshaft Position Sensor Circuit")],
+        [DTCCode(code="P0336", description="Crankshaft Position Sensor Range/Performance")],
+        [DTCCode(code="P0340", description="Camshaft Position Sensor Circuit")],
+        [DTCCode(code="P0341", description="Camshaft Position Sensor Range/Performance")],
+        [DTCCode(code="P0345", description="Camshaft Position Sensor Circuit Bank 2")],
+        # VVT/Timing
+        [DTCCode(code="P0010", description="Intake Camshaft Position Actuator Circuit")],
+        [DTCCode(code="P0011", description="Intake Camshaft Position Timing Over-Advanced")],
+        [DTCCode(code="P0012", description="Intake Camshaft Position Timing Over-Retarded")],
+        [DTCCode(code="P0013", description="Exhaust Camshaft Position Actuator Circuit")],
+        [DTCCode(code="P0014", description="Exhaust Camshaft Position Timing Over-Advanced")],
+        # Knock Sensor
+        [DTCCode(code="P0325", description="Knock Sensor 1 Circuit")],
+        [DTCCode(code="P0327", description="Knock Sensor 1 Circuit Low")],
+        [DTCCode(code="P0328", description="Knock Sensor 1 Circuit High")],
+        [DTCCode(code="P0330", description="Knock Sensor 2 Circuit")],
+        # Transmission
+        [DTCCode(code="P0700", description="Transmission Control System")],
+        [DTCCode(code="P0715", description="Input/Turbine Speed Sensor Circuit")],
+        [DTCCode(code="P0720", description="Output Speed Sensor Circuit")],
+        [DTCCode(code="P0730", description="Incorrect Gear Ratio")],
+        [DTCCode(code="P0740", description="Torque Converter Clutch Circuit")],
+        [DTCCode(code="P0750", description="Shift Solenoid A")],
+        [DTCCode(code="P0755", description="Shift Solenoid B")],
+        [DTCCode(code="P0760", description="Shift Solenoid C")],
+        [DTCCode(code="P0765", description="Shift Solenoid D")],
+        # SERIOUS - Stop driving
+        [DTCCode(code="P0217", description="Engine Overheating Condition")],
+        [DTCCode(code="P0218", description="Transmission Fluid Overheating")],
+        [DTCCode(code="P0520", description="Engine Oil Pressure Sensor Circuit")],
+        [DTCCode(code="P0521", description="Engine Oil Pressure Range/Performance")],
+        [DTCCode(code="P0522", description="Engine Oil Pressure Sensor Low")],
+        [DTCCode(code="P0523", description="Engine Oil Pressure Sensor High")],
+        [DTCCode(code="P0524", description="Engine Oil Pressure Too Low")],
+        # Multiple codes scenarios
+        [DTCCode(code="P0171", description="System Too Lean Bank 1"),
+         DTCCode(code="P0174", description="System Too Lean Bank 2")],
+        [DTCCode(code="P0300", description="Random Misfire"),
+         DTCCode(code="P0420", description="Catalyst Efficiency Below Threshold")],
+        [DTCCode(code="P0172", description="System Too Rich Bank 1"),
+         DTCCode(code="P0175", description="System Too Rich Bank 2")],
+        [DTCCode(code="P0135", description="O2 Heater Circuit Bank 1"),
+         DTCCode(code="P0141", description="O2 Heater Circuit Bank 1 Sensor 2")],
+        [DTCCode(code="P0011", description="Camshaft Timing Over-Advanced"),
+         DTCCode(code="P0014", description="Exhaust Cam Timing Over-Advanced"),
+         DTCCode(code="P0300", description="Random Misfire")],
     ]
     
     return OBDSnapshot(
@@ -453,26 +575,99 @@ async def health():
     return {"status": "ok", "ollama": ollama_status}
 
 
+@app.get("/obd/ports")
+async def obd_ports():
+    """List available COM ports for OBD adapter."""
+    try:
+        import serial.tools.list_ports
+        ports = list(serial.tools.list_ports.comports())
+        return {
+            "ports": [
+                {
+                    "device": p.device,
+                    "description": p.description,
+                    "hwid": p.hwid
+                }
+                for p in ports
+            ]
+        }
+    except ImportError:
+        return {"ports": [], "error": "pyserial not installed"}
+    except Exception as e:
+        return {"ports": [], "error": str(e)}
+
+
+class OBDConnectRequest(BaseModel):
+    port: Optional[str] = None  # COM port like "COM3", None for auto-detect
+
+
+@app.post("/obd/connect")
+async def obd_connect(request: OBDConnectRequest):
+    """Connect to OBD adapter on specified port."""
+    reader = get_reader()
+
+    # Disconnect first if already connected
+    if reader.is_connected():
+        reader.disconnect()
+
+    # Set port if specified
+    if request.port:
+        reader.port = request.port
+        print(f"[OBD] Attempting connection on {request.port}...")
+    else:
+        reader.port = None
+        print("[OBD] Attempting auto-detect...")
+
+    success = reader.connect()
+
+    if success:
+        return {
+            "connected": True,
+            "port": reader.connection.port_name() if reader.connection else request.port,
+            "message": f"Connected to {reader.connection.port_name()}" if reader.connection else "Connected"
+        }
+    else:
+        return {
+            "connected": False,
+            "port": request.port,
+            "message": f"Failed to connect{' to ' + request.port if request.port else ' (auto-detect failed)'}"
+        }
+
+
 @app.get("/obd/status")
 async def obd_status():
     """Check if OBD adapter is connected."""
     reader = get_reader()
+
+    # Get available ports for UI
+    available_ports = []
+    try:
+        import serial.tools.list_ports
+        ports = list(serial.tools.list_ports.comports())
+        available_ports = [{"device": p.device, "description": p.description} for p in ports]
+    except:
+        pass
+
     if reader.is_connected():
         return {
             "connected": True,
-            "port": reader.connection.port_name() if reader.connection else "Unknown"
+            "port": reader.connection.port_name() if reader.connection else "Unknown",
+            "available_ports": available_ports
         }
     else:
+        # Try auto-connect
         success = connect_obd()
         if success:
             return {
                 "connected": True,
-                "port": reader.connection.port_name() if reader.connection else "Unknown"
+                "port": reader.connection.port_name() if reader.connection else "Unknown",
+                "available_ports": available_ports
             }
         else:
             return {
                 "connected": False,
-                "message": "No OBD adapter found. Make sure it's plugged in and paired via Bluetooth."
+                "message": "No OBD adapter found. Select a COM port manually or check connection.",
+                "available_ports": available_ports
             }
 
 
@@ -480,6 +675,7 @@ class ImageRequest(BaseModel):
     year: str
     make: str
     model: str
+    trim: Optional[str] = ""
 
 
 @app.post("/trims")
@@ -492,16 +688,141 @@ async def get_trims(request: TrimRequest):
 @app.post("/vehicle-image")
 async def vehicle_image(request: ImageRequest):
     """Get a vehicle image from CarsXE API."""
-    image_data = await get_vehicle_image(request.year, request.make, request.model)
+    print(f"[Image API] Request: {request.year} {request.make} {request.model} trim='{request.trim}'")
+    image_data = await get_vehicle_image(request.year, request.make, request.model, request.trim or "")
     if image_data:
+        # Return a proxied URL to avoid CORS issues
+        original_url = image_data.get("url", "")
+        thumbnail_url = image_data.get("thumbnail", "")
+
+        if original_url:
+            proxied_url = f"/image-proxy?url={urllib.parse.quote(original_url, safe='')}"
+            # Always provide thumbnail as fallback in case main image is Cloudflare blocked
+            if thumbnail_url:
+                proxied_url += f"&fallback={urllib.parse.quote(thumbnail_url, safe='')}"
+        else:
+            proxied_url = ""
         return {
             "success": True,
-            "url": image_data.get("url", ""),
+            "url": proxied_url,
             "width": image_data.get("width", 0),
             "height": image_data.get("height", 0),
-            "thumbnail": image_data.get("thumbnail", "")
+            "thumbnail": thumbnail_url
         }
     return {"success": False, "url": "", "message": "No image found"}
+
+
+@app.get("/image-proxy")
+async def image_proxy(url: str, fallback: str = None):
+    """Proxy external images to avoid CORS issues."""
+    print(f"[Image Proxy] Fetching: {url[:80]}...")
+    if fallback:
+        print(f"[Image Proxy] Has fallback: {fallback[:60]}...")
+
+    # Extract domain from URL for referer
+    from urllib.parse import urlparse
+    parsed = urlparse(url)
+    domain = f"{parsed.scheme}://{parsed.netloc}"
+
+    # Try multiple header configurations - order matters, most likely to work first
+    header_configs = [
+        # Config 1: Full browser headers with groovecar referer (curl test showed this works)
+        {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "image/webp,image/apng,image/png,image/*,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Referer": "https://www.groovecar.com/",
+            "Connection": "keep-alive",
+        },
+        # Config 2: Use same domain as referer
+        {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "image/webp,image/apng,image/*,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Referer": domain + "/",
+        },
+        # Config 3: Google Images referer (often allowed)
+        {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "image/webp,image/apng,image/*,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Referer": "https://www.google.com/"
+        },
+        # Config 4: Minimal headers - some CDNs prefer simplicity
+        {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "*/*",
+        },
+        # Config 5: curl-like (no extra headers)
+        {
+            "User-Agent": "curl/8.0",
+        }
+    ]
+
+    for i, headers in enumerate(header_configs):
+        try:
+            async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
+                response = await client.get(url, headers=headers)
+                # Log more details for debugging
+                resp_headers = dict(response.headers)
+                cf_ray = resp_headers.get('cf-ray', 'none')
+                print(f"[Image Proxy] Config {i+1} response: {response.status_code} (CF-Ray: {cf_ray})")
+
+                if response.status_code == 200:
+                    content_type = response.headers.get("content-type", "image/png")
+                    # Verify we got actual image content, not an error page
+                    if content_type.startswith("image/") and len(response.content) > 1000:
+                        print(f"[Image Proxy] Success! Content-Type: {content_type}, Size: {len(response.content)} bytes")
+                        return Response(
+                            content=response.content,
+                            media_type=content_type,
+                            headers={"Cache-Control": "public, max-age=86400"}  # Cache for 1 day
+                        )
+                    else:
+                        print(f"[Image Proxy] Got 200 but content suspicious: {content_type}, {len(response.content)} bytes")
+                        continue
+                elif response.status_code in (403, 401, 404, 503):
+                    # Try all configs for stubborn sources like groovecar
+                    # Log response body snippet for debugging CF issues
+                    body_preview = response.text[:200] if response.text else "(empty)"
+                    print(f"[Image Proxy] Config {i+1} got {response.status_code}: {body_preview[:100]}...")
+                    continue
+                else:
+                    print(f"[Image Proxy] Failed with status {response.status_code}")
+                    continue  # Try next config
+        except Exception as e:
+            print(f"[Image Proxy] Config {i+1} error: {type(e).__name__}: {e}")
+            continue
+
+    # Try fallback URL if provided (e.g., Google cached thumbnail for groovecar)
+    if fallback:
+        print(f"[Image Proxy] Trying fallback URL: {fallback[:60]}...")
+        try:
+            async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
+                response = await client.get(fallback, headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                    "Accept": "image/*,*/*",
+                })
+                if response.status_code == 200:
+                    content_type = response.headers.get("content-type", "image/jpeg")
+                    if len(response.content) > 500:
+                        print(f"[Image Proxy] Fallback SUCCESS! Size: {len(response.content)} bytes")
+                        return Response(
+                            content=response.content,
+                            media_type=content_type,
+                            headers={"Cache-Control": "public, max-age=86400"}
+                        )
+        except Exception as e:
+            print(f"[Image Proxy] Fallback error: {e}")
+
+    # Return a 1x1 transparent PNG on error
+    print(f"[Image Proxy] All configs failed for: {url[:60]}...")
+    return Response(
+        content=b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\nIDATx\x9cc\x00\x01\x00\x00\x05\x00\x01\r\n-\xb4\x00\x00\x00\x00IEND\xaeB`\x82',
+        media_type="image/png",
+        status_code=404
+    )
 
 
 @app.post("/interpret")
@@ -1016,6 +1337,16 @@ RULES:
 - Use the horsepower, MSRP, and trim info to give accurate answers
 - 3-5 sentences unless steps are needed
 - English only
+
+CRITICAL - MATCH SAFETY LEVEL WITH DRIVING ADVICE:
+The safety level is {safety}. Your driving advice MUST match this:
+- SAFE = Can drive normally for weeks/months, no rush
+- CAUTION = Safe to drive short distances, but schedule service within 1-2 weeks. DON'T say "don't drive" or "avoid driving" - they CAN drive!
+- STOP = Should NOT drive at all (except to mechanic). Only say "don't drive" if safety level is STOP.
+
+If someone asks "can I drive?" or similar:
+- CAUTION: "Yes, you can drive but schedule service soon" NOT "I wouldn't recommend driving"
+- STOP: "No, you should go straight to a mechanic or have it towed"
 
 [VEHICLE DETAILS]
 {vehicle_context}
