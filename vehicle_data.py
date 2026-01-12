@@ -1026,6 +1026,90 @@ async def decode_obd_codes_batch(codes: list) -> dict:
     return results
 
 
+async def decode_vin(vin: str) -> dict:
+    """
+    Decode a VIN using CarsXE VIN Decoder API.
+    Returns vehicle information including year, make, model, trim, engine specs.
+
+    Args:
+        vin: 17-character Vehicle Identification Number
+
+    Returns:
+        dict with keys: success, year, make, model, trim, engine, etc.
+        Returns {"success": False} if decode fails or VIN is invalid
+    """
+    if not vin or len(vin) != 17:
+        print(f"[CarsXE] Invalid VIN length: {len(vin) if vin else 0}")
+        return {"success": False, "error": "Invalid VIN"}
+
+    vin = vin.upper().strip()
+    cache = load_cache()
+
+    # Check cache - VIN decodes never expire
+    if "vin_decodes" not in cache:
+        cache["vin_decodes"] = {}
+
+    if vin in cache["vin_decodes"]:
+        print(f"[CarsXE] Using cached VIN decode for {vin}")
+        return cache["vin_decodes"][vin]
+
+    print(f"[CarsXE] Decoding VIN {vin}...")
+
+    try:
+        url = f"{CARSXE_BASE}/specs"
+        params = {
+            "key": CARSXE_API_KEY,
+            "vin": vin
+        }
+
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            response = await client.get(url, params=params, headers=HEADERS)
+
+            if response.status_code == 200:
+                data = response.json()
+
+                # Extract relevant fields from CarsXE response
+                if data and isinstance(data, list) and len(data) > 0:
+                    vehicle = data[0]  # First result
+
+                    result = {
+                        "success": True,
+                        "vin": vin,
+                        "year": str(vehicle.get("year", "")),
+                        "make": vehicle.get("make", ""),
+                        "model": vehicle.get("model", ""),
+                        "trim": vehicle.get("trim", ""),
+                        "engine": vehicle.get("engine", ""),
+                        "cylinders": vehicle.get("cylinders", ""),
+                        "displacement": vehicle.get("displacement", ""),
+                        "drive": vehicle.get("drive", ""),
+                        "transmission": vehicle.get("transmission", ""),
+                        "fuel_type": vehicle.get("fuel_type", ""),
+                        "body": vehicle.get("body", ""),
+                        "raw_data": vehicle  # Store full response
+                    }
+
+                    # Cache the result (never expires)
+                    cache["vin_decodes"][vin] = result
+                    save_cache(cache)
+
+                    print(f"[CarsXE] ✓ VIN decoded: {result['year']} {result['make']} {result['model']} {result['trim']}")
+                    return result
+                else:
+                    print(f"[CarsXE] No data returned for VIN {vin}")
+                    error_result = {"success": False, "vin": vin, "error": "No data found"}
+                    cache["vin_decodes"][vin] = error_result
+                    save_cache(cache)
+                    return error_result
+            else:
+                print(f"[CarsXE] VIN decode failed: HTTP {response.status_code}")
+                return {"success": False, "vin": vin, "error": f"HTTP {response.status_code}"}
+
+    except Exception as e:
+        print(f"[CarsXE] VIN decode error: {type(e).__name__}: {e}")
+        return {"success": False, "vin": vin, "error": str(e)}
+
+
 if __name__ == "__main__":
     import sys
     import asyncio
