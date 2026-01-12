@@ -4,7 +4,7 @@ import httpx
 import obd
 from datetime import datetime
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, Response, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
@@ -569,6 +569,21 @@ def build_comprehensive_vehicle_context(vehicle_data: dict, trim: str = "") -> s
 async def home():
     with open("index.html", "r", encoding="utf-8") as f:
         return f.read()
+
+
+@app.get("/manifest.json")
+async def manifest():
+    return FileResponse("manifest.json", media_type="application/manifest+json")
+
+
+@app.get("/sw.js")
+async def service_worker():
+    return FileResponse("sw.js", media_type="application/javascript")
+
+
+@app.get("/icons/{icon_name}")
+async def icons(icon_name: str):
+    return FileResponse(f"icons/{icon_name}", media_type="image/png")
 
 
 @app.get("/health")
@@ -1470,4 +1485,4 @@ async def get_safety_definitions():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
