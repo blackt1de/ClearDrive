@@ -759,6 +759,49 @@ async def obd_live_data():
         }
 
 
+@app.get("/obd/read-vin")
+async def obd_read_vin():
+    """
+    Read VIN from connected OBD adapter and decode it.
+    Returns vehicle information if successful, or error if VIN reading fails.
+    """
+    reader = get_reader()
+
+    if not reader.is_connected():
+        return {
+            "success": False,
+            "error": "OBD adapter not connected"
+        }
+
+    # Read VIN with 5-second timeout
+    vin = reader.read_vin(timeout=5.0)
+
+    if not vin:
+        return {
+            "success": False,
+            "error": "VIN not available"
+        }
+
+    # Decode VIN using CarsXE API
+    from vehicle_data import decode_vin
+    vehicle_info = await decode_vin(vin)
+
+    return vehicle_info
+
+
+class VinDecodeRequest(BaseModel):
+    vin: str
+
+
+@app.post("/vin/decode")
+async def decode_vin_endpoint(request: VinDecodeRequest):
+    """
+    Decode a VIN manually (for fallback when OBD reading fails).
+    """
+    from vehicle_data import decode_vin
+    return await decode_vin(request.vin)
+
+
 class ImageRequest(BaseModel):
     year: str
     make: str

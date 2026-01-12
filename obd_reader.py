@@ -153,10 +153,10 @@ class OBDReader:
     def get_vehicle_info(self) -> dict:
         """Get vehicle identification info if available."""
         info = {}
-        
+
         if not self.is_connected():
             return info
-        
+
         try:
             # VIN (not all vehicles support this)
             vin_response = self.connection.query(obd.commands.VIN)
@@ -164,8 +164,47 @@ class OBDReader:
                 info["vin"] = vin_response.value
         except:
             pass
-        
+
         return info
+
+    def read_vin(self, timeout: float = 5.0) -> Optional[str]:
+        """
+        Read VIN from vehicle with timeout.
+        Returns VIN string if successful, None if failed/unsupported.
+        """
+        if not self.is_connected():
+            print("[OBD] Not connected - cannot read VIN", flush=True)
+            return None
+
+        print("[OBD] Reading VIN...", flush=True)
+
+        # Use threading for timeout control
+        result = {"vin": None, "completed": False}
+
+        def _read_vin():
+            try:
+                vin_response = self.connection.query(obd.commands.VIN)
+                if not vin_response.is_null() and vin_response.value:
+                    result["vin"] = str(vin_response.value).strip()
+                result["completed"] = True
+            except Exception as e:
+                print(f"[OBD] VIN read exception: {e}", flush=True)
+                result["completed"] = True
+
+        thread = threading.Thread(target=_read_vin, daemon=True)
+        thread.start()
+        thread.join(timeout=timeout)
+
+        if not result["completed"]:
+            print("[OBD] VIN read timed out - vehicle may not support VIN reading", flush=True)
+            return None
+
+        if result["vin"]:
+            print(f"[OBD] ✓ VIN read successfully: {result['vin']}", flush=True)
+            return result["vin"]
+        else:
+            print("[OBD] VIN not available from this vehicle", flush=True)
+            return None
 
 
 # Global reader instance
