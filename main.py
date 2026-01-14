@@ -9,7 +9,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
 from schemas import DTCCode, OBDSnapshot
-from ollama_client import ask_ollama, check_ollama
+# Use Groq for AI (faster than Ollama, cloud-based)
+# Set GROQ_API_KEY environment variable with your key from https://console.groq.com
+from groq_client import ask_ollama, check_ollama
 from database import init_db, log_scan, get_recent_scans
 from obd_reader import get_reader, connect_obd
 from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context, decode_obd_codes_batch
@@ -64,6 +66,12 @@ class InterpretRequest(BaseModel):
     vehicle_id: str
     trim: Optional[str] = ""
     use_live_obd: Optional[bool] = False
+    # Client-provided OBD data (from phone's Bluetooth connection)
+    client_codes: Optional[List[str]] = None
+    client_rpm: Optional[int] = None
+    client_speed: Optional[int] = None
+    client_coolant_temp: Optional[int] = None
+    obd_source: Optional[str] = None
 
 
 class FollowUpRequest(BaseModel):
@@ -96,20 +104,31 @@ def parse_guidance(response: str) -> dict:
         "SAFETY LEVEL": "safety_level",
         "DON'T PANIC": "dont_panic",
         "WHAT'S HAPPENING": "dont_panic",
+        "WHATS HAPPENING": "dont_panic",
         "LIKELY CAUSES": "likely_causes",
+        "POSSIBLE CAUSES": "likely_causes",
         "WHAT YOU MIGHT NOTICE": "symptoms",
+        "SYMPTOMS": "symptoms",
         "IF YOU IGNORE": "if_ignored",
+        "CONSEQUENCES": "if_ignored",
         "QUICK CHECKS": "quick_checks",
+        "CHECKS YOU CAN DO": "quick_checks",
         "DIY FIX": "diy_fix",
         "DIY REPAIR": "diy_fix",
+        "DO IT YOURSELF": "diy_fix",
         "MECHANIC URGENCY": "urgency",
         "WHEN TO SEE": "urgency",
+        "SEE A MECHANIC": "urgency",
         "REPAIR COST": "repair_cost",
         "ESTIMATED COST": "repair_cost",
+        "COST ESTIMATE": "repair_cost",
         "KNOWN ISSUES": "known_issues",
         "DATABASE": "known_issues",
+        "ENGINE ISSUES": "known_issues",
+        "COMMON ISSUES": "known_issues",
         "OTHER OWNERS": "owner_reports",
-        "COMMUNITY": "owner_reports"
+        "COMMUNITY": "owner_reports",
+        "OWNER REPORTS": "owner_reports"
     }
     
     for line in lines:
@@ -588,8 +607,44 @@ async def icons(icon_name: str):
 
 @app.get("/health")
 async def health():
-    ollama_status = await check_ollama()
-    return {"status": "ok", "ollama": ollama_status}
+    ai_status = await check_ollama()
+    return {"status": "ok", "ai": ai_status}
+
+
+@app.get("/demo/snapshot")
+async def demo_snapshot():
+    """
+    Demo endpoint for testing - returns random mock OBD data.
+    Use this to test the iOS app without real OBD hardware.
+    """
+    snapshot = get_mock_snapshot()
+    return {
+        "timestamp": snapshot.timestamp.isoformat(),
+        "dtc_codes": [{"code": c.code, "description": c.description} for c in snapshot.dtc_codes],
+        "rpm": snapshot.rpm,
+        "speed_mph": snapshot.speed_mph,
+        "coolant_temp_f": snapshot.coolant_temp_f,
+        "is_mock": True
+    }
+
+
+@app.get("/demo/vehicle")
+async def demo_vehicle():
+    """
+    Demo endpoint - returns a sample vehicle for testing.
+    """
+    return {
+        "success": True,
+        "vin": "1HGBH41JXMN109186",
+        "year": "2021",
+        "make": "Honda",
+        "model": "Accord",
+        "trim": "Sport",
+        "engine": "1.5L Turbo I4",
+        "drive": "FWD",
+        "transmission": "CVT",
+        "fuel_type": "Gasoline"
+    }
 
 
 @app.get("/obd/ports")
@@ -807,6 +862,7 @@ class ImageRequest(BaseModel):
     make: str
     model: str
     trim: Optional[str] = ""
+    color: Optional[str] = None
 
 
 @app.post("/trims")
@@ -819,8 +875,8 @@ async def get_trims(request: TrimRequest):
 @app.post("/vehicle-image")
 async def vehicle_image(request: ImageRequest):
     """Get a vehicle image from CarsXE API."""
-    print(f"[Image API] Request: {request.year} {request.make} {request.model} trim='{request.trim}'")
-    image_data = await get_vehicle_image(request.year, request.make, request.model, request.trim or "")
+    print(f"[Image API] Request: {request.year} {request.make} {request.model} trim='{request.trim}' color='{request.color or 'none'}'")
+    image_data = await get_vehicle_image(request.year, request.make, request.model, request.trim or "", request.color)
     if image_data:
         # Return a proxied URL to avoid CORS issues
         original_url = image_data.get("url", "")
@@ -960,12 +1016,41 @@ async def image_proxy(url: str, fallback: str = None):
 async def interpret(request: InterpretRequest):
     """
     Main diagnostic endpoint with DEEP trim-specific personalization.
-    Uses engine characteristics (displacement, forced induction, cylinders) 
+    Uses engine characteristics (displacement, forced induction, cylinders)
     to provide highly relevant diagnostics.
+
+    Supports three modes:
+    1. Client-provided OBD data (from phone's Bluetooth connection)
+    2. Server-side live OBD reading
+    3. Demo mode with mock data
     """
-    
-    # Get OBD snapshot
-    if request.use_live_obd:
+
+    # Check if client provided OBD data (from phone's Bluetooth)
+    if request.client_codes is not None:
+        # Use client-provided data
+        print(f"[OBD] Using client-provided data: {len(request.client_codes)} codes", flush=True)
+
+        class ClientDTC:
+            def __init__(self, code):
+                self.code = code
+                self.description = ""  # Will be filled by decode_obd_codes_batch
+
+        class ClientSnapshot:
+            def __init__(self, codes, rpm, speed, coolant):
+                self.dtc_codes = [ClientDTC(c) for c in codes]
+                self.rpm = rpm
+                self.speed_mph = speed
+                self.coolant_temp_f = coolant
+
+        snapshot = ClientSnapshot(
+            codes=request.client_codes,
+            rpm=request.client_rpm,
+            speed=request.client_speed,
+            coolant=request.client_coolant_temp
+        )
+        obd_source = request.obd_source or "Bluetooth (iOS)"
+    elif request.use_live_obd:
+        # Server-side OBD reading
         reader = get_reader()
         # Try to connect if not already connected
         if not reader.is_connected():
@@ -1006,6 +1091,19 @@ async def interpret(request: InterpretRequest):
     # Build comprehensive vehicle context
     vehicle_context = build_comprehensive_vehicle_context(vehicle_data, trim)
     
+    # Fetch vehicle image
+    vehicle_image_url = None
+    if vehicle_data:
+        year = vehicle_data.get("year", "")
+        make = vehicle_data.get("make", "")
+        model = vehicle_data.get("model", "")
+        image_data = await get_vehicle_image(year, make, model, trim)
+        if image_data and image_data.get("url"):
+            # Return proxied URL to avoid CORS issues
+            original_url = image_data.get("url", "")
+            vehicle_image_url = f"/image-proxy?url={urllib.parse.quote(original_url, safe='')}"
+            print(f"[Interpret] Vehicle image URL: {vehicle_image_url[:60]}...")
+
     # Initialize response
     response_data = {
         "codes": [],
@@ -1038,7 +1136,8 @@ async def interpret(request: InterpretRequest):
         "owner_reports": "",
         "data_sources": [],
         "obd_source": obd_source,
-        "trim": trim
+        "trim": trim,
+        "vehicleImageURL": vehicle_image_url
     }
     
     if vehicle_data:
