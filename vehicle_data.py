@@ -24,22 +24,35 @@ HEADERS = {
 
 
 IMAGE_CACHE_VERSION = 24  # Bump this to invalidate all cached images
+TRIMS_CACHE_VERSION = 6   # Bump this to invalidate all cached trims (v6: added MPG, tank capacity, torque, colors)
 
 def load_cache() -> dict:
     if CACHE_FILE.exists():
         try:
             with open(CACHE_FILE, "r") as f:
                 cache = json.load(f)
+                needs_save = False
+
                 # Check if image cache needs to be invalidated due to version change
                 if cache.get("image_cache_version", 1) < IMAGE_CACHE_VERSION:
                     print(f"[Cache] Clearing old image cache (version {cache.get('image_cache_version', 1)} -> {IMAGE_CACHE_VERSION})")
                     cache["images"] = {}
                     cache["image_cache_version"] = IMAGE_CACHE_VERSION
+                    needs_save = True
+
+                # Check if trims cache needs to be invalidated due to version change
+                if cache.get("trims_cache_version", 1) < TRIMS_CACHE_VERSION:
+                    print(f"[Cache] Clearing old trims cache (version {cache.get('trims_cache_version', 1)} -> {TRIMS_CACHE_VERSION})")
+                    cache["trims"] = {}
+                    cache["trims_cache_version"] = TRIMS_CACHE_VERSION
+                    needs_save = True
+
+                if needs_save:
                     save_cache(cache)
                 return cache
         except:
             pass
-    return {"vehicles": {}, "trims": {}, "images": {}, "image_cache_version": IMAGE_CACHE_VERSION, "last_updated": None}
+    return {"vehicles": {}, "trims": {}, "images": {}, "image_cache_version": IMAGE_CACHE_VERSION, "trims_cache_version": TRIMS_CACHE_VERSION, "last_updated": None}
 
 
 def save_cache(data: dict):
@@ -137,12 +150,66 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                 else:
                     brand_trim_name = trim_name.split()[0] if trim_name else "Base"
 
+                # Extract transmission from trim name (e.g., "6M" = 6-speed Manual, "6A" = 6-speed Auto)
+                transmission_from_name = ""
+                name_lower_trans = trim_name.lower()
+
+                # Check for DCT/dual-clutch first (e.g., "7DCT", "7-speed DCT", "M DCT")
+                dct_match = re.search(r'(\d+)[\s-]?(?:speed\s+)?(?:dct|dual[\s-]?clutch|m[\s-]?dct|s[\s-]?tronic|pdk)', name_lower_trans)
+                if dct_match:
+                    transmission_from_name = f"{dct_match.group(1)}-Speed DCT"
+                elif "dct" in name_lower_trans or "dual clutch" in name_lower_trans or "dual-clutch" in name_lower_trans:
+                    transmission_from_name = "DCT (Dual-Clutch)"
+                elif "pdk" in name_lower_trans:
+                    transmission_from_name = "PDK (Dual-Clutch)"
+                elif "s-tronic" in name_lower_trans or "s tronic" in name_lower_trans:
+                    transmission_from_name = "S-Tronic (Dual-Clutch)"
+                elif "smg" in name_lower_trans:
+                    # BMW Sequential Manual Gearbox
+                    smg_match = re.search(r'(\d+)[\s-]?(?:speed\s+)?smg', name_lower_trans)
+                    if smg_match:
+                        transmission_from_name = f"{smg_match.group(1)}-Speed SMG"
+                    else:
+                        transmission_from_name = "SMG (Sequential)"
+                # Check for CVT/eCVT (common in hybrids like Prius)
+                elif "ecvt" in name_lower_trans or "e-cvt" in name_lower_trans:
+                    transmission_from_name = "eCVT (Electronic CVT)"
+                elif "cvt" in name_lower_trans:
+                    transmission_from_name = "CVT"
+                else:
+                    # Standard patterns from trim names like "(3.0L 6cyl Turbo 8AM)"
+                    # - "6M" = 6-speed Manual
+                    # - "6A" = 6-speed Automatic
+                    # - "8AM" = 8-speed Automated Manual (DCT/PDK)
+
+                    # Check for Automated Manual first (e.g., "8AM" = DCT/PDK)
+                    am_match = re.search(r'(\d+)AM\b', trim_name)
+                    if am_match:
+                        transmission_from_name = f"{am_match.group(1)}-Speed DCT"
+                    else:
+                        # Check for plain Manual (e.g., "7M") - must NOT be followed by another letter
+                        manual_match = re.search(r'(\d+)M\b(?!T)', trim_name)  # M but not MT (manual transmission)
+                        if manual_match:
+                            transmission_from_name = f"{manual_match.group(1)}-Speed Manual"
+                        else:
+                            # Check for Automatic (e.g., "8A")
+                            auto_match = re.search(r'(\d+)A\b(?!M)', trim_name)  # A but not AM
+                            if auto_match:
+                                transmission_from_name = f"{auto_match.group(1)}-Speed Automatic"
+                            else:
+                                # Try alternate patterns like "6-spd man" or "auto"
+                                if re.search(r'\bmanual\b', trim_name, re.I):
+                                    transmission_from_name = "Manual"
+                                elif re.search(r'\bauto\b|\bautomatic\b', trim_name, re.I):
+                                    transmission_from_name = "Automatic"
+
                 # Add to group
                 if brand_trim_name not in trim_groups:
                     trim_groups[brand_trim_name] = []
                 trim_groups[brand_trim_name].append({
                     "full_name": trim_name,
                     "body_style": body_style_from_name,
+                    "transmission": transmission_from_name,
                     "raw_data": trim_data
                 })
 
@@ -159,9 +226,32 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                 engine_size = trim_data.get("engine_size", "")
                 cylinders = trim_data.get("cylinders", "")
                 horsepower = trim_data.get("horsepower", "")
+                torque = ""
                 fuel_type_raw = trim_data.get("fuel_type", "")
                 drivetrain_raw = trim_data.get("drivetrain", "")
                 engine_type_raw = ""  # For hybrid/electric detection
+
+                # MPG and fuel info
+                mpg_city = ""
+                mpg_highway = ""
+                mpg_combined = ""
+                tank_capacity = ""
+
+                # Colors
+                colors_exterior = []
+                colors_interior = []
+                color_data = trim_data.get("color", {})
+                if color_data:
+                    for color in color_data.get("exterior", []):
+                        colors_exterior.append({
+                            "name": color.get("name", ""),
+                            "rgb": color.get("rgb", "")
+                        })
+                    for color in color_data.get("interior", []):
+                        colors_interior.append({
+                            "name": color.get("name", ""),
+                            "rgb": color.get("rgb", "")
+                        })
 
                 # Check features.standard for Engine, Fuel, and Drive Train info
                 features = trim_data.get("features", {}).get("standard", [])
@@ -187,6 +277,11 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                                 match = re.search(r'(\d+)\s*hp', fvalue)
                                 if match:
                                     horsepower = match.group(1)
+                            elif "torque" in fname and not torque:
+                                # Extract from "420 lb-ft @ 4600 rpm"
+                                match = re.search(r'(\d+)\s*lb', fvalue)
+                                if match:
+                                    torque = match.group(1)
                             elif "engine type" in fname and not engine_type_raw:
                                 # Capture engine type (e.g., "hybrid", "electric")
                                 engine_type_raw = fvalue.lower()
@@ -194,6 +289,22 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                         elif cat_name == "Fuel":
                             if "fuel type" in fname and not fuel_type_raw:
                                 fuel_type_raw = fvalue
+                            elif "city/highway mpg" in fname or "epa city/highway" in fname:
+                                # Parse "15/24 MPG" -> city=15, highway=24
+                                match = re.search(r'(\d+)/(\d+)', fvalue)
+                                if match:
+                                    mpg_city = match.group(1)
+                                    mpg_highway = match.group(2)
+                            elif "combined mpg" in fname or "epa combined" in fname:
+                                # Parse "18 MPG"
+                                match = re.search(r'(\d+)', fvalue)
+                                if match:
+                                    mpg_combined = match.group(1)
+                            elif "tank capacity" in fname or "fuel tank" in fname:
+                                # Parse "16.0 gal."
+                                match = re.search(r'(\d+\.?\d*)', fvalue)
+                                if match:
+                                    tank_capacity = match.group(1)
 
                         elif cat_name == "Drive Train":
                             if "drive type" in fname and not drivetrain_raw:
@@ -237,25 +348,68 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
 
                 engine_str = engine_str.strip()
 
-                # Extract transmission
+                # Extract transmission - check API field and features
                 transmission = trim_data.get("transmission", "")
+                transmission_from_features = ""
+
+                # Check features.standard for transmission info
+                for category in features:
+                    cat_name = category.get("category", "")
+                    if cat_name == "Drive Train":
+                        for feature in category.get("features", []):
+                            fname = feature.get("name", "").lower()
+                            fvalue = feature.get("value", "") or ""
+                            if "transmission" in fname and fvalue:
+                                transmission_from_features = fvalue
+                                break
+
+                # Use features transmission if API field is empty
+                if not transmission and transmission_from_features:
+                    transmission = transmission_from_features
+
                 trans_str = ""
                 if transmission:
-                    if "automatic" in transmission.lower():
-                        # Extract speed if present
-                        speed_match = re.search(r'(\d+)[\s-]?speed', transmission, re.IGNORECASE)
-                        if speed_match:
-                            trans_str = f"{speed_match.group(1)}-speed Automatic"
-                        else:
-                            trans_str = "Automatic"
-                    elif "manual" in transmission.lower():
-                        speed_match = re.search(r'(\d+)[\s-]?speed', transmission, re.IGNORECASE)
-                        if speed_match:
-                            trans_str = f"{speed_match.group(1)}-speed Manual"
-                        else:
-                            trans_str = "Manual"
+                    trans_lower = transmission.lower()
+                    speed_match = re.search(r'(\d+)[\s-]?speed', transmission, re.IGNORECASE)
+                    speed_prefix = f"{speed_match.group(1)}-Speed " if speed_match else ""
+
+                    # Check for DCT/dual-clutch variants first
+                    if "dct" in trans_lower or "dual clutch" in trans_lower or "dual-clutch" in trans_lower:
+                        trans_str = f"{speed_prefix}DCT (Dual-Clutch)" if speed_prefix else "DCT (Dual-Clutch)"
+                    elif "pdk" in trans_lower:
+                        trans_str = f"{speed_prefix}PDK (Dual-Clutch)" if speed_prefix else "PDK (Dual-Clutch)"
+                    elif "s-tronic" in trans_lower or "s tronic" in trans_lower:
+                        trans_str = f"{speed_prefix}S-Tronic (Dual-Clutch)" if speed_prefix else "S-Tronic (Dual-Clutch)"
+                    elif "smg" in trans_lower:
+                        trans_str = f"{speed_prefix}SMG (Sequential)" if speed_prefix else "SMG (Sequential)"
+                    # Check for CVT/eCVT (common in hybrids)
+                    elif "ecvt" in trans_lower or "e-cvt" in trans_lower:
+                        trans_str = "eCVT (Electronic CVT)"
+                    elif "cvt" in trans_lower:
+                        trans_str = "CVT"
+                    # Standard automatic/manual
+                    elif "automatic" in trans_lower:
+                        trans_str = f"{speed_prefix}Automatic" if speed_prefix else "Automatic"
+                    elif "manual" in trans_lower:
+                        trans_str = f"{speed_prefix}Manual" if speed_prefix else "Manual"
                     else:
-                        trans_str = transmission
+                        # Unknown type - clean it up
+                        trans_str = transmission.strip()
+
+                # Infer transmission for hybrids/electrics if still blank
+                if not trans_str:
+                    # Check if this is a hybrid - they typically use eCVT
+                    fuel_lower = fuel_type_raw.lower() if fuel_type_raw else ""
+                    engine_type_lower = engine_type_raw.lower() if engine_type_raw else ""
+                    name_check = trim_name.lower()
+
+                    if "hybrid" in fuel_lower or "hybrid" in engine_type_lower or "hybrid" in name_check:
+                        trans_str = "eCVT (Electronic CVT)"
+                    elif "electric" in fuel_lower or "electric" in engine_type_lower or "ev" in name_check:
+                        trans_str = "Single-Speed (Electric)"
+                    elif "prius" in name_check:
+                        # Prius always uses eCVT
+                        trans_str = "eCVT (Electronic CVT)"
 
                 # Extract drivetrain (use drivetrain_raw which may come from features)
                 drive_str = ""
@@ -365,6 +519,109 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                             "full_name": variant["full_name"]
                         })
 
+                # Collect unique transmissions for this trim
+                transmission_options = []
+                seen_transmissions = set()
+
+                # First, collect from name-parsed variants
+                for variant in variants:
+                    trans = variant.get("transmission", "")
+                    if trans and trans not in seen_transmissions:
+                        seen_transmissions.add(trans)
+                        # Build label based on transmission type
+                        trans_lower = trans.lower()
+                        if "dct" in trans_lower or "dual" in trans_lower or "pdk" in trans_lower or "s-tronic" in trans_lower:
+                            label = "DCT (Automatic)"
+                        elif "cvt" in trans_lower:
+                            label = "CVT"
+                        elif "auto" in trans_lower:
+                            label = "Automatic"
+                        elif "manual" in trans_lower:
+                            label = "Manual"
+                        else:
+                            label = trans
+                        transmission_options.append({
+                            "name": trans,
+                            "label": label
+                        })
+
+                # If no transmissions found from name parsing, use the API's transmission field
+                if not transmission_options and trans_str:
+                    trans_lower = trans_str.lower()
+                    if "dct" in trans_lower or "dual" in trans_lower or "pdk" in trans_lower or "s-tronic" in trans_lower:
+                        label = "DCT (Automatic)"
+                    elif "cvt" in trans_lower:
+                        label = "CVT"
+                    elif "auto" in trans_lower:
+                        label = "Automatic"
+                    elif "manual" in trans_lower:
+                        label = "Manual"
+                    else:
+                        label = trans_str
+                    transmission_options.append({
+                        "name": trans_str,
+                        "label": label
+                    })
+                    seen_transmissions.add(trans_str)
+
+                # Check features.optional for additional transmission options
+                # CarsXE lists alternative transmissions as optional mechanical features
+                optional_features = trim_data.get("features", {}).get("optional", [])
+                for category in optional_features:
+                    cat_name = category.get("category", "").lower()
+                    if "mechanical" in cat_name or "drivetrain" in cat_name or "powertrain" in cat_name:
+                        for feature in category.get("features", []):
+                            fname = feature.get("name", "")
+                            fname_lower = fname.lower()
+                            # Look for transmission options - check for "transmission" or known trans types
+                            is_transmission = (
+                                "transmission" in fname_lower or
+                                "pdk" in fname_lower or  # Porsche PDK
+                                "doppelkupplung" in fname_lower or  # Porsche PDK German name
+                                "s-tronic" in fname_lower or  # Audi DCT
+                                "dct" in fname_lower or  # Generic DCT
+                                "smg" in fname_lower or  # BMW SMG
+                                "dual clutch" in fname_lower or
+                                "dual-clutch" in fname_lower
+                            )
+                            if is_transmission:
+                                # Parse the transmission name
+                                opt_trans = ""
+                                opt_label = ""
+
+                                # Extract speed if present (e.g., "10-Speed")
+                                speed_match = re.search(r'(\d+)[\s-]?speed', fname_lower)
+                                speed_prefix = f"{speed_match.group(1)}-Speed " if speed_match else ""
+
+                                if "dct" in fname_lower or "dual" in fname_lower or "clutch" in fname_lower:
+                                    opt_trans = f"{speed_prefix}DCT"
+                                    opt_label = "DCT (Automatic)"
+                                elif "pdk" in fname_lower:
+                                    opt_trans = f"{speed_prefix}PDK"
+                                    opt_label = "PDK (Automatic)"
+                                elif "cvt" in fname_lower:
+                                    opt_trans = "CVT"
+                                    opt_label = "CVT"
+                                elif "automatic" in fname_lower or "auto" in fname_lower:
+                                    opt_trans = f"{speed_prefix}Automatic"
+                                    opt_label = "Automatic"
+                                elif "manual" in fname_lower:
+                                    opt_trans = f"{speed_prefix}Manual"
+                                    opt_label = "Manual"
+                                else:
+                                    # Use the feature name as-is but clean it up
+                                    opt_trans = fname.replace("Transmission", "").strip()
+                                    opt_label = "Automatic" if "select" in fname_lower else opt_trans
+
+                                # Add if not already seen
+                                if opt_trans and opt_trans not in seen_transmissions:
+                                    seen_transmissions.add(opt_trans)
+                                    transmission_options.append({
+                                        "name": opt_trans,
+                                        "label": opt_label
+                                    })
+                                    print(f"[CarsXE] Found optional transmission: {opt_trans} (from '{fname}')")
+
                 processed_trims.append({
                     "id": trim_name,  # Use first variant's full name as default ID
                     "name": display_name,
@@ -377,10 +634,20 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                     "body_style": first_variant["body_style"],  # Default body style
                     "body_style_options": body_style_options,  # All available body styles
                     "has_body_style_choice": len(body_style_options) > 1,
+                    "transmission_options": transmission_options,  # All available transmissions
+                    "has_transmission_choice": len(transmission_options) > 1,
                     "fuel_type": fuel_type_str,  # Use parsed fuel type
-                    "mpg_city": trim_data.get("city_mpg", ""),
-                    "mpg_highway": trim_data.get("highway_mpg", ""),
+                    "mpg_city": mpg_city,
+                    "mpg_highway": mpg_highway,
+                    "mpg_combined": mpg_combined,
+                    "tank_capacity": tank_capacity,
                     "horsepower": horsepower,
+                    "torque": torque,
+                    "colors_exterior": colors_exterior,
+                    "colors_interior": colors_interior,
+                    "is_truck": trim_data.get("is_truck", False),
+                    "is_electric": trim_data.get("is_electric", False),
+                    "is_plugin_hybrid": trim_data.get("is_plugin_electric", False),
                     "raw_data": trim_data  # Keep full data for reference
                 })
 
@@ -566,7 +833,7 @@ async def get_autodev_image(year: str, make: str, model: str, trim: str = "") ->
         return {}
 
 
-async def get_vehicle_image(year: str, make: str, model: str, trim: str = "") -> dict:
+async def get_vehicle_image(year: str, make: str, model: str, trim: str = "", color: str = None) -> dict:
     """
     Get a vehicle image - tries Auto.dev first, falls back to CarsXE.
     Returns dict with image URL and metadata.
@@ -576,9 +843,11 @@ async def get_vehicle_image(year: str, make: str, model: str, trim: str = "") ->
         make: Vehicle make (e.g., "Dodge")
         model: Vehicle model (e.g., "Charger")
         trim: Optional trim level (e.g., "SE", "Scat Pack") for more accurate images
+        color: Optional color name (e.g., "blue", "Glacier White") for color-specific images
     """
     cache = load_cache()
-    cache_key = f"image_{year}_{make}_{model}_{trim}".lower().replace(" ", "_")
+    # Include color in cache key if provided
+    cache_key = f"image_{year}_{make}_{model}_{trim}_{color or ''}".lower().replace(" ", "_")
 
     # Check cache (30-day expiry for images)
     if cache_key in cache.get("images", {}):
@@ -590,7 +859,7 @@ async def get_vehicle_image(year: str, make: str, model: str, trim: str = "") ->
             return cached
 
     # Use CarsXE for stock images (Auto.dev has dealer photos which look unprofessional)
-    print(f"[CarsXE] Fetching stock image for {year} {make} {model} {trim}...")
+    print(f"[CarsXE] Fetching stock image for {year} {make} {model} {trim} color={color or 'none'}...")
 
     try:
         # Note: Images API doesn't use /v1/ prefix
@@ -607,6 +876,10 @@ async def get_vehicle_image(year: str, make: str, model: str, trim: str = "") ->
         # Add trim if provided for more accurate image matching
         if trim:
             params["trim"] = trim
+
+        # Add color if provided for color-specific images
+        if color:
+            params["color"] = color
 
         print(f"[CarsXE] Image API params: {params}")
 
@@ -876,7 +1149,7 @@ async def get_vehicle_by_id(vehicle_id: str) -> dict:
                         "cylinders": cylinders,
                         "supercharged": is_supercharged,
                         "turbocharged": is_turbocharged,
-                        "transmission": trim.get("transmission", ""),
+                        "transmission": trim.get("transmission", "") or (trim.get("transmission_options", [{}])[0].get("name", "") if trim.get("transmission_options") else ""),
                         "drive": trim.get("drivetrain", ""),
                         "fuel_type": trim.get("fuel_type", ""),
                         "mpg_city": trim.get("mpg_city", ""),
