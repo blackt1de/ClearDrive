@@ -24,7 +24,7 @@ HEADERS = {
 
 
 IMAGE_CACHE_VERSION = 24  # Bump this to invalidate all cached images
-TRIMS_CACHE_VERSION = 7   # Bump this to invalidate all cached trims (v7: fixed engine string formatting)
+TRIMS_CACHE_VERSION = 8   # Bump this to invalidate all cached trims (v8: improved turbo detection for 2.0T patterns)
 
 def load_cache() -> dict:
     if CACHE_FILE.exists():
@@ -1162,6 +1162,7 @@ async def get_vehicle_by_id(vehicle_id: str) -> dict:
                         "fuel_type": trim.get("fuel_type", ""),
                         "mpg_city": trim.get("mpg_city", ""),
                         "mpg_highway": trim.get("mpg_highway", ""),
+                        "mpg_combined": trim.get("mpg_combined", ""),
                         "tank_capacity": trim.get("tank_capacity", ""),
                         "torque": trim.get("torque", ""),
                         "msrp": trim.get("msrp", ""),

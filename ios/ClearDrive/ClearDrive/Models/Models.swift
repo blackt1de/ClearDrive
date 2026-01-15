@@ -197,6 +197,7 @@ struct ScanResult: Identifiable, Codable {
         case knownIssues, ownerReports
         case engine, drive, fuelType, transmission
         case isTurbo, isSupercharged, isHybrid, isElectric
+        case mpgCity, mpgHighway, mpgCombined, tankCapacity, horsepower
         case dataSources, obdSource
         case rpm, speed, coolantTemp
         case vehicleImageURL
@@ -232,6 +233,12 @@ struct ScanResult: Identifiable, Codable {
         isSupercharged = try container.decodeIfPresent(Bool.self, forKey: .isSupercharged) ?? false
         isHybrid = try container.decodeIfPresent(Bool.self, forKey: .isHybrid) ?? false
         isElectric = try container.decodeIfPresent(Bool.self, forKey: .isElectric) ?? false
+
+        mpgCity = try container.decodeIfPresent(String.self, forKey: .mpgCity)
+        mpgHighway = try container.decodeIfPresent(String.self, forKey: .mpgHighway)
+        mpgCombined = try container.decodeIfPresent(String.self, forKey: .mpgCombined)
+        tankCapacity = try container.decodeIfPresent(String.self, forKey: .tankCapacity)
+        horsepower = try container.decodeIfPresent(String.self, forKey: .horsepower)
 
         dataSources = try container.decodeIfPresent([String].self, forKey: .dataSources) ?? []
         obdSource = try container.decodeIfPresent(String.self, forKey: .obdSource)
@@ -274,6 +281,12 @@ struct ScanResult: Identifiable, Codable {
         try container.encode(isHybrid, forKey: .isHybrid)
         try container.encode(isElectric, forKey: .isElectric)
 
+        try container.encodeIfPresent(mpgCity, forKey: .mpgCity)
+        try container.encodeIfPresent(mpgHighway, forKey: .mpgHighway)
+        try container.encodeIfPresent(mpgCombined, forKey: .mpgCombined)
+        try container.encodeIfPresent(tankCapacity, forKey: .tankCapacity)
+        try container.encodeIfPresent(horsepower, forKey: .horsepower)
+
         try container.encode(dataSources, forKey: .dataSources)
         try container.encodeIfPresent(obdSource, forKey: .obdSource)
 
@@ -314,6 +327,13 @@ struct ScanResult: Identifiable, Codable {
     var isSupercharged: Bool = false
     var isHybrid: Bool = false
     var isElectric: Bool = false
+
+    // MPG and fuel data
+    var mpgCity: String?
+    var mpgHighway: String?
+    var mpgCombined: String?
+    var tankCapacity: String?
+    var horsepower: String?
 
     // Data sources used
     var dataSources: [String] = []
