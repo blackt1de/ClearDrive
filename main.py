@@ -1140,13 +1140,13 @@ async def interpret(request: InterpretRequest):
     # Initialize response - apply formatters to clean up raw API data
     raw_engine = vehicle_data.get("engine", "") if vehicle_data else ""
     # Use user-selected transmission if provided, otherwise fall back to vehicle data
-    raw_trans = req.transmission if req.transmission else (vehicle_data.get("transmission", "") if vehicle_data else "")
+    raw_trans = request.transmission if request.transmission else (vehicle_data.get("transmission", "") if vehicle_data else "")
     raw_drive = vehicle_data.get("drive", "") if vehicle_data else ""
 
     # Debug: show raw vs formatted
     formatted_engine = format_engine_string(raw_engine) if raw_engine else ""
     formatted_trans = format_transmission_string(raw_trans) if raw_trans else ""
-    print(f"[Interpret] Transmission: req.transmission='{req.transmission}', using raw_trans='{raw_trans}'")
+    print(f"[Interpret] Transmission: request.transmission='{request.transmission}', using raw_trans='{raw_trans}'")
     if raw_engine != formatted_engine:
         print(f"[Interpret] Engine formatted: '{raw_engine}' -> '{formatted_engine}'")
     if raw_trans != formatted_trans:
