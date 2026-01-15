@@ -92,6 +92,7 @@ def parse_guidance(response: str) -> dict:
         "diy_fix": "",
         "urgency": "",
         "repair_cost": "",
+        "service_recommendations": "",  # oil type, interval, notes
         "known_issues": "",  # trim-specific issues from database
         "owner_reports": ""
     }
@@ -122,6 +123,10 @@ def parse_guidance(response: str) -> dict:
         "REPAIR COST": "repair_cost",
         "ESTIMATED COST": "repair_cost",
         "COST ESTIMATE": "repair_cost",
+        "SERVICE RECOMMENDATIONS": "service_recommendations",
+        "SERVICE": "service_recommendations",
+        "OIL TYPE": "service_recommendations",
+        "MAINTENANCE": "service_recommendations",
         "KNOWN ISSUES": "known_issues",
         "DATABASE": "known_issues",
         "ENGINE ISSUES": "known_issues",
@@ -1146,7 +1151,7 @@ async def interpret(request: InterpretRequest):
     # No codes detected
     if not snapshot.dtc_codes:
         response_data["dont_panic"] = "No trouble codes detected. Your vehicle appears to be running fine."
-        
+
         if vehicle_data:
             prompt = f"""You are a friendly vehicle assistant helping a car owner.
 
@@ -1154,26 +1159,52 @@ The owner scanned their vehicle and NO trouble codes were found.
 
 {vehicle_context}
 
-Write a helpful response (4-5 sentences) that:
+Respond in this EXACT format:
+
+SUMMARY:
+Write 3-4 sentences that:
 1. Confirms no codes were found - their car's computer isn't reporting any problems
-2. Give ONE maintenance tip that is SPECIFIC to their engine configuration:
-   - If supercharged: mention supercharger belt or intercooler inspection
-   - If turbocharged: mention turbo health, boost leaks, or intercooler
-   - If large displacement V8: mention spark plugs, oil consumption checks
-   - If AWD/4WD: mention transfer case fluid or differential service
-   - If standard engine: mention timing belt/chain service or spark plugs
-3. Mention their performance tier and what that means for maintenance
+2. Give ONE maintenance tip SPECIFIC to their engine (turbo, supercharged, V8, AWD, etc.)
+3. Be encouraging but practical
+
+SERVICE RECOMMENDATIONS:
+- Oil type: [Exact spec like "5W-40 Full Synthetic" or "0W-20 Synthetic" - be specific to this vehicle]
+- Oil change interval: [e.g., "7,500 miles or 6 months" - based on this engine type]
+- Service notes: [One sentence about any special maintenance for this engine]
 
 RULES:
-- Use simple language - explain technical terms
-- Be specific to THIS engine and drivetrain configuration
+- Use simple language
+- Be specific to THIS exact vehicle
 - NO analogies or metaphors
 - English only"""
 
             ai_response = await ask_ollama(prompt)
             if not ai_response.startswith("ERROR:"):
-                response_data["dont_panic"] = ai_response
-        
+                # Parse the response for summary and service recommendations
+                lines = ai_response.split('\n')
+                summary_lines = []
+                service_lines = []
+                current_section = None
+
+                for line in lines:
+                    line_upper = line.strip().upper()
+                    if line_upper.startswith("SUMMARY"):
+                        current_section = "summary"
+                    elif line_upper.startswith("SERVICE"):
+                        current_section = "service"
+                    elif current_section == "summary":
+                        summary_lines.append(line)
+                    elif current_section == "service":
+                        service_lines.append(line)
+
+                if summary_lines:
+                    response_data["dont_panic"] = '\n'.join(summary_lines).strip()
+                else:
+                    response_data["dont_panic"] = ai_response
+
+                if service_lines:
+                    response_data["service_recommendations"] = '\n'.join(service_lines).strip()
+
         return response_data
     
     # Process codes
@@ -1427,10 +1458,18 @@ Tell them clearly when to go. Examples:
 ESTIMATED REPAIR COST:
 Give honest cost ranges:
 - Parts: $X - $Y
-- Labor: $X - $Y  
+- Labor: $X - $Y
 - Total at independent shop: $X - $Y
 - Total at dealer: $X - $Y (dealers charge more)
 - Let them know if this needs a specialist
+
+SERVICE RECOMMENDATIONS:
+Based on this specific vehicle, provide:
+- Oil type: [Exact oil spec, e.g., "5W-40 Full Synthetic" or "0W-20 Synthetic"]
+- Oil change interval: [X,XXX miles or X months, whichever comes first]
+- Service notes: [Any special maintenance considerations for this engine, e.g., "Turbocharged engines benefit from shorter intervals" or "Uses timing chain, no belt replacement needed"]
+
+Be specific to the vehicle - European cars often need specific oil specs, turbos need synthetic, older cars might use conventional.
 
 KNOWN ISSUES FOR THIS ENGINE (from database):
 If the data above contains trim-specific or engine-specific issues from CarComplaints.com,
@@ -1476,6 +1515,7 @@ Based on community data, write 2-3 sentences about what owners of similar vehicl
     response_data["diy_fix"] = parsed["diy_fix"]
     response_data["urgency"] = parsed["urgency"]
     response_data["repair_cost"] = parsed["repair_cost"]
+    response_data["service_recommendations"] = parsed["service_recommendations"]
     response_data["known_issues"] = parsed["known_issues"]
     response_data["owner_reports"] = parsed["owner_reports"]
     
