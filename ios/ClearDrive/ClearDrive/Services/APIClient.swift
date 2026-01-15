@@ -267,7 +267,8 @@ class APIClient: ObservableObject {
         rpm: Int?,
         speed: Int?,
         coolantTemp: Int?,
-        color: String? = nil
+        color: String? = nil,
+        transmission: String? = nil
     ) async throws -> ScanResult {
         // Fetch vehicle image in parallel with diagnostic
         async let imageTask = getVehicleImage(
@@ -300,6 +301,9 @@ class APIClient: ObservableObject {
         ]
         if let color = color {
             body["color"] = color
+        }
+        if let transmission = transmission {
+            body["transmission"] = transmission
         }
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
@@ -449,6 +453,14 @@ class APIClient: ObservableObject {
         result.isHybrid = response.hybrid ?? false
         result.isElectric = response.electric ?? false
         print("[APIClient] Type flags from server: turbo=\(response.turbocharged ?? false) super=\(response.supercharged ?? false) hybrid=\(response.hybrid ?? false) electric=\(response.electric ?? false)")
+
+        // MPG and fuel data
+        result.mpgCity = response.mpgCity
+        result.mpgHighway = response.mpgHighway
+        result.mpgCombined = response.mpgCombined
+        result.tankCapacity = response.tankCapacity
+        result.horsepower = response.horsepower
+        print("[APIClient] MPG data: city=\(response.mpgCity ?? "nil") hwy=\(response.mpgHighway ?? "nil") combined=\(response.mpgCombined ?? "nil") tank=\(response.tankCapacity ?? "nil")")
 
         // Data sources and OBD info
         result.dataSources = response.dataSources ?? []
@@ -610,6 +622,11 @@ struct TransmissionOption: Codable, Identifiable {
     var id: String { name }
     let name: String
     let label: String
+
+    init(name: String, label: String) {
+        self.name = name
+        self.label = label
+    }
 
     enum CodingKeys: String, CodingKey {
         case name, label
@@ -855,6 +872,13 @@ struct InterpretResponse: Codable {
     let electric: Bool?
     let vehicleImageURL: String?
 
+    // MPG and fuel data
+    let mpgCity: String?
+    let mpgHighway: String?
+    let mpgCombined: String?
+    let tankCapacity: String?
+    let horsepower: String?
+
     enum CodingKeys: String, CodingKey {
         case codes, vehicle, engine, drive, transmission
         case fuelType = "fuel_type"
@@ -877,5 +901,10 @@ struct InterpretResponse: Codable {
         case coolantTemp = "coolant_temp"
         case supercharged, turbocharged, hybrid, electric
         case vehicleImageURL
+        case mpgCity = "mpg_city"
+        case mpgHighway = "mpg_highway"
+        case mpgCombined = "mpg_combined"
+        case tankCapacity = "tank_capacity"
+        case horsepower
     }
 }

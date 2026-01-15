@@ -1,4 +1,5 @@
 import random
+import re
 import urllib.parse
 import httpx
 import obd
@@ -66,6 +67,7 @@ class InterpretRequest(BaseModel):
     vehicle_id: str
     trim: Optional[str] = ""
     color: Optional[str] = None  # Selected exterior color for image matching
+    transmission: Optional[str] = None  # User-selected transmission option
     use_live_obd: Optional[bool] = False
     # Client-provided OBD data (from phone's Bluetooth connection)
     client_codes: Optional[List[str]] = None
@@ -377,7 +379,8 @@ def build_engine_profile(vehicle_data: dict) -> dict:
         vehicle_data.get("turbocharged", False) or
         "turbo" in engine_str or
         "twin turbo" in engine_str or
-        "twinturbo" in engine_str
+        "twinturbo" in engine_str or
+        bool(re.search(r'\d+\.?\d*t\b', engine_str))  # Detect "2.0t", "3.0t" patterns
     )
     profile["is_naturally_aspirated"] = not (profile["is_supercharged"] or profile["is_turbocharged"])
 
@@ -1136,16 +1139,27 @@ async def interpret(request: InterpretRequest):
 
     # Initialize response - apply formatters to clean up raw API data
     raw_engine = vehicle_data.get("engine", "") if vehicle_data else ""
-    raw_trans = vehicle_data.get("transmission", "") if vehicle_data else ""
+    # Use user-selected transmission if provided, otherwise fall back to vehicle data
+    raw_trans = req.transmission if req.transmission else (vehicle_data.get("transmission", "") if vehicle_data else "")
     raw_drive = vehicle_data.get("drive", "") if vehicle_data else ""
 
     # Debug: show raw vs formatted
     formatted_engine = format_engine_string(raw_engine) if raw_engine else ""
     formatted_trans = format_transmission_string(raw_trans) if raw_trans else ""
+    print(f"[Interpret] Transmission: req.transmission='{req.transmission}', using raw_trans='{raw_trans}'")
     if raw_engine != formatted_engine:
         print(f"[Interpret] Engine formatted: '{raw_engine}' -> '{formatted_engine}'")
     if raw_trans != formatted_trans:
         print(f"[Interpret] Trans formatted: '{raw_trans}' -> '{formatted_trans}'")
+
+    # Debug turbo/supercharged detection
+    engine_turbo = engine_profile.get("is_turbocharged", False)
+    vehicle_turbo = vehicle_data.get("turbocharged", False) if vehicle_data else False
+    engine_super = engine_profile.get("is_supercharged", False)
+    vehicle_super = vehicle_data.get("supercharged", False) if vehicle_data else False
+    print(f"[Interpret] Turbo check: engine_profile={engine_turbo}, vehicle_data={vehicle_turbo}")
+    print(f"[Interpret] Super check: engine_profile={engine_super}, vehicle_data={vehicle_super}")
+    print(f"[Interpret] MPG data: city={vehicle_data.get('mpg_city', '')} hwy={vehicle_data.get('mpg_highway', '')} combined={vehicle_data.get('mpg_combined', '')} tank={vehicle_data.get('tank_capacity', '')}" if vehicle_data else "[Interpret] No vehicle_data")
 
     response_data = {
         "codes": [],
@@ -1161,6 +1175,7 @@ async def interpret(request: InterpretRequest):
         "performance_tier": engine_profile.get("performance_tier", "standard"),
         "mpg_city": vehicle_data.get("mpg_city", "") if vehicle_data else "",
         "mpg_highway": vehicle_data.get("mpg_highway", "") if vehicle_data else "",
+        "mpg_combined": vehicle_data.get("mpg_combined", "") if vehicle_data else "",
         "tank_capacity": vehicle_data.get("tank_capacity", "") if vehicle_data else "",
         "horsepower": vehicle_data.get("horsepower", "") if vehicle_data else "",
         "rpm": int(snapshot.rpm) if snapshot.rpm else 750,

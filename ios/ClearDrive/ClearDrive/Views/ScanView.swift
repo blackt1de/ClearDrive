@@ -774,7 +774,8 @@ struct ScanView: View {
                     rpm: liveData.rpm,
                     speed: liveData.speed,
                     coolantTemp: liveData.coolant,
-                    color: color
+                    color: color,
+                    transmission: selectedTransmission?.name
                 )
                 print("[ScanView] Local OBD diagnostic complete!")
                 print("  - vehicleImageURL: \(result.vehicleImageURL ?? "nil")")
