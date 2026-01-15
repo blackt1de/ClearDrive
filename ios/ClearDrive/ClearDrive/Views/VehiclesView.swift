@@ -644,12 +644,17 @@ struct VehicleDetailSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var apiClient: APIClient
+    @EnvironmentObject var vehicleStore: VehicleStore
 
     // Follow-up question state
     @State private var chatMessages: [ChatMessage] = []
     @State private var currentQuestion = ""
     @State private var isAskingQuestion = false
     @State private var questionsRemaining = 3
+
+    // Service tracking state
+    @State private var showMileageEntry = false
+    @State private var showServiceLog = false
 
     var body: some View {
         NavigationStack {
@@ -711,6 +716,22 @@ struct VehicleDetailSheet: View {
                         dismiss()
                     }
                     .foregroundStyle(Color.cdPrimaryBright)
+                }
+            }
+            .sheet(isPresented: $showMileageEntry) {
+                MileageEntrySheet(
+                    savedVehicle: saved,
+                    initialMileage: saved.currentMileage ?? liveData?.odometer
+                ) { mileage in
+                    vehicleStore.updateMileage(for: saved.id, mileage: mileage)
+                }
+            }
+            .sheet(isPresented: $showServiceLog) {
+                ServiceLogSheet(
+                    savedVehicle: saved,
+                    currentMileage: saved.currentMileage ?? liveData?.odometer
+                ) { date, mileage in
+                    vehicleStore.updateServiceInfo(for: saved.id, date: date, mileage: mileage)
                 }
             }
         }
@@ -1155,7 +1176,10 @@ struct VehicleDetailSheet: View {
     // MARK: - Service Section
 
     private var serviceSection: some View {
-        VStack(alignment: .leading, spacing: CDSpacing.medium) {
+        // Get effective mileage - prefer saved, then live OBD, then nil
+        let effectiveMileage = saved.currentMileage ?? liveData?.odometer
+
+        return VStack(alignment: .leading, spacing: CDSpacing.medium) {
             SectionHeader(title: "Service Tracking")
 
             VStack(spacing: CDSpacing.small) {
@@ -1170,15 +1194,28 @@ struct VehicleDetailSheet: View {
                         Text("Current Mileage")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.cdTextTertiary)
-                        Text("--")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(Color.cdTextPrimary)
+                        if let mileage = effectiveMileage {
+                            HStack(spacing: 4) {
+                                Text(String(format: "%.0f mi", mileage))
+                                    .font(.system(size: 15, weight: .semibold))
+                                    .foregroundStyle(Color.cdTextPrimary)
+                                if saved.currentMileage == nil && liveData?.odometer != nil {
+                                    Text("(OBD)")
+                                        .font(.system(size: 11))
+                                        .foregroundStyle(Color.cdSuccess)
+                                }
+                            }
+                        } else {
+                            Text("Not set")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundStyle(Color.cdTextSecondary)
+                        }
                     }
 
                     Spacer()
 
-                    Button("Set") {
-                        // TODO: Open mileage entry sheet
+                    Button(effectiveMileage != nil ? "Update" : "Set") {
+                        showMileageEntry = true
                     }
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(Color.cdPrimaryBright)
@@ -1187,35 +1224,105 @@ struct VehicleDetailSheet: View {
                 .background(Color.cdCardBackgroundLight)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
-                // Next service
+                // Next oil change / service status
                 HStack {
-                    Image(systemName: "calendar.badge.clock")
+                    Image(systemName: saved.isOilChangeOverdue ? "exclamationmark.triangle.fill" : "calendar.badge.clock")
                         .font(.system(size: 16))
-                        .foregroundStyle(Color.cdPrimaryBright)
+                        .foregroundStyle(saved.isOilChangeOverdue ? Color.cdWarning : Color.cdPrimaryBright)
                         .frame(width: 24)
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Next Oil Change")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.cdTextTertiary)
-                        Text("Set up service tracking")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(Color.cdTextSecondary)
+
+                        if saved.isOilChangeOverdue {
+                            Text("OVERDUE")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundStyle(Color.cdWarning)
+                        } else if let milesLeft = saved.milesUntilOilChange {
+                            Text("\(milesLeft) miles remaining")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundStyle(milesLeft < 500 ? Color.cdWarning : Color.cdTextPrimary)
+                        } else if let nextDate = saved.nextOilChangeDate {
+                            Text(nextDate.formatted(date: .abbreviated, time: .omitted))
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundStyle(Color.cdTextPrimary)
+                        } else {
+                            Text("Log last service to track")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundStyle(Color.cdTextSecondary)
+                        }
                     }
 
                     Spacer()
+
+                    if saved.lastOilChangeDate != nil {
+                        VStack(alignment: .trailing, spacing: 2) {
+                            Text("Last")
+                                .font(.system(size: 10))
+                                .foregroundStyle(Color.cdTextTertiary)
+                            Text(saved.lastOilChangeDate!.formatted(date: .abbreviated, time: .omitted))
+                                .font(.system(size: 11))
+                                .foregroundStyle(Color.cdTextSecondary)
+                        }
+                    }
                 }
                 .padding(CDSpacing.medium)
-                .background(Color.cdCardBackgroundLight)
+                .background(saved.isOilChangeOverdue ? Color.cdWarning.opacity(0.1) : Color.cdCardBackgroundLight)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                // Estimated range (calculated from fuel % and MPG)
+                if let fuelLevel = liveData?.fuelLevel,
+                   let combinedMpgStr = saved.vehicle.mpgCombined,
+                   let combinedMpg = Double(combinedMpgStr) {
+                    let tankStr = saved.vehicle.tankCapacity ?? "15"
+                    let tankCapacity = Double(tankStr) ?? 15.0  // Default 15 gal if unknown
+                    let gallonsRemaining = tankCapacity * (Double(fuelLevel) / 100.0)
+                    let estimatedRange = Int(gallonsRemaining * combinedMpg)
+
+                    HStack {
+                        Image(systemName: "fuelpump.fill")
+                            .font(.system(size: 16))
+                            .foregroundStyle(fuelLevel < 15 ? Color.cdWarning : Color.cdPrimaryBright)
+                            .frame(width: 24)
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Estimated Range")
+                                .font(.system(size: 12))
+                                .foregroundStyle(Color.cdTextTertiary)
+                            HStack(spacing: 4) {
+                                Text("~\(estimatedRange) miles")
+                                    .font(.system(size: 15, weight: .semibold))
+                                    .foregroundStyle(fuelLevel < 15 ? Color.cdWarning : Color.cdTextPrimary)
+                                Text("(\(fuelLevel)% fuel)")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(Color.cdSuccess)
+                            }
+                        }
+
+                        Spacer()
+
+                        Text("LIVE")
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundStyle(Color.cdSuccess)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 3)
+                            .background(Color.cdSuccess.opacity(0.15))
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                    }
+                    .padding(CDSpacing.medium)
+                    .background(fuelLevel < 15 ? Color.cdWarning.opacity(0.1) : Color.cdCardBackgroundLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
 
                 // Log service button
                 Button {
-                    // TODO: Open log service sheet
+                    showServiceLog = true
                 } label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")
-                        Text("Log Service")
+                        Text(saved.lastOilChangeDate != nil ? "Log New Service" : "Log Last Service")
                     }
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(Color.cdPrimaryBright)
@@ -1544,6 +1651,259 @@ struct SpecWidget: View {
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.cdCardBackground)
         )
+    }
+}
+
+// MARK: - Mileage Entry Sheet
+
+struct MileageEntrySheet: View {
+    let savedVehicle: SavedVehicle
+    let initialMileage: Double?
+    let onSave: (Double) -> Void
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var mileageText: String = ""
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color.cdBackground.ignoresSafeArea()
+
+                VStack(spacing: CDSpacing.xlarge) {
+                    // Vehicle info
+                    VStack(spacing: CDSpacing.small) {
+                        Image(systemName: "car.side.fill")
+                            .font(.system(size: 40))
+                            .foregroundStyle(Color.cdPrimaryBright)
+
+                        Text(savedVehicle.vehicle.displayName)
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(Color.cdTextPrimary)
+                    }
+                    .padding(.top, CDSpacing.large)
+
+                    // Mileage input
+                    VStack(spacing: CDSpacing.small) {
+                        Text("Current Mileage")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(Color.cdTextSecondary)
+
+                        HStack(spacing: CDSpacing.small) {
+                            TextField("0", text: $mileageText)
+                                .keyboardType(.numberPad)
+                                .font(.system(size: 36, weight: .bold, design: .rounded))
+                                .foregroundStyle(Color.cdTextPrimary)
+                                .multilineTextAlignment(.center)
+                                .focused($isFocused)
+
+                            Text("mi")
+                                .font(.system(size: 24, weight: .medium))
+                                .foregroundStyle(Color.cdTextTertiary)
+                        }
+                        .padding(.horizontal, CDSpacing.large)
+                        .padding(.vertical, CDSpacing.medium)
+                        .background(Color.cdCardBackgroundLight)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+
+                    if let initial = initialMileage {
+                        Text("OBD detected: \(String(format: "%.0f", initial)) miles")
+                            .font(.system(size: 13))
+                            .foregroundStyle(Color.cdSuccess)
+                    }
+
+                    Spacer()
+
+                    // Save button
+                    Button {
+                        if let mileage = Double(mileageText.replacingOccurrences(of: ",", with: "")) {
+                            onSave(mileage)
+                            dismiss()
+                        }
+                    } label: {
+                        Text("Save Mileage")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                mileageText.isEmpty
+                                    ? Color.cdTextTertiary
+                                    : LinearGradient.cdPrimaryGradient
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+                    .disabled(mileageText.isEmpty)
+                    .padding(.bottom, CDSpacing.large)
+                }
+                .padding(.horizontal, CDSpacing.large)
+            }
+            .navigationTitle("Set Mileage")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundStyle(Color.cdTextSecondary)
+                }
+            }
+            .onAppear {
+                if let initial = initialMileage {
+                    mileageText = String(format: "%.0f", initial)
+                }
+                isFocused = true
+            }
+        }
+    }
+}
+
+// MARK: - Service Log Sheet
+
+struct ServiceLogSheet: View {
+    let savedVehicle: SavedVehicle
+    let currentMileage: Double?
+    let onSave: (Date, Double) -> Void
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var serviceDate: Date = Date()
+    @State private var mileageText: String = ""
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color.cdBackground.ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: CDSpacing.xlarge) {
+                        // Vehicle info
+                        VStack(spacing: CDSpacing.small) {
+                            Image(systemName: "wrench.and.screwdriver.fill")
+                                .font(.system(size: 40))
+                                .foregroundStyle(Color.cdPrimaryBright)
+
+                            Text(savedVehicle.vehicle.displayName)
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(Color.cdTextPrimary)
+                        }
+                        .padding(.top, CDSpacing.large)
+
+                        // Service date
+                        VStack(alignment: .leading, spacing: CDSpacing.small) {
+                            Text("SERVICE DATE")
+                                .font(.system(size: 11, weight: .bold))
+                                .foregroundStyle(Color.cdTextTertiary)
+                                .tracking(0.5)
+
+                            DatePicker(
+                                "Service Date",
+                                selection: $serviceDate,
+                                in: ...Date(),
+                                displayedComponents: .date
+                            )
+                            .datePickerStyle(.compact)
+                            .labelsHidden()
+                            .tint(Color.cdPrimaryBright)
+                            .padding(CDSpacing.medium)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.cdCardBackgroundLight)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+
+                        // Mileage at service
+                        VStack(alignment: .leading, spacing: CDSpacing.small) {
+                            Text("MILEAGE AT SERVICE")
+                                .font(.system(size: 11, weight: .bold))
+                                .foregroundStyle(Color.cdTextTertiary)
+                                .tracking(0.5)
+
+                            HStack(spacing: CDSpacing.small) {
+                                TextField("0", text: $mileageText)
+                                    .keyboardType(.numberPad)
+                                    .font(.system(size: 24, weight: .semibold))
+                                    .foregroundStyle(Color.cdTextPrimary)
+                                    .focused($isFocused)
+
+                                Text("miles")
+                                    .font(.system(size: 16))
+                                    .foregroundStyle(Color.cdTextTertiary)
+                            }
+                            .padding(CDSpacing.medium)
+                            .background(Color.cdCardBackgroundLight)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                            if let current = currentMileage {
+                                Text("Current: \(String(format: "%.0f", current)) mi")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(Color.cdTextSecondary)
+                            }
+                        }
+
+                        // Info about intervals
+                        VStack(alignment: .leading, spacing: CDSpacing.small) {
+                            HStack(spacing: CDSpacing.xs) {
+                                Image(systemName: "info.circle.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(Color.cdPrimaryBright)
+                                Text("Service Intervals")
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundStyle(Color.cdTextSecondary)
+                            }
+
+                            Text("Next oil change will be calculated as 5,000 miles or 6 months from service date, whichever comes first.")
+                                .font(.system(size: 12))
+                                .foregroundStyle(Color.cdTextTertiary)
+                                .lineSpacing(2)
+                        }
+                        .padding(CDSpacing.medium)
+                        .background(Color.cdCardBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                        Spacer(minLength: 40)
+
+                        // Save button
+                        Button {
+                            if let mileage = Double(mileageText.replacingOccurrences(of: ",", with: "")) {
+                                onSave(serviceDate, mileage)
+                                dismiss()
+                            }
+                        } label: {
+                            Text("Log Service")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    mileageText.isEmpty
+                                        ? Color.cdTextTertiary
+                                        : LinearGradient.cdPrimaryGradient
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                        }
+                        .disabled(mileageText.isEmpty)
+                    }
+                    .padding(.horizontal, CDSpacing.large)
+                    .padding(.bottom, CDSpacing.large)
+                }
+            }
+            .navigationTitle("Log Oil Change")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundStyle(Color.cdTextSecondary)
+                }
+            }
+            .onAppear {
+                if let current = currentMileage {
+                    mileageText = String(format: "%.0f", current)
+                }
+            }
+        }
     }
 }
 

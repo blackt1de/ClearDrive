@@ -87,6 +87,23 @@ class VehicleStore: ObservableObject {
         persistVehicles()
     }
 
+    func updateMileage(for vehicleId: UUID, mileage: Double) {
+        if let index = savedVehicles.firstIndex(where: { $0.id == vehicleId }) {
+            savedVehicles[index].currentMileage = mileage
+            persistVehicles()
+            print("[VehicleStore] Updated mileage for \(savedVehicles[index].vehicle.displayName): \(mileage)")
+        }
+    }
+
+    func updateServiceInfo(for vehicleId: UUID, date: Date, mileage: Double) {
+        if let index = savedVehicles.firstIndex(where: { $0.id == vehicleId }) {
+            savedVehicles[index].lastOilChangeDate = date
+            savedVehicles[index].lastOilChangeMileage = mileage
+            persistVehicles()
+            print("[VehicleStore] Updated service info for \(savedVehicles[index].vehicle.displayName): date=\(date), mileage=\(mileage)")
+        }
+    }
+
     // MARK: - Scan History
 
     func addScanResult(_ result: ScanResult) {
@@ -190,7 +207,12 @@ struct SavedVehicle: Identifiable, Codable {
     var lastScanned: Date
     var lastScanResult: ScanResult?
 
-    init(id: UUID = UUID(), vehicle: VehicleInfo, imageURL: String? = nil, trimId: String? = nil, dateAdded: Date = Date(), lastScanned: Date = Date(), lastScanResult: ScanResult? = nil) {
+    // Service tracking
+    var currentMileage: Double?
+    var lastOilChangeDate: Date?
+    var lastOilChangeMileage: Double?
+
+    init(id: UUID = UUID(), vehicle: VehicleInfo, imageURL: String? = nil, trimId: String? = nil, dateAdded: Date = Date(), lastScanned: Date = Date(), lastScanResult: ScanResult? = nil, currentMileage: Double? = nil, lastOilChangeDate: Date? = nil, lastOilChangeMileage: Double? = nil) {
         self.id = id
         self.vehicle = vehicle
         self.imageURL = imageURL
@@ -198,9 +220,12 @@ struct SavedVehicle: Identifiable, Codable {
         self.dateAdded = dateAdded
         self.lastScanned = lastScanned
         self.lastScanResult = lastScanResult
+        self.currentMileage = currentMileage
+        self.lastOilChangeDate = lastOilChangeDate
+        self.lastOilChangeMileage = lastOilChangeMileage
     }
 
-    // Custom decoder to handle missing lastScanResult in old data
+    // Custom decoder to handle missing fields in old data
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
@@ -210,9 +235,38 @@ struct SavedVehicle: Identifiable, Codable {
         dateAdded = try container.decodeIfPresent(Date.self, forKey: .dateAdded) ?? Date()
         lastScanned = try container.decodeIfPresent(Date.self, forKey: .lastScanned) ?? Date()
         lastScanResult = try container.decodeIfPresent(ScanResult.self, forKey: .lastScanResult)
+        currentMileage = try container.decodeIfPresent(Double.self, forKey: .currentMileage)
+        lastOilChangeDate = try container.decodeIfPresent(Date.self, forKey: .lastOilChangeDate)
+        lastOilChangeMileage = try container.decodeIfPresent(Double.self, forKey: .lastOilChangeMileage)
     }
 
     enum CodingKeys: String, CodingKey {
         case id, vehicle, imageURL, trimId, dateAdded, lastScanned, lastScanResult
+        case currentMileage, lastOilChangeDate, lastOilChangeMileage
+    }
+
+    // Calculate next oil change
+    var nextOilChangeMileage: Double? {
+        guard let lastMileage = lastOilChangeMileage else { return nil }
+        // Standard interval: 5,000 miles for conventional, 7,500 for synthetic
+        let interval: Double = 5000
+        return lastMileage + interval
+    }
+
+    var nextOilChangeDate: Date? {
+        guard let lastDate = lastOilChangeDate else { return nil }
+        // Standard interval: 6 months
+        return Calendar.current.date(byAdding: .month, value: 6, to: lastDate)
+    }
+
+    var milesUntilOilChange: Int? {
+        guard let nextMileage = nextOilChangeMileage, let current = currentMileage else { return nil }
+        return max(0, Int(nextMileage - current))
+    }
+
+    var isOilChangeOverdue: Bool {
+        if let milesLeft = milesUntilOilChange, milesLeft <= 0 { return true }
+        if let nextDate = nextOilChangeDate, nextDate < Date() { return true }
+        return false
     }
 }
