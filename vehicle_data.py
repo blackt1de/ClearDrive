@@ -1323,8 +1323,13 @@ async def decode_vin(vin: str) -> dict:
         cache["vin_decodes"] = {}
 
     if vin in cache["vin_decodes"]:
-        print(f"[CarsXE] Using cached VIN decode for {vin}")
-        return cache["vin_decodes"][vin]
+        cached = cache["vin_decodes"][vin]
+        # Only use cache if it was successful - retry errors
+        if cached.get("success", False):
+            print(f"[CarsXE] Using cached VIN decode for {vin}")
+            return cached
+        else:
+            print(f"[CarsXE] Skipping cached error for {vin}, retrying...")
 
     print(f"[CarsXE] Decoding VIN {vin}...")
 
@@ -1335,16 +1340,56 @@ async def decode_vin(vin: str) -> dict:
             "vin": vin
         }
 
+        print(f"[CarsXE] Request URL: {url}")
+        print(f"[CarsXE] Request params: vin={vin}")
+
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.get(url, params=params, headers=HEADERS)
 
+            print(f"[CarsXE] Response status: {response.status_code}")
+
             if response.status_code == 200:
                 data = response.json()
+                print(f"[CarsXE] Response type: {type(data)}")
+                print(f"[CarsXE] Response preview: {str(data)[:500]}")
 
-                # Extract relevant fields from CarsXE response
-                if data and isinstance(data, list) and len(data) > 0:
-                    vehicle = data[0]  # First result
+                # Handle different response formats from CarsXE
+                vehicle = None
 
+                # Format 1: List of vehicles (expected for specs endpoint)
+                if isinstance(data, list) and len(data) > 0:
+                    vehicle = data[0]
+                    print(f"[CarsXE] Found vehicle in list format")
+                # Format 2: Object with data array
+                elif isinstance(data, dict):
+                    if data.get("data") and isinstance(data["data"], list) and len(data["data"]) > 0:
+                        vehicle = data["data"][0]
+                        print(f"[CarsXE] Found vehicle in data array")
+                    # Format 3: Direct object with vehicle fields
+                    elif data.get("year") or data.get("make") or data.get("model"):
+                        vehicle = data
+                        print(f"[CarsXE] Found vehicle as direct object")
+                    # Format 4: Check for input/attributes structure (NHTSA-style)
+                    elif data.get("input") and data.get("attributes"):
+                        attrs = data.get("attributes", {})
+                        vehicle = {
+                            "year": attrs.get("year", ""),
+                            "make": attrs.get("make", ""),
+                            "model": attrs.get("model", ""),
+                            "trim": attrs.get("trim", ""),
+                            "engine": attrs.get("engine", ""),
+                            "cylinders": attrs.get("cylinders", ""),
+                            "displacement": attrs.get("displacement", ""),
+                            "drive": attrs.get("drive_type", ""),
+                            "transmission": attrs.get("transmission", ""),
+                            "fuel_type": attrs.get("fuel_type", ""),
+                            "body": attrs.get("body_style", ""),
+                        }
+                        print(f"[CarsXE] Found vehicle in attributes format")
+                    else:
+                        print(f"[CarsXE] Unknown response structure. Keys: {list(data.keys()) if isinstance(data, dict) else 'N/A'}")
+
+                if vehicle:
                     result = {
                         "success": True,
                         "vin": vin,
@@ -1355,10 +1400,10 @@ async def decode_vin(vin: str) -> dict:
                         "engine": vehicle.get("engine", ""),
                         "cylinders": vehicle.get("cylinders", ""),
                         "displacement": vehicle.get("displacement", ""),
-                        "drive": vehicle.get("drive", ""),
+                        "drive_type": vehicle.get("drive", ""),  # iOS expects drive_type
                         "transmission": vehicle.get("transmission", ""),
                         "fuel_type": vehicle.get("fuel_type", ""),
-                        "body": vehicle.get("body", ""),
+                        "body_style": vehicle.get("body", ""),  # iOS expects body_style
                         "raw_data": vehicle  # Store full response
                     }
 
@@ -1369,17 +1414,22 @@ async def decode_vin(vin: str) -> dict:
                     print(f"[CarsXE] ✓ VIN decoded: {result['year']} {result['make']} {result['model']} {result['trim']}")
                     return result
                 else:
-                    print(f"[CarsXE] No data returned for VIN {vin}")
-                    error_result = {"success": False, "vin": vin, "error": "No data found"}
-                    cache["vin_decodes"][vin] = error_result
-                    save_cache(cache)
-                    return error_result
+                    print(f"[CarsXE] No vehicle data found in response for VIN {vin}")
+                    # Don't cache errors - allow retry on next request
+                    return {"success": False, "vin": vin, "error": "No data found"}
             else:
                 print(f"[CarsXE] VIN decode failed: HTTP {response.status_code}")
+                try:
+                    error_body = response.text[:500]
+                    print(f"[CarsXE] Error response: {error_body}")
+                except:
+                    pass
                 return {"success": False, "vin": vin, "error": f"HTTP {response.status_code}"}
 
     except Exception as e:
         print(f"[CarsXE] VIN decode error: {type(e).__name__}: {e}")
+        import traceback
+        traceback.print_exc()
         return {"success": False, "vin": vin, "error": str(e)}
 
 
