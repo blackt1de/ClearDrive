@@ -362,13 +362,36 @@ def build_engine_profile(vehicle_data: dict) -> dict:
     except:
         profile["cylinders"] = 0
     
-    profile["is_supercharged"] = vehicle_data.get("supercharged", False)
-    profile["is_turbocharged"] = vehicle_data.get("turbocharged", False)
-    profile["is_naturally_aspirated"] = not (profile["is_supercharged"] or profile["is_turbocharged"])
-    
+    # Get engine string for parsing
+    engine_str = vehicle_data.get("engine", "").lower()
     fuel_type = vehicle_data.get("fuel_type", "").lower()
-    profile["is_hybrid"] = "hybrid" in fuel_type or bool(vehicle_data.get("ev_motor"))
-    profile["is_electric"] = "electric" in fuel_type and "hybrid" not in fuel_type
+
+    # Detect forced induction from vehicle_data flags OR engine string
+    profile["is_supercharged"] = (
+        vehicle_data.get("supercharged", False) or
+        "supercharg" in engine_str or
+        "s/c" in engine_str
+    )
+    profile["is_turbocharged"] = (
+        vehicle_data.get("turbocharged", False) or
+        "turbo" in engine_str or
+        "twin turbo" in engine_str or
+        "twinturbo" in engine_str
+    )
+    profile["is_naturally_aspirated"] = not (profile["is_supercharged"] or profile["is_turbocharged"])
+
+    # Detect hybrid/electric from fuel_type, engine string, or ev_motor flag
+    profile["is_hybrid"] = (
+        "hybrid" in fuel_type or
+        "hybrid" in engine_str or
+        bool(vehicle_data.get("ev_motor"))
+    )
+    profile["is_electric"] = (
+        ("electric" in fuel_type and "hybrid" not in fuel_type) or
+        ("electric" in engine_str and "hybrid" not in engine_str) or
+        "ev" in engine_str.split() or  # standalone "EV"
+        "bev" in engine_str
+    )
     
     # Determine engine layout
     cyl = profile["cylinders"]
