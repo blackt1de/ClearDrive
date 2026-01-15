@@ -1728,9 +1728,13 @@ struct MileageEntrySheet: View {
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
                             .background(
-                                mileageText.isEmpty
-                                    ? Color.cdTextTertiary
-                                    : LinearGradient.cdPrimaryGradient
+                                Group {
+                                    if mileageText.isEmpty {
+                                        Color.cdTextTertiary
+                                    } else {
+                                        LinearGradient.cdPrimaryGradient
+                                    }
+                                }
                             )
                             .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
@@ -1876,9 +1880,13 @@ struct ServiceLogSheet: View {
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
                                 .background(
-                                    mileageText.isEmpty
-                                        ? Color.cdTextTertiary
-                                        : LinearGradient.cdPrimaryGradient
+                                    Group {
+                                        if mileageText.isEmpty {
+                                            Color.cdTextTertiary
+                                        } else {
+                                            LinearGradient.cdPrimaryGradient
+                                        }
+                                    }
                                 )
                                 .clipShape(RoundedRectangle(cornerRadius: 14))
                         }
