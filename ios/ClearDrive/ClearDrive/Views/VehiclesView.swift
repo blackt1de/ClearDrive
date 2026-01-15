@@ -93,6 +93,7 @@ struct VehiclesView: View {
     @Binding var selectedVehicle: VehicleInfo?
     @Binding var selectedVehicleImage: String?
     @Binding var refreshTrigger: UUID  // External trigger to force refresh
+    @Binding var liveData: LiveOBDData?  // Live OBD data from ContentView
 
     @State private var selectedSavedVehicle: SavedVehicle?
     @State private var isEditMode = false
@@ -179,6 +180,7 @@ struct VehiclesView: View {
                 VehicleDetailSheet(
                     saved: saved,
                     isSelected: selectedVehicle?.displayName == saved.vehicle.displayName,
+                    liveData: liveData,
                     onSelect: {
                         selectedVehicle = saved.vehicle
                         selectedVehicleImage = saved.lastScanResult?.vehicleImageURL ?? saved.imageURL
@@ -636,6 +638,7 @@ struct VehicleListCard: View {
 struct VehicleDetailSheet: View {
     let saved: SavedVehicle
     let isSelected: Bool
+    let liveData: LiveOBDData?  // Live OBD data from polling
     let onSelect: () -> Void
     let onDelete: () -> Void
 
@@ -690,6 +693,9 @@ struct VehicleDetailSheet: View {
                         } else {
                             noScanSection
                         }
+
+                        // Service section always visible regardless of scan status
+                        serviceSection
 
                         actionsSection
                     }
@@ -906,49 +912,85 @@ struct VehicleDetailSheet: View {
     }
 
     private func liveDataSection(_ result: ScanResult) -> some View {
-        VStack(alignment: .leading, spacing: CDSpacing.small) {
-            HStack(spacing: CDSpacing.xs) {
-                Image(systemName: "antenna.radiowaves.left.and.right")
-                    .font(.system(size: 11))
-                    .foregroundStyle(Color.cdPrimaryBright)
+        // Use current live data if connected, otherwise show scan-time data
+        let isLive = liveData?.connected == true
+        let displayRpm = isLive ? (liveData?.rpm.map { Int($0) }) : result.rpm
+        let displaySpeed = isLive ? (liveData?.speed.map { Int($0) }) : result.speed
+        let displayCoolant = isLive ? (liveData?.coolantTemp.map { Int($0) }) : result.coolantTemp
+        let displayOdometer = isLive ? liveData?.odometer : nil
+        let displayFuelLevel = isLive ? liveData?.fuelLevel : nil
 
-                Text("OBD-II LIVE DATA")
+        return VStack(alignment: .leading, spacing: CDSpacing.small) {
+            HStack(spacing: CDSpacing.xs) {
+                Image(systemName: isLive ? "antenna.radiowaves.left.and.right" : "clock")
+                    .font(.system(size: 11))
+                    .foregroundStyle(isLive ? Color.cdSuccess : Color.cdPrimaryBright)
+
+                Text("OBD-II \(isLive ? "LIVE" : "DATA")")
                     .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(Color.cdPrimaryBright)
+                    .foregroundStyle(isLive ? Color.cdSuccess : Color.cdPrimaryBright)
                     .tracking(0.5)
+
+                if isLive {
+                    Circle()
+                        .fill(Color.cdSuccess)
+                        .frame(width: 6, height: 6)
+                }
 
                 Spacer()
 
-                Text("AT TIME OF SCAN")
+                Text(isLive ? "CONNECTED" : "AT TIME OF SCAN")
                     .font(.system(size: 9, weight: .medium))
-                    .foregroundStyle(Color.cdTextTertiary)
+                    .foregroundStyle(isLive ? Color.cdSuccess : Color.cdTextTertiary)
             }
             .padding(.horizontal, CDSpacing.small)
 
             HStack(spacing: CDSpacing.small) {
-                if let rpm = result.rpm {
+                if let rpm = displayRpm {
                     LiveDataWidget(
                         value: "\(rpm)",
                         label: "RPM",
                         icon: "gauge.with.needle",
-                        color: .cdPrimaryBright
+                        color: isLive ? .cdSuccess : .cdPrimaryBright
                     )
                 }
-                if let speed = result.speed {
+                if let speed = displaySpeed {
                     LiveDataWidget(
                         value: "\(speed) mph",
                         label: "Speed",
                         icon: "speedometer",
-                        color: .cdPrimaryBright
+                        color: isLive ? .cdSuccess : .cdPrimaryBright
                     )
                 }
-                if let temp = result.coolantTemp {
+                if let temp = displayCoolant {
                     LiveDataWidget(
                         value: "\(temp)°F",
                         label: "Coolant",
                         icon: "thermometer.medium",
-                        color: .cdPrimaryBright
+                        color: isLive ? .cdSuccess : .cdPrimaryBright
                     )
+                }
+            }
+
+            // Show extra live data when connected (odometer, fuel level)
+            if isLive && (displayOdometer != nil || displayFuelLevel != nil) {
+                HStack(spacing: CDSpacing.small) {
+                    if let odo = displayOdometer {
+                        LiveDataWidget(
+                            value: String(format: "%.0f mi", odo),
+                            label: "Odometer",
+                            icon: "road.lanes",
+                            color: .cdSuccess
+                        )
+                    }
+                    if let fuel = displayFuelLevel {
+                        LiveDataWidget(
+                            value: "\(fuel)%",
+                            label: "Fuel",
+                            icon: "fuelpump.fill",
+                            color: .cdSuccess
+                        )
+                    }
                 }
             }
         }
@@ -958,7 +1000,7 @@ struct VehicleDetailSheet: View {
                 .fill(Color.cdCardBackground)
                 .overlay(
                     RoundedRectangle(cornerRadius: 14)
-                        .stroke(Color.cdPrimary.opacity(0.15), lineWidth: 1)
+                        .stroke((isLive ? Color.cdSuccess : Color.cdPrimary).opacity(0.15), lineWidth: 1)
                 )
         )
     }
@@ -1102,6 +1144,92 @@ struct VehicleDetailSheet: View {
             if let content = result.ownerReports, !content.isEmpty {
                 VehicleDiagnosticCard(title: "Owner Reports", content: content, icon: "person.2.fill")
             }
+
+            // Service recommendations from AI
+            if let serviceRecs = result.serviceRecommendations, !serviceRecs.isEmpty {
+                VehicleDiagnosticCard(title: "Service Recommendations", content: serviceRecs, icon: "wrench.and.screwdriver.fill")
+            }
+        }
+    }
+
+    // MARK: - Service Section
+
+    private var serviceSection: some View {
+        VStack(alignment: .leading, spacing: CDSpacing.medium) {
+            SectionHeader(title: "Service Tracking")
+
+            VStack(spacing: CDSpacing.small) {
+                // Current mileage
+                HStack {
+                    Image(systemName: "road.lanes")
+                        .font(.system(size: 16))
+                        .foregroundStyle(Color.cdPrimaryBright)
+                        .frame(width: 24)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Current Mileage")
+                            .font(.system(size: 12))
+                            .foregroundStyle(Color.cdTextTertiary)
+                        Text("--")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(Color.cdTextPrimary)
+                    }
+
+                    Spacer()
+
+                    Button("Set") {
+                        // TODO: Open mileage entry sheet
+                    }
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(Color.cdPrimaryBright)
+                }
+                .padding(CDSpacing.medium)
+                .background(Color.cdCardBackgroundLight)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                // Next service
+                HStack {
+                    Image(systemName: "calendar.badge.clock")
+                        .font(.system(size: 16))
+                        .foregroundStyle(Color.cdPrimaryBright)
+                        .frame(width: 24)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Next Oil Change")
+                            .font(.system(size: 12))
+                            .foregroundStyle(Color.cdTextTertiary)
+                        Text("Set up service tracking")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(Color.cdTextSecondary)
+                    }
+
+                    Spacer()
+                }
+                .padding(CDSpacing.medium)
+                .background(Color.cdCardBackgroundLight)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                // Log service button
+                Button {
+                    // TODO: Open log service sheet
+                } label: {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                        Text("Log Service")
+                    }
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.cdPrimaryBright)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(Color.cdPrimary.opacity(0.15))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+            .padding(CDSpacing.medium)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(Color.cdCardBackground)
+            )
         }
     }
 
@@ -1435,7 +1563,8 @@ struct VehicleCard: View {
     VehiclesView(
         selectedVehicle: .constant(.preview),
         selectedVehicleImage: .constant(nil),
-        refreshTrigger: .constant(UUID())
+        refreshTrigger: .constant(UUID()),
+        liveData: .constant(nil)
     )
     .environmentObject(APIClient())
     .environmentObject(VehicleStore())

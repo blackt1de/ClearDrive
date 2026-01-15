@@ -78,7 +78,8 @@ struct ContentView: View {
                 selectedVehicle: $selectedVehicle,
                 selectedVehicleImage: $selectedVehicleImage,
                 obdStatus: $obdStatus,
-                lastScanResult: $lastScanResult
+                lastScanResult: $lastScanResult,
+                liveData: $liveData
             )
             .tabItem {
                 Image(systemName: "magnifyingglass")
@@ -89,7 +90,8 @@ struct ContentView: View {
             VehiclesView(
                 selectedVehicle: $selectedVehicle,
                 selectedVehicleImage: $selectedVehicleImage,
-                refreshTrigger: $vehicleRefreshTrigger
+                refreshTrigger: $vehicleRefreshTrigger,
+                liveData: $liveData
             )
             .tabItem {
                 Image(systemName: "car.2.fill")
@@ -165,7 +167,17 @@ struct ContentView: View {
 
         print("[ContentView] Starting live data polling (500ms interval)")
 
-        // Poll immediately
+        // Set connected state immediately so UI shows LIVE indicator
+        liveData = LiveOBDData(
+            connected: true,
+            rpm: nil,
+            speed: nil,
+            coolantTemp: nil,
+            odometer: nil,
+            fuelLevel: nil
+        )
+
+        // Poll immediately to get data
         pollLiveData()
 
         // Set up timer to poll every 500ms
@@ -189,7 +201,8 @@ struct ContentView: View {
         guard obdManager.connectionState == .ready else { return }
 
         Task {
-            let data = await obdManager.readLiveData()
+            // Use fast read (only RPM, speed, coolant) for responsive real-time display
+            let data = await obdManager.readLiveDataFast()
 
             await MainActor.run {
                 liveData = LiveOBDData(
@@ -197,7 +210,8 @@ struct ContentView: View {
                     rpm: data.rpm != nil ? Double(data.rpm!) : nil,
                     speed: data.speed != nil ? Double(data.speed!) : nil,
                     coolantTemp: data.coolant != nil ? Double(data.coolant!) : nil,
-                    odometer: data.odometer
+                    odometer: liveData?.odometer,  // Keep previous value
+                    fuelLevel: liveData?.fuelLevel  // Keep previous value
                 )
             }
         }

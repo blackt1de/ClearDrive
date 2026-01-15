@@ -270,8 +270,7 @@ struct HomeView: View {
 
                 // Vehicle image
                 if let vehicle = selectedVehicle {
-                    let _ = print("[HomeView] selectedVehicle: \(vehicle.displayName)")
-                    let _ = print("[HomeView] displayedImageURL: \(displayedImageURL ?? "nil")")
+                    // Logging moved to onChange handlers to prevent spam
 
                     VStack(spacing: CDSpacing.small) {
                         if let imageURL = displayedImageURL, let url = URL(string: imageURL) {
@@ -287,7 +286,6 @@ struct HomeView: View {
                             }
                             .frame(width: 320, height: 200)
                         } else {
-                            let _ = print("[HomeView] No valid image URL, showing placeholder")
                             carPlaceholder
                         }
 
@@ -448,7 +446,11 @@ struct HomeView: View {
     // MARK: - Vehicle Type Badges
 
     private var hasVehicleTypeBadges: Bool {
-        guard let result = lastScanResult else { return false }
+        guard let result = lastScanResult else {
+            print("[HomeView] No lastScanResult - no badges")
+            return false
+        }
+        print("[HomeView] Badge check: turbo=\(result.isTurbo) super=\(result.isSupercharged) hybrid=\(result.isHybrid) electric=\(result.isElectric)")
         return result.isTurbo || result.isSupercharged || result.isHybrid || result.isElectric
     }
 
@@ -650,14 +652,10 @@ struct HomeView: View {
     }
 
     private func formatNextService(_ odometer: Double?) -> String {
-        guard let miles = odometer else { return "--" }
-        // Assume service every 5000 miles, calculate next
-        let serviceInterval = 5000.0
-        let nextService = (floor(miles / serviceInterval) + 1) * serviceInterval
-        let milesUntil = Int(nextService - miles)
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter.string(from: NSNumber(value: milesUntil)) ?? "--"
+        // Can't calculate without user entering their last service date/mileage
+        // Returns "--" until service tracking is set up
+        // TODO: Integrate with VehicleStore.serviceSchedule once user enters last service
+        return "--"
     }
 
     private func formatEngineDisplay(_ engine: String?) -> String {

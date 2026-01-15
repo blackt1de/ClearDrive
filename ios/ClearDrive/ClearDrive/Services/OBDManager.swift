@@ -37,6 +37,9 @@ class OBDManager: NSObject, ObservableObject {
     private var responseCompletion: ((String) -> Void)?
     private var responseTimer: Timer?
 
+    // Command serialization - only one command can be in-flight at a time
+    private let commandLock = CommandLock()
+
     // ELM327 UUIDs (common for most BLE adapters)
     private let serviceUUIDs: [CBUUID] = [
         CBUUID(string: "FFE0"),      // Common ELM327 BLE service
@@ -145,16 +148,12 @@ class OBDManager: NSObject, ObservableObject {
 
     /// Read VIN from vehicle
     func readVIN() async -> String? {
-        print("[OBDManager] Reading VIN...")
-
         do {
-            // Mode 09 PID 02 = VIN
-            let response = try await sendCommand("0902")
+            // Mode 09 PID 02 = VIN (needs longer timeout - multi-line response)
+            let response = try await sendCommand("0902", timeout: 8.0)
             let vin = parseVIN(response)
-            print("[OBDManager] VIN: \(vin ?? "nil")")
             return vin
         } catch {
-            print("[OBDManager] Failed to read VIN: \(error)")
             return nil
         }
     }
@@ -245,14 +244,51 @@ class OBDManager: NSObject, ObservableObject {
         return nil
     }
 
-    /// Read all live data at once
-    func readLiveData() async -> (rpm: Int?, speed: Int?, coolant: Int?, odometer: Double?) {
-        async let rpm = readRPM()
-        async let speed = readSpeed()
-        async let coolant = readCoolantTemp()
-        async let odometer = readOdometer()
+    /// Read fuel level percentage (0-100%)
+    func readFuelLevel() async -> Int? {
+        do {
+            // Mode 01 PID 2F = Fuel Tank Level Input
+            let response = try await sendCommand("012F")
+            if let level = parseFuelLevel(response) {
+                return level
+            }
+        } catch {
+            print("[OBDManager] Failed to read fuel level: \(error)")
+        }
+        return nil
+    }
 
-        return await (rpm, speed, coolant, odometer)
+    /// Read all live data sequentially (OBD adapters only support one command at a time)
+    func readLiveData() async -> (rpm: Int?, speed: Int?, coolant: Int?, odometer: Double?, fuelLevel: Int?) {
+        // IMPORTANT: Must execute sequentially - OBD adapter can only handle one command at a time
+        let rpm = await readRPM()
+        let speed = await readSpeed()
+        let coolant = await readCoolantTemp()
+        let odometer = await readOdometer()
+        let fuelLevel = await readFuelLevel()
+
+        print("[OBD-LIVE] RPM=\(rpm ?? -1) Speed=\(speed ?? -1) Coolant=\(coolant ?? -1) Odo=\(odometer ?? -1) Fuel=\(fuelLevel ?? -1)%")
+        return (rpm, speed, coolant, odometer, fuelLevel)
+    }
+
+    /// Fast live data read - only essential real-time PIDs (RPM, speed, coolant)
+    /// Use this for continuous polling to reduce latency
+    func readLiveDataFast() async -> (rpm: Int?, speed: Int?, coolant: Int?) {
+        // Use shorter timeout (0.8s) for faster response - these PIDs are fast
+        let rpm = await readPIDFast("010C", parser: parseRPM)
+        let speed = await readPIDFast("010D", parser: parseSpeed)
+        let coolant = await readPIDFast("0105", parser: parseCoolantTemp)
+        return (rpm, speed, coolant)
+    }
+
+    /// Fast PID read with shorter timeout for live polling
+    private func readPIDFast<T>(_ command: String, parser: (String) -> T?) async -> T? {
+        do {
+            let response = try await sendCommand(command, timeout: 0.8)
+            return parser(response)
+        } catch {
+            return nil
+        }
     }
 
     /// Clear DTCs (use with caution)
@@ -268,32 +304,47 @@ class OBDManager: NSObject, ObservableObject {
 
     // MARK: - Command Sending
 
+    private var continuationResumed = false
+
     private func sendCommand(_ command: String, timeout: TimeInterval = 2.0) async throws -> String {
+        // Acquire lock to ensure only one command runs at a time
+        await commandLock.acquire()
+        defer { Task { await commandLock.release() } }
+
         guard let characteristic = writeCharacteristic,
               let peripheral = connectedPeripheral else {
             throw OBDError.notConnected
         }
 
         return try await withCheckedThrowingContinuation { continuation in
+            continuationResumed = false
             responseBuffer = ""
-            responseCompletion = { response in
+
+            responseCompletion = { [weak self] response in
+                guard let self = self, !self.continuationResumed else { return }
+                self.continuationResumed = true
+                self.responseTimer?.invalidate()
                 continuation.resume(returning: response)
             }
 
             // Set timeout
             responseTimer?.invalidate()
-            responseTimer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { _ in
-                Task { @MainActor [weak self] in
-                    self?.responseCompletion = nil
+            responseTimer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] _ in
+                guard let self = self else { return }
+                Task { @MainActor in
+                    guard !self.continuationResumed else { return }
+                    self.continuationResumed = true
+                    self.responseCompletion = nil
+                    continuation.resume(throwing: OBDError.timeout)
                 }
-                continuation.resume(throwing: OBDError.timeout)
             }
 
             // Send command with carriage return
+            // Use correct write type based on characteristic properties
             let data = "\(command)\r".data(using: .utf8)!
-            peripheral.writeValue(data, for: characteristic, type: .withResponse)
-
-            print("[OBDManager] Sent: \(command)")
+            let writeType: CBCharacteristicWriteType = characteristic.properties.contains(.write) ? .withResponse : .withoutResponse
+            print("[OBD-DEBUG] Sending: \(command) (writeType: \(writeType == .withResponse ? "withResponse" : "withoutResponse"))")
+            peripheral.writeValue(data, for: characteristic, type: writeType)
         }
     }
 
@@ -311,36 +362,77 @@ class OBDManager: NSObject, ObservableObject {
     // MARK: - Response Parsing
 
     private func parseVIN(_ response: String) -> String? {
-        // VIN response format: 49 02 01 XX XX XX ... (hex ASCII)
-        let cleaned = response
-            .replacingOccurrences(of: " ", with: "")
-            .replacingOccurrences(of: "\r", with: "")
-            .replacingOccurrences(of: ">", with: "")
+        print("[OBD-DEBUG] Parsing VIN from response: \(response)")
 
-        // Find the VIN data (after header bytes)
-        var vinHex = cleaned
-        if let range = vinHex.range(of: "4902") {
-            vinHex = String(vinHex[range.upperBound...])
+        // Handle ISO 15765-4 multi-frame format (CAN protocol)
+        // Example: 014\r0:490201574155\r1:464641464C3246\r2:4E303337323533\r\r>
+        // Or older format: 49 02 01 XX XX XX ...
+
+        var vinHex = ""
+
+        // Check for multi-frame format (lines starting with 0:, 1:, 2:, etc.)
+        let lines = response.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
+        var hasMultiFrame = false
+
+        for line in lines {
+            let trimmed = line.trimmingCharacters(in: .whitespaces)
+            // Match frame format: "0:490201574155" or "1:464641464C3246"
+            if trimmed.count >= 2 && trimmed.contains(":") {
+                let parts = trimmed.split(separator: ":", maxSplits: 1)
+                if parts.count == 2, let frameNum = Int(parts[0]) {
+                    hasMultiFrame = true
+                    var frameData = String(parts[1])
+
+                    // First frame (0:) contains header 490201, skip it
+                    if frameNum == 0 {
+                        // Remove 490201 header (mode 09, PID 02, line 01)
+                        if frameData.hasPrefix("490201") {
+                            frameData = String(frameData.dropFirst(6))
+                        } else if frameData.hasPrefix("4902") {
+                            frameData = String(frameData.dropFirst(4))
+                        }
+                    }
+                    vinHex += frameData
+                }
+            }
         }
 
-        // Remove line numbers (49 02 01, 49 02 02, etc.)
-        vinHex = vinHex.replacingOccurrences(of: "490201", with: "")
-        vinHex = vinHex.replacingOccurrences(of: "490202", with: "")
-        vinHex = vinHex.replacingOccurrences(of: "490203", with: "")
-        vinHex = vinHex.replacingOccurrences(of: "490204", with: "")
-        vinHex = vinHex.replacingOccurrences(of: "490205", with: "")
+        // Fall back to old format if no multi-frame detected
+        if !hasMultiFrame {
+            let cleaned = response
+                .replacingOccurrences(of: " ", with: "")
+                .replacingOccurrences(of: "\r", with: "")
+                .replacingOccurrences(of: "\n", with: "")
+                .replacingOccurrences(of: ">", with: "")
+
+            vinHex = cleaned
+            if let range = vinHex.range(of: "4902") {
+                vinHex = String(vinHex[range.upperBound...])
+            }
+
+            // Remove line numbers
+            for i in 1...5 {
+                vinHex = vinHex.replacingOccurrences(of: "49020\(i)", with: "")
+            }
+        }
+
+        print("[OBD-DEBUG] VIN hex after parsing: \(vinHex)")
 
         // Convert hex to ASCII
         var vin = ""
         var index = vinHex.startIndex
         while index < vinHex.endIndex {
             let nextIndex = vinHex.index(index, offsetBy: 2, limitedBy: vinHex.endIndex) ?? vinHex.endIndex
-            let hexByte = String(vinHex[index..<nextIndex])
-            if let byte = UInt8(hexByte, radix: 16), byte >= 32, byte <= 126 {
-                vin.append(Character(UnicodeScalar(byte)))
+            if nextIndex <= vinHex.endIndex {
+                let hexByte = String(vinHex[index..<nextIndex])
+                if let byte = UInt8(hexByte, radix: 16), byte >= 32, byte <= 126 {
+                    vin.append(Character(UnicodeScalar(byte)))
+                }
             }
             index = nextIndex
         }
+
+        print("[OBD-DEBUG] Parsed VIN: \(vin) (length: \(vin.count))")
 
         // VIN should be 17 characters
         return vin.count >= 17 ? String(vin.prefix(17)) : nil
@@ -348,31 +440,51 @@ class OBDManager: NSObject, ObservableObject {
 
     private func parseDTCs(_ response: String) -> [String] {
         var codes: [String] = []
-        let cleaned = response
-            .replacingOccurrences(of: " ", with: "")
-            .replacingOccurrences(of: "\r", with: "")
-            .replacingOccurrences(of: ">", with: "")
 
-        // Response format: 43 XX XX YY YY ZZ ZZ (each XXYY is a DTC)
-        var hex = cleaned
-        if hex.hasPrefix("43") {
-            hex = String(hex.dropFirst(2))
-        }
+        // Split response by lines to handle multiple ECU responses
+        // Format: "4300\r4300\r" = two ECUs both reporting no codes
+        // Format: "430143\r" = one ECU with code P0143
+        let lines = response.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
 
-        // Each DTC is 4 hex characters
-        var index = hex.startIndex
-        while index < hex.endIndex {
-            let endIndex = hex.index(index, offsetBy: 4, limitedBy: hex.endIndex) ?? hex.endIndex
-            let dtcHex = String(hex[index..<endIndex])
+        for line in lines {
+            let cleaned = line
+                .replacingOccurrences(of: " ", with: "")
+                .replacingOccurrences(of: ">", with: "")
+                .trimmingCharacters(in: .whitespaces)
 
-            if dtcHex.count == 4, dtcHex != "0000" {
-                if let code = decodeDTC(dtcHex) {
-                    codes.append(code)
-                }
+            // Skip empty lines or non-DTC responses
+            guard cleaned.hasPrefix("43") || cleaned.hasPrefix("47") else { continue }
+
+            // Remove the mode byte (43 for stored DTCs, 47 for pending)
+            let hex = String(cleaned.dropFirst(2))
+
+            // "00" after mode byte means no codes stored
+            if hex == "00" || hex.isEmpty {
+                continue
             }
-            index = endIndex
+
+            // Each DTC is 4 hex characters (2 bytes)
+            var index = hex.startIndex
+            while index < hex.endIndex {
+                guard let endIndex = hex.index(index, offsetBy: 4, limitedBy: hex.endIndex) else {
+                    break
+                }
+                let dtcHex = String(hex[index..<endIndex])
+
+                // Skip "0000" padding and validate we have a real code
+                if dtcHex.count == 4 && dtcHex != "0000" {
+                    if let code = decodeDTC(dtcHex) {
+                        // Avoid duplicates from multiple ECUs
+                        if !codes.contains(code) {
+                            codes.append(code)
+                        }
+                    }
+                }
+                index = endIndex
+            }
         }
 
+        print("[OBD-DEBUG] Parsed DTCs: \(codes)")
         return codes
     }
 
@@ -428,49 +540,106 @@ class OBDManager: NSObject, ObservableObject {
     }
 
     private func parseOdometer(_ response: String) -> Double? {
+        // Check for NO DATA response first
+        if response.uppercased().contains("NO DATA") || response.uppercased().contains("NODATA") {
+            print("[OBD-PARSE] Odometer: NO DATA response, PID not supported")
+            return nil
+        }
+
         // Response format: 41 A6 XX XX XX XX
         // Odometer in km (4 bytes, big-endian), convert to miles
-        // Note: PID A6 is not universally supported - many vehicles don't have this
         let bytes = parseOBDResponse(response, expectedPID: "A6")
-        guard bytes.count >= 4 else { return nil }
 
-        // Combine 4 bytes into a single value (big-endian)
-        let km = (UInt32(bytes[0]) << 24) |
-                 (UInt32(bytes[1]) << 16) |
-                 (UInt32(bytes[2]) << 8) |
-                 UInt32(bytes[3])
+        // Some vehicles return 2 bytes, some return 4
+        if bytes.count >= 4 {
+            // 4-byte format (standard OBD2 A6)
+            let km = (UInt32(bytes[0]) << 24) |
+                     (UInt32(bytes[1]) << 16) |
+                     (UInt32(bytes[2]) << 8) |
+                     UInt32(bytes[3])
+            // Value is in 0.1 km units
+            let miles = Double(km) / 10.0 * 0.621371
+            print("[OBD-PARSE] Odometer (4-byte): \(km) -> \(miles) miles")
+            return miles
+        } else if bytes.count >= 2 {
+            // 2-byte format (some vehicles)
+            let km = (UInt32(bytes[0]) << 8) | UInt32(bytes[1])
+            let miles = Double(km) * 0.621371
+            print("[OBD-PARSE] Odometer (2-byte): \(km) -> \(miles) miles")
+            return miles
+        }
 
-        // Convert km to miles (odometer value is in 0.1 km units)
-        let miles = Double(km) / 10.0 * 0.621371
-        return miles
+        print("[OBD-PARSE] Odometer: Not enough bytes (\(bytes.count))")
+        return nil
+    }
+
+    private func parseFuelLevel(_ response: String) -> Int? {
+        // Check for NO DATA response first
+        if response.uppercased().contains("NO DATA") || response.uppercased().contains("NODATA") {
+            print("[OBD-PARSE] Fuel Level: NO DATA response, PID not supported")
+            return nil
+        }
+
+        // Response format: 41 2F XX
+        // Fuel level = A * 100 / 255 (percentage 0-100%)
+        let bytes = parseOBDResponse(response, expectedPID: "2F")
+        guard bytes.count >= 1 else {
+            print("[OBD-PARSE] Fuel Level: Not enough bytes (\(bytes.count))")
+            return nil
+        }
+
+        let percentage = Int(Double(bytes[0]) * 100.0 / 255.0)
+        print("[OBD-PARSE] Fuel Level: \(bytes[0]) -> \(percentage)%")
+        return percentage
     }
 
     private func parseOBDResponse(_ response: String, expectedPID: String) -> [UInt8] {
-        let cleaned = response
-            .replacingOccurrences(of: " ", with: "")
-            .replacingOccurrences(of: "\r", with: "")
-            .replacingOccurrences(of: ">", with: "")
+        // Handle multi-ECU responses by splitting on \r first
+        // Example: "410C0C54\r410C0C60\r\r>" - two ECUs responding
+        let lines = response.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
 
-        // Find response header (41 XX)
-        guard let range = cleaned.range(of: "41\(expectedPID)", options: .caseInsensitive) else {
-            return []
-        }
+        // Find the first line with the expected response header
+        let header = "41\(expectedPID)".uppercased()
 
-        let dataStart = cleaned.index(range.upperBound, offsetBy: 0)
-        let dataHex = String(cleaned[dataStart...])
+        for line in lines {
+            let cleaned = line
+                .replacingOccurrences(of: " ", with: "")
+                .replacingOccurrences(of: ">", with: "")
+                .trimmingCharacters(in: .whitespaces)
+                .uppercased()
 
-        // Convert hex string to bytes
-        var bytes: [UInt8] = []
-        var index = dataHex.startIndex
-        while index < dataHex.endIndex {
-            let nextIndex = dataHex.index(index, offsetBy: 2, limitedBy: dataHex.endIndex) ?? dataHex.endIndex
-            if let byte = UInt8(String(dataHex[index..<nextIndex]), radix: 16) {
-                bytes.append(byte)
+            // Skip empty lines
+            guard !cleaned.isEmpty else { continue }
+
+            // Find the response header in this line
+            guard let range = cleaned.range(of: header) else { continue }
+
+            // Extract data bytes after the header
+            let dataStart = range.upperBound
+            let dataHex = String(cleaned[dataStart...])
+
+            // Convert hex string to bytes
+            var bytes: [UInt8] = []
+            var index = dataHex.startIndex
+            while index < dataHex.endIndex {
+                let nextIndex = dataHex.index(index, offsetBy: 2, limitedBy: dataHex.endIndex) ?? dataHex.endIndex
+                let hexPair = String(dataHex[index..<nextIndex])
+                if let byte = UInt8(hexPair, radix: 16) {
+                    bytes.append(byte)
+                } else {
+                    break
+                }
+                index = nextIndex
             }
-            index = nextIndex
+
+            if !bytes.isEmpty {
+                print("[OBD-PARSE] PID \(expectedPID): \(bytes.count) bytes -> \(bytes.map { String(format: "%02X", $0) }.joined(separator: " "))")
+                return bytes
+            }
         }
 
-        return bytes
+        print("[OBD-PARSE] PID \(expectedPID): No valid response found")
+        return []
     }
 }
 
@@ -521,7 +690,10 @@ extension OBDManager: CBCentralManagerDelegate {
                     return $0.rssi > $1.rssi
                 }
 
-                print("[OBDManager] Found device: \(name) (RSSI: \(RSSI), likelyOBD: \(isLikelyOBD))")
+                // Only log likely OBD devices to prevent console flooding
+                if isLikelyOBD {
+                    print("[OBDManager] Found OBD device: \(name)")
+                }
             }
         }
     }
@@ -561,9 +733,7 @@ extension OBDManager: CBPeripheralDelegate {
                 return
             }
 
-            print("[OBDManager] Found \(services.count) services")
             for service in services {
-                print("[OBDManager] Service: \(service.uuid)")
                 peripheral.discoverCharacteristics(nil, for: service)
             }
         }
@@ -574,19 +744,16 @@ extension OBDManager: CBPeripheralDelegate {
             guard error == nil, let characteristics = service.characteristics else { return }
 
             for characteristic in characteristics {
-                print("[OBDManager] Characteristic: \(characteristic.uuid), properties: \(characteristic.properties)")
 
                 // Look for write characteristic
                 if characteristic.properties.contains(.write) || characteristic.properties.contains(.writeWithoutResponse) {
                     writeCharacteristic = characteristic
-                    print("[OBDManager] Found write characteristic")
                 }
 
                 // Look for notify/read characteristic
                 if characteristic.properties.contains(.notify) {
                     readCharacteristic = characteristic
                     peripheral.setNotifyValue(true, for: characteristic)
-                    print("[OBDManager] Subscribed to notifications")
                 }
             }
 
@@ -604,11 +771,21 @@ extension OBDManager: CBPeripheralDelegate {
             guard error == nil, let data = characteristic.value else { return }
 
             if let response = String(data: data, encoding: .utf8) {
-                print("[OBDManager] Received: \(response.replacingOccurrences(of: "\r", with: "\\r"))")
                 responseBuffer += response
+                print("[OBD-DEBUG] Received chunk: \(response.replacingOccurrences(of: "\r", with: "\\r").replacingOccurrences(of: "\n", with: "\\n"))")
+                print("[OBD-DEBUG] Buffer now: \(responseBuffer.replacingOccurrences(of: "\r", with: "\\r").replacingOccurrences(of: "\n", with: "\\n"))")
 
-                // Check if response is complete (ends with > prompt)
-                if responseBuffer.contains(">") {
+                // Check if response is complete
+                // ELM327 responses end with ">" prompt, but also check for error responses
+                let trimmed = responseBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
+                let isComplete = responseBuffer.contains(">") ||
+                                 trimmed.hasSuffix("OK") ||
+                                 trimmed.hasSuffix("NO DATA") ||
+                                 trimmed.hasSuffix("ERROR") ||
+                                 trimmed.hasSuffix("UNABLE TO CONNECT") ||
+                                 trimmed.hasSuffix("?")
+
+                if isComplete {
                     responseTimer?.invalidate()
                     let completion = responseCompletion
                     responseCompletion = nil
@@ -620,7 +797,9 @@ extension OBDManager: CBPeripheralDelegate {
 
     nonisolated func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
-            print("[OBDManager] Write error: \(error.localizedDescription)")
+            print("[OBD-DEBUG] Write ERROR: \(error.localizedDescription)")
+        } else {
+            print("[OBD-DEBUG] Write successful")
         }
     }
 }
@@ -682,6 +861,33 @@ enum OBDError: LocalizedError {
         case .timeout: return "Command timed out"
         case .invalidResponse: return "Invalid response from adapter"
         case .noData: return "No data available"
+        }
+    }
+}
+
+/// Async semaphore to serialize OBD commands (adapter only handles one at a time)
+actor CommandLock {
+    private var isLocked = false
+    private var waiters: [CheckedContinuation<Void, Never>] = []
+
+    func acquire() async {
+        if !isLocked {
+            isLocked = true
+            return
+        }
+
+        // Wait in queue until lock is available
+        await withCheckedContinuation { continuation in
+            waiters.append(continuation)
+        }
+    }
+
+    func release() {
+        if let next = waiters.first {
+            waiters.removeFirst()
+            next.resume()
+        } else {
+            isLocked = false
         }
     }
 }
