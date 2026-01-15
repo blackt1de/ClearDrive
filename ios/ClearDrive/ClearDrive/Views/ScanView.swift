@@ -36,6 +36,7 @@ struct ScanView: View {
     @Binding var selectedVehicleImage: String?
     @Binding var obdStatus: OBDConnectionStatus
     @Binding var lastScanResult: ScanResult?
+    @Binding var liveData: LiveOBDData?
 
     // Scan state
     @State private var scanPhase: ScanPhase = .ready
@@ -209,7 +210,7 @@ struct ScanView: View {
         }
         .sheet(isPresented: $showingResults) {
             if let result = scanResult {
-                ResultsView(result: result)
+                ResultsView(result: result, liveData: liveData)
             }
         }
         .sheet(isPresented: $showOBDConnection) {
@@ -641,7 +642,7 @@ struct ScanView: View {
                     scanPhase = .detectingVehicle
                 }
 
-                // Step 2: Decode VIN via server - this gives us engine, drive, transmission info
+                // Step 2: Decode VIN via server - VIN gives us everything we need
                 do {
                     let vehicleInfo = try await apiClient.decodeVIN(vin)
 
@@ -649,49 +650,87 @@ struct ScanView: View {
                         detectedVehicle = vehicleInfo
                     }
 
-                    // Step 3: Get all trims for detected vehicle
+                    print("[ScanView] VIN decoded: \(vehicleInfo.displayName)")
+                    print("  - trim: \(vehicleInfo.trim ?? "nil")")
+                    print("  - engine: \(vehicleInfo.engine ?? "nil")")
+                    print("  - drive: \(vehicleInfo.driveType ?? "nil")")
+                    print("  - transmission: \(vehicleInfo.transmission ?? "nil")")
+
+                    // Check if VIN gave us the critical diagnostic info (engine matters most)
+                    let hasEngine = vehicleInfo.engine != nil && !vehicleInfo.engine!.isEmpty
+
+                    // Always fetch trims to get color options for image matching
+                    print("[ScanView] Fetching trims to get color options...")
                     let fetchedTrims = try await apiClient.getTrims(
                         year: vehicleInfo.year,
                         make: vehicleInfo.make,
                         model: vehicleInfo.model
                     )
 
-                    // Step 4: Filter trims using VIN-decoded specs (engine, drive, transmission)
-                    let matchingTrims = fetchedTrims.filter { trim in
-                        trim.matchesSpecs(
-                            engine: vehicleInfo.engine,
-                            driveType: vehicleInfo.driveType,
-                            transmission: vehicleInfo.transmission
-                        )
-                    }
+                    // Find colors from trims
+                    let availableColors = fetchedTrims.first?.colorsExterior ?? []
+                    print("[ScanView] Found \(availableColors.count) exterior colors")
 
-                    await MainActor.run {
-                        // Use filtered trims, or fall back to all trims if filtering yields nothing
-                        let trimsToUse = matchingTrims.isEmpty ? fetchedTrims : matchingTrims
-
-                        if trimsToUse.count == 1 {
-                            // Only one matching trim - proceed directly to scan
-                            let trim = trimsToUse[0]
-                            var vehicle = vehicleInfo
-                            vehicle.trim = trim.name
-                            vehicle.engine = trim.engine ?? vehicleInfo.engine
-                            selectedVehicle = vehicle
-                            runLocalOBDDiagnostic(vehicle: vehicle, trimId: trim.id)
-                        } else if trimsToUse.count > 1 {
-                            // Multiple matching trims - ask user to pick
-                            trims = trimsToUse
+                    if hasEngine {
+                        // VIN gave us engine - check if we have colors to show
+                        await MainActor.run {
+                            selectedVehicle = vehicleInfo
                             year = vehicleInfo.year
                             make = vehicleInfo.make
                             model = vehicleInfo.model
-                            scanPhase = .selectingTrim
-                            showTrimSheet = true
-                        } else {
-                            // No trims found - run with VIN-decoded info directly
-                            selectedVehicle = vehicleInfo
-                            runLocalOBDDiagnostic(vehicle: vehicleInfo, trimId: nil)
+
+                            if !availableColors.isEmpty, let firstTrim = fetchedTrims.first {
+                                // Show color selection for better image matching
+                                colorSheetData = ColorSheetData(
+                                    trim: firstTrim,
+                                    transmission: TransmissionOption(name: vehicleInfo.transmission ?? "", label: vehicleInfo.transmission ?? ""),
+                                    colors: availableColors
+                                )
+                            } else {
+                                // No colors - proceed directly
+                                runLocalOBDDiagnostic(vehicle: vehicleInfo, trimId: fetchedTrims.first?.id)
+                            }
+                        }
+                    } else {
+                        // VIN missing engine info - need to ask user to pick trim
+                        print("[ScanView] VIN missing engine - need trim selection")
+
+                        await MainActor.run {
+                            if fetchedTrims.isEmpty {
+                                // No trims available - just use what we have
+                                selectedVehicle = vehicleInfo
+                                runLocalOBDDiagnostic(vehicle: vehicleInfo, trimId: nil)
+                            } else if fetchedTrims.count == 1 {
+                                // Only one trim - use it but still ask for color
+                                var vehicle = vehicleInfo
+                                vehicle.engine = fetchedTrims[0].engine ?? vehicleInfo.engine
+                                selectedVehicle = vehicle
+                                year = vehicleInfo.year
+                                make = vehicleInfo.make
+                                model = vehicleInfo.model
+
+                                if !fetchedTrims[0].colorsExterior.isEmpty {
+                                    colorSheetData = ColorSheetData(
+                                        trim: fetchedTrims[0],
+                                        transmission: TransmissionOption(name: vehicle.transmission ?? "", label: vehicle.transmission ?? ""),
+                                        colors: fetchedTrims[0].colorsExterior
+                                    )
+                                } else {
+                                    runLocalOBDDiagnostic(vehicle: vehicle, trimId: fetchedTrims[0].id)
+                                }
+                            } else {
+                                // Multiple trims - ask user
+                                trims = fetchedTrims
+                                year = vehicleInfo.year
+                                make = vehicleInfo.make
+                                model = vehicleInfo.model
+                                scanPhase = .selectingTrim
+                                showTrimSheet = true
+                            }
                         }
                     }
                 } catch {
+                    print("[ScanView] VIN decode error: \(error)")
                     await MainActor.run {
                         scanPhase = .error
                         errorMessage = "Could not decode VIN. Please enter your vehicle manually."
@@ -981,36 +1020,65 @@ struct ScanView: View {
         handleColorSelected(nil, trim: trim, transmission: transmission)
     }
 
-    /// Called when user selects a color (or skips) in manual entry mode
+    /// Called when user selects a color (or skips) - works for both VIN decode and manual entry flows
     private func handleColorSelected(_ color: TrimColor?, trim: TrimOption, transmission: TransmissionOption) {
         print("[ScanView] handleColorSelected")
         print("  - color: \(color?.name ?? "none/skipped")")
 
-        // Create vehicle with all selected options
-        let vehicle = VehicleInfo(
-            year: year,
-            make: make,
-            model: model,
-            trim: trim.name,
-            engine: trim.engine,
-            fuelType: trim.fuelType,
-            driveType: trim.driveType,
-            transmission: transmission.name,
-            bodyStyle: selectedBodyStyle?.name ?? trim.bodyStyle,
-            horsepower: trim.horsepower,
-            torque: trim.torque,
-            mpgCity: trim.mpgCity,
-            mpgHighway: trim.mpgHighway,
-            mpgCombined: trim.mpgCombined,
-            tankCapacity: trim.tankCapacity,
-            colorsExterior: trim.colorsExterior.map { VehicleColor(name: $0.name, rgb: $0.rgb) },
-            colorsInterior: trim.colorsInterior.map { VehicleColor(name: $0.name, rgb: $0.rgb) },
-            isTruck: trim.isTruck,
-            isElectric: trim.isElectric,
-            isPluginHybrid: trim.isPluginHybrid
-        )
+        // Use already-selected vehicle (from VIN decode) or create from trim (manual entry)
+        let vehicle: VehicleInfo
+        if let existingVehicle = selectedVehicle {
+            // VIN decode flow - use the VIN-decoded vehicle, just update colors
+            vehicle = VehicleInfo(
+                year: existingVehicle.year,
+                make: existingVehicle.make,
+                model: existingVehicle.model,
+                trim: existingVehicle.trim ?? trim.name,
+                engine: existingVehicle.engine ?? trim.engine,
+                fuelType: existingVehicle.fuelType ?? trim.fuelType,
+                driveType: existingVehicle.driveType ?? trim.driveType,
+                transmission: existingVehicle.transmission ?? transmission.name,
+                bodyStyle: existingVehicle.bodyStyle ?? selectedBodyStyle?.name ?? trim.bodyStyle,
+                horsepower: existingVehicle.horsepower ?? trim.horsepower,
+                torque: existingVehicle.torque ?? trim.torque,
+                mpgCity: existingVehicle.mpgCity ?? trim.mpgCity,
+                mpgHighway: existingVehicle.mpgHighway ?? trim.mpgHighway,
+                mpgCombined: existingVehicle.mpgCombined ?? trim.mpgCombined,
+                tankCapacity: existingVehicle.tankCapacity ?? trim.tankCapacity,
+                colorsExterior: trim.colorsExterior.map { VehicleColor(name: $0.name, rgb: $0.rgb) },
+                colorsInterior: trim.colorsInterior.map { VehicleColor(name: $0.name, rgb: $0.rgb) },
+                isTruck: trim.isTruck,
+                isElectric: trim.isElectric,
+                isPluginHybrid: trim.isPluginHybrid
+            )
+            print("[ScanView] Using VIN-decoded vehicle: \(vehicle.displayName)")
+        } else {
+            // Manual entry flow - create vehicle from trim data
+            vehicle = VehicleInfo(
+                year: year,
+                make: make,
+                model: model,
+                trim: trim.name,
+                engine: trim.engine,
+                fuelType: trim.fuelType,
+                driveType: trim.driveType,
+                transmission: transmission.name,
+                bodyStyle: selectedBodyStyle?.name ?? trim.bodyStyle,
+                horsepower: trim.horsepower,
+                torque: trim.torque,
+                mpgCity: trim.mpgCity,
+                mpgHighway: trim.mpgHighway,
+                mpgCombined: trim.mpgCombined,
+                tankCapacity: trim.tankCapacity,
+                colorsExterior: trim.colorsExterior.map { VehicleColor(name: $0.name, rgb: $0.rgb) },
+                colorsInterior: trim.colorsInterior.map { VehicleColor(name: $0.name, rgb: $0.rgb) },
+                isTruck: trim.isTruck,
+                isElectric: trim.isElectric,
+                isPluginHybrid: trim.isPluginHybrid
+            )
+            print("[ScanView] Created vehicle from manual entry: \(vehicle.displayName)")
+        }
 
-        print("[ScanView] Created vehicle: \(vehicle.displayName)")
         print("  - engine: \(vehicle.engine ?? "nil")")
         print("  - transmission: \(vehicle.transmission ?? "nil")")
 
@@ -1477,9 +1545,11 @@ struct OptionRow: View {
         selectedVehicle: .constant(nil),
         selectedVehicleImage: .constant(nil),
         obdStatus: .constant(.disconnected),
-        lastScanResult: .constant(nil)
+        lastScanResult: .constant(nil),
+        liveData: .constant(nil)
     )
     .environmentObject(APIClient())
     .environmentObject(VehicleStore())
+    .environmentObject(OBDManager())
     .preferredColorScheme(.dark)
 }

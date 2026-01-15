@@ -11,6 +11,7 @@ struct ResultsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var apiClient: APIClient
     let result: ScanResult
+    var liveData: LiveOBDData?
 
     @State private var chatMessages: [ChatMessage] = []
     @State private var currentQuestion = ""
@@ -263,48 +264,65 @@ struct ResultsView: View {
     // MARK: - Live Data Section
 
     private var liveDataSection: some View {
-        VStack(alignment: .leading, spacing: CDSpacing.small) {
+        // Use live data if connected, otherwise fall back to scan-time data
+        let isLive = liveData?.connected == true
+        let displayRpm = isLive ? (liveData?.rpm.map { Int($0) }) : result.rpm
+        let displaySpeed = isLive ? (liveData?.speed.map { Int($0) }) : result.speed
+        let displayTemp = isLive ? (liveData?.coolantTemp.map { Int($0) }) : result.coolantTemp
+
+        return VStack(alignment: .leading, spacing: CDSpacing.small) {
             HStack(spacing: CDSpacing.xs) {
-                Image(systemName: "antenna.radiowaves.left.and.right")
+                Image(systemName: isLive ? "antenna.radiowaves.left.and.right.circle.fill" : "antenna.radiowaves.left.and.right")
                     .font(.system(size: 11))
-                    .foregroundStyle(Color.cdPrimaryBright)
+                    .foregroundStyle(isLive ? Color.green : Color.cdPrimaryBright)
 
                 Text("OBD-II DATA")
                     .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(Color.cdPrimaryBright)
+                    .foregroundStyle(isLive ? Color.green : Color.cdPrimaryBright)
                     .tracking(0.5)
 
                 Spacer()
 
-                Text("AT TIME OF SCAN")
-                    .font(.system(size: 9, weight: .medium))
-                    .foregroundStyle(Color.cdTextTertiary)
+                if isLive {
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(Color.green)
+                            .frame(width: 6, height: 6)
+                        Text("LIVE")
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundStyle(Color.green)
+                    }
+                } else {
+                    Text("AT TIME OF SCAN")
+                        .font(.system(size: 9, weight: .medium))
+                        .foregroundStyle(Color.cdTextTertiary)
+                }
             }
             .padding(.horizontal, CDSpacing.small)
 
             HStack(spacing: CDSpacing.small) {
-                if let rpm = result.rpm {
+                if let rpm = displayRpm {
                     LiveDataWidget(
                         value: "\(rpm)",
                         label: "RPM",
                         icon: "gauge.with.needle",
-                        color: .cdPrimaryBright
+                        color: isLive ? .green : .cdPrimaryBright
                     )
                 }
-                if let speed = result.speed {
+                if let speed = displaySpeed {
                     LiveDataWidget(
                         value: "\(speed) mph",
                         label: "Speed",
                         icon: "speedometer",
-                        color: .cdPrimaryBright
+                        color: isLive ? .green : .cdPrimaryBright
                     )
                 }
-                if let temp = result.coolantTemp {
+                if let temp = displayTemp {
                     LiveDataWidget(
                         value: "\(temp)°F",
                         label: "Coolant",
                         icon: "thermometer.medium",
-                        color: .cdPrimaryBright
+                        color: isLive ? .green : .cdPrimaryBright
                     )
                 }
             }

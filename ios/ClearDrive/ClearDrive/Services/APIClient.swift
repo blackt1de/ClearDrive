@@ -124,19 +124,52 @@ class APIClient: ObservableObject {
         request.httpBody = try JSONEncoder().encode(body)
 
         let (data, _) = try await URLSession.shared.data(for: request)
+
+        // Log raw response for debugging
+        if let jsonString = String(data: data, encoding: .utf8) {
+            print("[APIClient] VIN decode response: \(jsonString.prefix(500))")
+        }
+
         let response = try JSONDecoder().decode(VINResponse.self, from: data)
+
+        // Check if decode was successful
+        guard response.success else {
+            print("[APIClient] VIN decode failed - success=false")
+            throw APIError.vinDecodeFailed
+        }
+
+        // Check if we got valid year/make/model
+        let year = response.year ?? ""
+        let make = response.make ?? ""
+        let model = response.model ?? ""
+
+        if year.isEmpty || make.isEmpty || model.isEmpty {
+            print("[APIClient] VIN decode returned incomplete data: year='\(year)' make='\(make)' model='\(model)'")
+            throw APIError.vinDecodeFailed
+        }
+
+        print("[APIClient] VIN decoded: \(year) \(make) \(model)")
+        print("  - engine: \(response.engine ?? "nil")")
+        print("  - mpgCity: \(response.mpgCity ?? "nil")")
+        print("  - tankCapacity: \(response.tankCapacity ?? "nil")")
 
         return VehicleInfo(
             vin: response.vin,
-            year: response.year ?? "",
-            make: response.make ?? "",
-            model: response.model ?? "",
+            year: year,
+            make: make,
+            model: model,
             trim: response.trim,
             engine: response.engine,
             fuelType: response.fuelType,
             driveType: response.driveType,
             transmission: response.transmission,
-            bodyStyle: response.bodyStyle
+            bodyStyle: response.bodyStyle,
+            horsepower: response.horsepower,
+            torque: response.torque,
+            mpgCity: response.mpgCity,
+            mpgHighway: response.mpgHighway,
+            mpgCombined: response.mpgCombined,
+            tankCapacity: response.tankCapacity
         )
     }
 
@@ -255,7 +288,7 @@ class APIClient: ObservableObject {
         // Use trim ID if provided, otherwise build from vehicle info
         let vehicleId = trimId ?? "\(vehicle.year)_\(vehicle.make)_\(vehicle.model)".lowercased().replacingOccurrences(of: " ", with: "_")
 
-        let body: [String: Any] = [
+        var body: [String: Any] = [
             "vehicle_id": vehicleId,
             "trim": vehicle.trim ?? "",
             "use_live_obd": false,  // We're providing the data from client
@@ -265,6 +298,9 @@ class APIClient: ObservableObject {
             "client_coolant_temp": coolantTemp as Any,
             "obd_source": "Bluetooth (iOS)"
         ]
+        if let color = color {
+            body["color"] = color
+        }
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
         print("[APIClient] Sending client OBD data: \(codes.count) codes, rpm=\(rpm ?? -1)")
@@ -297,6 +333,7 @@ class APIClient: ObservableObject {
         result.diyFix = response.diyFix
         result.urgency = response.urgency
         result.repairCost = response.repairCost
+        result.serviceRecommendations = response.serviceRecommendations
         result.knownIssues = response.knownIssues
         result.ownerReports = response.ownerReports
 
@@ -394,6 +431,7 @@ class APIClient: ObservableObject {
         result.diyFix = response.diyFix
         result.urgency = response.urgency
         result.repairCost = response.repairCost
+        result.serviceRecommendations = response.serviceRecommendations
         result.knownIssues = response.knownIssues
         result.ownerReports = response.ownerReports
 
@@ -410,6 +448,7 @@ class APIClient: ObservableObject {
         result.isSupercharged = response.supercharged ?? false
         result.isHybrid = response.hybrid ?? false
         result.isElectric = response.electric ?? false
+        print("[APIClient] Type flags from server: turbo=\(response.turbocharged ?? false) super=\(response.supercharged ?? false) hybrid=\(response.hybrid ?? false) electric=\(response.electric ?? false)")
 
         // Data sources and OBD info
         result.dataSources = response.dataSources ?? []
@@ -474,12 +513,14 @@ struct FollowUpResponse: Codable {
 
 enum APIError: LocalizedError {
     case vinReadFailed
+    case vinDecodeFailed
     case connectionFailed
     case invalidResponse
 
     var errorDescription: String? {
         switch self {
         case .vinReadFailed: return "Failed to read VIN from vehicle"
+        case .vinDecodeFailed: return "Could not decode VIN - vehicle data not available"
         case .connectionFailed: return "Could not connect to server"
         case .invalidResponse: return "Invalid response from server"
         }
@@ -523,6 +564,14 @@ struct VINResponse: Codable {
     let driveType: String?
     let transmission: String?
     let bodyStyle: String?
+    let mpgCity: String?
+    let mpgHighway: String?
+    let mpgCombined: String?
+    let tankCapacity: String?
+    let horsepower: String?
+    let torque: String?
+    let isTurbo: Bool?
+    let isSupercharged: Bool?
 
     enum CodingKeys: String, CodingKey {
         case success, vin, year, make, model, trim, engine
@@ -530,6 +579,13 @@ struct VINResponse: Codable {
         case driveType = "drive_type"
         case transmission
         case bodyStyle = "body_style"
+        case mpgCity = "mpg_city"
+        case mpgHighway = "mpg_highway"
+        case mpgCombined = "mpg_combined"
+        case tankCapacity = "tank_capacity"
+        case horsepower, torque
+        case isTurbo = "is_turbo"
+        case isSupercharged = "is_supercharged"
     }
 }
 
@@ -785,6 +841,7 @@ struct InterpretResponse: Codable {
     let diyFix: String?
     let urgency: String?
     let repairCost: String?
+    let serviceRecommendations: String?
     let knownIssues: String?
     let ownerReports: String?
     let dataSources: [String]?
@@ -811,6 +868,7 @@ struct InterpretResponse: Codable {
         case diyFix = "diy_fix"
         case urgency
         case repairCost = "repair_cost"
+        case serviceRecommendations = "service_recommendations"
         case knownIssues = "known_issues"
         case ownerReports = "owner_reports"
         case dataSources = "data_sources"

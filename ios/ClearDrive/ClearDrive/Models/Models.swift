@@ -159,6 +159,7 @@ struct LiveOBDData: Codable {
     let speed: Double?
     let coolantTemp: Double?
     let odometer: Double?
+    let fuelLevel: Int?
 
     enum CodingKeys: String, CodingKey {
         case connected
@@ -166,14 +167,16 @@ struct LiveOBDData: Codable {
         case speed
         case coolantTemp = "coolant_temp"
         case odometer
+        case fuelLevel = "fuel_level"
     }
 
-    init(connected: Bool, rpm: Double?, speed: Double?, coolantTemp: Double?, odometer: Double? = nil) {
+    init(connected: Bool, rpm: Double?, speed: Double?, coolantTemp: Double?, odometer: Double? = nil, fuelLevel: Int? = nil) {
         self.connected = connected
         self.rpm = rpm
         self.speed = speed
         self.coolantTemp = coolantTemp
         self.odometer = odometer
+        self.fuelLevel = fuelLevel
     }
 }
 
@@ -190,6 +193,7 @@ struct ScanResult: Identifiable, Codable {
         case id, vehicle, codes, safetyRating, timestamp
         case dontPanic, likelyCauses, symptoms, ifIgnored
         case quickChecks, diyFix, urgency, repairCost
+        case serviceRecommendations
         case knownIssues, ownerReports
         case engine, drive, fuelType, transmission
         case isTurbo, isSupercharged, isHybrid, isElectric
@@ -216,6 +220,7 @@ struct ScanResult: Identifiable, Codable {
         diyFix = try container.decodeIfPresent(String.self, forKey: .diyFix)
         urgency = try container.decodeIfPresent(String.self, forKey: .urgency)
         repairCost = try container.decodeIfPresent(String.self, forKey: .repairCost)
+        serviceRecommendations = try container.decodeIfPresent(String.self, forKey: .serviceRecommendations)
         knownIssues = try container.decodeIfPresent(String.self, forKey: .knownIssues)
         ownerReports = try container.decodeIfPresent(String.self, forKey: .ownerReports)
 
@@ -256,6 +261,7 @@ struct ScanResult: Identifiable, Codable {
         try container.encodeIfPresent(diyFix, forKey: .diyFix)
         try container.encodeIfPresent(urgency, forKey: .urgency)
         try container.encodeIfPresent(repairCost, forKey: .repairCost)
+        try container.encodeIfPresent(serviceRecommendations, forKey: .serviceRecommendations)
         try container.encodeIfPresent(knownIssues, forKey: .knownIssues)
         try container.encodeIfPresent(ownerReports, forKey: .ownerReports)
 
@@ -295,6 +301,7 @@ struct ScanResult: Identifiable, Codable {
     var diyFix: String?              // DIY Fix
     var urgency: String?             // When To See A Mechanic
     var repairCost: String?          // Estimated Repair Cost
+    var serviceRecommendations: String?  // Oil type, interval, service notes
     var knownIssues: String?         // Known Issues For This Engine
     var ownerReports: String?        // Other Owners Report
 
@@ -364,6 +371,162 @@ struct EstimatedCosts: Codable {
     let parts: String
     let labor: String
     let total: String
+}
+
+// MARK: - Service Tracking
+
+enum ServiceType: String, Codable, CaseIterable, Identifiable {
+    case oilChange = "Oil Change"
+    case tireRotation = "Tire Rotation"
+    case brakeService = "Brake Service"
+    case airFilter = "Air Filter"
+    case transmission = "Transmission Service"
+    case coolant = "Coolant Flush"
+    case sparkPlugs = "Spark Plugs"
+    case other = "Other"
+
+    var id: String { rawValue }
+
+    var icon: String {
+        switch self {
+        case .oilChange: return "drop.fill"
+        case .tireRotation: return "circle.circle"
+        case .brakeService: return "brake.signal"
+        case .airFilter: return "wind"
+        case .transmission: return "gearshape.2.fill"
+        case .coolant: return "thermometer.snowflake"
+        case .sparkPlugs: return "bolt.fill"
+        case .other: return "wrench.and.screwdriver.fill"
+        }
+    }
+}
+
+enum OilType: String, Codable, CaseIterable, Identifiable {
+    case conventional = "Conventional"
+    case synthetic = "Full Synthetic"
+    case syntheticBlend = "Synthetic Blend"
+    case highMileage = "High Mileage"
+
+    var id: String { rawValue }
+
+    /// Recommended miles between oil changes
+    var intervalMiles: Int {
+        switch self {
+        case .conventional: return 5000
+        case .syntheticBlend: return 7500
+        case .synthetic: return 10000
+        case .highMileage: return 5000
+        }
+    }
+
+    /// Recommended months between oil changes
+    var intervalMonths: Int {
+        switch self {
+        case .conventional: return 6
+        case .syntheticBlend: return 9
+        case .synthetic: return 12
+        case .highMileage: return 6
+        }
+    }
+}
+
+struct ServiceRecord: Codable, Identifiable {
+    var id: UUID = UUID()
+    let type: ServiceType
+    let date: Date
+    let mileage: Double
+    let notes: String?
+    let cost: Double?
+
+    init(type: ServiceType, date: Date, mileage: Double, notes: String? = nil, cost: Double? = nil) {
+        self.type = type
+        self.date = date
+        self.mileage = mileage
+        self.notes = notes
+        self.cost = cost
+    }
+}
+
+struct ServiceSchedule: Codable {
+    var currentMileage: Double?
+    var oilType: OilType = .synthetic
+    var lastOilChange: ServiceRecord?
+    var serviceHistory: [ServiceRecord] = []
+
+    /// Calculate next oil change due
+    var nextOilChangeDue: (miles: Double?, date: Date?)? {
+        guard let lastOil = lastOilChange else { return nil }
+
+        let nextMiles = lastOil.mileage + Double(oilType.intervalMiles)
+        let nextDate = Calendar.current.date(byAdding: .month, value: oilType.intervalMonths, to: lastOil.date)
+
+        return (nextMiles, nextDate)
+    }
+
+    /// Check if oil change is overdue
+    func isOilChangeOverdue(currentMileage: Double?) -> Bool {
+        guard let next = nextOilChangeDue else { return false }
+
+        // Check mileage
+        if let current = currentMileage, let nextMiles = next.miles, current >= nextMiles {
+            return true
+        }
+
+        // Check date
+        if let nextDate = next.date, Date() >= nextDate {
+            return true
+        }
+
+        return false
+    }
+
+    /// Get status message for next oil change
+    func oilChangeStatus(currentMileage: Double?) -> (message: String, isOverdue: Bool, milesRemaining: Int?) {
+        guard let next = nextOilChangeDue else {
+            return ("Set up service tracking", false, nil)
+        }
+
+        let now = Date()
+        var isOverdue = false
+        var milesRemaining: Int? = nil
+
+        // Calculate miles remaining
+        if let current = currentMileage, let nextMiles = next.miles {
+            milesRemaining = Int(nextMiles - current)
+            if milesRemaining! <= 0 {
+                isOverdue = true
+            }
+        }
+
+        // Check date
+        if let nextDate = next.date, now >= nextDate {
+            isOverdue = true
+        }
+
+        if isOverdue {
+            if let remaining = milesRemaining, remaining < 0 {
+                return ("Oil change overdue by \(abs(remaining)) miles", true, remaining)
+            } else {
+                return ("Oil change overdue", true, milesRemaining)
+            }
+        }
+
+        // Show whichever is sooner
+        if let remaining = milesRemaining, remaining > 0 {
+            if let nextDate = next.date {
+                let formatter = DateFormatter()
+                formatter.dateStyle = .medium
+                let daysUntil = Calendar.current.dateComponents([.day], from: now, to: nextDate).day ?? 0
+
+                if daysUntil < 30 && daysUntil * 50 < remaining { // Assume ~50 miles/day average
+                    return ("Oil change due \(formatter.string(from: nextDate))", false, remaining)
+                }
+            }
+            return ("Oil change in \(remaining) miles", false, remaining)
+        }
+
+        return ("Oil change due soon", false, milesRemaining)
+    }
 }
 
 // MARK: - OBD Connection Status

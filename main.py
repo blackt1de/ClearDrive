@@ -14,7 +14,7 @@ from schemas import DTCCode, OBDSnapshot
 from groq_client import ask_ollama, check_ollama
 from database import init_db, log_scan, get_recent_scans
 from obd_reader import get_reader, connect_obd
-from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context, decode_obd_codes_batch
+from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context, decode_obd_codes_batch, format_engine_string, format_transmission_string, format_drive_string
 from code_scraper import get_code_info, format_code_context
 from forum_scraper import scrape_reddit_fallback, format_reddit_context
 
@@ -65,6 +65,7 @@ class TrimRequest(BaseModel):
 class InterpretRequest(BaseModel):
     vehicle_id: str
     trim: Optional[str] = ""
+    color: Optional[str] = None  # Selected exterior color for image matching
     use_live_obd: Optional[bool] = False
     # Client-provided OBD data (from phone's Bluetooth connection)
     client_codes: Optional[List[str]] = None
@@ -1119,32 +1120,49 @@ async def interpret(request: InterpretRequest):
     # Build comprehensive vehicle context
     vehicle_context = build_comprehensive_vehicle_context(vehicle_data, trim)
     
-    # Fetch vehicle image
+    # Fetch vehicle image - pass color if provided for better matching
     vehicle_image_url = None
+    selected_color = request.color
     if vehicle_data:
         year = vehicle_data.get("year", "")
         make = vehicle_data.get("make", "")
         model = vehicle_data.get("model", "")
-        image_data = await get_vehicle_image(year, make, model, trim)
+        image_data = await get_vehicle_image(year, make, model, trim, color=selected_color)
         if image_data and image_data.get("url"):
             # Return proxied URL to avoid CORS issues
             original_url = image_data.get("url", "")
             vehicle_image_url = f"/image-proxy?url={urllib.parse.quote(original_url, safe='')}"
-            print(f"[Interpret] Vehicle image URL: {vehicle_image_url[:60]}...")
+            print(f"[Interpret] Vehicle image URL: {vehicle_image_url[:60]}... (color={selected_color or 'none'})")
 
-    # Initialize response
+    # Initialize response - apply formatters to clean up raw API data
+    raw_engine = vehicle_data.get("engine", "") if vehicle_data else ""
+    raw_trans = vehicle_data.get("transmission", "") if vehicle_data else ""
+    raw_drive = vehicle_data.get("drive", "") if vehicle_data else ""
+
+    # Debug: show raw vs formatted
+    formatted_engine = format_engine_string(raw_engine) if raw_engine else ""
+    formatted_trans = format_transmission_string(raw_trans) if raw_trans else ""
+    if raw_engine != formatted_engine:
+        print(f"[Interpret] Engine formatted: '{raw_engine}' -> '{formatted_engine}'")
+    if raw_trans != formatted_trans:
+        print(f"[Interpret] Trans formatted: '{raw_trans}' -> '{formatted_trans}'")
+
     response_data = {
         "codes": [],
         "vehicle": vehicle_str_with_trim,
-        "engine": vehicle_data.get("engine", "") if vehicle_data else "",
+        "engine": format_engine_string(raw_engine) if raw_engine else "",
         "fuel_type": vehicle_data.get("fuel_type", "") if vehicle_data else "",
-        "drive": vehicle_data.get("drive", "") if vehicle_data else "",
-        "transmission": vehicle_data.get("transmission", "") if vehicle_data else "",
+        "drive": format_drive_string(raw_drive) if raw_drive else "",
+        "transmission": format_transmission_string(raw_trans) if raw_trans else "",
         "supercharged": engine_profile.get("is_supercharged", False) or (vehicle_data.get("supercharged", False) if vehicle_data else False),
         "turbocharged": engine_profile.get("is_turbocharged", False) or (vehicle_data.get("turbocharged", False) if vehicle_data else False),
         "hybrid": engine_profile.get("is_hybrid", False),
         "electric": engine_profile.get("is_electric", False),
         "performance_tier": engine_profile.get("performance_tier", "standard"),
+        "mpg_city": vehicle_data.get("mpg_city", "") if vehicle_data else "",
+        "mpg_highway": vehicle_data.get("mpg_highway", "") if vehicle_data else "",
+        "tank_capacity": vehicle_data.get("tank_capacity", "") if vehicle_data else "",
+        "horsepower": vehicle_data.get("horsepower", "") if vehicle_data else "",
         "rpm": int(snapshot.rpm) if snapshot.rpm else 750,
         "speed": int(snapshot.speed_mph) if snapshot.speed_mph else 0,
         "coolant_temp": int(snapshot.coolant_temp_f) if snapshot.coolant_temp_f else 205,

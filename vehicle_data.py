@@ -24,7 +24,7 @@ HEADERS = {
 
 
 IMAGE_CACHE_VERSION = 24  # Bump this to invalidate all cached images
-TRIMS_CACHE_VERSION = 6   # Bump this to invalidate all cached trims (v6: added MPG, tank capacity, torque, colors)
+TRIMS_CACHE_VERSION = 7   # Bump this to invalidate all cached trims (v7: fixed engine string formatting)
 
 def load_cache() -> dict:
     if CACHE_FILE.exists():
@@ -340,7 +340,8 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                 name_lower = trim_name.lower()
                 if "supercharg" in name_lower or "s/c" in name_lower:
                     engine_str += " Supercharged"
-                elif "turbo" in name_lower:
+                elif "turbo" in name_lower or re.search(r'\d+\.?\d*t\b', name_lower):
+                    # Detect "turbo" keyword or "2.0T", "3.0T" patterns
                     engine_str += " Turbo"
 
                 if horsepower:
@@ -1132,10 +1133,17 @@ async def get_vehicle_by_id(vehicle_id: str) -> dict:
                         except:
                             pass
 
-                    # Check for forced induction
+                    # Check for forced induction - check engine string AND trim name
                     engine_lower = engine_str.lower()
-                    is_supercharged = "supercharged" in engine_lower or "supercharger" in engine_lower
-                    is_turbocharged = "turbo" in engine_lower
+                    trim_name_lower = trim.get("name", "").lower() + " " + trim.get("full_name", "").lower()
+                    combined_check = engine_lower + " " + trim_name_lower
+
+                    is_supercharged = "supercharged" in combined_check or "supercharger" in combined_check or "s/c" in combined_check
+                    # Check for "turbo" keyword or "2.0T" pattern (common in Audi/VW/BMW)
+                    is_turbocharged = (
+                        "turbo" in combined_check or
+                        bool(re.search(r'\d+\.?\d*t\b', combined_check))  # Matches "2.0t", "3.0t", etc.
+                    )
 
                     return {
                         "vehicle_id": vehicle_id,
@@ -1154,6 +1162,8 @@ async def get_vehicle_by_id(vehicle_id: str) -> dict:
                         "fuel_type": trim.get("fuel_type", ""),
                         "mpg_city": trim.get("mpg_city", ""),
                         "mpg_highway": trim.get("mpg_highway", ""),
+                        "tank_capacity": trim.get("tank_capacity", ""),
+                        "torque": trim.get("torque", ""),
                         "msrp": trim.get("msrp", ""),
                         "horsepower": trim.get("horsepower", ""),
                         "raw_data": trim.get("raw_data", {})
@@ -1361,6 +1371,9 @@ def format_engine_string(raw_engine: str, displacement: str = "", cylinders: str
     if "TWIN TURBO" in raw or "TWINTURBO" in raw or "TT" in raw:
         forced = "Twin-Turbo"
     elif "TURBO" in raw:
+        forced = "Turbo"
+    elif re.search(r'\d+\.?\d*T\b', raw):
+        # Detect "2.0T", "3.0T" patterns (common for Audi/VW/BMW turbo designations)
         forced = "Turbo"
     elif "SUPERCHARG" in raw or "S/C" in raw:
         forced = "Supercharged"
