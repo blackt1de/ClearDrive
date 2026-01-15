@@ -1299,6 +1299,173 @@ async def decode_obd_codes_batch(codes: list) -> dict:
     return results
 
 
+def format_engine_string(raw_engine: str, displacement: str = "", cylinders: str = "") -> str:
+    """
+    Clean up engine string to display format like "2.0L I4 Turbo" or "5.0L V8".
+
+    Converts OEM strings like "2.0L L4 DOHC 16V TURBO" to cleaner format.
+    """
+    if not raw_engine:
+        return ""
+
+    raw = raw_engine.upper()
+
+    # Extract displacement if not provided
+    disp = ""
+    import re
+    disp_match = re.search(r'(\d+\.?\d*)\s*L', raw)
+    if disp_match:
+        disp = f"{disp_match.group(1)}L"
+    elif displacement:
+        # Try to convert from cc or other formats
+        try:
+            if "." in str(displacement):
+                disp = f"{displacement}L"
+            else:
+                # Assume cc, convert to liters
+                cc = float(displacement)
+                if cc > 100:  # It's in cc
+                    disp = f"{cc/1000:.1f}L"
+                else:
+                    disp = f"{displacement}L"
+        except:
+            disp = str(displacement)
+
+    # Determine cylinder configuration
+    config = ""
+    if "V8" in raw or cylinders == "8":
+        config = "V8"
+    elif "V6" in raw or cylinders == "6":
+        config = "V6"
+    elif "V10" in raw or cylinders == "10":
+        config = "V10"
+    elif "V12" in raw or cylinders == "12":
+        config = "V12"
+    elif "I4" in raw or "L4" in raw or "4CYL" in raw or "INLINE-4" in raw or "INLINE 4" in raw or cylinders == "4":
+        config = "I4"
+    elif "I5" in raw or "L5" in raw or cylinders == "5":
+        config = "I5"
+    elif "I6" in raw or "L6" in raw or "INLINE-6" in raw or "INLINE 6" in raw or cylinders == "6":
+        config = "I6"
+    elif "I3" in raw or "L3" in raw or cylinders == "3":
+        config = "I3"
+    elif "W12" in raw:
+        config = "W12"
+    elif "FLAT" in raw or "BOXER" in raw:
+        config = f"Flat-{cylinders}" if cylinders else "Flat"
+    elif "ROTARY" in raw or "WANKEL" in raw:
+        config = "Rotary"
+
+    # Check for forced induction
+    forced = ""
+    if "TWIN TURBO" in raw or "TWINTURBO" in raw or "TT" in raw:
+        forced = "Twin-Turbo"
+    elif "TURBO" in raw:
+        forced = "Turbo"
+    elif "SUPERCHARG" in raw or "S/C" in raw:
+        forced = "Supercharged"
+    elif "ELECTRIC" in raw:
+        forced = "Electric"
+    elif "HYBRID" in raw:
+        forced = "Hybrid"
+
+    # Build clean string
+    parts = [p for p in [disp, config, forced] if p]
+    return " ".join(parts) if parts else raw_engine
+
+
+def format_transmission_string(raw_trans: str) -> str:
+    """
+    Clean up transmission string to readable format.
+
+    Converts "8sp auto" to "8-Speed Automatic", "6MT" to "6-Speed Manual", etc.
+    """
+    if not raw_trans:
+        return ""
+
+    raw = raw_trans.upper()
+
+    # Extract number of speeds
+    import re
+    speed_match = re.search(r'(\d+)\s*(?:SP|SPD|SPEED|-SPEED)', raw)
+    speeds = speed_match.group(1) if speed_match else ""
+
+    # If no speed found, try just a number at the start
+    if not speeds:
+        num_match = re.search(r'^(\d+)', raw)
+        if num_match:
+            speeds = num_match.group(1)
+
+    # Determine type
+    trans_type = ""
+    if "CVT" in raw:
+        trans_type = "CVT"
+        speeds = ""  # CVT doesn't have discrete speeds
+    elif "DCT" in raw or "DUAL CLUTCH" in raw or "PDK" in raw or "DSG" in raw:
+        trans_type = "Dual-Clutch"
+    elif "MANUAL" in raw or "MT" in raw or "M/T" in raw:
+        trans_type = "Manual"
+    elif "AUTO" in raw or "AT" in raw or "A/T" in raw:
+        trans_type = "Automatic"
+    elif "SMG" in raw or "SEQUENTIAL" in raw:
+        trans_type = "Sequential"
+    else:
+        # Default to automatic if unclear
+        trans_type = "Automatic"
+
+    # Build clean string
+    if speeds and trans_type != "CVT":
+        return f"{speeds}-Speed {trans_type}"
+    elif trans_type:
+        return trans_type
+    else:
+        return raw_trans
+
+
+def format_drive_string(raw_drive: str) -> str:
+    """Clean up drive type string."""
+    if not raw_drive:
+        return ""
+
+    raw = raw_drive.upper()
+
+    if "AWD" in raw or "ALL WHEEL" in raw or "ALL-WHEEL" in raw:
+        return "AWD"
+    elif "4WD" in raw or "4X4" in raw or "FOUR WHEEL" in raw or "FOUR-WHEEL" in raw:
+        return "4WD"
+    elif "FWD" in raw or "FRONT WHEEL" in raw or "FRONT-WHEEL" in raw or "FF" in raw:
+        return "FWD"
+    elif "RWD" in raw or "REAR WHEEL" in raw or "REAR-WHEEL" in raw or "FR" in raw:
+        return "RWD"
+
+    return raw_drive
+
+
+def format_fuel_type(raw_fuel: str) -> str:
+    """Clean up fuel type string."""
+    if not raw_fuel:
+        return ""
+
+    raw = raw_fuel.upper()
+
+    if "ELECTRIC" in raw and "HYBRID" not in raw:
+        return "Electric"
+    elif "PLUG" in raw or "PHEV" in raw:
+        return "Plug-in Hybrid"
+    elif "HYBRID" in raw:
+        return "Hybrid"
+    elif "DIESEL" in raw:
+        return "Diesel"
+    elif "FLEX" in raw or "E85" in raw:
+        return "Flex Fuel"
+    elif "PREMIUM" in raw:
+        return "Premium Gasoline"
+    elif "GAS" in raw or "PETROL" in raw or "UNLEADED" in raw:
+        return "Gasoline"
+
+    return raw_fuel
+
+
 async def decode_vin(vin: str) -> dict:
     """
     Decode a VIN using CarsXE VIN Decoder API.
@@ -1390,6 +1557,45 @@ async def decode_vin(vin: str) -> dict:
                         print(f"[CarsXE] Unknown response structure. Keys: {list(data.keys()) if isinstance(data, dict) else 'N/A'}")
 
                 if vehicle:
+                    # Log all available fields for debugging
+                    print(f"[CarsXE] Raw vehicle data keys: {list(vehicle.keys())}")
+
+                    # Extract and clean engine string
+                    raw_engine = vehicle.get("engine", "")
+                    cylinders = vehicle.get("cylinders", "")
+                    displacement = vehicle.get("displacement", "")
+
+                    # Build clean engine string: "2.0L I4 Turbo" format
+                    engine_clean = format_engine_string(raw_engine, displacement, cylinders)
+
+                    # Extract and clean transmission
+                    raw_transmission = vehicle.get("transmission", "")
+                    transmission_clean = format_transmission_string(raw_transmission)
+
+                    # Extract drive type and clean it
+                    raw_drive = vehicle.get("drive", "") or vehicle.get("drivetrain", "") or vehicle.get("drive_type", "")
+                    drive_clean = format_drive_string(raw_drive)
+
+                    # Extract fuel type
+                    raw_fuel = vehicle.get("fuel_type", "") or vehicle.get("fuel", "")
+                    fuel_clean = format_fuel_type(raw_fuel)
+
+                    # Check for turbo/supercharger in engine string
+                    is_turbo = "turbo" in raw_engine.lower()
+                    is_supercharged = "supercharg" in raw_engine.lower() or "s/c" in raw_engine.lower()
+
+                    # Extract MPG data
+                    mpg_city = vehicle.get("mpg_city", "") or vehicle.get("city_mpg", "") or ""
+                    mpg_highway = vehicle.get("mpg_highway", "") or vehicle.get("highway_mpg", "") or ""
+                    mpg_combined = vehicle.get("mpg_combined", "") or vehicle.get("combined_mpg", "") or ""
+
+                    # Extract tank capacity
+                    tank_capacity = vehicle.get("fuel_tank_capacity", "") or vehicle.get("tank_size", "") or ""
+
+                    # Extract horsepower/torque
+                    horsepower = vehicle.get("horsepower", "") or vehicle.get("hp", "") or ""
+                    torque = vehicle.get("torque", "") or ""
+
                     result = {
                         "success": True,
                         "vin": vin,
@@ -1397,15 +1603,26 @@ async def decode_vin(vin: str) -> dict:
                         "make": vehicle.get("make", ""),
                         "model": vehicle.get("model", ""),
                         "trim": vehicle.get("trim", ""),
-                        "engine": vehicle.get("engine", ""),
-                        "cylinders": vehicle.get("cylinders", ""),
-                        "displacement": vehicle.get("displacement", ""),
-                        "drive_type": vehicle.get("drive", ""),  # iOS expects drive_type
-                        "transmission": vehicle.get("transmission", ""),
-                        "fuel_type": vehicle.get("fuel_type", ""),
-                        "body_style": vehicle.get("body", ""),  # iOS expects body_style
+                        "engine": engine_clean,
+                        "engine_raw": raw_engine,  # Keep raw for debugging
+                        "cylinders": cylinders,
+                        "displacement": displacement,
+                        "drive_type": drive_clean,
+                        "transmission": transmission_clean,
+                        "fuel_type": fuel_clean,
+                        "body_style": vehicle.get("body", "") or vehicle.get("body_style", ""),
+                        "is_turbo": is_turbo,
+                        "is_supercharged": is_supercharged,
+                        "mpg_city": str(mpg_city) if mpg_city else "",
+                        "mpg_highway": str(mpg_highway) if mpg_highway else "",
+                        "mpg_combined": str(mpg_combined) if mpg_combined else "",
+                        "tank_capacity": str(tank_capacity) if tank_capacity else "",
+                        "horsepower": str(horsepower) if horsepower else "",
+                        "torque": str(torque) if torque else "",
                         "raw_data": vehicle  # Store full response
                     }
+
+                    print(f"[CarsXE] Cleaned engine: '{raw_engine}' -> '{engine_clean}'")
 
                     # Cache the result (never expires)
                     cache["vin_decodes"][vin] = result

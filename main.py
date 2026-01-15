@@ -1172,6 +1172,11 @@ SERVICE RECOMMENDATIONS:
 - Oil change interval: [e.g., "7,500 miles or 6 months" - based on this engine type]
 - Service notes: [One sentence about any special maintenance for this engine]
 
+KNOWN ISSUES:
+Even though no codes are present, list 2-3 common issues that owners of this SPECIFIC vehicle/engine should watch out for.
+Examples: "2.0T engines may develop oil consumption after 60k miles", "DSG transmissions benefit from fluid changes every 40k", etc.
+Be specific to this exact model year and engine - don't give generic advice.
+
 RULES:
 - Use simple language
 - Be specific to THIS exact vehicle
@@ -1180,10 +1185,11 @@ RULES:
 
             ai_response = await ask_ollama(prompt)
             if not ai_response.startswith("ERROR:"):
-                # Parse the response for summary and service recommendations
+                # Parse the response for summary, service recommendations, and known issues
                 lines = ai_response.split('\n')
                 summary_lines = []
                 service_lines = []
+                known_issues_lines = []
                 current_section = None
 
                 for line in lines:
@@ -1192,10 +1198,14 @@ RULES:
                         current_section = "summary"
                     elif line_upper.startswith("SERVICE"):
                         current_section = "service"
+                    elif line_upper.startswith("KNOWN"):
+                        current_section = "known_issues"
                     elif current_section == "summary":
                         summary_lines.append(line)
                     elif current_section == "service":
                         service_lines.append(line)
+                    elif current_section == "known_issues":
+                        known_issues_lines.append(line)
 
                 if summary_lines:
                     response_data["dont_panic"] = '\n'.join(summary_lines).strip()
@@ -1204,6 +1214,9 @@ RULES:
 
                 if service_lines:
                     response_data["service_recommendations"] = '\n'.join(service_lines).strip()
+
+                if known_issues_lines:
+                    response_data["known_issues"] = '\n'.join(known_issues_lines).strip()
 
         return response_data
     
@@ -1471,11 +1484,12 @@ Based on this specific vehicle, provide:
 
 Be specific to the vehicle - European cars often need specific oil specs, turbos need synthetic, older cars might use conventional.
 
-KNOWN ISSUES FOR THIS ENGINE (from database):
-If the data above contains trim-specific or engine-specific issues from CarComplaints.com,
-write 2-3 sentences summarizing what other owners of this exact engine experienced.
-If there are TSBs or recalls mentioned, note them here.
-If no trim-specific data was found, skip this section."""
+KNOWN ISSUES FOR THIS ENGINE:
+Write 2-3 sentences about common issues that owners of this SPECIFIC vehicle/engine should know about.
+If the data above contains trim-specific issues from CarComplaints.com, include those.
+Also include your knowledge of common issues for this model year and engine.
+Examples: "This engine is known for...", "Owners commonly report...", "TSB issued for..."
+Be specific to this exact vehicle - not generic advice."""
 
     if reddit_context:
         prompt += f"""
