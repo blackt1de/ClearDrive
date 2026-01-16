@@ -91,12 +91,15 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
 struct HomeView: View {
     @EnvironmentObject var apiClient: APIClient
     @EnvironmentObject var vehicleStore: VehicleStore
+    @AppStorage("useMetricUnits") private var useMetricUnits = false
 
     @Binding var selectedVehicle: VehicleInfo?
     @Binding var selectedVehicleImage: String?
     @Binding var obdStatus: OBDConnectionStatus
     @Binding var lastScanResult: ScanResult?
     @Binding var liveData: LiveOBDData?
+
+    private var units: UnitConverter { UnitConverter(useMetric: useMetricUnits) }
 
     let onScanTap: () -> Void
     let onHistoryTap: () -> Void
@@ -557,7 +560,7 @@ struct HomeView: View {
                 InfoWidget(
                     title: "Mileage",
                     value: formatMileage(effectiveLiveData?.odometer),
-                    subtitle: effectiveLiveData?.odometer != nil ? "miles" : "",
+                    subtitle: effectiveLiveData?.odometer != nil ? units.distanceUnit() : "",
                     icon: "road.lanes"
                 )
 
@@ -565,7 +568,7 @@ struct HomeView: View {
                 InfoWidget(
                     title: "Next Service",
                     value: formatNextService(effectiveLiveData?.odometer),
-                    subtitle: effectiveLiveData?.odometer != nil ? "miles away" : "",
+                    subtitle: effectiveLiveData?.odometer != nil ? "\(units.shortDistanceUnit()) away" : "",
                     icon: "wrench.and.screwdriver"
                 )
             }
@@ -608,11 +611,11 @@ struct HomeView: View {
                 )
             }
 
-            // Fourth row: MPG, Fuel Level
+            // Fourth row: MPG/L per 100km, Fuel Level
             HStack(spacing: CDSpacing.small) {
-                // MPG (City/Highway) - prefer scan result, fallback to vehicle info
+                // Fuel Economy - prefer scan result, fallback to vehicle info
                 InfoWidget(
-                    title: "MPG",
+                    title: units.fuelEconomyUnit(),
                     value: mpgDisplayValue,
                     subtitle: mpgSubtitle,
                     icon: "gauge.with.dots.needle.33percent"
@@ -651,15 +654,12 @@ struct HomeView: View {
     // MARK: - Live Data Display Properties
 
     private var mpgDisplayValue: String {
-        // Prefer scan result MPG, fallback to vehicle info
-        if let city = lastScanResult?.mpgCity, let hwy = lastScanResult?.mpgHighway,
-           !city.isEmpty, !hwy.isEmpty {
-            return "\(city)/\(hwy)"
-        }
-        if let combined = lastScanResult?.mpgCombined, !combined.isEmpty {
-            return combined
-        }
-        return selectedVehicle?.mpgDisplay ?? "--"
+        // Get city and highway values
+        let city = lastScanResult?.mpgCity ?? selectedVehicle?.mpgCity
+        let hwy = lastScanResult?.mpgHighway ?? selectedVehicle?.mpgHighway
+
+        // Use unit converter to format based on metric setting
+        return units.fuelEconomy(cityMpg: city, highwayMpg: hwy)
     }
 
     private var mpgSubtitle: String {
@@ -705,14 +705,22 @@ struct HomeView: View {
         if liveData?.odometer != nil {
             return "LIVE"
         }
-        return "miles"
+        return units.distanceUnit()
     }
 
     private var calculatedRangeDisplay: String {
         // Calculate range from fuel % and MPG
         guard let fuelPercent = liveData?.fuelLevel else {
             // No live fuel data - show static estimate if available
-            return selectedVehicle?.estimatedRange ?? "--"
+            if let range = selectedVehicle?.estimatedRange {
+                // Parse and convert if metric
+                if useMetricUnits, let mi = Int(range.replacingOccurrences(of: " mi", with: "")) {
+                    let km = Int(Double(mi) * 1.60934)
+                    return "\(km) km"
+                }
+                return range
+            }
+            return "--"
         }
 
         // Get tank capacity and MPG
@@ -734,25 +742,26 @@ struct HomeView: View {
         }
 
         let gallonsRemaining = tank * (Double(fuelPercent) / 100.0)
-        let range = Int(gallonsRemaining * mpg)
-        return "\(range) mi"
+        let rangeMiles = Int(gallonsRemaining * mpg)
+        return units.range(rangeMiles)
     }
 
     private var rangeSubtitle: String {
         if liveData?.fuelLevel != nil {
             return "LIVE"
         }
-        if let tank = lastScanResult?.tankCapacity ?? selectedVehicle?.tankCapacity, !tank.isEmpty {
-            return "\(tank) gal tank"
+        if let tank = lastScanResult?.tankCapacity ?? selectedVehicle?.tankCapacity, !tank.isEmpty,
+           let tankVal = Double(tank) {
+            let converted = units.volume(tankVal)
+            return String(format: "%.1f %@ tank", converted, units.volumeUnit())
         }
         return ""
     }
 
     private func formatMileage(_ odometer: Double?) -> String {
         guard let miles = odometer else { return "--" }
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter.string(from: NSNumber(value: Int(miles))) ?? "--"
+        // Convert to km if metric, and format with commas
+        return units.distance(miles, includeUnit: false)
     }
 
     private func formatNextService(_ odometer: Double?) -> String {

@@ -8,6 +8,101 @@
 import Foundation
 import SwiftUI
 
+// MARK: - Unit Converter
+
+/// Utility for converting between imperial and metric units
+struct UnitConverter {
+    let useMetric: Bool
+
+    // Speed conversion
+    func speed(_ mph: Double) -> String {
+        if useMetric {
+            let kmh = mph * 1.60934
+            return "\(Int(kmh)) km/h"
+        }
+        return "\(Int(mph)) mph"
+    }
+
+    func speed(_ mph: Int) -> String {
+        speed(Double(mph))
+    }
+
+    // Distance conversion (miles to km)
+    func distance(_ miles: Double, includeUnit: Bool = true) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
+
+        if useMetric {
+            let km = miles * 1.60934
+            let value = formatter.string(from: NSNumber(value: Int(km))) ?? "\(Int(km))"
+            return includeUnit ? "\(value) km" : value
+        }
+        let value = formatter.string(from: NSNumber(value: Int(miles))) ?? "\(Int(miles))"
+        return includeUnit ? "\(value) mi" : value
+    }
+
+    func distanceUnit() -> String {
+        useMetric ? "km" : "miles"
+    }
+
+    func shortDistanceUnit() -> String {
+        useMetric ? "km" : "mi"
+    }
+
+    // Temperature conversion (Fahrenheit to Celsius)
+    func temperature(_ fahrenheit: Double) -> String {
+        if useMetric {
+            let celsius = (fahrenheit - 32) * 5 / 9
+            return "\(Int(celsius))°C"
+        }
+        return "\(Int(fahrenheit))°F"
+    }
+
+    func temperature(_ fahrenheit: Int) -> String {
+        temperature(Double(fahrenheit))
+    }
+
+    // Fuel economy conversion (MPG to L/100km)
+    func fuelEconomy(cityMpg: String?, highwayMpg: String?) -> String {
+        guard let city = cityMpg, let hwy = highwayMpg,
+              let cityVal = Double(city), let hwyVal = Double(hwy),
+              cityVal > 0, hwyVal > 0 else {
+            return "--"
+        }
+
+        if useMetric {
+            // Convert MPG to L/100km: 235.215 / mpg
+            let cityL100 = 235.215 / cityVal
+            let hwyL100 = 235.215 / hwyVal
+            return String(format: "%.1f/%.1f", cityL100, hwyL100)
+        }
+        return "\(city)/\(hwy)"
+    }
+
+    func fuelEconomyUnit() -> String {
+        useMetric ? "L/100km" : "MPG"
+    }
+
+    // Volume conversion (gallons to liters)
+    func volume(_ gallons: Double) -> Double {
+        useMetric ? gallons * 3.78541 : gallons
+    }
+
+    func volumeUnit() -> String {
+        useMetric ? "L" : "gal"
+    }
+
+    // Range - always display in current distance unit
+    func range(_ miles: Int) -> String {
+        if useMetric {
+            let km = Int(Double(miles) * 1.60934)
+            return "\(km) km"
+        }
+        return "\(miles) mi"
+    }
+}
+
 // MARK: - Vehicle Info
 
 struct VehicleInfo: Codable, Identifiable, Equatable {

@@ -2,7 +2,7 @@
 //  SettingsView.swift
 //  ClearDrive
 //
-//  Settings tab - Server config, preferences, and account
+//  Settings tab - Preferences and account
 //
 
 import SwiftUI
@@ -10,12 +10,8 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var apiClient: APIClient
     @EnvironmentObject var vehicleStore: VehicleStore
-    @AppStorage("serverURL") private var serverURL = "http://192.168.1.100:8000"
     @AppStorage("useMetricUnits") private var useMetricUnits = false
     @AppStorage("enableNotifications") private var enableNotifications = true
-
-    @State private var isTestingConnection = false
-    @State private var connectionResult: ConnectionTestResult?
 
     var body: some View {
         ZStack {
@@ -23,9 +19,6 @@ struct SettingsView: View {
                 .ignoresSafeArea()
 
             Form {
-                // Server Configuration
-                serverSection
-
                 // Demo Mode (for testing)
                 demoSection
 
@@ -72,53 +65,6 @@ struct SettingsView: View {
             Text("Data")
         } footer: {
             Text("Clear saved data if you're experiencing issues with blank screens or missing data.")
-        }
-        .listRowBackground(Color.cdCardBackground)
-    }
-
-    // MARK: - Server Section
-
-    private var serverSection: some View {
-        Section {
-            VStack(alignment: .leading, spacing: CDSpacing.small) {
-                Text("Server URL")
-                    .font(.caption)
-                    .foregroundStyle(Color.cdTextSecondary)
-
-                TextField("http://your-server:8000", text: $serverURL)
-                    .textFieldStyle(.roundedBorder)
-                    .autocapitalization(.none)
-                    .keyboardType(.URL)
-                    .onChange(of: serverURL) { _, newValue in
-                        apiClient.baseURL = newValue
-                        connectionResult = nil
-                    }
-            }
-
-            Button(action: testConnection) {
-                HStack {
-                    if isTestingConnection {
-                        ProgressView()
-                            .scaleEffect(0.8)
-                    } else {
-                        Image(systemName: "network")
-                    }
-                    Text("Test Connection")
-                }
-            }
-            .disabled(isTestingConnection)
-
-            if let result = connectionResult {
-                HStack {
-                    Image(systemName: result.success ? "checkmark.circle.fill" : "xmark.circle.fill")
-                        .foregroundStyle(result.success ? Color.cdSuccess : Color.cdCritical)
-                    Text(result.message)
-                        .font(.caption)
-                        .foregroundStyle(result.success ? Color.cdSuccess : Color.cdCritical)
-                }
-            }
-        } header: {
-            Text("Server Configuration")
         }
         .listRowBackground(Color.cdCardBackground)
     }
@@ -220,38 +166,6 @@ struct SettingsView: View {
         .listRowBackground(Color.cdCardBackground)
     }
 
-    // MARK: - Actions
-
-    private func testConnection() {
-        isTestingConnection = true
-        connectionResult = nil
-
-        Task {
-            do {
-                let healthy = try await apiClient.checkHealth()
-                await MainActor.run {
-                    connectionResult = ConnectionTestResult(
-                        success: healthy,
-                        message: healthy ? "Connected to server" : "Server not responding"
-                    )
-                    isTestingConnection = false
-                }
-            } catch {
-                await MainActor.run {
-                    connectionResult = ConnectionTestResult(
-                        success: false,
-                        message: "Failed: \(error.localizedDescription)"
-                    )
-                    isTestingConnection = false
-                }
-            }
-        }
-    }
-}
-
-struct ConnectionTestResult {
-    let success: Bool
-    let message: String
 }
 
 // MARK: - Sub Views
@@ -265,18 +179,18 @@ struct TroubleshootingView: View {
             List {
                 Section("Connection Issues") {
                     TroubleshootItem(
-                        title: "Cannot connect to server",
-                        solution: "Check that your server is running and you're on the same network. Verify the server URL in Settings."
-                    )
-
-                    TroubleshootItem(
                         title: "OBD adapter not connecting",
-                        solution: "Ensure the OBD adapter is plugged into your car and the ignition is ON. Check that the adapter is connected to your server."
+                        solution: "Ensure the OBD adapter is plugged into your car's OBD-II port (usually under the dashboard) and the ignition is ON. Make sure Bluetooth is enabled on your device."
                     )
 
                     TroubleshootItem(
                         title: "No data received",
-                        solution: "Turn your car ignition to ON (not just accessory). Wait 10-15 seconds after connecting for the ECU to respond."
+                        solution: "Turn your car ignition to ON (not just accessory mode). Wait 10-15 seconds after connecting for the ECU to initialize and respond."
+                    )
+
+                    TroubleshootItem(
+                        title: "Bluetooth pairing issues",
+                        solution: "Go to your device's Bluetooth settings and forget the OBD adapter, then pair it again. Some adapters require a PIN code (usually 1234 or 0000)."
                     )
                 }
                 .listRowBackground(Color.cdCardBackground)
@@ -284,12 +198,30 @@ struct TroubleshootingView: View {
                 Section("Scan Issues") {
                     TroubleshootItem(
                         title: "AI diagnosis taking too long",
-                        solution: "AI responses typically take 5-15 seconds. Check your internet connection if it takes longer."
+                        solution: "AI responses typically take 5-15 seconds. Check your internet connection if it takes longer. Try moving to an area with better cellular or WiFi signal."
                     )
 
                     TroubleshootItem(
                         title: "VIN not detected",
-                        solution: "Not all vehicles support OBD VIN reading. You can enter your vehicle info manually instead."
+                        solution: "Not all vehicles support OBD VIN reading (especially pre-2008 models). You can enter your vehicle info manually instead."
+                    )
+
+                    TroubleshootItem(
+                        title: "Some data not available",
+                        solution: "Not all vehicles support every OBD-II parameter. Older vehicles may only support basic data like engine RPM and speed."
+                    )
+                }
+                .listRowBackground(Color.cdCardBackground)
+
+                Section("Live Data Issues") {
+                    TroubleshootItem(
+                        title: "RPM or speed showing incorrect values",
+                        solution: "Ensure your vehicle is running (not just accessory mode). Some vehicles require the engine to be on for accurate readings."
+                    )
+
+                    TroubleshootItem(
+                        title: "Fuel level not showing",
+                        solution: "Fuel level (PID 012F) is not supported by all vehicles. This is a manufacturer-specific feature."
                     )
                 }
                 .listRowBackground(Color.cdCardBackground)
@@ -324,50 +256,67 @@ struct SubscriptionView: View {
 
             ScrollView {
                 VStack(spacing: CDSpacing.large) {
-                    // Status
+                    // Beta Status
                     VStack(spacing: CDSpacing.medium) {
                         ZStack {
                             Circle()
-                                .fill(Color.cdSuccess.opacity(0.2))
+                                .fill(Color.cdPrimary.opacity(0.2))
                                 .frame(width: 80, height: 80)
                                 .blur(radius: 10)
 
-                            Image(systemName: "checkmark.seal.fill")
+                            Image(systemName: "star.fill")
                                 .font(.system(size: 50))
-                                .foregroundStyle(Color.cdSuccess)
+                                .foregroundStyle(Color.cdPrimary)
                         }
 
-                        Text("Active Subscription")
+                        Text("Beta Access")
                             .font(.title2)
                             .fontWeight(.bold)
 
-                        Text("$7.99/month")
+                        Text("All Features Unlocked")
                             .font(.headline)
-                            .foregroundStyle(Color.cdTextSecondary)
+                            .foregroundStyle(Color.cdSuccess)
                     }
                     .frame(maxWidth: .infinity)
                     .padding(CDSpacing.xlarge)
                     .background(Color.cdCardBackground)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
 
+                    // Beta Notice
+                    VStack(spacing: CDSpacing.small) {
+                        HStack {
+                            Image(systemName: "info.circle.fill")
+                                .foregroundStyle(Color.cdPrimary)
+                            Text("Beta Program")
+                                .font(.headline)
+                        }
+
+                        Text("ClearDrive is currently in beta testing. During this period, all premium features are temporarily free for all users. Thank you for helping us improve the app!")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.cdTextSecondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(CDSpacing.medium)
+                    .background(Color.cdPrimary.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+
                     // Features
                     VStack(alignment: .leading, spacing: CDSpacing.medium) {
-                        Text("YOUR PLAN INCLUDES")
+                        Text("INCLUDED FEATURES")
                             .font(.caption)
                             .fontWeight(.semibold)
                             .foregroundStyle(Color.cdTextSecondary)
 
                         featureRow("AI-Powered Diagnostics", icon: "brain")
                         featureRow("Unlimited Scans", icon: "infinity")
-                        featureRow("Complete History", icon: "clock.fill")
-                        featureRow("Cost Estimates", icon: "dollarsign.circle")
+                        featureRow("Complete Scan History", icon: "clock.fill")
+                        featureRow("Repair Cost Estimates", icon: "dollarsign.circle")
+                        featureRow("Live OBD Data", icon: "gauge.with.needle")
+                        featureRow("Vehicle Image Library", icon: "photo")
                     }
                     .padding(CDSpacing.medium)
                     .background(Color.cdCardBackground)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-
-                    Button("Manage Subscription") {}
-                        .foregroundStyle(Color.cdPrimary)
                 }
                 .padding(CDSpacing.medium)
             }
@@ -411,21 +360,70 @@ struct AboutView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
 
-                    Text("AI-Powered Diagnostics")
+                    Text("AI-Powered Vehicle Diagnostics")
                         .font(.headline)
                         .foregroundStyle(Color.cdTextSecondary)
 
-                    Text("Version 1.0.0")
+                    Text("Version 1.0.0 (Beta)")
                         .font(.caption)
                         .foregroundStyle(Color.cdTextTertiary)
 
                     Divider()
                         .padding(.vertical)
 
-                    Text("ClearDrive helps you understand your vehicle's health with AI-powered diagnostic explanations. Simply connect to your OBD adapter and scan for trouble codes.")
-                        .font(.subheadline)
-                        .foregroundStyle(Color.cdTextSecondary)
-                        .multilineTextAlignment(.center)
+                    // Main description
+                    VStack(alignment: .leading, spacing: CDSpacing.medium) {
+                        aboutSection(
+                            title: "What is ClearDrive?",
+                            content: "ClearDrive is an intelligent vehicle diagnostic app that transforms complex OBD-II trouble codes into clear, understandable explanations. Using advanced AI technology, we help you understand exactly what's happening with your vehicle and what steps to take next."
+                        )
+
+                        aboutSection(
+                            title: "How It Works",
+                            content: "Simply connect your Bluetooth OBD-II adapter to your vehicle's diagnostic port, pair it with your phone, and let ClearDrive do the rest. Our app reads diagnostic trouble codes (DTCs) directly from your vehicle's computer and uses AI to provide detailed explanations, severity assessments, and estimated repair costs."
+                        )
+
+                        aboutSection(
+                            title: "Key Features",
+                            content: "Real-time live data monitoring including RPM, speed, coolant temperature, and fuel level. AI-powered diagnostic interpretations that explain issues in plain language. Comprehensive scan history to track your vehicle's health over time. Support for multiple vehicles with detailed specifications and images."
+                        )
+
+                        aboutSection(
+                            title: "Compatible Vehicles",
+                            content: "ClearDrive works with all OBD-II compliant vehicles, which includes most gasoline vehicles sold in the US since 1996 and diesel vehicles since 1997. Some features may vary depending on your specific vehicle's supported OBD-II protocols."
+                        )
+                    }
+                    .padding(CDSpacing.medium)
+                    .background(Color.cdCardBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+
+                    // Links
+                    VStack(spacing: CDSpacing.small) {
+                        Link(destination: URL(string: "https://cleardriveapp.com/privacy")!) {
+                            HStack {
+                                Text("Privacy Policy")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                            }
+                            .foregroundStyle(Color.cdTextSecondary)
+                        }
+
+                        Divider()
+
+                        Link(destination: URL(string: "https://cleardriveapp.com/terms")!) {
+                            HStack {
+                                Text("Terms of Service")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                            }
+                            .foregroundStyle(Color.cdTextSecondary)
+                        }
+                    }
+                    .padding(CDSpacing.medium)
+                    .background(Color.cdCardBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
 
                     Spacer(minLength: 50)
                 }
@@ -433,6 +431,17 @@ struct AboutView: View {
             }
         }
         .navigationTitle("About")
+    }
+
+    private func aboutSection(title: String, content: String) -> some View {
+        VStack(alignment: .leading, spacing: CDSpacing.small) {
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(Color.cdTextPrimary)
+            Text(content)
+                .font(.subheadline)
+                .foregroundStyle(Color.cdTextSecondary)
+        }
     }
 }
 
