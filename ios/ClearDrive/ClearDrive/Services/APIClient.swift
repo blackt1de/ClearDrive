@@ -27,7 +27,7 @@ class APIClient: ObservableObject {
     }
 
     init() {
-        self.baseURL = UserDefaults.standard.string(forKey: "serverURL") ?? "http://localhost:8000"
+        self.baseURL = UserDefaults.standard.string(forKey: "serverURL") ?? "https://api.cleardriveapp.com"
         self.isDemoMode = UserDefaults.standard.bool(forKey: "demoMode")
     }
 
