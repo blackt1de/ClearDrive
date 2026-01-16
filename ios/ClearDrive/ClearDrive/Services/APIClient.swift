@@ -380,7 +380,7 @@ class APIClient: ObservableObject {
 
     /// Full scan using the /interpret endpoint
     /// This endpoint handles everything: OBD reading, AI diagnosis, cost estimates
-    func performFullScan(vehicle: VehicleInfo, trimId: String? = nil, color: String? = nil) async throws -> ScanResult {
+    func performFullScan(vehicle: VehicleInfo, trimId: String? = nil, color: String? = nil, transmission: String? = nil) async throws -> ScanResult {
         // Fetch vehicle image in parallel with diagnostic
         async let imageTask = getVehicleImage(
             year: vehicle.year,
@@ -400,11 +400,17 @@ class APIClient: ObservableObject {
         // Use trim ID if provided, otherwise build from vehicle info
         let vehicleId = trimId ?? "\(vehicle.year)_\(vehicle.make)_\(vehicle.model)".lowercased().replacingOccurrences(of: " ", with: "_")
 
-        let body: [String: Any] = [
+        var body: [String: Any] = [
             "vehicle_id": vehicleId,
             "trim": vehicle.trim ?? "",
             "use_live_obd": !isDemoMode
         ]
+        if let color = color {
+            body["color"] = color
+        }
+        if let transmission = transmission {
+            body["transmission"] = transmission
+        }
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
         let (data, _) = try await URLSession.shared.data(for: request)

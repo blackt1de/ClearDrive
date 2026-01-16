@@ -814,17 +814,17 @@ struct ScanView: View {
             runLocalOBDDiagnostic(vehicle: vehicle, trimId: trimId)
         } else {
             // Fall back to server-based scan (demo mode or manual entry)
-            runServerDiagnostic(vehicle: vehicle, trimId: trimId)
+            runServerDiagnostic(vehicle: vehicle, trimId: trimId, transmission: selectedTransmission?.name)
         }
     }
 
     /// Run diagnostic using server-side OBD reading (for demo mode or when local OBD not available)
-    private func runServerDiagnostic(vehicle: VehicleInfo, trimId: String?, color: String? = nil) {
+    private func runServerDiagnostic(vehicle: VehicleInfo, trimId: String?, color: String? = nil, transmission: String? = nil) {
         scanPhase = .scanning
 
         Task {
             do {
-                let result = try await apiClient.performFullScan(vehicle: vehicle, trimId: trimId, color: color)
+                let result = try await apiClient.performFullScan(vehicle: vehicle, trimId: trimId, color: color, transmission: transmission)
                 print("[ScanView] Server diagnostic complete!")
                 print("  - vehicleImageURL: \(result.vehicleImageURL ?? "nil")")
                 print("  - dontPanic: \(result.dontPanic?.prefix(50) ?? "nil")...")
@@ -918,7 +918,7 @@ struct ScanView: View {
         if obdManager.connectionState == .ready {
             runLocalOBDDiagnostic(vehicle: vehicle, trimId: trim.id)
         } else {
-            runServerDiagnostic(vehicle: vehicle, trimId: trim.id)
+            runServerDiagnostic(vehicle: vehicle, trimId: trim.id, transmission: selectedTransmission?.name)
         }
     }
 
@@ -1092,7 +1092,7 @@ struct ScanView: View {
         if obdManager.connectionState == .ready {
             runLocalOBDDiagnostic(vehicle: vehicle, trimId: trim.id, color: color?.name)
         } else {
-            runServerDiagnostic(vehicle: vehicle, trimId: trim.id, color: color?.name)
+            runServerDiagnostic(vehicle: vehicle, trimId: trim.id, color: color?.name, transmission: selectedTransmission?.name)
         }
     }
 }
