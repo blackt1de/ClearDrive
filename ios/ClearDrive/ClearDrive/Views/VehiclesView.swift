@@ -89,11 +89,14 @@ struct VehicleCachedImage<Content: View, Placeholder: View>: View {
 struct VehiclesView: View {
     @EnvironmentObject var apiClient: APIClient
     @EnvironmentObject var vehicleStore: VehicleStore
+    @AppStorage("useMetricUnits") private var useMetricUnits = false
 
     @Binding var selectedVehicle: VehicleInfo?
     @Binding var selectedVehicleImage: String?
     @Binding var refreshTrigger: UUID  // External trigger to force refresh
     @Binding var liveData: LiveOBDData?  // Live OBD data from ContentView
+
+    private var units: UnitConverter { UnitConverter(useMetric: useMetricUnits) }
 
     @State private var selectedSavedVehicle: SavedVehicle?
     @State private var isEditMode = false
@@ -977,7 +980,7 @@ struct VehicleDetailSheet: View {
                 }
                 if let speed = displaySpeed {
                     LiveDataWidget(
-                        value: "\(speed) mph",
+                        value: units.speed(speed),
                         label: "Speed",
                         icon: "speedometer",
                         color: isLive ? .cdSuccess : .cdPrimaryBright
@@ -985,7 +988,7 @@ struct VehicleDetailSheet: View {
                 }
                 if let temp = displayCoolant {
                     LiveDataWidget(
-                        value: "\(temp)°F",
+                        value: units.temperature(temp),
                         label: "Coolant",
                         icon: "thermometer.medium",
                         color: isLive ? .cdSuccess : .cdPrimaryBright
@@ -998,7 +1001,7 @@ struct VehicleDetailSheet: View {
                 HStack(spacing: CDSpacing.small) {
                     if let odo = displayOdometer {
                         LiveDataWidget(
-                            value: String(format: "%.0f mi", odo),
+                            value: units.distance(odo),
                             label: "Odometer",
                             icon: "road.lanes",
                             color: .cdSuccess
@@ -1241,7 +1244,7 @@ struct VehicleDetailSheet: View {
                                 .font(.system(size: 15, weight: .bold))
                                 .foregroundStyle(Color.cdWarning)
                         } else if let milesLeft = saved.milesUntilOilChange {
-                            Text("\(milesLeft) miles remaining")
+                            Text("\(units.distance(Double(milesLeft))) remaining")
                                 .font(.system(size: 15, weight: .semibold))
                                 .foregroundStyle(milesLeft < 500 ? Color.cdWarning : Color.cdTextPrimary)
                         } else if let nextDate = saved.nextOilChangeDate {
@@ -1279,7 +1282,7 @@ struct VehicleDetailSheet: View {
                     let tankStr = saved.vehicle.tankCapacity ?? "15"
                     let tankCapacity = Double(tankStr) ?? 15.0  // Default 15 gal if unknown
                     let gallonsRemaining = tankCapacity * (Double(fuelLevel) / 100.0)
-                    let estimatedRange = Int(gallonsRemaining * combinedMpg)
+                    let estimatedRangeMiles = Int(gallonsRemaining * combinedMpg)
 
                     HStack {
                         Image(systemName: "fuelpump.fill")
@@ -1292,7 +1295,7 @@ struct VehicleDetailSheet: View {
                                 .font(.system(size: 12))
                                 .foregroundStyle(Color.cdTextTertiary)
                             HStack(spacing: 4) {
-                                Text("~\(estimatedRange) miles")
+                                Text("~\(units.range(estimatedRangeMiles))")
                                     .font(.system(size: 15, weight: .semibold))
                                     .foregroundStyle(fuelLevel < 15 ? Color.cdWarning : Color.cdTextPrimary)
                                 Text("(\(fuelLevel)% fuel)")
@@ -1662,8 +1665,11 @@ struct MileageEntrySheet: View {
     let onSave: (Double) -> Void
 
     @Environment(\.dismiss) private var dismiss
+    @AppStorage("useMetricUnits") private var useMetricUnits = false
     @State private var mileageText: String = ""
     @FocusState private var isFocused: Bool
+
+    private var units: UnitConverter { UnitConverter(useMetric: useMetricUnits) }
 
     var body: some View {
         NavigationStack {
@@ -1697,7 +1703,7 @@ struct MileageEntrySheet: View {
                                 .multilineTextAlignment(.center)
                                 .focused($isFocused)
 
-                            Text("mi")
+                            Text(units.shortDistanceUnit())
                                 .font(.system(size: 24, weight: .medium))
                                 .foregroundStyle(Color.cdTextTertiary)
                         }
@@ -1708,7 +1714,7 @@ struct MileageEntrySheet: View {
                     }
 
                     if let initial = initialMileage {
-                        Text("OBD detected: \(String(format: "%.0f", initial)) miles")
+                        Text("OBD detected: \(units.distance(initial))")
                             .font(.system(size: 13))
                             .foregroundStyle(Color.cdSuccess)
                     }
@@ -1717,7 +1723,9 @@ struct MileageEntrySheet: View {
 
                     // Save button
                     Button {
-                        if let mileage = Double(mileageText.replacingOccurrences(of: ",", with: "")) {
+                        if let enteredValue = Double(mileageText.replacingOccurrences(of: ",", with: "")) {
+                            // If metric, user entered km - convert back to miles for storage
+                            let mileage = useMetricUnits ? enteredValue / 1.60934 : enteredValue
                             onSave(mileage)
                             dismiss()
                         }
@@ -1755,7 +1763,9 @@ struct MileageEntrySheet: View {
             }
             .onAppear {
                 if let initial = initialMileage {
-                    mileageText = String(format: "%.0f", initial)
+                    // Convert to km if metric for display
+                    let displayValue = useMetricUnits ? initial * 1.60934 : initial
+                    mileageText = String(format: "%.0f", displayValue)
                 }
                 isFocused = true
             }
@@ -1771,9 +1781,12 @@ struct ServiceLogSheet: View {
     let onSave: (Date, Double) -> Void
 
     @Environment(\.dismiss) private var dismiss
+    @AppStorage("useMetricUnits") private var useMetricUnits = false
     @State private var serviceDate: Date = Date()
     @State private var mileageText: String = ""
     @FocusState private var isFocused: Bool
+
+    private var units: UnitConverter { UnitConverter(useMetric: useMetricUnits) }
 
     var body: some View {
         NavigationStack {
@@ -1830,7 +1843,7 @@ struct ServiceLogSheet: View {
                                     .foregroundStyle(Color.cdTextPrimary)
                                     .focused($isFocused)
 
-                                Text("miles")
+                                Text(units.distanceUnit())
                                     .font(.system(size: 16))
                                     .foregroundStyle(Color.cdTextTertiary)
                             }
@@ -1839,7 +1852,7 @@ struct ServiceLogSheet: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12))
 
                             if let current = currentMileage {
-                                Text("Current: \(String(format: "%.0f", current)) mi")
+                                Text("Current: \(units.distance(current))")
                                     .font(.system(size: 12))
                                     .foregroundStyle(Color.cdTextSecondary)
                             }
@@ -1856,7 +1869,7 @@ struct ServiceLogSheet: View {
                                     .foregroundStyle(Color.cdTextSecondary)
                             }
 
-                            Text("Next oil change will be calculated as 5,000 miles or 6 months from service date, whichever comes first.")
+                            Text("Next oil change will be calculated as \(useMetricUnits ? "8,000 km" : "5,000 miles") or 6 months from service date, whichever comes first.")
                                 .font(.system(size: 12))
                                 .foregroundStyle(Color.cdTextTertiary)
                                 .lineSpacing(2)
@@ -1869,7 +1882,9 @@ struct ServiceLogSheet: View {
 
                         // Save button
                         Button {
-                            if let mileage = Double(mileageText.replacingOccurrences(of: ",", with: "")) {
+                            if let enteredValue = Double(mileageText.replacingOccurrences(of: ",", with: "")) {
+                                // If metric, user entered km - convert back to miles for storage
+                                let mileage = useMetricUnits ? enteredValue / 1.60934 : enteredValue
                                 onSave(serviceDate, mileage)
                                 dismiss()
                             }

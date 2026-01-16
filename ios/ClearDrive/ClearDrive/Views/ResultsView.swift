@@ -10,8 +10,11 @@ import SwiftUI
 struct ResultsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var apiClient: APIClient
+    @AppStorage("useMetricUnits") private var useMetricUnits = false
     let result: ScanResult
     var liveData: LiveOBDData?
+
+    private var units: UnitConverter { UnitConverter(useMetric: useMetricUnits) }
 
     @State private var chatMessages: [ChatMessage] = []
     @State private var currentQuestion = ""
@@ -311,7 +314,7 @@ struct ResultsView: View {
                 }
                 if let speed = displaySpeed {
                     LiveDataWidget(
-                        value: "\(speed) mph",
+                        value: units.speed(speed),
                         label: "Speed",
                         icon: "speedometer",
                         color: isLive ? .green : .cdPrimaryBright
@@ -319,7 +322,7 @@ struct ResultsView: View {
                 }
                 if let temp = displayTemp {
                     LiveDataWidget(
-                        value: "\(temp)°F",
+                        value: units.temperature(temp),
                         label: "Coolant",
                         icon: "thermometer.medium",
                         color: isLive ? .green : .cdPrimaryBright
