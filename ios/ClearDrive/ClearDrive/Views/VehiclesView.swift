@@ -648,6 +648,9 @@ struct VehicleDetailSheet: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var apiClient: APIClient
     @EnvironmentObject var vehicleStore: VehicleStore
+    @AppStorage("useMetricUnits") private var useMetricUnits = false
+
+    private var units: UnitConverter { UnitConverter(useMetric: useMetricUnits) }
 
     // Follow-up question state
     @State private var chatMessages: [ChatMessage] = []
