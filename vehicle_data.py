@@ -978,6 +978,33 @@ async def get_vehicle_image(year: str, make: str, model: str, trim: str = "", co
                     # No year in URL - might be generic, allow but no bonus
                     print(f"[CarsXE] No year in URL: {link[:60]}...")
 
+                # CRITICAL: Check if model appears in URL - reject wrong models
+                model_lower = model.lower().replace(" ", "").replace("-", "")
+                link_clean = link.replace("-", "").replace("_", "").replace(" ", "")
+
+                # For multi-word models like "Land Cruiser", check various formats
+                model_variations = [model_lower]
+                if " " in model:
+                    model_variations.append(model.lower().replace(" ", "-"))
+                    model_variations.append(model.lower().replace(" ", "_"))
+                    model_variations.append(model.lower().replace(" ", ""))
+                    # Also individual words for models like "Land Cruiser"
+                    model_words = model.lower().split()
+                    if len(model_words) >= 2:
+                        model_variations.append(model_words[-1])  # Just "cruiser"
+
+                model_in_link = any(mv in link_clean for mv in model_variations)
+                if model_in_link:
+                    score += 1000  # Bonus for matching model
+                    print(f"[CarsXE] Model matches {model}: {link[:60]}...")
+                else:
+                    # Check if a DIFFERENT Toyota model is in the link
+                    other_toyota_models = ["tacoma", "tundra", "camry", "corolla", "rav4", "highlander", "4runner", "sequoia", "sienna", "prius"]
+                    other_models_found = [m for m in other_toyota_models if m in link_clean and m not in model_lower]
+                    if other_models_found:
+                        print(f"[CarsXE] SKIPPING wrong model ({other_models_found[0]} vs {model}): {link[:60]}...")
+                        continue  # Skip entirely if wrong model detected
+
                 # Check if trim appears in the link (e.g., "srt", "rt", "se")
                 if trim:
                     trim_lower = trim.lower().replace(" ", "").replace("-", "")
@@ -1397,7 +1424,8 @@ def format_transmission_string(raw_trans: str) -> str:
     if not raw_trans:
         return ""
 
-    raw = raw_trans.upper()
+    # Strip parentheses and extra whitespace
+    raw = raw_trans.strip().strip('()').upper()
 
     # Extract number of speeds
     import re

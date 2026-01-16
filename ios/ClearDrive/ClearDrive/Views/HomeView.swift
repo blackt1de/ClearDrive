@@ -589,7 +589,7 @@ struct HomeView: View {
                 )
             }
 
-            // Third row: Drive, Fuel
+            // Third row: Drive, Gas Type
             HStack(spacing: CDSpacing.small) {
                 // Drive Type
                 InfoWidget(
@@ -599,29 +599,48 @@ struct HomeView: View {
                     icon: "car.fill"
                 )
 
-                // Fuel Type
+                // Gas Type (Regular, Premium, Diesel)
                 InfoWidget(
-                    title: "Fuel",
+                    title: "Gas",
                     value: formatFuelType(lastScanResult?.fuelType ?? selectedVehicle?.fuelType),
                     subtitle: fuelSubtitle,
-                    icon: "fuelpump.fill"
+                    icon: "drop.fill"
                 )
             }
 
-            // Bottom row: MPG, Range
+            // Fourth row: MPG, Fuel Level
             HStack(spacing: CDSpacing.small) {
-                // MPG (City/Highway)
+                // MPG (City/Highway) - prefer scan result, fallback to vehicle info
                 InfoWidget(
                     title: "MPG",
-                    value: selectedVehicle?.mpgDisplay ?? "--",
+                    value: mpgDisplayValue,
                     subtitle: mpgSubtitle,
                     icon: "gauge.with.dots.needle.33percent"
                 )
 
-                // Estimated Range
+                // Fuel Level % from OBD
+                InfoWidget(
+                    title: "Fuel %",
+                    value: fuelLevelDisplay,
+                    subtitle: fuelLevelSubtitle,
+                    icon: "fuelpump.fill"
+                )
+            }
+
+            // Fifth row: Mileage, Range
+            HStack(spacing: CDSpacing.small) {
+                // Mileage from OBD or saved
+                InfoWidget(
+                    title: "Mileage",
+                    value: mileageDisplayValue,
+                    subtitle: mileageSubtitle,
+                    icon: "speedometer"
+                )
+
+                // Calculated Range (fuel % × tank × MPG)
                 InfoWidget(
                     title: "Range",
-                    value: selectedVehicle?.estimatedRange ?? "--",
+                    value: calculatedRangeDisplay,
                     subtitle: rangeSubtitle,
                     icon: "road.lanes"
                 )
@@ -629,16 +648,101 @@ struct HomeView: View {
         }
     }
 
+    // MARK: - Live Data Display Properties
+
+    private var mpgDisplayValue: String {
+        // Prefer scan result MPG, fallback to vehicle info
+        if let city = lastScanResult?.mpgCity, let hwy = lastScanResult?.mpgHighway,
+           !city.isEmpty, !hwy.isEmpty {
+            return "\(city)/\(hwy)"
+        }
+        if let combined = lastScanResult?.mpgCombined, !combined.isEmpty {
+            return combined
+        }
+        return selectedVehicle?.mpgDisplay ?? "--"
+    }
+
     private var mpgSubtitle: String {
-        if let city = selectedVehicle?.mpgCity, let hwy = selectedVehicle?.mpgHighway,
+        if let city = lastScanResult?.mpgCity ?? selectedVehicle?.mpgCity,
+           let hwy = lastScanResult?.mpgHighway ?? selectedVehicle?.mpgHighway,
            !city.isEmpty, !hwy.isEmpty {
             return "City/Hwy"
         }
         return ""
     }
 
+    private var fuelLevelDisplay: String {
+        if let fuel = liveData?.fuelLevel {
+            return "\(fuel)%"
+        }
+        return "--"
+    }
+
+    private var fuelLevelSubtitle: String {
+        if liveData?.fuelLevel != nil {
+            return "LIVE"
+        }
+        return "Connect OBD"
+    }
+
+    private var mileageDisplayValue: String {
+        // Prefer live OBD odometer, fallback to saved vehicle mileage
+        if let odometer = liveData?.odometer {
+            return formatMileage(odometer)
+        }
+        // Check if there's a saved vehicle with mileage
+        if let saved = vehicleStore.savedVehicles.first(where: {
+            $0.vehicle.year == selectedVehicle?.year &&
+            $0.vehicle.make == selectedVehicle?.make &&
+            $0.vehicle.model == selectedVehicle?.model
+        }), let mileage = saved.currentMileage {
+            return formatMileage(mileage)
+        }
+        return "--"
+    }
+
+    private var mileageSubtitle: String {
+        if liveData?.odometer != nil {
+            return "LIVE"
+        }
+        return "miles"
+    }
+
+    private var calculatedRangeDisplay: String {
+        // Calculate range from fuel % and MPG
+        guard let fuelPercent = liveData?.fuelLevel else {
+            // No live fuel data - show static estimate if available
+            return selectedVehicle?.estimatedRange ?? "--"
+        }
+
+        // Get tank capacity and MPG
+        let tankStr = lastScanResult?.tankCapacity ?? selectedVehicle?.tankCapacity ?? ""
+        let mpgStr = lastScanResult?.mpgCombined ?? selectedVehicle?.mpgCombined ?? ""
+
+        // Try to calculate from city/hwy average if combined not available
+        var mpgValue: Double?
+        if let mpg = Double(mpgStr), mpg > 0 {
+            mpgValue = mpg
+        } else if let city = Double(lastScanResult?.mpgCity ?? selectedVehicle?.mpgCity ?? ""),
+                  let hwy = Double(lastScanResult?.mpgHighway ?? selectedVehicle?.mpgHighway ?? "") {
+            mpgValue = (city + hwy) / 2
+        }
+
+        guard let tank = Double(tankStr), tank > 0,
+              let mpg = mpgValue, mpg > 0 else {
+            return "--"
+        }
+
+        let gallonsRemaining = tank * (Double(fuelPercent) / 100.0)
+        let range = Int(gallonsRemaining * mpg)
+        return "\(range) mi"
+    }
+
     private var rangeSubtitle: String {
-        if let tank = selectedVehicle?.tankCapacity, !tank.isEmpty {
+        if liveData?.fuelLevel != nil {
+            return "LIVE"
+        }
+        if let tank = lastScanResult?.tankCapacity ?? selectedVehicle?.tankCapacity, !tank.isEmpty {
             return "\(tank) gal tank"
         }
         return ""

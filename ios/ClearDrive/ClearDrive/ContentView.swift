@@ -164,6 +164,7 @@ struct ContentView: View {
     private func startLiveDataPolling() {
         guard !isPollingLiveData else { return }
         isPollingLiveData = true
+        slowPollCounter = 0  // Reset counter so fuel/odometer read immediately
 
         print("[ContentView] Starting live data polling (500ms interval)")
 
@@ -197,6 +198,8 @@ struct ContentView: View {
         liveData = nil
     }
 
+    @State private var slowPollCounter: Int = 0
+
     private func pollLiveData() {
         guard obdManager.connectionState == .ready else { return }
 
@@ -204,14 +207,33 @@ struct ContentView: View {
             // Use fast read (only RPM, speed, coolant) for responsive real-time display
             let data = await obdManager.readLiveDataFast()
 
+            // Every 10th poll (~5 seconds), also read fuel level and odometer
+            var fuelLevel = liveData?.fuelLevel
+            var odometer = liveData?.odometer
+
+            await MainActor.run {
+                slowPollCounter += 1
+            }
+
+            // On first poll (counter=1) or every 10th poll (~5 seconds), read fuel & odometer
+            if slowPollCounter <= 1 || slowPollCounter % 10 == 0 {
+                // Read slower-changing values less frequently
+                if let fuel = await obdManager.readFuelLevel() {
+                    fuelLevel = fuel
+                }
+                if let odo = await obdManager.readOdometer() {
+                    odometer = odo
+                }
+            }
+
             await MainActor.run {
                 liveData = LiveOBDData(
                     connected: true,
                     rpm: data.rpm != nil ? Double(data.rpm!) : nil,
                     speed: data.speed != nil ? Double(data.speed!) : nil,
                     coolantTemp: data.coolant != nil ? Double(data.coolant!) : nil,
-                    odometer: liveData?.odometer,  // Keep previous value
-                    fuelLevel: liveData?.fuelLevel  // Keep previous value
+                    odometer: odometer,
+                    fuelLevel: fuelLevel
                 )
             }
         }
