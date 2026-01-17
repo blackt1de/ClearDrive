@@ -23,7 +23,7 @@ HEADERS = {
 }
 
 
-IMAGE_CACHE_VERSION = 24  # Bump this to invalidate all cached images
+IMAGE_CACHE_VERSION = 25  # Bump this to invalidate all cached images (v25: model validation fix)
 TRIMS_CACHE_VERSION = 8   # Bump this to invalidate all cached trims (v8: improved turbo detection for 2.0T patterns)
 
 def load_cache() -> dict:
