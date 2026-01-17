@@ -23,7 +23,7 @@ HEADERS = {
 }
 
 
-IMAGE_CACHE_VERSION = 25  # Bump this to invalidate all cached images (v25: model validation fix)
+IMAGE_CACHE_VERSION = 26  # Bump this to invalidate all cached images (v26: expanded model validation)
 TRIMS_CACHE_VERSION = 8   # Bump this to invalidate all cached trims (v8: improved turbo detection for 2.0T patterns)
 
 def load_cache() -> dict:
@@ -998,12 +998,36 @@ async def get_vehicle_image(year: str, make: str, model: str, trim: str = "", co
                     score += 1000  # Bonus for matching model
                     print(f"[CarsXE] Model matches {model}: {link[:60]}...")
                 else:
-                    # Check if a DIFFERENT Toyota model is in the link
-                    other_toyota_models = ["tacoma", "tundra", "camry", "corolla", "rav4", "highlander", "4runner", "sequoia", "sienna", "prius"]
-                    other_models_found = [m for m in other_toyota_models if m in link_clean and m not in model_lower]
+                    # Model NOT in URL - check if ANY other known model name is in the link
+                    # This catches the color-matching-wrong-car issue
+                    other_models = [
+                        # Toyota
+                        "tacoma", "tundra", "camry", "corolla", "rav4", "highlander",
+                        "4runner", "sequoia", "sienna", "prius", "supra", "avalon",
+                        "venza", "chr", "mirai", "yaris", "86", "gr86",
+                        # Other makes - common models
+                        "civic", "accord", "crv", "pilot", "odyssey",  # Honda
+                        "mustang", "f150", "f-150", "explorer", "escape", "bronco",  # Ford
+                        "silverado", "tahoe", "suburban", "equinox", "malibu", "camaro", "corvette",  # Chevy
+                        "wrangler", "cherokee", "gladiator", "compass",  # Jeep
+                        "charger", "challenger", "durango", "ram",  # Dodge/Ram
+                        "altima", "maxima", "sentra", "pathfinder", "rogue", "frontier", "titan",  # Nissan
+                        "outback", "forester", "crosstrek", "impreza", "wrx", "brz",  # Subaru
+                        "cx5", "cx9", "mazda3", "mazda6", "miata", "mx5",  # Mazda
+                        "elantra", "sonata", "tucson", "santafe", "palisade", "kona",  # Hyundai
+                        "optima", "sorento", "sportage", "telluride", "stinger",  # Kia
+                        "3series", "5series", "x3", "x5", "m3", "m5",  # BMW
+                        "cclass", "eclass", "sclass", "glc", "gle", "amg",  # Mercedes
+                        "a4", "a6", "q5", "q7", "rs", "s4",  # Audi
+                    ]
+                    other_models_found = [m for m in other_models if m in link_clean and m not in model_lower]
                     if other_models_found:
                         print(f"[CarsXE] SKIPPING wrong model ({other_models_found[0]} vs {model}): {link[:60]}...")
                         continue  # Skip entirely if wrong model detected
+
+                    # If no model name found in URL at all, heavily penalize (might be generic/wrong)
+                    score -= 800
+                    print(f"[CarsXE] No model in URL (penalized): {link[:60]}...")
 
                 # Check if trim appears in the link (e.g., "srt", "rt", "se")
                 if trim:
