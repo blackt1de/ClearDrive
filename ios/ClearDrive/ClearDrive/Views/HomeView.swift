@@ -488,7 +488,8 @@ struct HomeView: View {
                 rpm: demoRPM,
                 speed: demoSpeed,
                 coolantTemp: demoCoolantTemp,
-                odometer: demoMileage
+                odometer: demoMileage,
+                fuelLevel: 72  // Demo fuel level at 72%
             )
         }
         return liveData
