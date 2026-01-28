@@ -355,6 +355,14 @@ class APIClient: ObservableObject {
         result.isHybrid = response.hybrid ?? false
         result.isElectric = response.electric ?? false
 
+        // MPG and fuel data from server
+        result.mpgCity = response.mpgCity
+        result.mpgHighway = response.mpgHighway
+        result.mpgCombined = response.mpgCombined
+        result.tankCapacity = response.tankCapacity
+        result.horsepower = response.horsepower
+        print("[APIClient] MPG data: city=\(response.mpgCity ?? "nil") hwy=\(response.mpgHighway ?? "nil") combined=\(response.mpgCombined ?? "nil") tank=\(response.tankCapacity ?? "nil")")
+
         // Data sources and OBD info
         result.dataSources = response.dataSources ?? []
         result.obdSource = "Bluetooth (iOS)"

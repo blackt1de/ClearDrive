@@ -6,12 +6,44 @@
 //
 
 import SwiftUI
+import WebKit
+
+// MARK: - In-App WebView
+
+struct WebView: UIViewRepresentable {
+    let url: URL
+
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView()
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        webView.scrollView.backgroundColor = .clear
+        return webView
+    }
+
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        webView.load(URLRequest(url: url))
+    }
+}
+
+struct LegalDocumentView: View {
+    let title: String
+    let url: URL
+
+    var body: some View {
+        WebView(url: url)
+            .ignoresSafeArea(edges: .bottom)
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+    }
+}
 
 struct SettingsView: View {
     @EnvironmentObject var apiClient: APIClient
     @EnvironmentObject var vehicleStore: VehicleStore
     @AppStorage("useMetricUnits") private var useMetricUnits = false
     @AppStorage("enableNotifications") private var enableNotifications = true
+    @State private var showingEmailCopied = false
 
     var body: some View {
         ZStack {
@@ -125,14 +157,11 @@ struct SettingsView: View {
                 HStack {
                     Label("Subscription", systemImage: "creditcard")
                     Spacer()
-                    Text("Active")
+                    Text("Free Beta")
                         .font(.caption)
-                        .foregroundStyle(Color.cdSuccess)
+                        .fontWeight(.medium)
+                        .foregroundStyle(Color.cdPrimary)
                 }
-            }
-
-            Button(action: {}) {
-                Label("Restore Purchases", systemImage: "arrow.clockwise")
             }
         } header: {
             Text("Account")
@@ -157,13 +186,28 @@ struct SettingsView: View {
                 Label("About ClearDrive", systemImage: "info.circle")
             }
 
-            Link(destination: URL(string: "mailto:support@cleardrive.app")!) {
+            Button {
+                let email = "support@cleardriveapp.com"
+                if let url = URL(string: "mailto:\(email)"),
+                   UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url)
+                } else {
+                    // Can't open mail - copy email to clipboard
+                    UIPasteboard.general.string = email
+                    showingEmailCopied = true
+                }
+            } label: {
                 Label("Contact Support", systemImage: "envelope")
             }
         } header: {
             Text("About")
         }
         .listRowBackground(Color.cdCardBackground)
+        .alert("Email Copied", isPresented: $showingEmailCopied) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("support@cleardriveapp.com has been copied to your clipboard.")
+        }
     }
 
 }
@@ -399,7 +443,12 @@ struct AboutView: View {
 
                     // Links
                     VStack(spacing: CDSpacing.small) {
-                        Link(destination: URL(string: "https://cleardriveapp.com/privacy")!) {
+                        NavigationLink {
+                            LegalDocumentView(
+                                title: "Privacy Policy",
+                                url: URL(string: "https://app.termly.io/policy-viewer/policy.html?policyUUID=77ebe3fd-30c3-42f8-a4f8-e3aaa220edd7")!
+                            )
+                        } label: {
                             HStack {
                                 Text("Privacy Policy")
                                 Spacer()
@@ -411,7 +460,12 @@ struct AboutView: View {
 
                         Divider()
 
-                        Link(destination: URL(string: "https://cleardriveapp.com/terms")!) {
+                        NavigationLink {
+                            LegalDocumentView(
+                                title: "Terms of Service",
+                                url: URL(string: "https://app.termly.io/policy-viewer/policy.html?policyUUID=c9d35c75-d9c6-4418-9114-98224bd9445b")!
+                            )
+                        } label: {
                             HStack {
                                 Text("Terms of Service")
                                 Spacer()

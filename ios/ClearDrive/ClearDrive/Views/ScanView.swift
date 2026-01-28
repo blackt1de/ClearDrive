@@ -672,23 +672,37 @@ struct ScanView: View {
                     print("[ScanView] Found \(availableColors.count) exterior colors")
 
                     if hasEngine {
-                        // VIN gave us engine - check if we have colors to show
+                        // VIN gave us engine - check if we need transmission or color selection
                         await MainActor.run {
                             selectedVehicle = vehicleInfo
                             year = vehicleInfo.year
                             make = vehicleInfo.make
                             model = vehicleInfo.model
 
-                            if !availableColors.isEmpty, let firstTrim = fetchedTrims.first {
-                                // Show color selection for better image matching
-                                colorSheetData = ColorSheetData(
-                                    trim: firstTrim,
-                                    transmission: TransmissionOption(name: vehicleInfo.transmission ?? "", label: vehicleInfo.transmission ?? ""),
-                                    colors: availableColors
-                                )
+                            if let firstTrim = fetchedTrims.first {
+                                // Check if trim has multiple transmission options
+                                if firstTrim.transmissionOptions.count > 1 {
+                                    print("[ScanView] VIN scan: showing transmission selection (\(firstTrim.transmissionOptions.count) options)")
+                                    transmissionSheetData = TransmissionSheetData(trim: firstTrim, options: firstTrim.transmissionOptions)
+                                } else if !availableColors.isEmpty {
+                                    // No transmission choice needed - show color selection
+                                    let trans = firstTrim.transmissionOptions.first ?? TransmissionOption(name: vehicleInfo.transmission ?? "", label: vehicleInfo.transmission ?? "")
+                                    selectedTransmission = trans
+                                    colorSheetData = ColorSheetData(
+                                        trim: firstTrim,
+                                        transmission: trans,
+                                        colors: availableColors
+                                    )
+                                } else {
+                                    // No transmission or color choice - proceed directly
+                                    if let trans = firstTrim.transmissionOptions.first {
+                                        selectedTransmission = trans
+                                    }
+                                    runLocalOBDDiagnostic(vehicle: vehicleInfo, trimId: firstTrim.id)
+                                }
                             } else {
-                                // No colors - proceed directly
-                                runLocalOBDDiagnostic(vehicle: vehicleInfo, trimId: fetchedTrims.first?.id)
+                                // No trims fetched - proceed directly
+                                runLocalOBDDiagnostic(vehicle: vehicleInfo, trimId: nil)
                             }
                         }
                     } else {
@@ -1026,9 +1040,15 @@ struct ScanView: View {
         print("[ScanView] handleColorSelected")
         print("  - color: \(color?.name ?? "none/skipped")")
 
-        // Use already-selected vehicle (from VIN decode) or create from trim (manual entry)
+        // Use VIN-decoded vehicle ONLY if it matches the current scan's year/make/model
+        // Otherwise use trim data (manual entry flow)
         let vehicle: VehicleInfo
-        if let existingVehicle = selectedVehicle {
+        let isVINFlow = selectedVehicle != nil &&
+            selectedVehicle?.year == year &&
+            selectedVehicle?.make.lowercased() == make.lowercased() &&
+            selectedVehicle?.model.lowercased() == model.lowercased()
+
+        if isVINFlow, let existingVehicle = selectedVehicle {
             // VIN decode flow - use the VIN-decoded vehicle, just update colors
             vehicle = VehicleInfo(
                 year: existingVehicle.year,

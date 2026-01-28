@@ -673,22 +673,30 @@ struct HomeView: View {
     }
 
     private var fuelLevelDisplay: String {
-        if let fuel = liveData?.fuelLevel {
+        if let fuel = effectiveLiveData?.fuelLevel {
             return "\(fuel)%"
+        }
+        // If connected but no fuel data, car doesn't support it
+        if !apiClient.isDemoMode && obdStatus.isConnected {
+            return "N/A"
         }
         return "--"
     }
 
     private var fuelLevelSubtitle: String {
-        if liveData?.fuelLevel != nil {
-            return "LIVE"
+        if effectiveLiveData?.fuelLevel != nil {
+            return apiClient.isDemoMode ? "Demo" : "LIVE"
+        }
+        // If connected but no fuel data, car doesn't support it
+        if !apiClient.isDemoMode && obdStatus.isConnected {
+            return "Not supported"
         }
         return "Connect OBD"
     }
 
     private var mileageDisplayValue: String {
-        // Prefer live OBD odometer, fallback to saved vehicle mileage
-        if let odometer = liveData?.odometer {
+        // Prefer live OBD odometer (or demo), fallback to saved vehicle mileage
+        if let odometer = effectiveLiveData?.odometer {
             return formatMileage(odometer)
         }
         // Check if there's a saved vehicle with mileage
@@ -699,19 +707,27 @@ struct HomeView: View {
         }), let mileage = saved.currentMileage {
             return formatMileage(mileage)
         }
+        // If connected but no odometer data, car doesn't support it
+        if !apiClient.isDemoMode && obdStatus.isConnected {
+            return "N/A"
+        }
         return "--"
     }
 
     private var mileageSubtitle: String {
-        if liveData?.odometer != nil {
-            return "LIVE"
+        if effectiveLiveData?.odometer != nil {
+            return apiClient.isDemoMode ? "Demo" : "LIVE"
+        }
+        // If connected but no odometer, car doesn't support it
+        if !apiClient.isDemoMode && obdStatus.isConnected {
+            return "Not supported"
         }
         return units.distanceUnit()
     }
 
     private var calculatedRangeDisplay: String {
         // Calculate range from fuel % and MPG
-        guard let fuelPercent = liveData?.fuelLevel else {
+        guard let fuelPercent = effectiveLiveData?.fuelLevel else {
             // No live fuel data - show static estimate if available
             if let range = selectedVehicle?.estimatedRange {
                 // Parse and convert if metric
@@ -720,6 +736,10 @@ struct HomeView: View {
                     return "\(km) km"
                 }
                 return range
+            }
+            // If connected but no fuel data, range can't be calculated
+            if !apiClient.isDemoMode && obdStatus.isConnected {
+                return "N/A"
             }
             return "--"
         }
@@ -748,8 +768,12 @@ struct HomeView: View {
     }
 
     private var rangeSubtitle: String {
-        if liveData?.fuelLevel != nil {
-            return "LIVE"
+        if effectiveLiveData?.fuelLevel != nil {
+            return apiClient.isDemoMode ? "Demo" : "LIVE"
+        }
+        // If connected but no fuel data, range can't be calculated
+        if !apiClient.isDemoMode && obdStatus.isConnected {
+            return "No fuel %"
         }
         if let tank = lastScanResult?.tankCapacity ?? selectedVehicle?.tankCapacity, !tank.isEmpty,
            let tankVal = Double(tank) {

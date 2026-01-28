@@ -23,7 +23,7 @@ HEADERS = {
 }
 
 
-IMAGE_CACHE_VERSION = 26  # Bump this to invalidate all cached images (v26: expanded model validation)
+IMAGE_CACHE_VERSION = 27  # Bump this to invalidate all cached images (v27: skip wheel/rim/part images)
 TRIMS_CACHE_VERSION = 8   # Bump this to invalidate all cached trims (v8: improved turbo detection for 2.0T patterns)
 
 def load_cache() -> dict:
@@ -651,6 +651,8 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                     "is_plugin_hybrid": trim_data.get("is_plugin_electric", False),
                     "raw_data": trim_data  # Keep full data for reference
                 })
+                # Log transmission options for debugging
+                print(f"[CarsXE] Trim '{trim_name}': {len(transmission_options)} trans options: {[t['label'] for t in transmission_options]}")
 
             # Sort by MSRP (base models first) or by engine size
             def sort_key(t):
@@ -1066,6 +1068,15 @@ async def get_vehicle_image(year: str, make: str, model: str, trim: str = "", co
                 elif "autobytel" in link:
                     score += 200
 
+                # CRITICAL: Skip part/accessory images (wheels, rims, tires, etc.)
+                part_keywords = ["wheel", "rim", "tire", "brake", "exhaust", "bumper",
+                                 "headlight", "taillight", "mirror", "grille", "spoiler",
+                                 "interior", "dashboard", "steering", "seat", "trunk",
+                                 "engine-bay", "underbody", "closeup", "close-up", "detail"]
+                if any(pk in link for pk in part_keywords):
+                    print(f"[CarsXE] SKIPPING part/detail image: {link[:60]}...")
+                    continue  # Skip entirely - not a full car image
+
                 # Avoid bad sources (game screenshots, user uploads)
                 if "wikia" in link or "fandom" in link:
                     score -= 1000  # Game wiki/Forza screenshots
@@ -1137,12 +1148,75 @@ async def get_available_trims(year: str, make: str, model: str) -> list:
 
 async def get_vehicle_by_id(vehicle_id: str) -> dict:
     """
-    Get vehicle details by ID (which is the trim's full name).
+    Get vehicle details by ID (which is the trim's full name or year_make_model format).
     Parses from cached trim data.
     """
     cache = load_cache()
 
-    # Search through cached trims to find this vehicle
+    # Check if vehicle_id is in "year_make_model" format (e.g., "2015_audi_a4")
+    # If so, try to find a matching cache entry and use the first/best trim
+    year_make_model_match = re.match(r'^(\d{4})_([a-z]+)_(.+)$', vehicle_id.lower())
+    if year_make_model_match:
+        target_year = year_make_model_match.group(1)
+        target_make = year_make_model_match.group(2)
+        target_model = year_make_model_match.group(3).replace("_", " ")
+        cache_key = f"trims_{target_year}_{target_make}_{target_model.replace(' ', '_')}"
+        print(f"[VehicleData] Looking up by year_make_model: {cache_key}")
+
+        if cache_key in cache.get("trims", {}):
+            cached_data = cache["trims"][cache_key]
+            trims = cached_data.get("options", [])
+            if trims:
+                # Use the first trim as default
+                trim = trims[0]
+                engine_str = trim.get("engine", "")
+                engine_lower = engine_str.lower()
+                trim_name_lower = trim.get("name", "").lower() + " " + trim.get("full_name", "").lower()
+                combined_check = engine_lower + " " + trim_name_lower
+
+                is_supercharged = "supercharged" in combined_check or "supercharger" in combined_check or "s/c" in combined_check
+                is_turbocharged = (
+                    "turbo" in combined_check or
+                    bool(re.search(r'\d+\.?\d*t\b', combined_check))
+                )
+
+                print(f"[VehicleData] Found via year_make_model: {trim.get('name')} turbo={is_turbocharged} super={is_supercharged}")
+
+                # Parse displacement
+                displacement = 0
+                disp_match = re.search(r'(\d+\.?\d*)L', engine_str)
+                if disp_match:
+                    try:
+                        displacement = float(disp_match.group(1))
+                    except:
+                        pass
+
+                return {
+                    "vehicle_id": vehicle_id,
+                    "year": target_year,
+                    "make": target_make.title(),
+                    "model": target_model.title(),
+                    "trim": trim.get("name", ""),
+                    "full_name": f"{target_year} {target_make.title()} {target_model.title()} {trim.get('name', '')}",
+                    "engine": engine_str,
+                    "displacement": displacement,
+                    "cylinders": 0,
+                    "supercharged": is_supercharged,
+                    "turbocharged": is_turbocharged,
+                    "transmission": trim.get("transmission", "") or (trim.get("transmission_options", [{}])[0].get("name", "") if trim.get("transmission_options") else ""),
+                    "drive": trim.get("drivetrain", ""),
+                    "fuel_type": trim.get("fuel_type", ""),
+                    "mpg_city": trim.get("mpg_city", ""),
+                    "mpg_highway": trim.get("mpg_highway", ""),
+                    "mpg_combined": trim.get("mpg_combined", ""),
+                    "tank_capacity": trim.get("tank_capacity", ""),
+                    "torque": trim.get("torque", ""),
+                    "msrp": trim.get("msrp", ""),
+                    "horsepower": trim.get("horsepower", ""),
+                    "raw_data": trim.get("raw_data", {})
+                }
+
+    # Search through cached trims to find this vehicle by trim ID or full_name
     for cache_key, cached_data in cache.get("trims", {}).items():
         for trim in cached_data.get("options", []):
             # Check main trim ID
