@@ -796,7 +796,9 @@ async def obd_live_data():
             "connected": False,
             "rpm": None,
             "speed": None,
-            "coolant_temp": None
+            "coolant_temp": None,
+            "fuel_level": None,
+            "odometer": None
         }
 
     try:
@@ -804,6 +806,8 @@ async def obd_live_data():
         rpm = None
         speed = None
         coolant_temp = None
+        fuel_level = None
+        odometer = None
 
         # RPM
         try:
@@ -830,11 +834,34 @@ async def obd_live_data():
         except:
             pass
 
+        # Fuel level (percentage)
+        try:
+            fuel_response = reader.connection.query(obd.commands.FUEL_LEVEL)
+            if not fuel_response.is_null():
+                fuel_level = int(fuel_response.value.magnitude)
+                print(f"[OBD] Fuel level: {fuel_level}%", flush=True)
+        except Exception as e:
+            print(f"[OBD] Fuel level not supported: {e}", flush=True)
+
+        # Odometer - try different methods
+        # Method 1: Standard OBD2 (rarely supported)
+        try:
+            # Try DISTANCE_SINCE_DTC_CLEAR as a proxy (cumulative distance)
+            dist_response = reader.connection.query(obd.commands.DISTANCE_SINCE_DTC_CLEAR)
+            if not dist_response.is_null():
+                # This gives km, convert to miles
+                odometer = int(dist_response.value.magnitude * 0.621371)
+                print(f"[OBD] Distance since DTC clear: {odometer} mi", flush=True)
+        except:
+            pass
+
         return {
             "connected": True,
             "rpm": rpm,
             "speed": speed,
-            "coolant_temp": coolant_temp
+            "coolant_temp": coolant_temp,
+            "fuel_level": fuel_level,
+            "odometer": odometer
         }
     except Exception as e:
         print(f"[OBD] Error reading live data: {e}", flush=True)
@@ -842,7 +869,9 @@ async def obd_live_data():
             "connected": False,
             "rpm": None,
             "speed": None,
-            "coolant_temp": None
+            "coolant_temp": None,
+            "fuel_level": None,
+            "odometer": None
         }
 
 
@@ -1108,9 +1137,15 @@ async def interpret(request: InterpretRequest):
         obd_source = "Demo Mode"
     
     # Get vehicle data by ID
+    print(f"[Interpret] Looking up vehicle_id: '{request.vehicle_id}'", flush=True)
     vehicle_data = await get_vehicle_by_id(request.vehicle_id)
     trim = request.trim or ""
-    
+
+    if vehicle_data:
+        print(f"[Interpret] Found vehicle_data: {vehicle_data.get('full_name', 'unknown')} turbo={vehicle_data.get('turbocharged')} super={vehicle_data.get('supercharged')}", flush=True)
+    else:
+        print(f"[Interpret] WARNING: No vehicle_data found for '{request.vehicle_id}'", flush=True)
+
     # Build engine profile for cost estimation and context
     engine_profile = build_engine_profile(vehicle_data)
     

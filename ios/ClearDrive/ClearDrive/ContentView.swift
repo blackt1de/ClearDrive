@@ -253,6 +253,7 @@ struct ContentView: View {
     private func loadScanResultForVehicle(_ vehicle: VehicleInfo?) {
         guard let vehicle = vehicle else {
             lastScanResult = nil
+            selectedVehicleImage = nil
             return
         }
 
@@ -272,6 +273,11 @@ struct ContentView: View {
                 selectedVehicleImage = resultImageURL
             }
             print("[ContentView] Loaded vehicle: \(vehicle.displayName), imageURL: \(selectedVehicleImage ?? "nil")")
+        } else {
+            // New vehicle not yet scanned - clear stale data from previous vehicle
+            lastScanResult = nil
+            selectedVehicleImage = nil
+            print("[ContentView] New vehicle \(vehicle.displayName) - cleared stale scan data")
         }
     }
 }
