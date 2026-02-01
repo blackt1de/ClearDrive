@@ -25,6 +25,7 @@ HEADERS = {
 
 IMAGE_CACHE_VERSION = 27  # Bump this to invalidate all cached images (v27: skip wheel/rim/part images)
 TRIMS_CACHE_VERSION = 8   # Bump this to invalidate all cached trims (v8: improved turbo detection for 2.0T patterns)
+VIN_CACHE_VERSION = 2     # Bump this to invalidate all cached VIN decodes (v2: fixed turbo detection for 2.0T)
 
 def load_cache() -> dict:
     if CACHE_FILE.exists():
@@ -1629,6 +1630,13 @@ async def decode_vin(vin: str) -> dict:
     if "vin_decodes" not in cache:
         cache["vin_decodes"] = {}
 
+    # Invalidate old VIN cache if version changed
+    if cache.get("vin_cache_version", 1) < VIN_CACHE_VERSION:
+        print(f"[Cache] Clearing old VIN cache (version {cache.get('vin_cache_version', 1)} -> {VIN_CACHE_VERSION})")
+        cache["vin_decodes"] = {}
+        cache["vin_cache_version"] = VIN_CACHE_VERSION
+        save_cache(cache)
+
     if vin in cache["vin_decodes"]:
         cached = cache["vin_decodes"][vin]
         # Only use cache if it was successful - retry errors
@@ -1720,9 +1728,16 @@ async def decode_vin(vin: str) -> dict:
                     raw_fuel = vehicle.get("fuel_type", "") or vehicle.get("fuel", "")
                     fuel_clean = format_fuel_type(raw_fuel)
 
-                    # Check for turbo/supercharger in engine string
-                    is_turbo = "turbo" in raw_engine.lower()
-                    is_supercharged = "supercharg" in raw_engine.lower() or "s/c" in raw_engine.lower()
+                    # Check for turbo/supercharger in engine string AND trim name
+                    engine_lower = raw_engine.lower()
+                    trim_lower = vehicle.get("trim", "").lower()
+                    combined_text = engine_lower + " " + trim_lower
+                    is_turbo = (
+                        "turbo" in combined_text or
+                        bool(re.search(r'\d+\.?\d*t\b', combined_text))  # "2.0T", "3.0T" patterns
+                    )
+                    is_supercharged = "supercharg" in combined_text or "s/c" in combined_text
+                    print(f"[CarsXE] VIN turbo check: engine='{raw_engine}' trim='{vehicle.get('trim', '')}' turbo={is_turbo} super={is_supercharged}")
 
                     # Extract MPG data
                     mpg_city = vehicle.get("mpg_city", "") or vehicle.get("city_mpg", "") or ""

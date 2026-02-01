@@ -1049,7 +1049,9 @@ struct ScanView: View {
             selectedVehicle?.model.lowercased() == model.lowercased()
 
         if isVINFlow, let existingVehicle = selectedVehicle {
-            // VIN decode flow - use the VIN-decoded vehicle, just update colors
+            // VIN decode flow - use the VIN-decoded vehicle, but prefer trim data for transmission
+            // VIN decode transmission can be wrong (e.g., reporting Manual for an Automatic)
+            let bestTransmission = !transmission.name.isEmpty ? transmission.name : (existingVehicle.transmission ?? "")
             vehicle = VehicleInfo(
                 year: existingVehicle.year,
                 make: existingVehicle.make,
@@ -1058,7 +1060,7 @@ struct ScanView: View {
                 engine: existingVehicle.engine ?? trim.engine,
                 fuelType: existingVehicle.fuelType ?? trim.fuelType,
                 driveType: existingVehicle.driveType ?? trim.driveType,
-                transmission: existingVehicle.transmission ?? transmission.name,
+                transmission: bestTransmission,
                 bodyStyle: existingVehicle.bodyStyle ?? selectedBodyStyle?.name ?? trim.bodyStyle,
                 horsepower: existingVehicle.horsepower ?? trim.horsepower,
                 torque: existingVehicle.torque ?? trim.torque,
