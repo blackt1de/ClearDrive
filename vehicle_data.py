@@ -137,6 +137,49 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
             for t in trim_options[:5]:
                 print(f"[CarsXE] Raw trim: {t.get('name', '')}")
 
+            # VALIDATION & FILTERING: Filter out trims that don't match the requested model
+            # CarsXE sometimes returns mixed model data (e.g., GLE trims mixed with E-Class)
+            model_lower = model.lower().replace("-", "").replace(" ", "")
+            model_base = model_lower.replace("class", "")  # "eclass" -> "e"
+
+            # Mercedes model prefixes to check against
+            mercedes_models = ["gle", "glc", "gls", "glb", "gla", "cla", "cls", "slk", "slc", "amg", "s", "c", "e", "a", "b"]
+
+            def trim_matches_model(trim_name: str) -> bool:
+                """Check if a trim name matches the requested model."""
+                trim_lower = trim_name.lower()
+                trim_words = trim_lower.split()
+                if not trim_words:
+                    return True  # Can't determine, keep it
+
+                first_word = trim_words[0]
+
+                # For AMG models like "AMG E 53" - check second word FIRST
+                if first_word == "amg" and len(trim_words) > 1:
+                    second_word = trim_words[1]
+                    # Check if second word exactly matches our model (e.g., "e" for E-Class)
+                    # Must be exact match - "e" should not match "gle"
+                    return second_word == model_base
+
+                # If first word is a known Mercedes model prefix
+                if first_word in mercedes_models:
+                    # Check if it matches what we're looking for
+                    return first_word == model_base or first_word.startswith(model_base)
+
+                return True  # Unknown format, keep it
+
+            # Filter trims to only those matching our model
+            original_count = len(trim_options)
+            trim_options = [t for t in trim_options if trim_matches_model(t.get("name", ""))]
+            filtered_count = original_count - len(trim_options)
+
+            if filtered_count > 0:
+                print(f"[CarsXE] Filtered out {filtered_count} trims that didn't match model '{model}'")
+
+            if not trim_options:
+                print(f"[CarsXE] No matching trims after filtering for {year} {make} {model}")
+                return []
+
             # Process and format trims
             # First pass: group by brand trim name to collect body styles
             trim_groups = {}  # brand_trim_name -> list of variants
