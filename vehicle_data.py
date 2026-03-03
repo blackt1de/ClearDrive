@@ -140,10 +140,36 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
             # VALIDATION & FILTERING: Filter out trims that don't match the requested model
             # CarsXE sometimes returns mixed model data (e.g., GLE trims mixed with E-Class)
             model_lower = model.lower().replace("-", "").replace(" ", "")
-            model_base = model_lower.replace("class", "")  # "eclass" -> "e"
+            model_base = model_lower.replace("class", "").replace("series", "")  # "eclass" -> "e", "3series" -> "3"
 
-            # Mercedes model prefixes to check against
-            mercedes_models = ["gle", "glc", "gls", "glb", "gla", "cla", "cls", "slk", "slc", "amg", "s", "c", "e", "a", "b"]
+            # Known model identifiers by brand that appear at start of trim names
+            # These are models where CarsXE has been known to mix data
+            known_model_prefixes = {
+                # Mercedes models (most problematic - CarsXE mixes these frequently)
+                "mercedes": ["gle", "glc", "gls", "glb", "gla", "cla", "cls", "slk", "slc", "amg", "eqe", "eqs", "eqb", "eqa",
+                             "s", "c", "e", "a", "b", "g"],
+                # BMW models
+                "bmw": ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "z4", "i3", "i4", "i5", "i7", "ix",
+                        "m2", "m3", "m4", "m5", "m8", "228", "230", "320", "328", "330", "340", "430", "440",
+                        "520", "530", "540", "740", "750", "840", "850"],
+                # Audi models
+                "audi": ["a3", "a4", "a5", "a6", "a7", "a8", "q3", "q4", "q5", "q7", "q8", "e-tron", "etron",
+                         "rs3", "rs4", "rs5", "rs6", "rs7", "s3", "s4", "s5", "s6", "s7", "s8", "tt", "r8"],
+                # Ford - Mustang vs Mach-E issue
+                "ford": ["mustang", "mach-e", "mache", "f-150", "f150", "bronco", "explorer", "escape", "edge"],
+            }
+
+            # Determine which brand's model list to use
+            make_lower = make.lower().replace("-", "").replace(" ", "")
+            brand_models = []
+            if "mercedes" in make_lower or "benz" in make_lower:
+                brand_models = known_model_prefixes.get("mercedes", [])
+            elif "bmw" in make_lower:
+                brand_models = known_model_prefixes.get("bmw", [])
+            elif "audi" in make_lower:
+                brand_models = known_model_prefixes.get("audi", [])
+            elif "ford" in make_lower:
+                brand_models = known_model_prefixes.get("ford", [])
 
             def trim_matches_model(trim_name: str) -> bool:
                 """Check if a trim name matches the requested model."""
@@ -153,18 +179,64 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
                     return True  # Can't determine, keep it
 
                 first_word = trim_words[0]
+                trim_clean = trim_lower.replace("-", "").replace(" ", "")
 
-                # For AMG models like "AMG E 53" - check second word FIRST
-                if first_word == "amg" and len(trim_words) > 1:
-                    second_word = trim_words[1]
-                    # Check if second word exactly matches our model (e.g., "e" for E-Class)
-                    # Must be exact match - "e" should not match "gle"
-                    return second_word == model_base
+                # === FORD SPECIAL CASE ===
+                # Mustang vs Mach-E: Mach-E trims are "4dr Hatchback" with "electric"
+                # Regular Mustang trims are "2dr Coupe/Convertible" with gas engines
+                if "ford" in make_lower:
+                    if "mustang" in model_lower and "mach" not in model_lower:
+                        # Searching for regular Mustang - filter out Mach-E
+                        if "electric" in trim_lower or "hatchback" in trim_lower:
+                            return False
+                    elif "mach" in model_lower:
+                        # Searching for Mach-E - filter out regular Mustang
+                        if "coupe" in trim_lower or "convertible" in trim_lower:
+                            return False
 
-                # If first word is a known Mercedes model prefix
-                if first_word in mercedes_models:
-                    # Check if it matches what we're looking for
-                    return first_word == model_base or first_word.startswith(model_base)
+                # === BMW SPECIAL CASE ===
+                # BMW trims like "330i", "M340i" should match "3 Series"
+                # Check if trim starts with the series number
+                if "bmw" in make_lower:
+                    # Extract series number from model (e.g., "3" from "3 Series")
+                    series_match = re.match(r'^(\d+)', model_base)
+                    if series_match:
+                        series_num = series_match.group(1)
+                        # Check if first word starts with this series number
+                        # "330i" starts with "3", "m340i" -> check "340" which starts with "3"
+                        if first_word.startswith(series_num):
+                            return True
+                        # Handle M-prefixed (e.g., "M340i" - the "340" part)
+                        if first_word.startswith("m") and len(first_word) > 1:
+                            rest = first_word[1:]
+                            if rest.startswith(series_num):
+                                return True
+                        # If first word is a known BMW model that doesn't match our series, filter it
+                        first_digit = re.match(r'^(\d)', first_word)
+                        if first_digit and first_digit.group(1) != series_num:
+                            return False
+
+                # === MERCEDES SPECIAL CASE ===
+                # For AMG models like "AMG E 53" - check second word
+                if "mercedes" in make_lower or "benz" in make_lower:
+                    if first_word == "amg" and len(trim_words) > 1:
+                        second_word = trim_words[1]
+                        # Check if second word exactly matches our model (e.g., "e" for E-Class)
+                        return second_word == model_base
+
+                    # If first word is a known Mercedes model prefix
+                    if first_word in brand_models:
+                        return first_word == model_base or first_word.startswith(model_base)
+
+                # === AUDI SPECIAL CASE ===
+                # Audi trims like "Premium", "Prestige" don't have model in name
+                # Most Audi trim data from CarsXE is clean, so minimal filtering needed
+                # Only filter if trim explicitly starts with a different model
+                if "audi" in make_lower:
+                    # Check if first word is a different Audi model
+                    audi_models = ["a3", "a4", "a5", "a6", "a7", "a8", "q3", "q4", "q5", "q7", "q8", "rs3", "rs4", "rs5", "rs6", "rs7", "s3", "s4", "s5", "s6", "s7", "tt", "r8", "e-tron", "etron"]
+                    if first_word in audi_models and first_word != model_base:
+                        return False
 
                 return True  # Unknown format, keep it
 
