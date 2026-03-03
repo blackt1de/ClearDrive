@@ -23,9 +23,9 @@ HEADERS = {
 }
 
 
-IMAGE_CACHE_VERSION = 27  # Bump this to invalidate all cached images (v27: skip wheel/rim/part images)
-TRIMS_CACHE_VERSION = 8   # Bump this to invalidate all cached trims (v8: improved turbo detection for 2.0T patterns)
-VIN_CACHE_VERSION = 2     # Bump this to invalidate all cached VIN decodes (v2: fixed turbo detection for 2.0T)
+IMAGE_CACHE_VERSION = 28  # Bump this to invalidate all cached images (v28: Mercedes-AMG normalization)
+TRIMS_CACHE_VERSION = 9   # Bump this to invalidate all cached trims (v9: Mercedes-AMG normalization)
+VIN_CACHE_VERSION = 3     # Bump this to invalidate all cached VIN decodes (v3: Mercedes-AMG normalization)
 
 def load_cache() -> dict:
     if CACHE_FILE.exists():
@@ -67,6 +67,18 @@ async def get_vehicle_trims(year: str, make: str, model: str) -> list:
     Get all available trims for a vehicle using CarsXE API.
     Returns a list of trim dicts with detailed specs.
     """
+    # Normalize Mercedes-AMG make to Mercedes-Benz for API query
+    original_make = make
+    if make.lower() in ["mercedes-amg", "mercedesamg", "mercedes amg"]:
+        make = "Mercedes-Benz"
+        print(f"[CarsXE] Normalized Mercedes-AMG make for trims: {original_make} -> {make}")
+
+    # Handle AMG in model name (e.g., "AMG E53" -> "E53")
+    original_model = model
+    if model.lower().startswith("amg "):
+        model = model[4:].strip()
+        print(f"[CarsXE] Normalized AMG model for trims: {original_model} -> {model}")
+
     cache = load_cache()
     cache_key = f"trims_{year}_{make}_{model}".lower().replace(" ", "_")
 
@@ -849,6 +861,21 @@ async def get_vehicle_image(year: str, make: str, model: str, trim: str = "", co
         trim: Optional trim level (e.g., "SE", "Scat Pack") for more accurate images
         color: Optional color name (e.g., "blue", "Glacier White") for color-specific images
     """
+    # Normalize Mercedes-AMG make to Mercedes-Benz for image search
+    if make.lower() in ["mercedes-amg", "mercedesamg", "mercedes amg"]:
+        make = "Mercedes-Benz"
+        # Add AMG to trim if not already there
+        if "amg" not in (trim or "").lower() and "amg" not in (model or "").lower():
+            trim = f"AMG {trim}".strip() if trim else "AMG"
+        print(f"[Image] Normalized Mercedes-AMG for search: {make} {model} {trim}")
+
+    # Handle AMG in model name (e.g., "AMG E53" -> "E53")
+    if model.lower().startswith("amg "):
+        model = model[4:].strip()
+        if "amg" not in (trim or "").lower():
+            trim = f"AMG {trim}".strip()
+        print(f"[Image] Normalized AMG model for search: {model} trim={trim}")
+
     cache = load_cache()
     # Include color in cache key if provided
     cache_key = f"image_{year}_{make}_{model}_{trim}_{color or ''}".lower().replace(" ", "_")
@@ -1607,9 +1634,132 @@ def format_fuel_type(raw_fuel: str) -> str:
     return raw_fuel
 
 
+async def decode_vin_nhtsa(vin: str) -> dict:
+    """
+    Fallback VIN decode using free NHTSA API.
+    Used when CarsXE doesn't have data (e.g., very new models).
+
+    Args:
+        vin: 17-character Vehicle Identification Number
+
+    Returns:
+        dict with basic vehicle info, or empty dict if failed
+    """
+    print(f"[NHTSA] Trying fallback VIN decode for {vin}...")
+
+    try:
+        url = f"https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/{vin}?format=json"
+
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            response = await client.get(url)
+
+            if response.status_code != 200:
+                print(f"[NHTSA] HTTP error: {response.status_code}")
+                return {}
+
+            data = response.json()
+            results = data.get("Results", [])
+
+            if not results:
+                print("[NHTSA] No results returned")
+                return {}
+
+            vehicle = results[0]
+
+            # Check for decode errors
+            error_code = vehicle.get("ErrorCode", "")
+            if error_code and error_code != "0":
+                print(f"[NHTSA] Decode error: {vehicle.get('ErrorText', 'Unknown')}")
+                # Still try to use partial data
+
+            year = vehicle.get("ModelYear", "")
+            make = vehicle.get("Make", "")
+            model = vehicle.get("Model", "")
+            trim = vehicle.get("Trim", "")
+            series = vehicle.get("Series", "")
+
+            # NHTSA often puts trim info in Series for luxury brands
+            if series and not trim:
+                trim = series
+            elif series and trim:
+                trim = f"{series} {trim}"
+
+            # Normalize Mercedes-AMG
+            if make.lower() in ["mercedes-amg", "mercedesamg"]:
+                make = "Mercedes-Benz"
+                if "amg" not in trim.lower() and "amg" not in model.lower():
+                    trim = f"AMG {trim}".strip() if trim else "AMG"
+
+            # Handle AMG in model name
+            if model.lower().startswith("amg "):
+                model = model[4:].strip()
+                if "amg" not in trim.lower():
+                    trim = f"AMG {trim}".strip()
+
+            # Engine info
+            engine_size = vehicle.get("DisplacementL", "")
+            cylinders = vehicle.get("EngineCylinders", "")
+            engine_config = vehicle.get("EngineConfiguration", "")
+            fuel_type = vehicle.get("FuelTypePrimary", "")
+            drive_type = vehicle.get("DriveType", "")
+            transmission = vehicle.get("TransmissionStyle", "")
+            body_style = vehicle.get("BodyClass", "")
+
+            # Build engine string
+            engine_str = ""
+            if engine_size:
+                engine_str = f"{engine_size}L"
+            if cylinders:
+                try:
+                    cyl = int(cylinders)
+                    if cyl >= 6:
+                        engine_str += f" V{cyl}"
+                    elif cyl == 4:
+                        engine_str += " I4"
+                    else:
+                        engine_str += f" {cyl}-cyl"
+                except:
+                    pass
+
+            # Check for turbo/supercharger
+            forced_induction = vehicle.get("Turbo", "") or vehicle.get("EngineConfiguration", "")
+            if "turbo" in str(forced_induction).lower():
+                engine_str += " Turbo"
+            elif "supercharg" in str(forced_induction).lower():
+                engine_str += " Supercharged"
+
+            if not year or not make or not model:
+                print(f"[NHTSA] Incomplete data: year={year} make={make} model={model}")
+                return {}
+
+            print(f"[NHTSA] ✓ Decoded: {year} {make} {model} {trim}")
+            return {
+                "success": True,
+                "source": "nhtsa",
+                "vin": vin,
+                "year": str(year),
+                "make": make,
+                "model": model,
+                "trim": trim.strip() if trim else "",
+                "engine": engine_str.strip(),
+                "cylinders": str(cylinders) if cylinders else "",
+                "displacement": str(engine_size) if engine_size else "",
+                "drive_type": format_drive_string(drive_type),
+                "transmission": format_transmission_string(transmission),
+                "fuel_type": format_fuel_type(fuel_type),
+                "body_style": body_style,
+                "is_turbo": "turbo" in str(forced_induction).lower(),
+                "is_supercharged": "supercharg" in str(forced_induction).lower(),
+            }
+
+    except Exception as e:
+        print(f"[NHTSA] Error: {type(e).__name__}: {e}")
+        return {}
+
+
 async def decode_vin(vin: str) -> dict:
     """
-    Decode a VIN using CarsXE VIN Decoder API.
+    Decode a VIN using CarsXE VIN Decoder API, with NHTSA fallback.
     Returns vehicle information including year, make, model, trim, engine specs.
 
     Args:
@@ -1708,6 +1858,29 @@ async def decode_vin(vin: str) -> dict:
                     # Log all available fields for debugging
                     print(f"[CarsXE] Raw vehicle data keys: {list(vehicle.keys())}")
 
+                    # Normalize Mercedes-AMG make to Mercedes-Benz
+                    # CarsXE sometimes returns "Mercedes-AMG" as the make for AMG models
+                    raw_make = vehicle.get("make", "")
+                    raw_model = vehicle.get("model", "")
+                    raw_trim = vehicle.get("trim", "")
+
+                    if raw_make.lower() in ["mercedes-amg", "mercedesamg", "mercedes amg"]:
+                        print(f"[CarsXE] Normalizing Mercedes-AMG make: {raw_make} -> Mercedes-Benz")
+                        vehicle["make"] = "Mercedes-Benz"
+                        # Add AMG to trim if not already there
+                        if "amg" not in raw_trim.lower() and "amg" not in raw_model.lower():
+                            vehicle["trim"] = f"AMG {raw_trim}".strip() if raw_trim else "AMG"
+                            print(f"[CarsXE] Added AMG to trim: {vehicle['trim']}")
+
+                    # Also handle case where model contains "AMG" designation (e.g., "AMG E53")
+                    # Normalize to model without prefix, add AMG to trim
+                    if raw_model.lower().startswith("amg "):
+                        normalized_model = raw_model[4:].strip()  # Remove "AMG " prefix
+                        vehicle["model"] = normalized_model
+                        if "amg" not in (vehicle.get("trim", "") or "").lower():
+                            vehicle["trim"] = f"AMG {vehicle.get('trim', '')}".strip()
+                        print(f"[CarsXE] Normalized AMG model: {raw_model} -> {normalized_model}, trim: {vehicle.get('trim', '')}")
+
                     # Extract and clean engine string
                     raw_engine = vehicle.get("engine", "")
                     cylinders = vehicle.get("cylinders", "")
@@ -1779,7 +1952,20 @@ async def decode_vin(vin: str) -> dict:
 
                     print(f"[CarsXE] Cleaned engine: '{raw_engine}' -> '{engine_clean}'")
 
-                    # Cache the result (never expires)
+                    # Validate that we have minimum required data
+                    has_year = result["year"] and result["year"].isdigit()
+                    has_make = result["make"] and len(result["make"]) > 1
+                    has_model = result["model"] and len(result["model"]) > 0
+
+                    if not has_year or not has_make or not has_model:
+                        print(f"[CarsXE] ⚠ VIN decode incomplete: year={result['year']} make={result['make']} model={result['model']}")
+                        result["partial"] = True
+                        result["success"] = False  # Mark as failed so app falls back to manual
+                        result["error"] = f"Incomplete data: {'no year' if not has_year else ''} {'no make' if not has_make else ''} {'no model' if not has_model else ''}".strip()
+                        # Still return the partial data - app can use what it has
+                        return result
+
+                    # Cache successful result (never expires)
                     cache["vin_decodes"][vin] = result
                     save_cache(cache)
 
@@ -1787,6 +1973,17 @@ async def decode_vin(vin: str) -> dict:
                     return result
                 else:
                     print(f"[CarsXE] No vehicle data found in response for VIN {vin}")
+                    print(f"[CarsXE] Full response for debugging: {str(data)[:1000]}")
+
+                    # Try NHTSA fallback
+                    print("[CarsXE] Trying NHTSA fallback...")
+                    nhtsa_result = await decode_vin_nhtsa(vin)
+                    if nhtsa_result and nhtsa_result.get("success"):
+                        # Cache the NHTSA result
+                        cache["vin_decodes"][vin] = nhtsa_result
+                        save_cache(cache)
+                        return nhtsa_result
+
                     # Don't cache errors - allow retry on next request
                     return {"success": False, "vin": vin, "error": "No data found"}
             else:
@@ -1796,12 +1993,29 @@ async def decode_vin(vin: str) -> dict:
                     print(f"[CarsXE] Error response: {error_body}")
                 except:
                     pass
+
+                # Try NHTSA fallback
+                print("[CarsXE] Trying NHTSA fallback...")
+                nhtsa_result = await decode_vin_nhtsa(vin)
+                if nhtsa_result and nhtsa_result.get("success"):
+                    # Cache the NHTSA result
+                    cache["vin_decodes"][vin] = nhtsa_result
+                    save_cache(cache)
+                    return nhtsa_result
+
                 return {"success": False, "vin": vin, "error": f"HTTP {response.status_code}"}
 
     except Exception as e:
         print(f"[CarsXE] VIN decode error: {type(e).__name__}: {e}")
         import traceback
         traceback.print_exc()
+
+        # Try NHTSA fallback
+        print("[CarsXE] Trying NHTSA fallback...")
+        nhtsa_result = await decode_vin_nhtsa(vin)
+        if nhtsa_result and nhtsa_result.get("success"):
+            return nhtsa_result
+
         return {"success": False, "vin": vin, "error": str(e)}
 
 
