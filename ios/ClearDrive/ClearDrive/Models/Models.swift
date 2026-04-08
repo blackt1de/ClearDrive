@@ -296,6 +296,7 @@ struct ScanResult: Identifiable, Codable {
         case dataSources, obdSource
         case rpm, speed, coolantTemp
         case vehicleImageURL
+        case scanId
     }
 
     // Custom decoder to handle optional/default values
@@ -343,6 +344,7 @@ struct ScanResult: Identifiable, Codable {
         coolantTemp = try container.decodeIfPresent(Int.self, forKey: .coolantTemp)
 
         vehicleImageURL = try container.decodeIfPresent(String.self, forKey: .vehicleImageURL)
+        scanId = try container.decodeIfPresent(Int.self, forKey: .scanId)
     }
 
     // Custom encoder to ensure all properties are saved
@@ -390,6 +392,7 @@ struct ScanResult: Identifiable, Codable {
         try container.encodeIfPresent(coolantTemp, forKey: .coolantTemp)
 
         try container.encodeIfPresent(vehicleImageURL, forKey: .vehicleImageURL)
+        try container.encodeIfPresent(scanId, forKey: .scanId)
     }
 
     // Standard initializer
@@ -441,6 +444,9 @@ struct ScanResult: Identifiable, Codable {
 
     // Vehicle image URL
     var vehicleImageURL: String?
+
+    // Backend scan ID for linking followups and feedback
+    var scanId: Int?
 
     // Legacy property for backwards compatibility
     var diagnosis: String? { dontPanic }

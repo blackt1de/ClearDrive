@@ -341,6 +341,9 @@ class APIClient: ObservableObject {
         result.knownIssues = response.knownIssues
         result.ownerReports = response.ownerReports
 
+        // Backend scan ID for followup/feedback linking
+        result.scanId = response.scanId
+
         // Vehicle details - use backend data, fallback to user's selection
         // Check for both nil AND empty strings before falling back
         print("[APIClient] Vehicle specs - response.engine: '\(response.engine ?? "nil")', vehicle.engine: '\(vehicle.engine ?? "nil")'")
@@ -453,6 +456,9 @@ class APIClient: ObservableObject {
         result.knownIssues = response.knownIssues
         result.ownerReports = response.ownerReports
 
+        // Backend scan ID for followup/feedback linking
+        result.scanId = response.scanId
+
         // Vehicle details - use backend data, fallback to user's selection
         // Check for both nil AND empty strings before falling back
         print("[APIClient] Vehicle specs - response.engine: '\(response.engine ?? "nil")', vehicle.engine: '\(vehicle.engine ?? "nil")'")
@@ -510,7 +516,9 @@ class APIClient: ObservableObject {
     func askFollowUp(
         question: String,
         context: [String: Any],
-        history: [[String: String]]
+        history: [[String: String]],
+        scanId: Int? = nil,
+        isHumanGenerated: Bool = true
     ) async throws -> String {
         let url = URL(string: "\(baseURL)/followup")!
         var request = URLRequest(url: url)
@@ -518,16 +526,43 @@ class APIClient: ObservableObject {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.timeoutInterval = 60
 
-        let body: [String: Any] = [
+        var body: [String: Any] = [
             "question": question,
             "context": context,
-            "history": history
+            "history": history,
+            "is_human_generated": isHumanGenerated
         ]
+        if let scanId = scanId {
+            body["scan_id"] = scanId
+        }
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
         let (data, _) = try await URLSession.shared.data(for: request)
         let response = try JSONDecoder().decode(FollowUpResponse.self, from: data)
         return response.answer
+    }
+
+    // MARK: - Feedback
+
+    func submitFeedback(scanId: Int, rating: String) async throws -> Bool {
+        let url = URL(string: "\(baseURL)/feedback")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let body: [String: Any] = [
+            "scan_id": scanId,
+            "rating": rating
+        ]
+        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+        let (data, _) = try await URLSession.shared.data(for: request)
+
+        struct FeedbackResponse: Codable {
+            let success: Bool
+        }
+        let response = try JSONDecoder().decode(FeedbackResponse.self, from: data)
+        return response.success
     }
 }
 
@@ -893,6 +928,9 @@ struct InterpretResponse: Codable {
     let tankCapacity: String?
     let horsepower: String?
 
+    // Backend scan ID for linking followups and feedback
+    let scanId: Int?
+
     enum CodingKeys: String, CodingKey {
         case codes, vehicle, engine, drive, transmission
         case fuelType = "fuel_type"
@@ -920,5 +958,6 @@ struct InterpretResponse: Codable {
         case mpgCombined = "mpg_combined"
         case tankCapacity = "tank_capacity"
         case horsepower
+        case scanId = "scan_id"
     }
 }

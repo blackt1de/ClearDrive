@@ -235,6 +235,21 @@ struct ContentView: View {
                     odometer: odometer,
                     fuelLevel: fuelLevel
                 )
+
+                // Auto-update vehicle mileage for service tracking
+                if let odo = odometer, let vehicle = selectedVehicle {
+                    if let saved = vehicleStore.savedVehicles.first(where: {
+                        $0.vehicle.year == vehicle.year &&
+                        $0.vehicle.make == vehicle.make &&
+                        $0.vehicle.model == vehicle.model
+                    }) {
+                        // Only update if mileage changed significantly (avoid constant writes)
+                        let currentSaved = saved.currentMileage ?? 0
+                        if abs(odo - currentSaved) >= 1 {
+                            vehicleStore.updateMileage(for: saved.id, mileage: odo)
+                        }
+                    }
+                }
             }
         }
     }
