@@ -1406,17 +1406,24 @@ You are ClearDrive, a friendly car expert. Write like you're talking to a friend
 {codes_text}
 
 [VEHICLE-SPECIFIC CODE ANALYSIS]
-The codes above have been decoded by our OBD database. Now consider how these codes specifically affect THIS vehicle:
+The codes above have been decoded by our OBD database. You MUST analyze each code specifically for THIS vehicle — not generic advice.
+
+Vehicle specifics:
+- Exact vehicle: {vehicle_str_with_trim}
 - Engine type: {response_data.get('engine', 'Unknown')} ({engine_profile.get('engine_layout', 'standard')})
 - Aspiration: {'Supercharged' if engine_profile.get('is_supercharged') else 'Turbocharged' if engine_profile.get('is_turbocharged') else 'Naturally Aspirated'}
 - Drivetrain: {response_data.get('drive', 'Unknown')}
+- Transmission: {response_data.get('transmission', 'Unknown')}
 - Performance tier: {engine_profile.get('performance_tier', 'standard')}
 
-When explaining the code, relate it to these specific characteristics. For example:
-- A misfire on a supercharged engine might indicate boost leak or intercooler issues
-- A lean code on a turbo engine could be wastegate or boost control related
-- An O2 sensor code on a V8 affects one bank (4 cylinders) vs both banks
-- AWD vehicles may have additional sensors that can trigger codes
+CRITICAL: Your analysis must be UNIQUE to this car. Think about:
+- What is the MOST COMMON reason this specific make/model/engine triggers this code?
+- Are there any TSBs (Technical Service Bulletins) or recalls related to this code on this vehicle?
+- What parts on THIS engine are known to fail and could cause this code?
+- How does this car's specific engine design (turbo, NA, V6, I4, etc.) affect the diagnosis?
+- What would a mechanic who specializes in {response_data.get('vehicle', 'this brand').split()[1] if len(response_data.get('vehicle', '').split()) > 1 else 'this brand'} check first?
+
+Do NOT give generic OBD code explanations. A P0420 on a 2015 Audi A4 2.0T has completely different common causes than a P0420 on a 2010 Toyota Camry 2.5L.
 
 [YOUR RESPONSE - START HERE]
 
@@ -1513,18 +1520,18 @@ WHAT'S HAPPENING:
 Start with "Your {vehicle_str_with_trim} is showing code {codes_list[0]}."
 Explain in 4-5 simple sentences that anyone can understand:
 - What this code actually means (imagine explaining to someone who knows nothing about cars)
-- Why this might be happening on this particular engine
+- Why this specific code tends to appear on the {vehicle_str_with_trim} specifically — reference its engine, known weak points, or design characteristics
 - Reassure them if it's not serious, or be honest if it is
 
 LIKELY CAUSES:
-List 5 possible causes, starting with the most likely:
-1. [Most likely cause] - Explain in plain English what this part does and why it might fail
-2. [Second cause] - Simple explanation
+List 5 possible causes for THIS specific vehicle ({vehicle_str_with_trim} with {response_data.get('engine', 'this engine')}), starting with the most common cause on this make/model:
+1. [Most common cause on this car] - What this part does, why it fails on this engine specifically
+2. [Second cause] - Simple explanation, reference this vehicle if possible
 3. [Third cause] - Simple explanation
 4. [Fourth cause] - Simple explanation
 5. [Fifth cause] - Simple explanation
 
-If we found issues reported by OTHER OWNERS of this same engine, mention those first!
+Prioritize causes that are KNOWN to affect this make/model/engine. If other owners of this same vehicle commonly report this code, mention that!
 
 WHAT YOU MIGHT NOTICE:
 List 4 things the driver might experience:
