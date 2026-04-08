@@ -45,6 +45,10 @@ struct SettingsView: View {
     @AppStorage("enableNotifications") private var enableNotifications = true
     @State private var showingEmailCopied = false
 
+    // For service view navigation
+    @State private var selectedVehicle: VehicleInfo?
+    @State private var liveData: LiveOBDData?
+
     var body: some View {
         ZStack {
             Color.cdBackground
@@ -53,6 +57,9 @@ struct SettingsView: View {
             Form {
                 // Demo Mode (for testing)
                 demoSection
+
+                // Service Reminders
+                serviceSection
 
                 // Preferences
                 preferencesSection
@@ -72,6 +79,32 @@ struct SettingsView: View {
             .scrollContentBackground(.hidden)
         }
         .navigationTitle("Settings")
+        .onAppear {
+            // Load most recent vehicle for service view
+            if let first = vehicleStore.savedVehicles.first {
+                selectedVehicle = first.vehicle
+            }
+        }
+    }
+
+    // MARK: - Service Section
+
+    private var serviceSection: some View {
+        Section {
+            NavigationLink {
+                ServiceView(
+                    selectedVehicle: $selectedVehicle,
+                    liveData: $liveData
+                )
+            } label: {
+                Label("Service Reminders", systemImage: "wrench.and.screwdriver")
+            }
+        } header: {
+            Text("Maintenance")
+        } footer: {
+            Text("Track oil changes, tire rotations, and other maintenance.")
+        }
+        .listRowBackground(Color.cdCardBackground)
     }
 
     // MARK: - Data Section

@@ -656,7 +656,11 @@ struct VehicleDetailSheet: View {
     @State private var chatMessages: [ChatMessage] = []
     @State private var currentQuestion = ""
     @State private var isAskingQuestion = false
-    @State private var questionsRemaining = 3
+
+    // Feedback state
+    @State private var feedbackSubmitted = false
+    @State private var selectedFeedback: String? = nil
+    @State private var isSubmittingFeedback = false
 
     // Service tracking state
     @State private var showMileageEntry = false
@@ -855,6 +859,9 @@ struct VehicleDetailSheet: View {
 
         // Follow-up questions
         followUpCard(result)
+
+        // Post-scan feedback
+        feedbackCard(result)
     }
 
     private func vehicleSpecsSection(_ result: ScanResult) -> some View {
@@ -1405,38 +1412,30 @@ struct VehicleDetailSheet: View {
 
     private func followUpCard(_ result: ScanResult) -> some View {
         VStack(alignment: .leading, spacing: CDSpacing.medium) {
-            HStack {
-                HStack(spacing: CDSpacing.xs) {
-                    Image(systemName: "bubble.left.and.bubble.right.fill")
-                        .font(.system(size: 14))
-                        .foregroundStyle(Color.cdPrimaryBright)
+            HStack(spacing: CDSpacing.xs) {
+                Image(systemName: "bubble.left.and.bubble.right.fill")
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color.cdPrimaryBright)
 
-                    Text("Ask Follow-up Questions")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(Color.cdTextPrimary)
-                }
-
-                Spacer()
-
-                Text("\(questionsRemaining) remaining")
-                    .font(.system(size: 12))
-                    .foregroundStyle(Color.cdTextTertiary)
+                Text("Ask Follow-up Questions")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.cdTextPrimary)
             }
 
             // Quick questions
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: CDSpacing.small) {
                     QuickQuestionButton(text: "Repair cost?") {
-                        askQuestion("How much will this repair cost?", result: result)
+                        askQuestion("How much will this repair cost?", result: result, isHumanGenerated: false)
                     }
                     QuickQuestionButton(text: "Safe to drive?") {
-                        askQuestion("Can I drive to work tomorrow?", result: result)
+                        askQuestion("Can I drive to work tomorrow?", result: result, isHumanGenerated: false)
                     }
                     QuickQuestionButton(text: "Parts needed?") {
-                        askQuestion("What parts might need replacing?", result: result)
+                        askQuestion("What parts might need replacing?", result: result, isHumanGenerated: false)
                     }
                     QuickQuestionButton(text: "DIY possible?") {
-                        askQuestion("Can I fix this myself?", result: result)
+                        askQuestion("Can I fix this myself?", result: result, isHumanGenerated: false)
                     }
                 }
             }
@@ -1463,26 +1462,24 @@ struct VehicleDetailSheet: View {
             }
 
             // Input field
-            if questionsRemaining > 0 {
-                HStack(spacing: CDSpacing.small) {
-                    TextField("Ask a question...", text: $currentQuestion)
-                        .font(.system(size: 14))
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 12)
-                        .background(Color.cdCardBackgroundLight)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+            HStack(spacing: CDSpacing.small) {
+                TextField("Ask a question...", text: $currentQuestion)
+                    .font(.system(size: 14))
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 12)
+                    .background(Color.cdCardBackgroundLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
 
-                    Button {
-                        askQuestion(currentQuestion, result: result)
-                        currentQuestion = ""
-                    } label: {
-                        Image(systemName: "arrow.up.circle.fill")
-                            .font(.system(size: 32))
-                            .foregroundStyle(Color.cdPrimaryBright)
-                    }
-                    .disabled(currentQuestion.isEmpty || isAskingQuestion)
-                    .opacity(currentQuestion.isEmpty ? 0.5 : 1)
+                Button {
+                    askQuestion(currentQuestion, result: result)
+                    currentQuestion = ""
+                } label: {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .font(.system(size: 32))
+                        .foregroundStyle(Color.cdPrimaryBright)
                 }
+                .disabled(currentQuestion.isEmpty || isAskingQuestion)
+                .opacity(currentQuestion.isEmpty ? 0.5 : 1)
             }
         }
         .padding(CDSpacing.medium)
@@ -1496,8 +1493,70 @@ struct VehicleDetailSheet: View {
         )
     }
 
-    private func askQuestion(_ question: String, result: ScanResult) {
-        guard !question.isEmpty, questionsRemaining > 0 else { return }
+    private func feedbackCard(_ result: ScanResult) -> some View {
+        VStack(spacing: CDSpacing.medium) {
+            Text("How was this diagnosis?")
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(Color.cdTextPrimary)
+
+            if feedbackSubmitted {
+                HStack(spacing: CDSpacing.xs) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(Color.cdSuccess)
+                    Text("Thanks for your feedback!")
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color.cdTextSecondary)
+                }
+                .transition(.opacity.combined(with: .scale))
+            } else {
+                HStack(spacing: CDSpacing.medium) {
+                    FeedbackButton(
+                        icon: "hand.thumbsdown.fill",
+                        label: "Bad",
+                        color: .cdCritical,
+                        isSelected: selectedFeedback == "bad",
+                        isLoading: isSubmittingFeedback && selectedFeedback == "bad"
+                    ) {
+                        submitFeedback("bad", result: result)
+                    }
+
+                    FeedbackButton(
+                        icon: "hand.thumbsup.fill",
+                        label: "OK",
+                        color: .cdWarning,
+                        isSelected: selectedFeedback == "ok",
+                        isLoading: isSubmittingFeedback && selectedFeedback == "ok",
+                        rotation: -90
+                    ) {
+                        submitFeedback("ok", result: result)
+                    }
+
+                    FeedbackButton(
+                        icon: "hand.thumbsup.fill",
+                        label: "Good",
+                        color: .cdSuccess,
+                        isSelected: selectedFeedback == "good",
+                        isLoading: isSubmittingFeedback && selectedFeedback == "good"
+                    ) {
+                        submitFeedback("good", result: result)
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(CDSpacing.medium)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color.cdCardBackground)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color.cdPrimary.opacity(0.15), lineWidth: 1)
+                )
+        )
+    }
+
+    private func askQuestion(_ question: String, result: ScanResult, isHumanGenerated: Bool = true) {
+        guard !question.isEmpty else { return }
 
         chatMessages.append(ChatMessage(role: .user, content: question))
         isAskingQuestion = true
@@ -1520,17 +1579,40 @@ struct VehicleDetailSheet: View {
                 let answer = try await apiClient.askFollowUp(
                     question: question,
                     context: context,
-                    history: history
+                    history: history,
+                    scanId: result.scanId,
+                    isHumanGenerated: isHumanGenerated
                 )
                 await MainActor.run {
                     chatMessages.append(ChatMessage(role: .assistant, content: answer))
-                    questionsRemaining -= 1
                     isAskingQuestion = false
                 }
             } catch {
                 await MainActor.run {
                     chatMessages.append(ChatMessage(role: .assistant, content: "Sorry, couldn't get an answer. Please try again."))
                     isAskingQuestion = false
+                }
+            }
+        }
+    }
+
+    private func submitFeedback(_ rating: String, result: ScanResult) {
+        guard let scanId = result.scanId else { return }
+        selectedFeedback = rating
+        isSubmittingFeedback = true
+
+        Task {
+            do {
+                _ = try await apiClient.submitFeedback(scanId: scanId, rating: rating)
+                await MainActor.run {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        feedbackSubmitted = true
+                    }
+                    isSubmittingFeedback = false
+                }
+            } catch {
+                await MainActor.run {
+                    isSubmittingFeedback = false
                 }
             }
         }

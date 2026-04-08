@@ -13,7 +13,7 @@ from schemas import DTCCode, OBDSnapshot
 # Use Groq for AI (faster than Ollama, cloud-based)
 # Set GROQ_API_KEY environment variable with your key from https://console.groq.com
 from groq_client import ask_ollama, check_ollama
-from database import init_db, log_scan, get_recent_scans
+from database import init_db, log_scan, get_recent_scans, log_followup, log_feedback
 from obd_reader import get_reader, connect_obd
 from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context, decode_obd_codes_batch, format_engine_string, format_transmission_string, format_drive_string
 from code_scraper import get_code_info, format_code_context
@@ -81,6 +81,13 @@ class FollowUpRequest(BaseModel):
     question: str
     context: dict
     history: List[dict] = []
+    scan_id: Optional[int] = None
+    is_human_generated: bool = True
+
+
+class FeedbackRequest(BaseModel):
+    scan_id: int
+    rating: str
 
 
 def parse_guidance(response: str) -> dict:
@@ -1624,9 +1631,10 @@ Based on community data, write 2-3 sentences about what owners of similar vehicl
     response_data["known_issues"] = parsed["known_issues"]
     response_data["owner_reports"] = parsed["owner_reports"]
     
-    # Log scan
-    log_scan(", ".join(codes_list), parsed["safety_level"], ai_response)
-    
+    # Log scan and return scan_id for followup/feedback linking
+    scan_id = log_scan(", ".join(codes_list), parsed["safety_level"], ai_response)
+    response_data["scan_id"] = scan_id
+
     return response_data
 
 
@@ -1709,16 +1717,19 @@ async def followup(request: FollowUpRequest):
         diag_context += f"\nLikely causes: {likely_causes[:200]}..."
 
     prompt = f"""[SYSTEM - DO NOT OUTPUT]
-You are ClearDrive, a helpful car diagnostic assistant. Be specific and actionable.
+You are ClearDrive, a helpful car diagnostic assistant that uses the SOCRATIC METHOD to help vehicle owners truly understand their car.
 
 RULES:
-- If asked HOW to do something: give numbered step-by-step instructions
+- ALWAYS end your response with 1-2 thoughtful follow-up questions that guide the user to better understand their vehicle's issue
+- Ask questions that help the user provide useful information (e.g., "Have you noticed any unusual smells when this happens?" or "When did you first notice this - was it after a cold start?")
+- Help them learn WHY something matters, not just WHAT to do
+- If asked HOW to do something: give numbered step-by-step instructions, then ask if they have the tools and comfort level to attempt it
 - If asked for videos/links: say "I can't provide links, but here's what to search for: [specific search terms]"
-- If asked about a part: explain what it does and where it's located on this specific vehicle
-- If asked about cost: factor in the performance tier (high-performance parts cost more!)
+- If asked about a part: explain what it does and where it's located on this specific vehicle, then ask if they've inspected it
+- If asked about cost: factor in the performance tier (high-performance parts cost more!), then ask about their preference (dealer vs independent shop, OEM vs aftermarket parts)
 - Be specific to this {powertrain} engine
 - Use the horsepower, MSRP, and trim info to give accurate answers
-- 3-5 sentences unless steps are needed
+- 3-5 sentences of answer, then 1-2 probing questions
 - English only
 
 CRITICAL - MATCH SAFETY LEVEL WITH DRIVING ADVICE:
@@ -1752,7 +1763,21 @@ Safety Level: {safety}
     if response.startswith("ERROR:"):
         return {"answer": "Sorry, I couldn't process that question. Please try again."}
 
-    return {"answer": response.strip()}
+    answer = response.strip()
+
+    # Log followup for GEPA data collection
+    if request.scan_id is not None:
+        try:
+            log_followup(
+                scan_id=request.scan_id,
+                question=request.question,
+                answer=answer,
+                is_human_generated=request.is_human_generated
+            )
+        except Exception as e:
+            print(f"[Followup] Failed to log: {e}")
+
+    return {"answer": answer}
 
 
 @app.get("/history")
@@ -1762,6 +1787,16 @@ async def history():
         {"timestamp": s[0], "codes": s[1], "safety": s[2], "guidance": s[3]}
         for s in scans
     ]
+
+
+@app.post("/feedback")
+async def submit_feedback(request: FeedbackRequest):
+    """Log user feedback for a scan session."""
+    if request.rating not in ("bad", "ok", "good"):
+        return {"success": False, "error": "Invalid rating. Must be 'bad', 'ok', or 'good'."}
+
+    feedback_id = log_feedback(request.scan_id, request.rating)
+    return {"success": True, "feedback_id": feedback_id}
 
 
 @app.get("/safety-definitions")

@@ -104,6 +104,18 @@ class VehicleStore: ObservableObject {
         }
     }
 
+    func addServiceRecord(for vehicleId: UUID, record: ServiceRecord) {
+        if let index = savedVehicles.firstIndex(where: { $0.id == vehicleId }) {
+            savedVehicles[index].serviceHistory.insert(record, at: 0)
+            // Keep last 100 service records
+            if savedVehicles[index].serviceHistory.count > 100 {
+                savedVehicles[index].serviceHistory = Array(savedVehicles[index].serviceHistory.prefix(100))
+            }
+            persistVehicles()
+            print("[VehicleStore] Added service record for \(savedVehicles[index].vehicle.displayName): \(record.type.rawValue)")
+        }
+    }
+
     // MARK: - Scan History
 
     func addScanResult(_ result: ScanResult) {
@@ -211,8 +223,9 @@ struct SavedVehicle: Identifiable, Codable {
     var currentMileage: Double?
     var lastOilChangeDate: Date?
     var lastOilChangeMileage: Double?
+    var serviceHistory: [ServiceRecord] = []
 
-    init(id: UUID = UUID(), vehicle: VehicleInfo, imageURL: String? = nil, trimId: String? = nil, dateAdded: Date = Date(), lastScanned: Date = Date(), lastScanResult: ScanResult? = nil, currentMileage: Double? = nil, lastOilChangeDate: Date? = nil, lastOilChangeMileage: Double? = nil) {
+    init(id: UUID = UUID(), vehicle: VehicleInfo, imageURL: String? = nil, trimId: String? = nil, dateAdded: Date = Date(), lastScanned: Date = Date(), lastScanResult: ScanResult? = nil, currentMileage: Double? = nil, lastOilChangeDate: Date? = nil, lastOilChangeMileage: Double? = nil, serviceHistory: [ServiceRecord] = []) {
         self.id = id
         self.vehicle = vehicle
         self.imageURL = imageURL
@@ -223,6 +236,7 @@ struct SavedVehicle: Identifiable, Codable {
         self.currentMileage = currentMileage
         self.lastOilChangeDate = lastOilChangeDate
         self.lastOilChangeMileage = lastOilChangeMileage
+        self.serviceHistory = serviceHistory
     }
 
     // Custom decoder to handle missing fields in old data
@@ -238,11 +252,12 @@ struct SavedVehicle: Identifiable, Codable {
         currentMileage = try container.decodeIfPresent(Double.self, forKey: .currentMileage)
         lastOilChangeDate = try container.decodeIfPresent(Date.self, forKey: .lastOilChangeDate)
         lastOilChangeMileage = try container.decodeIfPresent(Double.self, forKey: .lastOilChangeMileage)
+        serviceHistory = try container.decodeIfPresent([ServiceRecord].self, forKey: .serviceHistory) ?? []
     }
 
     enum CodingKeys: String, CodingKey {
         case id, vehicle, imageURL, trimId, dateAdded, lastScanned, lastScanResult
-        case currentMileage, lastOilChangeDate, lastOilChangeMileage
+        case currentMileage, lastOilChangeDate, lastOilChangeMileage, serviceHistory
     }
 
     // Calculate next oil change

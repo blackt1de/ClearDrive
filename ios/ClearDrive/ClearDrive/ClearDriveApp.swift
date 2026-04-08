@@ -15,7 +15,7 @@ struct ClearDriveApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ZStack {w
+            ZStack {
                 if showSplash {
                     SplashView {
                         showSplash = false
