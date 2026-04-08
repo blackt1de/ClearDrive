@@ -258,8 +258,38 @@ struct ResultsView: View {
 
     private func formatSpec(_ value: String?) -> String {
         guard let value = value, !value.isEmpty else { return "--" }
-        if value.count <= 14 { return value }
-        return String(value.prefix(12)) + ".."
+        let formatted = formatTransmission(value)
+        if formatted.count <= 14 { return formatted }
+        return String(formatted.prefix(12)) + ".."
+    }
+
+    private func formatTransmission(_ raw: String) -> String {
+        let upper = raw.uppercased().trimmingCharacters(in: .whitespaces)
+            .trimmingCharacters(in: CharacterSet(charactersIn: "()"))
+
+        // Extract speed count
+        let pattern = try? NSRegularExpression(pattern: "(\\d+)\\s*(?:SP|SPD|SPEED|-SPEED)", options: [])
+        let range = NSRange(upper.startIndex..., in: upper)
+        var speeds = ""
+        if let match = pattern?.firstMatch(in: upper, range: range),
+           let speedRange = Range(match.range(at: 1), in: upper) {
+            speeds = String(upper[speedRange])
+        } else if let first = upper.first, first.isNumber {
+            speeds = String(first)
+        }
+
+        // Determine type
+        var transType = ""
+        if upper.contains("CVT") { transType = "CVT"; speeds = "" }
+        else if upper.contains("DCT") || upper.contains("DUAL CLUTCH") || upper.contains("PDK") || upper.contains("DSG") { transType = "Dual-Clutch" }
+        else if upper.contains("MANUAL") || upper.contains("MT") || upper.contains("M/T") { transType = "Manual" }
+        else if upper.contains("AUTO") || upper.contains("AT") || upper.contains("A/T") { transType = "Automatic" }
+        else { return raw } // Don't mangle unknown formats
+
+        if !speeds.isEmpty && transType != "CVT" {
+            return "\(speeds)-Speed \(transType)"
+        }
+        return transType.isEmpty ? raw : transType
     }
 
     private func formatDrive(_ drive: String?) -> String {
