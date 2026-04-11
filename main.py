@@ -12,7 +12,7 @@ from typing import Optional, List
 from schemas import DTCCode, OBDSnapshot
 # Use Groq for AI (faster than Ollama, cloud-based)
 # Set GROQ_API_KEY environment variable with your key from https://console.groq.com
-from groq_client import ask_ollama, check_ollama
+from ollama_client import ask_ollama, check_ollama
 from database import init_db, log_scan, get_recent_scans, log_followup, log_feedback
 from obd_reader import get_reader, connect_obd
 from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context, decode_obd_codes_batch, format_engine_string, format_transmission_string, format_drive_string
