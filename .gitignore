@@ -26,6 +26,9 @@ forum_cache.json
 *.db
 cleardrive.db
 
+# Backups (e.g. cleardrive.db.pre-research-logging.bak)
+*.bak
+
 # OS
 .DS_Store
 Thumbs.db
