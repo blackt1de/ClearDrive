@@ -29,6 +29,9 @@ cleardrive.db
 # Backups (e.g. cleardrive.db.pre-research-logging.bak)
 *.bak
 
+# Scraped training data (can regenerate via scrape_training_data.py)
+training_data/
+
 # OS
 .DS_Store
 Thumbs.db
