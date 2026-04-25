@@ -13,7 +13,15 @@ from schemas import DTCCode, OBDSnapshot
 # Use Groq for AI (faster than Ollama, cloud-based)
 # Set GROQ_API_KEY environment variable with your key from https://console.groq.com
 from ollama_client import ask_ollama, check_ollama
-from database import init_db, log_scan, get_recent_scans, log_followup, log_feedback
+from database import (
+    init_db,
+    log_scan,
+    get_recent_scans,
+    log_followup,
+    log_feedback,
+    init_research_table,
+    log_research_scan,
+)
 from obd_reader import get_reader, connect_obd
 from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context, decode_obd_codes_batch, format_engine_string, format_transmission_string, format_drive_string
 from code_scraper import get_code_info, format_code_context
@@ -29,6 +37,7 @@ app.add_middleware(
 )
 
 init_db()
+init_research_table()
 
 
 # =============================================================================
@@ -1641,6 +1650,40 @@ Based on community data, write 2-3 sentences about what owners of similar vehicl
     # Log scan and return scan_id for followup/feedback linking
     scan_id = log_scan(", ".join(codes_list), parsed["safety_level"], ai_response)
     response_data["scan_id"] = scan_id
+
+    # Research logging — additive, parallel to log_scan above.
+    # Captures the full prompt, response, vehicle context, and OBD data
+    # so scans can later be used as training examples and/or replayed
+    # for A/B comparison between model variants.
+    #
+    # This call has its own internal try/except — if the DB write fails
+    # for any reason, the user still gets their diagnosis. See the
+    # log_research_scan() docstring in database.py.
+    #
+    # TODO (when consent + A/B shipping):
+    #   - Replace model_version literal with a value derived from the
+    #     active LLM client (currently ollama_client serving Gemma 4 E4B;
+    #     groq_client.py is the pre-swap fallback path).
+    #   - Pass real user_id_hash from the request once iOS sends one.
+    #   - Pass ab_bucket once the assignment logic exists.
+    #   - Pass consent_version once the onboarding screen ships.
+    log_research_scan(
+        model_version="gemma4-e4b-base",
+        vehicle_id=request.vehicle_id,
+        trim=trim,
+        vehicle_profile=vehicle_data,
+        codes=codes_list,
+        rpm=response_data.get("rpm"),
+        speed_mph=response_data.get("speed"),
+        coolant_temp_f=response_data.get("coolant_temp"),
+        obd_source=obd_source,
+        prompt_text=prompt,
+        response_text=ai_response,
+        response_parsed=parsed,
+        safety_level=parsed["safety_level"],
+        had_error=False,
+        data_sources=response_data.get("data_sources"),
+    )
 
     return response_data
 
