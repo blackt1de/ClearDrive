@@ -3,14 +3,19 @@
 
 For each combination of ~300 US-market vehicle (year, make, model)
 profiles and 50 OBD-II codes (~15,000 combos), collect raw records from
-six sources:
+five sources:
 
   1. NHTSA complaintsByVehicle API
   2. NHTSA recallsByVehicle API
-  3. OBD-Codes.com (generic code description)
-  4. RepairPal (vehicle common repairs)
-  5. CarComplaints.com (vehicle complaint narratives)
-  6. Reddit (lean wrapper around forum_scraper primitives)
+  3. RepairPal (vehicle common repairs)
+  4. CarComplaints.com (vehicle complaint narratives)
+  5. Reddit (lean wrapper around forum_scraper primitives)
+
+OBD-Codes.com was originally included as a sixth source for generic
+code descriptions but is currently behind a Cloudflare browser
+challenge that returns HTTP 403 to the scraper on every request. It
+was removed from the source list in this revision; investigation of
+a Cloudflare workaround is tracked separately.
 
 One JSON file per (vehicle, code) combination is written to:
     training_data/raw/{vehicle_slug}/{code}.json
@@ -24,24 +29,23 @@ half-written file.
 
 Memoization keeps the upstream request count proportional to the
 unique key each source actually varies over:
-  - OBD-Codes:       per code             -> 50 fresh fetches
   - NHTSA complaints: per (year,make,model) -> 300 fresh fetches
   - NHTSA recalls:    per (year,make,model) -> 300 fresh fetches
   - RepairPal:        per (year,make,model) -> 300 fresh fetches
   - CarComplaints:    per (year,make,model) -> 300 fresh fetches
-  - Reddit:           per (make,model,code)  -> ~80 unique (make,model)
-                                              x 50 codes = ~4,000
+  - Reddit:           per (make,model,code)  -> 141 unique (make,model)
+                                              x 50 codes = 7,050
 
 So total upstream requests across a fresh run are on the order of
-~5,000, not the naive 6 x 15,000 = 90,000.
+~8,000, not the naive 5 x 15,000 = 75,000.
 
 Reddit is the dominant cost. A "lean wrapper" around forum_scraper's
 primitives (search_reddit + get_post_comments) is used instead of
 calling scrape_reddit_fallback directly, because the latter does
 4 subreddits x 2 queries + 3 comment fetches per call (~14s) which
 would push the run past the 12h trim threshold. The lean wrapper does
-2 subreddits (general + brand-specific) x 1 query + 1 comment fetch
-per call (~6s).
+3 subreddits (MechanicAdvice + Cartalk + brand-specific) x 1 query
++ 1 conditional comment fetch per call (~6s).
 
 Logging:
   Each per-combo result is printed to stdout AND appended to
@@ -66,7 +70,6 @@ import httpx
 
 from code_scraper import (
     scrape_car_complaints,
-    scrape_obd_codes,
     scrape_repairpal,
 )
 from forum_scraper import get_post_comments, search_reddit
@@ -558,7 +561,6 @@ async def wait_for_domain(domain: str, min_gap: float = PER_DOMAIN_COOLDOWN_SECO
 
 # --- Per-run upstream caches ----------------------------------------------
 
-_obd_cache: dict[str, dict] = {}
 _nhtsa_complaints_cache: dict[str, dict] = {}
 _nhtsa_recalls_cache: dict[str, dict] = {}
 _repairpal_cache: dict[str, dict] = {}
@@ -579,6 +581,13 @@ def _mmkey(make: str, model: str, code: str) -> str:
 async def fetch_nhtsa_complaints(
     client: httpx.AsyncClient, make: str, model: str, year: int
 ) -> dict:
+    """NHTSA complaintsByVehicle.
+
+    Quirk: the API returns HTTP 400 with a fully-formed empty-results
+    body ({"count": 0, "message": "Results returned successfully",
+    "results": []}) for vehicles with no complaints on file. Try to
+    parse the body BEFORE treating the status code as a failure.
+    """
     key = _vkey(make, model, year)
     if key in _nhtsa_complaints_cache:
         return _nhtsa_complaints_cache[key]
@@ -589,10 +598,14 @@ async def fetch_nhtsa_complaints(
             params={"make": make, "model": model, "modelYear": str(year)},
             timeout=30,
         )
-        resp.raise_for_status()
-        data = resp.json()
-        if not isinstance(data, dict):
-            data = {"raw": data}
+        try:
+            data = resp.json()
+            if not isinstance(data, dict):
+                data = {"raw": data}
+        except Exception:
+            # Body wasn't JSON — surface the underlying HTTP failure.
+            resp.raise_for_status()
+            raise
     except Exception as e:
         log(f"  NHTSA-complaints error for {year} {make} {model}: {e!r}")
         data = {"error": repr(e), "count": 0, "results": []}
@@ -605,8 +618,14 @@ async def fetch_nhtsa_complaints(
 async def fetch_nhtsa_recalls(
     client: httpx.AsyncClient, make: str, model: str, year: int
 ) -> dict:
-    """NHTSA recallsByVehicle. NHTSA does NOT expose TSBs publicly via API;
-    TSB counts are surfaced through the CarComplaints scrape instead."""
+    """NHTSA recallsByVehicle.
+
+    Same HTTP-400-on-empty-results quirk as the complaints endpoint —
+    parse the body before deciding the status code was a failure.
+
+    NHTSA does NOT expose TSBs publicly via API; TSB counts are
+    surfaced through the CarComplaints scrape instead.
+    """
     key = _vkey(make, model, year)
     if key in _nhtsa_recalls_cache:
         return _nhtsa_recalls_cache[key]
@@ -617,29 +636,17 @@ async def fetch_nhtsa_recalls(
             params={"make": make, "model": model, "modelYear": str(year)},
             timeout=30,
         )
-        resp.raise_for_status()
-        data = resp.json()
-        if not isinstance(data, dict):
-            data = {"raw": data}
+        try:
+            data = resp.json()
+            if not isinstance(data, dict):
+                data = {"raw": data}
+        except Exception:
+            resp.raise_for_status()
+            raise
     except Exception as e:
         log(f"  NHTSA-recalls error for {year} {make} {model}: {e!r}")
         data = {"error": repr(e), "count": 0, "results": []}
     _nhtsa_recalls_cache[key] = data
-    return data
-
-
-# --- Source: OBD-Codes (existing scraper) ---------------------------------
-
-async def fetch_obd_codes(code: str) -> dict:
-    if code in _obd_cache:
-        return _obd_cache[code]
-    await wait_for_domain("www.obd-codes.com")
-    try:
-        data = await scrape_obd_codes(code) or {}
-    except Exception as e:
-        log(f"  OBD-Codes error for {code}: {e!r}")
-        data = {"error": repr(e)}
-    _obd_cache[code] = data
     return data
 
 
@@ -771,12 +778,6 @@ def summarize_carcomplaints(data: dict) -> int:
     return _len_or_count(data, "worst_problems") + _len_or_count(data, "engine_problems")
 
 
-def summarize_obd_codes(data: dict) -> int:
-    if not isinstance(data, dict) or "error" in data:
-        return 0
-    return 1 if data.get("definition") else 0
-
-
 def summarize_reddit(data: dict) -> int:
     if not isinstance(data, dict) or "error" in data:
         return 0
@@ -801,7 +802,6 @@ async def process_combo(
     try:
         nhtsa_c = await fetch_nhtsa_complaints(client, vehicle["make"], vehicle["model"], vehicle["year"])
         nhtsa_r = await fetch_nhtsa_recalls(client, vehicle["make"], vehicle["model"], vehicle["year"])
-        obd = await fetch_obd_codes(code)
         repairpal = await fetch_repairpal(vehicle["make"], vehicle["model"], vehicle["year"])
         carcomp = await fetch_carcomplaints(vehicle["make"], vehicle["model"], vehicle["year"])
         reddit = await fetch_reddit(vehicle["make"], vehicle["model"], code)
@@ -813,7 +813,6 @@ async def process_combo(
             "sources": {
                 "nhtsa_complaints": nhtsa_c,
                 "nhtsa_recalls": nhtsa_r,
-                "obd_codes": obd,
                 "repairpal": repairpal,
                 "carcomplaints": carcomp,
                 "reddit": reddit,
@@ -832,7 +831,6 @@ async def process_combo(
             f"Recalls: {summarize_nhtsa(nhtsa_r)}, "
             f"RepairPal: {summarize_repairpal(repairpal)}, "
             f"CarComplaints: {summarize_carcomplaints(carcomp)}, "
-            f"OBD-Codes: {summarize_obd_codes(obd)}, "
             f"Reddit: {summarize_reddit(reddit)}"
         )
         return "processed", summary
@@ -854,7 +852,7 @@ async def run(force: bool, max_seconds: float) -> int:
         f"combos: {total}"
     )
     log(
-        f"Sources: nhtsa_complaints, nhtsa_recalls, obd_codes, repairpal, "
+        f"Sources: nhtsa_complaints, nhtsa_recalls, repairpal, "
         f"carcomplaints, reddit (lean wrapper)"
     )
     log(f"Output root: {RAW_DIR}")
@@ -883,7 +881,6 @@ async def run(force: bool, max_seconds: float) -> int:
         f"Run complete. processed={processed} skipped={skipped} "
         f"failed={failed} elapsed={elapsed_min:.1f}min "
         f"unique_upstream(approx)="
-        f"obd={len(_obd_cache)} "
         f"nhtsa_c={len(_nhtsa_complaints_cache)} "
         f"nhtsa_r={len(_nhtsa_recalls_cache)} "
         f"repairpal={len(_repairpal_cache)} "
@@ -897,7 +894,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
             "Collect raw training-data corpus across ~300 US-market vehicles "
-            "and 50 OBD-II codes from 6 sources. Designed to run unattended "
+            "and 50 OBD-II codes from 5 sources. Designed to run unattended "
             "overnight; idempotent re-runs skip already-fetched combinations."
         )
     )
