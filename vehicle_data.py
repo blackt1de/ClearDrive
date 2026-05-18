@@ -12,7 +12,7 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).parent / ".env")
+load_dotenv(Path(__file__).parent / ".env", override=True)
 
 CACHE_FILE = Path(__file__).parent / "vehicle_cache.json"
 CARSXE_API_KEY = os.environ.get("CARSXE_API_KEY", "")

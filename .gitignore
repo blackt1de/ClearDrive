@@ -40,3 +40,4 @@ training_data/
 # OS
 .DS_Store
 Thumbs.db
+.git-scrub-replacements.txt

@@ -14,11 +14,11 @@ The fine-tuning of Gemma 4 E4B into a domain-specific `ClearDrive-Gemma` is the 
 
 ## Current LLM situation (read this before touching anything LLM-related)
 
-The backend calls **Ollama** for all LLM work. `main.py:14` reads `from ollama_client import ask_ollama, check_ollama`, and `ollama_client.py` posts to `http://192.168.1.182:11434/api/generate` with `model="gemma4:e4b"`. Groq has been fully cut — `groq_client.py` is deleted, `GROQ_API_KEY` is no longer used anywhere.
+The backend calls **Ollama** for all LLM work. `main.py:14` reads `from ollama_client import ask_ollama, check_ollama`. `ollama_client.py` POSTs to **`/api/chat`** (not `/api/generate` — that endpoint returns empty `response` for chat-trained Gemma 4 in Ollama 0.24). Model: `gemma4:e4b`. Groq has been fully cut — `groq_client.py` is deleted, `GROQ_API_KEY` is no longer used anywhere.
 
-**The A4500 endpoint is not yet live.** Ollama still needs to be installed on the A4500 server (the box is now on Tailscale with a GUI OS, but Ollama hasn't been deployed). Until it is, every `ask_ollama()` call returns `"ERROR: Could not connect to Ollama at 192.168.1.182:11434"`. The backend is effectively non-functional in this state — do not deploy to prod until A4500 Ollama is up.
+**A4500 endpoint is LIVE** (as of 2026-05-18). Ollama 0.24.0 runs on `ajb1ubuntu` (Ubuntu 24.04, NVIDIA RTX A4500), bound to `0.0.0.0:11434` via systemd override at `/etc/systemd/system/ollama.service.d/override.conf`. Reachable over Tailscale at `100.100.254.15`. Verified end-to-end with a P0420 prompt.
 
-When the A4500 is up, the host should be made configurable via an `OLLAMA_HOST` env var (currently hardcoded) so dev/prod can point at different boxes if needed.
+Host is configurable via the `OLLAMA_HOST` env var (defaults to `100.100.254.15` for dev). Accepts `host` or `host:port`. **Production deploy is still blocked on getting the A4500 reachable from the PaaS** — PaaS providers can't reach Tailscale IPs directly. Cloudflare Tunnel (or equivalent) exposing the A4500 on a public hostname is the planned path; tunnel setup is in progress.
 
 ---
 
@@ -46,8 +46,8 @@ When the A4500 is up, the host should be made configurable via an `OLLAMA_HOST` 
 ```
 /
 ├── main.py                  FastAPI app · 21 endpoints · ~76 KB
-├── ollama_client.py         ONLY LLM client · posts to gemma4:e4b at 192.168.1.182:11434
-│                            (A4500 endpoint not yet live — see "Current LLM situation")
+├── ollama_client.py         ONLY LLM client · posts to gemma4:e4b · /api/chat
+│                            OLLAMA_HOST env var (default 100.100.254.15 — A4500 over Tailscale)
 ├── database.py              SQLite · scans + research_scans (parallel tables by design)
 ├── schemas.py               Pydantic models (minimal)
 ├── vehicle_data.py          CarsXE + Auto.dev · keys via os.environ (python-dotenv)
@@ -128,4 +128,4 @@ Full history will live in `notes/decisions.md` once Stream A creates it.
 
 ---
 
-*Maintained at the repo root. Last updated 2026-05-18 (Groq cut, env-var migration, CarComplaints fix).*
+*Maintained at the repo root. Last updated 2026-05-18 (Groq cut, env-var migration, CarComplaints fix, A4500 Ollama live + /api/chat switch + OLLAMA_HOST env var).*
