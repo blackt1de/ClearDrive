@@ -7,6 +7,44 @@
 
 ---
 
+## Headline pattern (TL;DR)
+
+**Dominant failure mode: clean −1 offset on the standard SAE J2012 passenger-car table.** Of the 10 codes tested, 7 returned definitions that could be unambiguously mapped to another SAE J2012 code — and **6 of those 7 are −1 offsets** (CarsXE returns code N−1's definition when asked for code N). The seventh is −2 in the P012X range, plausibly explained by a single missing row creating a gap that compounds the underlying off-by-one.
+
+The remaining 3 codes are not offset failures — they're independent corruption modes:
+
+- **P0011:** missing from CarsXE's database entirely (`Could not find code P0011`)
+- **P0300:** wrong-row contamination — returns a J1939 / heavy-duty "Cylinder 12 Contribution" definition (canonical P0296 territory) instead of SAE passenger-car "Random Misfire"
+- **P0700:** wrong-row contamination — returns a fuel-level circuit description (P0460-range) instead of canonical transmission MIL request
+
+### Offset table
+
+For each mismatch, "returned-def's canonical code" is the standard SAE J2012 code whose definition CarsXE's response actually matches. Offset is `returned − queried`.
+
+| Queried | Returned `diagnosis` (verbatim from CarsXE) | Returned-def's canonical code | Offset | Pattern |
+|---|---|---|---|---|
+| P0011 | (`{"success":false,"message":"Could not find code P0011"}`) | — | — | missing |
+| P0128 | Insufficient Coolant Temperature for Stable Operation | **P0126** | **−2** | offset in P012X range |
+| P0171 | Fuel Trim Malfunction (Bank 1) | **P0170** | **−1** | offset |
+| P0300 | Cylinder 12 Contribution/Range Fault | (J1939, ≈ P0296 for SAE) | n/a | wrong-row (cross-standard contamination) |
+| P0301 | Random/Multiple Cylinder Misfire Detected | **P0300** | **−1** | offset |
+| P0419 | Secondary Air Injection System Relay "A" Circuit Malfunction | **P0418** | **−1** | offset |
+| P0420 | Secondary Air Injection System Relay "B" Circuit Malfunction | **P0419** | **−1** | offset |
+| P0455 | Evaporative Emission Control System Pressure Sensor Intermittent | **P0454** | **−1** | offset |
+| P0506 | Idle Control System Malfunction | **P0505** (Idle Air Control System Malfunction; "Air" elided in CarsXE's text) | **−1** | offset |
+| P0700 | Fuel Level Output Circuit Malfunction | (fuel-level family, ≈ P0460) | n/a | wrong-row (cross-range contamination) |
+
+### Pattern verdict against the four hypotheses
+
+- **Uniform −1 across all codes (simple off-by-one):** *partially supports*. 6 of 7 offset-classifiable codes are exactly −1. This is the dominant mode and accounts for the majority of the bug.
+- **Different offsets per code, internally consistent within ranges (range-boundary errors):** *also supports*. The single −2 outlier (P0128 → P0126) sits in the P012X range and is most plausibly explained by a single missing row (likely P0127, or earlier) that creates a gap, so the off-by-one becomes an off-by-two from P0128 onward. If that's the mechanism, the pattern is *one underlying −1 offset compounded by sparse missing rows*.
+- **Random / no pattern:** *rejected*. The −1 offsets are too consistent across 4 different OBD subsystems (fuel trim, misfire, secondary-air, EVAP, idle) to be random data-entry mistakes.
+- **All match (issue on our side):** *rejected definitively*. Raw `curl` returns the wrong `diagnosis` text in the JSON body. Our code, cache, and wrappers are eliminated.
+
+**Most-likely-precise diagnosis for CarsXE:** their `/obdcodesdecoder` backend has either (a) a zero-vs-one indexed lookup in the SAE passenger-car table (`table[i]` returned when caller asked for code at `table[i+1]`), or (b) a join/import that shifted the entire SAE table down by one row, with additional missing entries that compound the shift in specific sub-ranges. Plus 2 independent failures (P0300, P0700) where rows from a different standard (J1939 / fuel-level) leaked into the SAE slot during whatever data-load process they used.
+
+---
+
 ## Procedure
 
 For each of 10 codes:
@@ -87,41 +125,48 @@ The 2 wrong-unrelated cases (P0300, P0700) appear to be database rows where Cars
 
 ## Draft support ticket for CarsXE (NOT SENT — for review first)
 
-> **Subject:** OBD codes decoder API returning wrong definitions — `/obdcodesdecoder` has a systematic −1 offset bug
+> **Subject:** `/obdcodesdecoder` returning previous code's definition (−1 row offset in your SAE J2012 table)
 >
 > Hi CarsXE team,
 >
-> We're using your `/obdcodesdecoder` endpoint to look up SAE J2012 OBD-II code definitions. We've found that the API returns incorrect `diagnosis` text for at least 8 of 10 codes we tested. The dominant failure mode is a **clean −1 offset**: when we request code `N`, the response contains code `N−1`'s definition.
+> We've found that `https://api.carsxe.com/obdcodesdecoder` returns the **previous SAE J2012 code's definition** for most codes we've tested. The bug looks like an off-by-one (or off-by-row) error in your passenger-car OBD code lookup. The `code` field in your JSON correctly echoes back the requested code, but the `diagnosis` field is for the code immediately before it in the SAE numbering.
 >
-> Test setup: direct `curl` calls to `https://api.carsxe.com/obdcodesdecoder?key=…&code=…`, no wrapper, no caching.
+> Reproduction (raw `curl`, no wrapper, no caching, fresh requests within the same minute):
 >
-> Forensic example (adjacent codes from the same call sequence):
+> ```
+> curl "https://api.carsxe.com/obdcodesdecoder?key=<KEY>&code=P0419"
+>   → {"success":true,"code":"P0419","diagnosis":"Secondary Air Injection System Relay \"A\" Circuit Malfunction", ...}
+>     (canonical P0419 is Relay "B"; your text is canonically P0418)
 >
-> | Requested code | Your `diagnosis` field returned | Canonical SAE J2012 definition |
-> |---|---|---|
-> | `P0419` | `Secondary Air Injection System Relay "A" Circuit Malfunction` | Secondary Air Injection System Relay **"B"** Circuit Malfunction (that's P0418's def) |
-> | `P0420` | `Secondary Air Injection System Relay "B" Circuit Malfunction` | Catalyst System Efficiency Below Threshold (Bank 1) (that's P0419's def) |
+> curl "https://api.carsxe.com/obdcodesdecoder?key=<KEY>&code=P0420"
+>   → {"success":true,"code":"P0420","diagnosis":"Secondary Air Injection System Relay \"B\" Circuit Malfunction", ...}
+>     (canonical P0420 is "Catalyst System Efficiency Below Threshold"; your text is canonically P0419)
+> ```
 >
-> Both responses are off by one row. The `code` field in the JSON correctly echoes back the requested code, but the `diagnosis` field is for the previous code. The wrong text appears verbatim in the raw JSON — this isn't a parsing issue on our end.
+> The two adjacent codes are both shifted by exactly one row. That's the key forensic point — if it were random data-entry mistakes, the offsets would be different. They're not. We've seen the same −1 offset on:
 >
-> Other codes with the same −1 offset behavior:
+> | Code requested | Your `diagnosis` field returns | That text is canonically | Offset |
+> |---|---|---|---|
+> | P0171 | Fuel Trim Malfunction (Bank 1) | P0170 | −1 |
+> | P0301 | Random/Multiple Cylinder Misfire Detected | P0300 | −1 |
+> | P0419 | Secondary Air Injection System Relay "A" Circuit Malfunction | P0418 | −1 |
+> | P0420 | Secondary Air Injection System Relay "B" Circuit Malfunction | P0419 | −1 |
+> | P0455 | EVAP System Pressure Sensor Intermittent | P0454 | −1 |
+> | P0506 | Idle Control System Malfunction | P0505 | −1 |
+> | P0128 | Insufficient Coolant Temperature for Stable Operation | P0126 | **−2** |
 >
-> | Requested | Your response | Should be |
-> |---|---|---|
-> | P0171 | Fuel Trim Malfunction (Bank 1) | System Too Lean (Bank 1) |
-> | P0301 | Random/Multiple Cylinder Misfire Detected | Cylinder 1 Misfire Detected |
-> | P0455 | EVAP Pressure Sensor Intermittent | EVAP Leak Detected (Large) |
-> | P0506 | Idle Control System Malfunction | Idle Air Control System RPM Lower Than Expected |
+> Six exact −1 offsets across four different OBD subsystems (fuel trim, misfire, secondary air injection, EVAP, idle control). The one −2 outlier (P0128) is most plausibly the same underlying −1 offset compounded by a missing row in the P012X range (probably P0127).
 >
-> Two additional codes return definitions from unrelated ranges entirely:
-> - `P0300` returns `"Cylinder 12 Contribution/Range Fault"` — appears to be a J1939 heavy-duty definition rather than the SAE J2012 passenger-car definition (Random/Multiple Misfire).
-> - `P0700` returns `"Fuel Level Output Circuit Malfunction"` — that's a P0461-range body/PCM definition, not the canonical "Transmission Control System (MIL Request)".
+> Two additional codes return entries that look like they were imported from a different standard or row entirely (not offset failures):
 >
-> And one code (`P0011`) returns `{"success":false,"message":"Could not find code P0011"}` — a basic SAE J2012 code is missing from your database.
+> - `P0300` returns `"Cylinder 12 Contribution/Range Fault"` — looks like a J1939 / heavy-duty definition leaked into your passenger-car SAE table.
+> - `P0700` returns `"Fuel Level Output Circuit Malfunction"` — that's a P0460-range body/PCM definition, not the SAE J2012 transmission code.
 >
-> We've worked around this by maintaining a local SAE J2012 canonical mapping for our needed codes. But this bug affects every CarsXE customer using `/obdcodesdecoder`, and the −1 offset pattern suggests a single fix would resolve most of the wrong responses.
+> And one code is missing from your database entirely: `P0011` returns `{"success":false,"message":"Could not find code P0011"}` — that's a standard SAE J2012 VVT/camshaft-timing code that's been in the spec for over 20 years.
 >
-> Test responses available on request. Happy to share the full 10-code raw JSON capture.
+> **Suggested investigation on your side:** check whether your SAE J2012 table is being loaded with an array-vs-zero-indexed mismatch, or whether your `WHERE code = ?` query is returning `code − 1`'s row due to a join/order issue. The pattern is structural enough that we'd expect a single root cause to fix most of it.
+>
+> Happy to share the full 10-code raw JSON capture and our test methodology. We've worked around this with a local SAE canonical mapping for now, but we'd much rather use your API directly — and presumably every other customer using `/obdcodesdecoder` is silently getting wrong diagnoses too.
 >
 > Thanks,
 > [Your name]
