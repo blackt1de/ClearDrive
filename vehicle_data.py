@@ -32,16 +32,17 @@ IMAGE_CACHE_VERSION = 28  # Bump this to invalidate all cached images (v28: Merc
 TRIMS_CACHE_VERSION = 9   # Bump this to invalidate all cached trims (v9: Mercedes-AMG normalization)
 VIN_CACHE_VERSION = 3     # Bump this to invalidate all cached VIN decodes (v3: Mercedes-AMG normalization)
 
-# Canonical SAE J2012 OBD-II code definitions. CarsXE's /obdcodesdecoder returns
-# wrong descriptions for most codes (independent verification: 8/10 wrong, 6 of
-# those exact -1 offsets — see notes/2026-05-18-carsxe-independent-verification.md).
-# This dict covers all 50 TOP_CODES (scrape_training_data.TOP_50_CODES) plus
-# P0506 (which CarsXE also returns wrong even though it's not in TOP_50).
-# Codes not in this dict fall through to CarsXE.
+# Canonical SAE J2012 OBD-II code definitions are now loaded from
+# ml/data/sae_j2012.json (built by ml/scripts/build_sae_j2012.py — ~418 entries).
+# CarsXE's /obdcodesdecoder returns wrong descriptions for most codes
+# (verification: 8/10 wrong, 6 of those exact -1 offsets — see
+# notes/2026-05-18-carsxe-independent-verification.md). The JSON is consulted
+# first; CarsXE is fallback only, with WARNING-level logging on each fallback.
 #
-# Sources cross-checked per entry: SAE J2012 standard, OBD-II Wikipedia DTC list,
-# obd-codes.com public reference. All three agree on every entry below.
-CANONICAL_OBD_CODES = {
+# `_CANONICAL_OBD_CODES_FALLBACK` below is a tiny in-code subset, used only if
+# the JSON file is missing or unreadable at import time. The full lookup is
+# `_get_canonical_obd_lookup()`.
+_CANONICAL_OBD_CODES_FALLBACK = {
     # VVT / Camshaft / Crankshaft timing
     "P0010": '"A" Camshaft Position Actuator Circuit (Bank 1)',
     "P0011": '"A" Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)',
@@ -106,6 +107,63 @@ CANONICAL_OBD_CODES = {
     "P0740": "Torque Converter Clutch Circuit Malfunction",
     "P0750": "Shift Solenoid 'A' Malfunction",
 }
+
+# --- Canonical DTC lookup (JSON-backed) + CarsXE fallback telemetry ----------
+
+import logging
+from collections import deque
+
+_OBD_LOG = logging.getLogger("cleardrive.obd")
+
+_SAE_J2012_PATH = Path(__file__).parent / "ml" / "data" / "sae_j2012.json"
+_CANONICAL_OBD_LOOKUP: dict[str, str] | None = None
+# Sliding-window log of CarsXE fallback events (timestamps + codes). Bounded
+# by both maxlen and the 24h window enforced in get_dtc_stats().
+_CARSXE_FALLBACKS: deque = deque(maxlen=10000)
+
+
+def _get_canonical_obd_lookup() -> dict[str, str]:
+    """Lazy load + cache the SAE J2012 canonical code dict from JSON.
+
+    Falls back to the small in-code dict if the JSON is missing/unreadable
+    (e.g., in an environment that hasn't run ml/scripts/build_sae_j2012.py).
+    """
+    global _CANONICAL_OBD_LOOKUP
+    if _CANONICAL_OBD_LOOKUP is not None:
+        return _CANONICAL_OBD_LOOKUP
+    try:
+        with open(_SAE_J2012_PATH, encoding="utf-8") as fh:
+            records = json.load(fh)
+        _CANONICAL_OBD_LOOKUP = {r["code"]: r["description"] for r in records}
+    except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
+        _OBD_LOG.warning(
+            "Failed to load %s (%r); falling back to in-code dict of %d entries.",
+            _SAE_J2012_PATH, e, len(_CANONICAL_OBD_CODES_FALLBACK),
+        )
+        _CANONICAL_OBD_LOOKUP = dict(_CANONICAL_OBD_CODES_FALLBACK)
+    return _CANONICAL_OBD_LOOKUP
+
+
+def get_dtc_stats() -> dict:
+    """Stats for /health/dtc — canonical-lookup size + CarsXE fallback count (24h)."""
+    lookup = _get_canonical_obd_lookup()
+    cutoff = datetime.now().timestamp() - 24 * 3600
+    recent = [(ts, code) for ts, code in _CARSXE_FALLBACKS if ts >= cutoff]
+    fallback_codes = sorted({code for _, code in recent})
+    return {
+        "canonical_entries": len(lookup),
+        "canonical_source": str(_SAE_J2012_PATH) if _CANONICAL_OBD_LOOKUP is not None and _SAE_J2012_PATH.exists() else "in-code fallback dict",
+        "carsxe_fallback_count_24h": len(recent),
+        "carsxe_fallback_codes_24h": fallback_codes[:50],
+    }
+
+
+def _record_carsxe_fallback(code: str) -> None:
+    _CARSXE_FALLBACKS.append((datetime.now().timestamp(), code.upper()))
+    _OBD_LOG.warning(
+        "decode_obd_code: %s not in canonical SAE J2012 lookup; falling back to CarsXE", code
+    )
+
 
 def load_cache() -> dict:
     if CACHE_FILE.exists():
@@ -1586,16 +1644,22 @@ async def decode_obd_code(code: str) -> dict:
     """
     code_upper = code.upper()
 
-    # Canonical override (SAE J2012). Wins over both cache and CarsXE for codes
-    # in CANONICAL_OBD_CODES — CarsXE returns wrong descriptions for many.
-    if code_upper in CANONICAL_OBD_CODES:
+    # Canonical SAE J2012 (loaded from ml/data/sae_j2012.json). Wins over
+    # cache and CarsXE. CarsXE is known to return wrong descriptions for
+    # at least 60% of standardized codes — see
+    # notes/2026-05-18-carsxe-independent-verification.md.
+    canonical = _get_canonical_obd_lookup()
+    if code_upper in canonical:
         return {
             "success": True,
             "code": code_upper,
-            "diagnosis": CANONICAL_OBD_CODES[code_upper],
+            "diagnosis": canonical[code_upper],
             "cached_at": datetime.now().isoformat(),
             "source": "canonical_sae_j2012",
         }
+
+    # Fallback: CarsXE. Log the event for /health/dtc telemetry.
+    _record_carsxe_fallback(code_upper)
 
     cache = load_cache()
     cache_key = f"obd_{code_upper}"
