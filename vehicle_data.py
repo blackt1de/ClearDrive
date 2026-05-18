@@ -33,14 +33,35 @@ TRIMS_CACHE_VERSION = 9   # Bump this to invalidate all cached trims (v9: Merced
 VIN_CACHE_VERSION = 3     # Bump this to invalidate all cached VIN decodes (v3: Mercedes-AMG normalization)
 
 # Canonical SAE J2012 OBD-II code definitions. CarsXE's /obdcodesdecoder returns
-# wrong descriptions for many codes (audit: notes/2026-05-18-carsxe-decode-audit.md
-# — 6 of 10 sampled codes wrong). Override here for the codes we care about.
+# wrong descriptions for most codes (independent verification: 8/10 wrong, 6 of
+# those exact -1 offsets — see notes/2026-05-18-carsxe-independent-verification.md).
+# This dict covers all 50 TOP_CODES (scrape_training_data.TOP_50_CODES) plus
+# P0506 (which CarsXE also returns wrong even though it's not in TOP_50).
 # Codes not in this dict fall through to CarsXE.
+#
+# Sources cross-checked per entry: SAE J2012 standard, OBD-II Wikipedia DTC list,
+# obd-codes.com public reference. All three agree on every entry below.
 CANONICAL_OBD_CODES = {
+    # VVT / Camshaft / Crankshaft timing
+    "P0010": '"A" Camshaft Position Actuator Circuit (Bank 1)',
     "P0011": '"A" Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)',
+    "P0013": '"B" Camshaft Position - Actuator Circuit (Bank 1)',
     "P0014": '"B" Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)',
+    "P0015": '"B" Camshaft Position - Timing Over-Retarded (Bank 1)',
+    "P0016": "Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor A)",
+    # Mass Air Flow / Intake / Coolant temperature sensors
+    "P0101": "Mass or Volume Air Flow Sensor 'A' Circuit Range/Performance",
+    "P0102": "Mass or Volume Air Flow Sensor 'A' Circuit Low Input",
+    "P0113": "Intake Air Temperature Sensor 1 Circuit High Input",
+    "P0117": "Engine Coolant Temperature Sensor 1 Circuit Low Input",
     "P0128": "Coolant Thermostat (Coolant Temperature Below Thermostat Regulating Temperature)",
+    # Oxygen sensors (heaters + voltage)
+    "P0131": "O2 Sensor Circuit Low Voltage (Bank 1, Sensor 1)",
+    "P0135": "O2 Sensor Heater Circuit Malfunction (Bank 1, Sensor 1)",
+    "P0141": "O2 Sensor Heater Circuit Malfunction (Bank 1, Sensor 2)",
+    # Fuel trim
     "P0171": "System Too Lean (Bank 1)",
+    # Misfire family
     "P0300": "Random/Multiple Cylinder Misfire Detected",
     "P0301": "Cylinder 1 Misfire Detected",
     "P0302": "Cylinder 2 Misfire Detected",
@@ -50,15 +71,40 @@ CANONICAL_OBD_CODES = {
     "P0306": "Cylinder 6 Misfire Detected",
     "P0307": "Cylinder 7 Misfire Detected",
     "P0308": "Cylinder 8 Misfire Detected",
+    # Knock / Camshaft position sensors
+    "P0325": "Knock Sensor 1 Circuit Malfunction (Bank 1 or Single Sensor)",
+    "P0340": "Camshaft Position Sensor 'A' Circuit (Bank 1 or Single Sensor)",
+    "P0345": "Camshaft Position Sensor 'A' Circuit (Bank 2)",
+    # EGR / Secondary Air Injection
+    "P0401": "Exhaust Gas Recirculation Flow Insufficient Detected",
+    "P0411": "Secondary Air Injection System Incorrect Flow Detected",
+    # Catalyst efficiency
     "P0420": "Catalyst System Efficiency Below Threshold (Bank 1)",
     "P0421": "Warm Up Catalyst Efficiency Below Threshold (Bank 1)",
+    # Evaporative emissions
     "P0440": "Evaporative Emission Control System Malfunction",
+    "P0441": "Evaporative Emission Control System Incorrect Purge Flow",
     "P0442": "Evaporative Emission Control System Leak Detected (Small Leak)",
     "P0446": "Evaporative Emission Control System Vent Control Circuit Malfunction",
     "P0455": "Evaporative Emission Control System Leak Detected (Large Leak)",
     "P0456": "Evaporative Emission Control System Leak Detected (Very Small Leak)",
+    # Vehicle speed / idle / oil pressure
+    "P0500": "Vehicle Speed Sensor 'A' Malfunction",
     "P0506": "Idle Air Control System RPM Lower Than Expected",
+    "P0507": "Idle Air Control System RPM Higher Than Expected",
+    "P0521": "Engine Oil Pressure Sensor/Switch Range/Performance",
+    # Internal control module / processor
+    "P0601": "Internal Control Module Memory Check Sum Error",
+    "P0603": "Internal Control Module Keep Alive Memory (KAM) Error",
+    "P0604": "Internal Control Module Random Access Memory (RAM) Error",
+    "P0605": "Internal Control Module Read Only Memory (ROM) Error",
+    "P0606": "ECM/PCM Processor",
+    # Transmission
     "P0700": "Transmission Control System (MIL Request)",
+    "P0715": "Input/Turbine Speed Sensor Circuit Malfunction",
+    "P0730": "Incorrect Gear Ratio",
+    "P0740": "Torque Converter Clutch Circuit Malfunction",
+    "P0750": "Shift Solenoid 'A' Malfunction",
 }
 
 def load_cache() -> dict:
