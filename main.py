@@ -10,8 +10,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
 from schemas import DTCCode, OBDSnapshot
-# Use Groq for AI (faster than Ollama, cloud-based)
-# Set GROQ_API_KEY environment variable with your key from https://console.groq.com
 from ollama_client import ask_ollama, check_ollama
 from database import (
     init_db,
@@ -1662,8 +1660,7 @@ Based on community data, write 2-3 sentences about what owners of similar vehicl
     #
     # TODO (when consent + A/B shipping):
     #   - Replace model_version literal with a value derived from the
-    #     active LLM client (currently ollama_client serving Gemma 4 E4B;
-    #     groq_client.py is the pre-swap fallback path).
+    #     active LLM client (currently ollama_client serving Gemma 4 E4B).
     #   - Pass real user_id_hash from the request once iOS sends one.
     #   - Pass ab_bucket once the assignment logic exists.
     #   - Pass consent_version once the onboarding screen ships.
