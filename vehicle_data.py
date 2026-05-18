@@ -32,6 +32,35 @@ IMAGE_CACHE_VERSION = 28  # Bump this to invalidate all cached images (v28: Merc
 TRIMS_CACHE_VERSION = 9   # Bump this to invalidate all cached trims (v9: Mercedes-AMG normalization)
 VIN_CACHE_VERSION = 3     # Bump this to invalidate all cached VIN decodes (v3: Mercedes-AMG normalization)
 
+# Canonical SAE J2012 OBD-II code definitions. CarsXE's /obdcodesdecoder returns
+# wrong descriptions for many codes (audit: notes/2026-05-18-carsxe-decode-audit.md
+# — 6 of 10 sampled codes wrong). Override here for the codes we care about.
+# Codes not in this dict fall through to CarsXE.
+CANONICAL_OBD_CODES = {
+    "P0011": '"A" Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)',
+    "P0014": '"B" Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)',
+    "P0128": "Coolant Thermostat (Coolant Temperature Below Thermostat Regulating Temperature)",
+    "P0171": "System Too Lean (Bank 1)",
+    "P0300": "Random/Multiple Cylinder Misfire Detected",
+    "P0301": "Cylinder 1 Misfire Detected",
+    "P0302": "Cylinder 2 Misfire Detected",
+    "P0303": "Cylinder 3 Misfire Detected",
+    "P0304": "Cylinder 4 Misfire Detected",
+    "P0305": "Cylinder 5 Misfire Detected",
+    "P0306": "Cylinder 6 Misfire Detected",
+    "P0307": "Cylinder 7 Misfire Detected",
+    "P0308": "Cylinder 8 Misfire Detected",
+    "P0420": "Catalyst System Efficiency Below Threshold (Bank 1)",
+    "P0421": "Warm Up Catalyst Efficiency Below Threshold (Bank 1)",
+    "P0440": "Evaporative Emission Control System Malfunction",
+    "P0442": "Evaporative Emission Control System Leak Detected (Small Leak)",
+    "P0446": "Evaporative Emission Control System Vent Control Circuit Malfunction",
+    "P0455": "Evaporative Emission Control System Leak Detected (Large Leak)",
+    "P0456": "Evaporative Emission Control System Leak Detected (Very Small Leak)",
+    "P0506": "Idle Air Control System RPM Lower Than Expected",
+    "P0700": "Transmission Control System (MIL Request)",
+}
+
 def load_cache() -> dict:
     if CACHE_FILE.exists():
         try:
@@ -1509,8 +1538,21 @@ async def decode_obd_code(code: str) -> dict:
     Returns:
         dict with 'code', 'diagnosis', 'success' fields
     """
+    code_upper = code.upper()
+
+    # Canonical override (SAE J2012). Wins over both cache and CarsXE for codes
+    # in CANONICAL_OBD_CODES — CarsXE returns wrong descriptions for many.
+    if code_upper in CANONICAL_OBD_CODES:
+        return {
+            "success": True,
+            "code": code_upper,
+            "diagnosis": CANONICAL_OBD_CODES[code_upper],
+            "cached_at": datetime.now().isoformat(),
+            "source": "canonical_sae_j2012",
+        }
+
     cache = load_cache()
-    cache_key = f"obd_{code.upper()}"
+    cache_key = f"obd_{code_upper}"
 
     # Check cache (codes don't change, cache indefinitely)
     if "obd_codes" not in cache:
