@@ -6,19 +6,36 @@ This file is loaded at the start of every Claude Code session in this repo. It i
 
 ## What this is
 
-ClearDrive is a vehicle diagnostic iOS app. It reads OBD-II codes from real cars (via ELM327 Bluetooth) and produces plain-English, vehicle-specific diagnoses through a small language model. The iOS app is in TestFlight beta with real users. The FastAPI backend runs at `https://api.cleardriveapp.com`.
+ClearDrive is a vehicle diagnostic iOS app. It reads OBD-II codes from real cars (via ELM327 Bluetooth) and produces plain-English, vehicle-specific diagnoses through a small language model. The iOS app is in TestFlight beta. The FastAPI backend runs at `https://api.cleardriveapp.com` (TestFlight is currently dormant — see "Deployment topology" below for the real state).
 
 The fine-tuning of Gemma 4 E4B into a domain-specific `ClearDrive-Gemma` is the active research project, targeting WESEF March 2027. Austin Brennan is the lead. Mentor: Nikita Makarov.
 
 ---
 
+## Deployment topology (read this before touching anything infra-related)
+
+**Everything runs on one box: the A4500 (`ajb1ubuntu`, Ubuntu 24.04, NVIDIA RTX A4500).** Three systemd services on that box:
+
+| Service | What | Port | Notes |
+|---|---|---|---|
+| `ollama.service` | Ollama 0.24.0 serving `gemma4:e4b` | `0.0.0.0:11434` | Override at `/etc/systemd/system/ollama.service.d/override.conf` |
+| `cleardrive.service` | FastAPI uvicorn (`/home/abrennan/cleardrive`, venv) | `0.0.0.0:8000` | Loads `.env` from project dir |
+| `cloudflared.service` | Cloudflare Tunnel | outbound | Routes `api.cleardriveapp.com` → `localhost:8000` |
+
+Public ingress is via Cloudflare Tunnel — **no PaaS, no router port-forwards.** Original residential-IP A record was replaced by the tunnel's CNAME.
+
+Reachable as:
+- `https://api.cleardriveapp.com` (public, via tunnel)
+- `http://100.100.254.15:8000` (dev, via Tailscale)
+
 ## Current LLM situation (read this before touching anything LLM-related)
 
 The backend calls **Ollama** for all LLM work. `main.py:14` reads `from ollama_client import ask_ollama, check_ollama`. `ollama_client.py` POSTs to **`/api/chat`** (not `/api/generate` — that endpoint returns empty `response` for chat-trained Gemma 4 in Ollama 0.24). Model: `gemma4:e4b`. Groq has been fully cut — `groq_client.py` is deleted, `GROQ_API_KEY` is no longer used anywhere.
 
-**A4500 endpoint is LIVE** (as of 2026-05-18). Ollama 0.24.0 runs on `ajb1ubuntu` (Ubuntu 24.04, NVIDIA RTX A4500), bound to `0.0.0.0:11434` via systemd override at `/etc/systemd/system/ollama.service.d/override.conf`. Reachable over Tailscale at `100.100.254.15`. Verified end-to-end with a P0420 prompt.
-
-Host is configurable via the `OLLAMA_HOST` env var (defaults to `100.100.254.15` for dev). Accepts `host` or `host:port`. **Production deploy is still blocked on getting the A4500 reachable from the PaaS** — PaaS providers can't reach Tailscale IPs directly. Cloudflare Tunnel (or equivalent) exposing the A4500 on a public hostname is the planned path; tunnel setup is in progress.
+`OLLAMA_HOST` env var configures the host (accepts `host` or `host:port`). Values per environment:
+- **Prod on A4500:** `OLLAMA_HOST=localhost` (FastAPI and Ollama on the same box — loopback)
+- **Dev on this Windows box:** `OLLAMA_HOST=100.100.254.15` (Tailscale to A4500)
+- **Default in code:** `100.100.254.15` (so a fresh dev clone "just works" on this network)
 
 ---
 
@@ -47,7 +64,8 @@ Host is configurable via the `OLLAMA_HOST` env var (defaults to `100.100.254.15`
 /
 ├── main.py                  FastAPI app · 21 endpoints · ~76 KB
 ├── ollama_client.py         ONLY LLM client · posts to gemma4:e4b · /api/chat
-│                            OLLAMA_HOST env var (default 100.100.254.15 — A4500 over Tailscale)
+│                            OLLAMA_HOST env var (default 100.100.254.15 over Tailscale;
+│                            prod on A4500 uses localhost)
 ├── database.py              SQLite · scans + research_scans (parallel tables by design)
 ├── schemas.py               Pydantic models (minimal)
 ├── vehicle_data.py          CarsXE + Auto.dev · keys via os.environ (python-dotenv)
@@ -114,7 +132,7 @@ Full history will live in `notes/decisions.md` once Stream A creates it.
 
 - **Feature branches and PRs.** Don't push to `main`. Austin reviews.
 - **Tests:** `test_adapter.py` (OBD adapter) and `test_api.py` (API smoke tests) exist. Run them when touching OBD or API code.
-- **Deployment:** PaaS via `nixpacks.toml` + `Procfile`. Don't change the deployment pipeline without Austin's approval.
+- **Deployment:** systemd unit (`cleardrive.service`) on the A4500. `nixpacks.toml` and `Procfile` are leftover from the prior PaaS attempt and are no longer load-bearing — safe to ignore unless you're considering re-introducing a PaaS path. Code updates: `cd /home/abrennan/cleardrive && git pull && sudo systemctl restart cleardrive`.
 - **Secrets:** environment variables only. Never `.env` files committed. `.env.example` documents required keys without values.
 - **Long context:** when a task is design-heavy (schema changes, methodology decisions), check `notes/decisions.md` first to avoid relitigating. When unsure, ask Austin.
 
@@ -128,4 +146,4 @@ Full history will live in `notes/decisions.md` once Stream A creates it.
 
 ---
 
-*Maintained at the repo root. Last updated 2026-05-18 (Groq cut, env-var migration, CarComplaints fix, A4500 Ollama live + /api/chat switch + OLLAMA_HOST env var).*
+*Maintained at the repo root. Last updated 2026-05-18 (Groq cut, env-var migration, CarComplaints fix, A4500 Ollama live + /api/chat switch + OLLAMA_HOST env var, FastAPI deployed on A4500, Cloudflare Tunnel live at api.cleardriveapp.com).*
