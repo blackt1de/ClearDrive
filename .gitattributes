@@ -1,0 +1,9 @@
+# Force LF line endings on files that tools parse as text — many parsers
+# (Claude Code's slash-command + subagent discovery in particular) reject
+# CRLF line endings, even though they're "harmless" text.
+
+.claude/**/*.md   text eol=lf
+notes/**/*.md     text eol=lf
+*.py              text eol=lf
+*.sh              text eol=lf
+.env.example      text eol=lf
