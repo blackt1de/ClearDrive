@@ -234,9 +234,11 @@ async def scrape_car_complaints(make: str, model: str, year: str, trim: str = ""
     base_model = extract_base_model(model)
     print(f"[CodeScraper] Checking CarComplaints.com for {year} {make} {base_model}...")
 
-    # CarComplaints uses Title Case for URLs
+    # CarComplaints: Title Case for makes, case-preserving for models.
+    # str.title() mangles multi-letter prefixes ("GLC300" -> "Glc300") and
+    # CarComplaints serves 404 on case-mismatched paths. See GLC300_INVESTIGATION.md.
     make_slug = make.title().replace(" ", "_")
-    model_slug = base_model.title().replace(" ", "_")
+    model_slug = base_model.replace(" ", "_")
     url = f"https://www.carcomplaints.com/{make_slug}/{model_slug}/{year}/"
     print(f"[CodeScraper] URL: {url}")
 
