@@ -6,3 +6,4 @@ obd
 pyserial
 beautifulsoup4
 lxml
+python-dotenv

@@ -5,16 +5,21 @@ Clean, accurate vehicle data including trims, specs, and images.
 
 import httpx
 import json
+import os
 import re
 from pathlib import Path
 from datetime import datetime
 
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).parent / ".env", override=True)
+
 CACHE_FILE = Path(__file__).parent / "vehicle_cache.json"
-CARSXE_API_KEY = "***REDACTED_CARSXE***"
+CARSXE_API_KEY = os.environ.get("CARSXE_API_KEY", "")
 CARSXE_BASE = "https://api.carsxe.com"
 
 # Auto.dev API for high-quality vehicle images
-AUTODEV_API_KEY = "***REDACTED_AUTODEV***"
+AUTODEV_API_KEY = os.environ.get("AUTODEV_API_KEY", "")
 AUTODEV_BASE = "https://api.auto.dev"
 
 HEADERS = {
