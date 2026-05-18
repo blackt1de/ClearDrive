@@ -32,6 +32,11 @@ cleardrive.db
 # Scraped training data (regenerable via scrape_training_data.py)
 training_data/
 
+# Secrets
+.env
+.env.local
+.env.*.local
+
 # OS
 .DS_Store
 Thumbs.db
