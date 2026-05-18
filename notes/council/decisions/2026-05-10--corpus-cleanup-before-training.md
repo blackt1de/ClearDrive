@@ -412,7 +412,32 @@ If you must pick A/B/C/D as posed and can't add the design week: **C-minus + pla
 
 ## Austin's decision
 
-*(left blank for Austin to fill in)*
+**C — Hybrid cleanup with documented limitations**
+
+Status as of 2026-05-18:
+- Reddit backfill: in progress (started 2026-05-18, may need second run)
+- CarComplaints .title() bug: fixed (PR #7 merged)
+- NHTSA model-name mismatch on Mercedes (5/5), Volvo (2/2), some BMW: NOT fixed.
+  Documented as known coverage limitation. Affected makes will be excluded from
+  the held-out test set, framing the gap as a methodology note in the paper.
+
+NEW ETL pre-flight items surfaced 2026-05-18 by baseline validation (PR #8):
+1. CarsXE returns WRONG decoded description for P0420 ("Secondary Air Injection
+   System Relay" instead of "Catalyst Efficiency Below Threshold"). This is an
+   upstream pipeline bug in code_scraper / vehicle_data that has been contaminating
+   the corpus and currently degrades production responses for P0420 scans. May
+   affect other codes — audit required (TASK 5).
+2. get_vehicle_by_id picks trims[0], which for some vehicles is the wrong engine
+   (e.g., Silverado defaults to 4.3L V6 instead of 5.3L V8). Affects both training
+   data quality and production UX. Two-pronged fix: production should prompt the
+   user to confirm trim after VIN decode; training-data pipeline needs a
+   deterministic canonical-trim selector.
+3. CarsXE coverage gaps (BMW M550i returns 404, likely others). Fallback to
+   year/make/model search needed.
+
+Decision date: 2026-05-18
+Rationale: most of A/B/C convergent cleanups are now done. The three new ETL
+pre-flight items are more important than the NHTSA fix and take priority.
 
 ## Follow-up tasks
 

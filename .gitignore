@@ -32,6 +32,17 @@ cleardrive.db
 # Scraped training data (regenerable via scrape_training_data.py)
 training_data/
 
+# ml/ — large/regenerable artifacts. .gitkeep files are kept so the
+# directories exist on clone (negation patterns below).
+ml/runs/*
+!ml/runs/.gitkeep
+ml/data/raw/*
+!ml/data/raw/.gitkeep
+ml/data/processed/*
+!ml/data/processed/.gitkeep
+ml/data/pairs/*
+!ml/data/pairs/.gitkeep
+
 # Secrets
 .env
 .env.local
