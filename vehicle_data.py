@@ -32,15 +32,37 @@ IMAGE_CACHE_VERSION = 28  # Bump this to invalidate all cached images (v28: Merc
 TRIMS_CACHE_VERSION = 9   # Bump this to invalidate all cached trims (v9: Mercedes-AMG normalization)
 VIN_CACHE_VERSION = 3     # Bump this to invalidate all cached VIN decodes (v3: Mercedes-AMG normalization)
 
-# Canonical SAE J2012 OBD-II code definitions. CarsXE's /obdcodesdecoder returns
-# wrong descriptions for many codes (audit: notes/2026-05-18-carsxe-decode-audit.md
-# — 6 of 10 sampled codes wrong). Override here for the codes we care about.
-# Codes not in this dict fall through to CarsXE.
-CANONICAL_OBD_CODES = {
+# Canonical SAE J2012 OBD-II code definitions are now loaded from
+# ml/data/sae_j2012.json (built by ml/scripts/build_sae_j2012.py — ~418 entries).
+# CarsXE's /obdcodesdecoder returns wrong descriptions for most codes
+# (verification: 8/10 wrong, 6 of those exact -1 offsets — see
+# notes/2026-05-18-carsxe-independent-verification.md). The JSON is consulted
+# first; CarsXE is fallback only, with WARNING-level logging on each fallback.
+#
+# `_CANONICAL_OBD_CODES_FALLBACK` below is a tiny in-code subset, used only if
+# the JSON file is missing or unreadable at import time. The full lookup is
+# `_get_canonical_obd_lookup()`.
+_CANONICAL_OBD_CODES_FALLBACK = {
+    # VVT / Camshaft / Crankshaft timing
+    "P0010": '"A" Camshaft Position Actuator Circuit (Bank 1)',
     "P0011": '"A" Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)',
+    "P0013": '"B" Camshaft Position - Actuator Circuit (Bank 1)',
     "P0014": '"B" Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)',
+    "P0015": '"B" Camshaft Position - Timing Over-Retarded (Bank 1)',
+    "P0016": "Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor A)",
+    # Mass Air Flow / Intake / Coolant temperature sensors
+    "P0101": "Mass or Volume Air Flow Sensor 'A' Circuit Range/Performance",
+    "P0102": "Mass or Volume Air Flow Sensor 'A' Circuit Low Input",
+    "P0113": "Intake Air Temperature Sensor 1 Circuit High Input",
+    "P0117": "Engine Coolant Temperature Sensor 1 Circuit Low Input",
     "P0128": "Coolant Thermostat (Coolant Temperature Below Thermostat Regulating Temperature)",
+    # Oxygen sensors (heaters + voltage)
+    "P0131": "O2 Sensor Circuit Low Voltage (Bank 1, Sensor 1)",
+    "P0135": "O2 Sensor Heater Circuit Malfunction (Bank 1, Sensor 1)",
+    "P0141": "O2 Sensor Heater Circuit Malfunction (Bank 1, Sensor 2)",
+    # Fuel trim
     "P0171": "System Too Lean (Bank 1)",
+    # Misfire family
     "P0300": "Random/Multiple Cylinder Misfire Detected",
     "P0301": "Cylinder 1 Misfire Detected",
     "P0302": "Cylinder 2 Misfire Detected",
@@ -50,16 +72,98 @@ CANONICAL_OBD_CODES = {
     "P0306": "Cylinder 6 Misfire Detected",
     "P0307": "Cylinder 7 Misfire Detected",
     "P0308": "Cylinder 8 Misfire Detected",
+    # Knock / Camshaft position sensors
+    "P0325": "Knock Sensor 1 Circuit Malfunction (Bank 1 or Single Sensor)",
+    "P0340": "Camshaft Position Sensor 'A' Circuit (Bank 1 or Single Sensor)",
+    "P0345": "Camshaft Position Sensor 'A' Circuit (Bank 2)",
+    # EGR / Secondary Air Injection
+    "P0401": "Exhaust Gas Recirculation Flow Insufficient Detected",
+    "P0411": "Secondary Air Injection System Incorrect Flow Detected",
+    # Catalyst efficiency
     "P0420": "Catalyst System Efficiency Below Threshold (Bank 1)",
     "P0421": "Warm Up Catalyst Efficiency Below Threshold (Bank 1)",
+    # Evaporative emissions
     "P0440": "Evaporative Emission Control System Malfunction",
+    "P0441": "Evaporative Emission Control System Incorrect Purge Flow",
     "P0442": "Evaporative Emission Control System Leak Detected (Small Leak)",
     "P0446": "Evaporative Emission Control System Vent Control Circuit Malfunction",
     "P0455": "Evaporative Emission Control System Leak Detected (Large Leak)",
     "P0456": "Evaporative Emission Control System Leak Detected (Very Small Leak)",
+    # Vehicle speed / idle / oil pressure
+    "P0500": "Vehicle Speed Sensor 'A' Malfunction",
     "P0506": "Idle Air Control System RPM Lower Than Expected",
+    "P0507": "Idle Air Control System RPM Higher Than Expected",
+    "P0521": "Engine Oil Pressure Sensor/Switch Range/Performance",
+    # Internal control module / processor
+    "P0601": "Internal Control Module Memory Check Sum Error",
+    "P0603": "Internal Control Module Keep Alive Memory (KAM) Error",
+    "P0604": "Internal Control Module Random Access Memory (RAM) Error",
+    "P0605": "Internal Control Module Read Only Memory (ROM) Error",
+    "P0606": "ECM/PCM Processor",
+    # Transmission
     "P0700": "Transmission Control System (MIL Request)",
+    "P0715": "Input/Turbine Speed Sensor Circuit Malfunction",
+    "P0730": "Incorrect Gear Ratio",
+    "P0740": "Torque Converter Clutch Circuit Malfunction",
+    "P0750": "Shift Solenoid 'A' Malfunction",
 }
+
+# --- Canonical DTC lookup (JSON-backed) + CarsXE fallback telemetry ----------
+
+import logging
+from collections import deque
+
+_OBD_LOG = logging.getLogger("cleardrive.obd")
+
+_SAE_J2012_PATH = Path(__file__).parent / "ml" / "data" / "sae_j2012.json"
+_CANONICAL_OBD_LOOKUP: dict[str, str] | None = None
+# Sliding-window log of CarsXE fallback events (timestamps + codes). Bounded
+# by both maxlen and the 24h window enforced in get_dtc_stats().
+_CARSXE_FALLBACKS: deque = deque(maxlen=10000)
+
+
+def _get_canonical_obd_lookup() -> dict[str, str]:
+    """Lazy load + cache the SAE J2012 canonical code dict from JSON.
+
+    Falls back to the small in-code dict if the JSON is missing/unreadable
+    (e.g., in an environment that hasn't run ml/scripts/build_sae_j2012.py).
+    """
+    global _CANONICAL_OBD_LOOKUP
+    if _CANONICAL_OBD_LOOKUP is not None:
+        return _CANONICAL_OBD_LOOKUP
+    try:
+        with open(_SAE_J2012_PATH, encoding="utf-8") as fh:
+            records = json.load(fh)
+        _CANONICAL_OBD_LOOKUP = {r["code"]: r["description"] for r in records}
+    except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
+        _OBD_LOG.warning(
+            "Failed to load %s (%r); falling back to in-code dict of %d entries.",
+            _SAE_J2012_PATH, e, len(_CANONICAL_OBD_CODES_FALLBACK),
+        )
+        _CANONICAL_OBD_LOOKUP = dict(_CANONICAL_OBD_CODES_FALLBACK)
+    return _CANONICAL_OBD_LOOKUP
+
+
+def get_dtc_stats() -> dict:
+    """Stats for /health/dtc — canonical-lookup size + CarsXE fallback count (24h)."""
+    lookup = _get_canonical_obd_lookup()
+    cutoff = datetime.now().timestamp() - 24 * 3600
+    recent = [(ts, code) for ts, code in _CARSXE_FALLBACKS if ts >= cutoff]
+    fallback_codes = sorted({code for _, code in recent})
+    return {
+        "canonical_entries": len(lookup),
+        "canonical_source": str(_SAE_J2012_PATH) if _CANONICAL_OBD_LOOKUP is not None and _SAE_J2012_PATH.exists() else "in-code fallback dict",
+        "carsxe_fallback_count_24h": len(recent),
+        "carsxe_fallback_codes_24h": fallback_codes[:50],
+    }
+
+
+def _record_carsxe_fallback(code: str) -> None:
+    _CARSXE_FALLBACKS.append((datetime.now().timestamp(), code.upper()))
+    _OBD_LOG.warning(
+        "decode_obd_code: %s not in canonical SAE J2012 lookup; falling back to CarsXE", code
+    )
+
 
 def load_cache() -> dict:
     if CACHE_FILE.exists():
@@ -1540,16 +1644,22 @@ async def decode_obd_code(code: str) -> dict:
     """
     code_upper = code.upper()
 
-    # Canonical override (SAE J2012). Wins over both cache and CarsXE for codes
-    # in CANONICAL_OBD_CODES — CarsXE returns wrong descriptions for many.
-    if code_upper in CANONICAL_OBD_CODES:
+    # Canonical SAE J2012 (loaded from ml/data/sae_j2012.json). Wins over
+    # cache and CarsXE. CarsXE is known to return wrong descriptions for
+    # at least 60% of standardized codes — see
+    # notes/2026-05-18-carsxe-independent-verification.md.
+    canonical = _get_canonical_obd_lookup()
+    if code_upper in canonical:
         return {
             "success": True,
             "code": code_upper,
-            "diagnosis": CANONICAL_OBD_CODES[code_upper],
+            "diagnosis": canonical[code_upper],
             "cached_at": datetime.now().isoformat(),
             "source": "canonical_sae_j2012",
         }
+
+    # Fallback: CarsXE. Log the event for /health/dtc telemetry.
+    _record_carsxe_fallback(code_upper)
 
     cache = load_cache()
     cache_key = f"obd_{code_upper}"

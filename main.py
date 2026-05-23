@@ -657,6 +657,13 @@ async def health():
     return {"status": "ok", "ai": ai_status}
 
 
+@app.get("/health/dtc")
+async def health_dtc():
+    """DTC-lookup health: canonical-dict size + CarsXE fallback count over 24h."""
+    from vehicle_data import get_dtc_stats
+    return {"status": "ok", **get_dtc_stats()}
+
+
 @app.get("/demo/snapshot")
 async def demo_snapshot():
     """
