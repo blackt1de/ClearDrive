@@ -1,0 +1,518 @@
+Prewarming trim cache (CarsXE lookups for each test vehicle):
+  prewarm: 2015 Chevrolet Silverado 1500... [CarsXE] Using cached trims for 2015 chevrolet silverado 1500
+7 trims
+  prewarm: 2018 Honda Civic... [CarsXE] Using cached trims for 2018 honda civic
+10 trims
+  prewarm: 2020 BMW M5 (M550i substitute)... [CarsXE] Using cached trims for 2020 bmw m5
+2 trims
+  prewarm: 2010 Toyota Camry... [CarsXE] Using cached trims for 2010 toyota camry
+4 trims
+
+[1/20] 2015 Chevrolet Silverado 1500 -- P0420
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2015_chevrolet_silverado_1500'
+[VehicleData] Looking up by year_make_model: trims_2015_chevrolet_silverado_1500
+[VehicleData] Found via year_make_model: Z71 LT turbo=False super=False
+[Interpret] Found vehicle_data: 2015 Chevrolet Silverado 1500 Z71 LT turbo=False super=False
+[carsxe] Using cached image for 2015 Chevrolet Silverado 1500 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Automatic'
+[Interpret] Engine formatted: '4.3L V6 (285 hp)' -> '4.3L V6'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=18 hwy=24 combined=20 tank=26.0
+
+[Main] Processing codes: ['P0420']
+[Main] Vehicle: 2015 Chevrolet Silverado 1500 Z71 LT
+[Main] Engine: 4.3L V6
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0420_chevrolet_silverado_1500_2015_
+[ForumScraper] Checking Reddit for P0420 on Chevrolet Silverado 1500...
+[ForumScraper] Using cached Reddit data
+   format: 2/12 | safety: CAUTION | 80.9s
+[2/20] 2015 Chevrolet Silverado 1500 -- P0171
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2015_chevrolet_silverado_1500'
+[VehicleData] Looking up by year_make_model: trims_2015_chevrolet_silverado_1500
+[VehicleData] Found via year_make_model: Z71 LT turbo=False super=False
+[Interpret] Found vehicle_data: 2015 Chevrolet Silverado 1500 Z71 LT turbo=False super=False
+[carsxe] Using cached image for 2015 Chevrolet Silverado 1500 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Automatic'
+[Interpret] Engine formatted: '4.3L V6 (285 hp)' -> '4.3L V6'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=18 hwy=24 combined=20 tank=26.0
+
+[Main] Processing codes: ['P0171']
+[Main] Vehicle: 2015 Chevrolet Silverado 1500 Z71 LT
+[Main] Engine: 4.3L V6
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0171_chevrolet_silverado_1500_2015_
+[ForumScraper] Checking Reddit for P0171 on Chevrolet Silverado 1500...
+[ForumScraper] Using cached Reddit data
+   format: 4/12 | safety: CAUTION | 20.9s
+[3/20] 2015 Chevrolet Silverado 1500 -- P0300
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2015_chevrolet_silverado_1500'
+[VehicleData] Looking up by year_make_model: trims_2015_chevrolet_silverado_1500
+[VehicleData] Found via year_make_model: Z71 LT turbo=False super=False
+[Interpret] Found vehicle_data: 2015 Chevrolet Silverado 1500 Z71 LT turbo=False super=False
+[carsxe] Using cached image for 2015 Chevrolet Silverado 1500 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Automatic'
+[Interpret] Engine formatted: '4.3L V6 (285 hp)' -> '4.3L V6'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=18 hwy=24 combined=20 tank=26.0
+
+[Main] Processing codes: ['P0300']
+[Main] Vehicle: 2015 Chevrolet Silverado 1500 Z71 LT
+[Main] Engine: 4.3L V6
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0300_chevrolet_silverado_1500_2015_
+[ForumScraper] Checking Reddit for P0300 on Chevrolet Silverado 1500...
+[ForumScraper] Using cached Reddit data
+   format: 4/12 | safety: CAUTION | 19.9s
+[4/20] 2015 Chevrolet Silverado 1500 -- P0011
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2015_chevrolet_silverado_1500'
+[VehicleData] Looking up by year_make_model: trims_2015_chevrolet_silverado_1500
+[VehicleData] Found via year_make_model: Z71 LT turbo=False super=False
+[Interpret] Found vehicle_data: 2015 Chevrolet Silverado 1500 Z71 LT turbo=False super=False
+[carsxe] Using cached image for 2015 Chevrolet Silverado 1500 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Automatic'
+[Interpret] Engine formatted: '4.3L V6 (285 hp)' -> '4.3L V6'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=18 hwy=24 combined=20 tank=26.0
+
+[Main] Processing codes: ['P0011']
+[Main] Vehicle: 2015 Chevrolet Silverado 1500 Z71 LT
+[Main] Engine: 4.3L V6
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0011_chevrolet_silverado_1500_2015_
+[ForumScraper] Checking Reddit for P0011 on Chevrolet Silverado 1500...
+[ForumScraper] Using cached Reddit data
+   format: 5/12 | safety: CAUTION | 21.0s
+[5/20] 2015 Chevrolet Silverado 1500 -- P0455
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2015_chevrolet_silverado_1500'
+[VehicleData] Looking up by year_make_model: trims_2015_chevrolet_silverado_1500
+[VehicleData] Found via year_make_model: Z71 LT turbo=False super=False
+[Interpret] Found vehicle_data: 2015 Chevrolet Silverado 1500 Z71 LT turbo=False super=False
+[carsxe] Using cached image for 2015 Chevrolet Silverado 1500 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Automatic'
+[Interpret] Engine formatted: '4.3L V6 (285 hp)' -> '4.3L V6'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=18 hwy=24 combined=20 tank=26.0
+
+[Main] Processing codes: ['P0455']
+[Main] Vehicle: 2015 Chevrolet Silverado 1500 Z71 LT
+[Main] Engine: 4.3L V6
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0455_chevrolet_silverado_1500_2015_
+[ForumScraper] Checking Reddit for P0455 on Chevrolet Silverado 1500...
+[ForumScraper] Using cached Reddit data
+   format: 2/12 | safety: CAUTION | 26.1s
+[6/20] 2018 Honda Civic -- P0420
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2018_honda_civic'
+[VehicleData] Looking up by year_make_model: trims_2018_honda_civic
+[VehicleData] Found via year_make_model: EX-L turbo=True super=False
+[Interpret] Found vehicle_data: 2018 Honda Civic EX-L turbo=True super=False
+[carsxe] Using cached image for 2018 Honda Civic 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='Automatic'
+[Interpret] Engine formatted: '1.5L I4 Turbo (174 hp)' -> '1.5L I4 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=32 hwy=42 combined=36 tank=12.4
+
+[Main] Processing codes: ['P0420']
+[Main] Vehicle: 2018 Honda Civic EX-L
+[Main] Engine: 1.5L I4 Turbo
+[Main] Performance Tier: sport
+[Main] Cost Multiplier: 1.2x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0420_honda_civic_2018_
+[ForumScraper] Checking Reddit for P0420 on Honda Civic...
+[ForumScraper] Using cached Reddit data
+   format: 1/12 | safety: None | 29.0s
+[7/20] 2018 Honda Civic -- P0171
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2018_honda_civic'
+[VehicleData] Looking up by year_make_model: trims_2018_honda_civic
+[VehicleData] Found via year_make_model: EX-L turbo=True super=False
+[Interpret] Found vehicle_data: 2018 Honda Civic EX-L turbo=True super=False
+[carsxe] Using cached image for 2018 Honda Civic 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='Automatic'
+[Interpret] Engine formatted: '1.5L I4 Turbo (174 hp)' -> '1.5L I4 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=32 hwy=42 combined=36 tank=12.4
+
+[Main] Processing codes: ['P0171']
+[Main] Vehicle: 2018 Honda Civic EX-L
+[Main] Engine: 1.5L I4 Turbo
+[Main] Performance Tier: sport
+[Main] Cost Multiplier: 1.2x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0171_honda_civic_2018_
+[ForumScraper] Checking Reddit for P0171 on Honda Civic...
+[ForumScraper] Using cached Reddit data
+   format: 4/12 | safety: CAUTION | 43.5s
+[8/20] 2018 Honda Civic -- P0300
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2018_honda_civic'
+[VehicleData] Looking up by year_make_model: trims_2018_honda_civic
+[VehicleData] Found via year_make_model: EX-L turbo=True super=False
+[Interpret] Found vehicle_data: 2018 Honda Civic EX-L turbo=True super=False
+[carsxe] Using cached image for 2018 Honda Civic 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='Automatic'
+[Interpret] Engine formatted: '1.5L I4 Turbo (174 hp)' -> '1.5L I4 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=32 hwy=42 combined=36 tank=12.4
+
+[Main] Processing codes: ['P0300']
+[Main] Vehicle: 2018 Honda Civic EX-L
+[Main] Engine: 1.5L I4 Turbo
+[Main] Performance Tier: sport
+[Main] Cost Multiplier: 1.2x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0300_honda_civic_2018_
+[ForumScraper] Checking Reddit for P0300 on Honda Civic...
+[ForumScraper] Using cached Reddit data
+   format: 3/12 | safety: CAUTION | 47.0s
+[9/20] 2018 Honda Civic -- P0011
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2018_honda_civic'
+[VehicleData] Looking up by year_make_model: trims_2018_honda_civic
+[VehicleData] Found via year_make_model: EX-L turbo=True super=False
+[Interpret] Found vehicle_data: 2018 Honda Civic EX-L turbo=True super=False
+[carsxe] Using cached image for 2018 Honda Civic 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='Automatic'
+[Interpret] Engine formatted: '1.5L I4 Turbo (174 hp)' -> '1.5L I4 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=32 hwy=42 combined=36 tank=12.4
+
+[Main] Processing codes: ['P0011']
+[Main] Vehicle: 2018 Honda Civic EX-L
+[Main] Engine: 1.5L I4 Turbo
+[Main] Performance Tier: sport
+[Main] Cost Multiplier: 1.2x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0011_honda_civic_2018_
+[ForumScraper] Checking Reddit for P0011 on Honda Civic...
+[ForumScraper] Using cached Reddit data
+   format: 4/12 | safety: CAUTION | 47.0s
+[10/20] 2018 Honda Civic -- P0455
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2018_honda_civic'
+[VehicleData] Looking up by year_make_model: trims_2018_honda_civic
+[VehicleData] Found via year_make_model: EX-L turbo=True super=False
+[Interpret] Found vehicle_data: 2018 Honda Civic EX-L turbo=True super=False
+[carsxe] Using cached image for 2018 Honda Civic 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='Automatic'
+[Interpret] Engine formatted: '1.5L I4 Turbo (174 hp)' -> '1.5L I4 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=32 hwy=42 combined=36 tank=12.4
+
+[Main] Processing codes: ['P0455']
+[Main] Vehicle: 2018 Honda Civic EX-L
+[Main] Engine: 1.5L I4 Turbo
+[Main] Performance Tier: sport
+[Main] Cost Multiplier: 1.2x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0455_honda_civic_2018_
+[ForumScraper] Checking Reddit for P0455 on Honda Civic...
+[ForumScraper] Using cached Reddit data
+   format: 2/12 | safety: SAFE | 24.2s
+[11/20] 2020 BMW M5 (M550i substitute) -- P0420
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2020_bmw_m5'
+[VehicleData] Looking up by year_make_model: trims_2020_bmw_m5
+[VehicleData] Found via year_make_model: Competition turbo=True super=False
+[Interpret] Found vehicle_data: 2020 Bmw M5 Competition turbo=True super=False
+[carsxe] Using cached image for 2020 Bmw M5 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='8-Speed Automatic'
+[Interpret] Engine formatted: '4.4L V8 Turbo (617 hp)' -> '4.4L V8 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=15 hwy=21 combined=17 tank=20.1
+
+[Main] Processing codes: ['P0420']
+[Main] Vehicle: 2020 Bmw M5 Competition
+[Main] Engine: 4.4L V8 Turbo
+[Main] Performance Tier: high-performance
+[Main] Cost Multiplier: 1.5x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0420_bmw_m5_2020_
+[ForumScraper] Checking Reddit for P0420 on Bmw M5...
+[ForumScraper] Using cached Reddit data
+   format: 3/12 | safety: CAUTION | 40.7s
+[12/20] 2020 BMW M5 (M550i substitute) -- P0171
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2020_bmw_m5'
+[VehicleData] Looking up by year_make_model: trims_2020_bmw_m5
+[VehicleData] Found via year_make_model: Competition turbo=True super=False
+[Interpret] Found vehicle_data: 2020 Bmw M5 Competition turbo=True super=False
+[carsxe] Using cached image for 2020 Bmw M5 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='8-Speed Automatic'
+[Interpret] Engine formatted: '4.4L V8 Turbo (617 hp)' -> '4.4L V8 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=15 hwy=21 combined=17 tank=20.1
+
+[Main] Processing codes: ['P0171']
+[Main] Vehicle: 2020 Bmw M5 Competition
+[Main] Engine: 4.4L V8 Turbo
+[Main] Performance Tier: high-performance
+[Main] Cost Multiplier: 1.5x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0171_bmw_m5_2020_
+[ForumScraper] Checking Reddit for P0171 on Bmw M5...
+[ForumScraper] Using cached Reddit data
+   format: 3/12 | safety: CAUTION | 45.5s
+[13/20] 2020 BMW M5 (M550i substitute) -- P0300
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2020_bmw_m5'
+[VehicleData] Looking up by year_make_model: trims_2020_bmw_m5
+[VehicleData] Found via year_make_model: Competition turbo=True super=False
+[Interpret] Found vehicle_data: 2020 Bmw M5 Competition turbo=True super=False
+[carsxe] Using cached image for 2020 Bmw M5 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='8-Speed Automatic'
+[Interpret] Engine formatted: '4.4L V8 Turbo (617 hp)' -> '4.4L V8 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=15 hwy=21 combined=17 tank=20.1
+
+[Main] Processing codes: ['P0300']
+[Main] Vehicle: 2020 Bmw M5 Competition
+[Main] Engine: 4.4L V8 Turbo
+[Main] Performance Tier: high-performance
+[Main] Cost Multiplier: 1.5x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0300_bmw_m5_2020_
+[ForumScraper] Checking Reddit for P0300 on Bmw M5...
+[ForumScraper] Using cached Reddit data
+   format: 4/12 | safety: CAUTION | 22.0s
+[14/20] 2020 BMW M5 (M550i substitute) -- P0011
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2020_bmw_m5'
+[VehicleData] Looking up by year_make_model: trims_2020_bmw_m5
+[VehicleData] Found via year_make_model: Competition turbo=True super=False
+[Interpret] Found vehicle_data: 2020 Bmw M5 Competition turbo=True super=False
+[carsxe] Using cached image for 2020 Bmw M5 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='8-Speed Automatic'
+[Interpret] Engine formatted: '4.4L V8 Turbo (617 hp)' -> '4.4L V8 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=15 hwy=21 combined=17 tank=20.1
+
+[Main] Processing codes: ['P0011']
+[Main] Vehicle: 2020 Bmw M5 Competition
+[Main] Engine: 4.4L V8 Turbo
+[Main] Performance Tier: high-performance
+[Main] Cost Multiplier: 1.5x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0011_bmw_m5_2020_
+[ForumScraper] Checking Reddit for P0011 on Bmw M5...
+[ForumScraper] Using cached Reddit data
+   format: 4/12 | safety: CAUTION | 22.7s
+[15/20] 2020 BMW M5 (M550i substitute) -- P0455
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2020_bmw_m5'
+[VehicleData] Looking up by year_make_model: trims_2020_bmw_m5
+[VehicleData] Found via year_make_model: Competition turbo=True super=False
+[Interpret] Found vehicle_data: 2020 Bmw M5 Competition turbo=True super=False
+[carsxe] Using cached image for 2020 Bmw M5 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='8-Speed Automatic'
+[Interpret] Engine formatted: '4.4L V8 Turbo (617 hp)' -> '4.4L V8 Turbo'
+[Interpret] Turbo check: engine_profile=True, vehicle_data=True
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=15 hwy=21 combined=17 tank=20.1
+
+[Main] Processing codes: ['P0455']
+[Main] Vehicle: 2020 Bmw M5 Competition
+[Main] Engine: 4.4L V8 Turbo
+[Main] Performance Tier: high-performance
+[Main] Cost Multiplier: 1.5x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0455_bmw_m5_2020_
+[ForumScraper] Checking Reddit for P0455 on Bmw M5...
+[ForumScraper] Using cached Reddit data
+   format: 2/12 | safety: CAUTION | 21.9s
+[16/20] 2010 Toyota Camry -- P0420
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2010_toyota_camry'
+[VehicleData] Looking up by year_make_model: trims_2010_toyota_camry
+[VehicleData] Found via year_make_model: LE turbo=False super=False
+[Interpret] Found vehicle_data: 2010 Toyota Camry LE turbo=False super=False
+[carsxe] Using cached image for 2010 Toyota Camry 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Manual'
+[Interpret] Engine formatted: '2.5L I4 (169 hp)' -> '2.5L I4'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=22 hwy=33 combined=26 tank=18.5
+
+[Main] Processing codes: ['P0420']
+[Main] Vehicle: 2010 Toyota Camry LE
+[Main] Engine: 2.5L I4
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0420_toyota_camry_2010_
+[ForumScraper] Checking Reddit for P0420 on Toyota Camry...
+[ForumScraper] Using cached Reddit data
+   format: 6/12 | safety: CAUTION | 21.2s
+[17/20] 2010 Toyota Camry -- P0171
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2010_toyota_camry'
+[VehicleData] Looking up by year_make_model: trims_2010_toyota_camry
+[VehicleData] Found via year_make_model: LE turbo=False super=False
+[Interpret] Found vehicle_data: 2010 Toyota Camry LE turbo=False super=False
+[carsxe] Using cached image for 2010 Toyota Camry 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Manual'
+[Interpret] Engine formatted: '2.5L I4 (169 hp)' -> '2.5L I4'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=22 hwy=33 combined=26 tank=18.5
+
+[Main] Processing codes: ['P0171']
+[Main] Vehicle: 2010 Toyota Camry LE
+[Main] Engine: 2.5L I4
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0171_toyota_camry_2010_
+[ForumScraper] Checking Reddit for P0171 on Toyota Camry...
+[ForumScraper] Using cached Reddit data
+   format: 5/12 | safety: CAUTION | 47.0s
+[18/20] 2010 Toyota Camry -- P0300
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2010_toyota_camry'
+[VehicleData] Looking up by year_make_model: trims_2010_toyota_camry
+[VehicleData] Found via year_make_model: LE turbo=False super=False
+[Interpret] Found vehicle_data: 2010 Toyota Camry LE turbo=False super=False
+[carsxe] Using cached image for 2010 Toyota Camry 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Manual'
+[Interpret] Engine formatted: '2.5L I4 (169 hp)' -> '2.5L I4'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=22 hwy=33 combined=26 tank=18.5
+
+[Main] Processing codes: ['P0300']
+[Main] Vehicle: 2010 Toyota Camry LE
+[Main] Engine: 2.5L I4
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0300_toyota_camry_2010_
+[ForumScraper] Checking Reddit for P0300 on Toyota Camry...
+[ForumScraper] Using cached Reddit data
+   format: 3/12 | safety: CAUTION | 21.7s
+[19/20] 2010 Toyota Camry -- P0011
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2010_toyota_camry'
+[VehicleData] Looking up by year_make_model: trims_2010_toyota_camry
+[VehicleData] Found via year_make_model: LE turbo=False super=False
+[Interpret] Found vehicle_data: 2010 Toyota Camry LE turbo=False super=False
+[carsxe] Using cached image for 2010 Toyota Camry 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Manual'
+[Interpret] Engine formatted: '2.5L I4 (169 hp)' -> '2.5L I4'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=22 hwy=33 combined=26 tank=18.5
+
+[Main] Processing codes: ['P0011']
+[Main] Vehicle: 2010 Toyota Camry LE
+[Main] Engine: 2.5L I4
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0011_toyota_camry_2010_
+[ForumScraper] Checking Reddit for P0011 on Toyota Camry...
+[ForumScraper] Using cached Reddit data
+   format: 5/12 | safety: CAUTION | 25.6s
+[20/20] 2010 Toyota Camry -- P0455
+[OBD] Using client-provided data: 1 codes
+[Interpret] Looking up vehicle_id: '2010_toyota_camry'
+[VehicleData] Looking up by year_make_model: trims_2010_toyota_camry
+[VehicleData] Found via year_make_model: LE turbo=False super=False
+[Interpret] Found vehicle_data: 2010 Toyota Camry LE turbo=False super=False
+[carsxe] Using cached image for 2010 Toyota Camry 
+[Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana... (color=none)
+[Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Manual'
+[Interpret] Engine formatted: '2.5L I4 (169 hp)' -> '2.5L I4'
+[Interpret] Turbo check: engine_profile=False, vehicle_data=False
+[Interpret] Super check: engine_profile=False, vehicle_data=False
+[Interpret] MPG data: city=22 hwy=33 combined=26 tank=18.5
+
+[Main] Processing codes: ['P0455']
+[Main] Vehicle: 2010 Toyota Camry LE
+[Main] Engine: 2.5L I4
+[Main] Performance Tier: standard
+[Main] Cost Multiplier: 1.0x
+[Main] CarsXE decoded 1/1 codes
+[CodeScraper] Using cached data for p0455_toyota_camry_2010_
+[ForumScraper] Checking Reddit for P0455 on Toyota Camry...
+[ForumScraper] Using cached Reddit data
+   format: 5/12 | safety: SAFE | 21.3s
+
+Report written to C:\Users\conor\Documents\ClearDriveProject\ClearDrive\notes\baseline-gemma-format-validation-2026-05-23.md
+Parsed 20 scenarios
+
+Vehicle-specificity scores:
+  2015 Chevrolet Silverado 1500 (5.3L V8) -- P0420: vs=3 ki=absent
+  2015 Chevrolet Silverado 1500 (5.3L V8) -- P0171: vs=3 ki=absent
+  2015 Chevrolet Silverado 1500 (5.3L V8) -- P0300: vs=3 ki=absent
+  2015 Chevrolet Silverado 1500 (5.3L V8) -- P0011: vs=3 ki=absent
+  2015 Chevrolet Silverado 1500 (5.3L V8) -- P0455: vs=3 ki=absent
+  2018 Honda Civic (1.5L turbo I4) -- P0420: vs=4 ki=absent
+  2018 Honda Civic (1.5L turbo I4) -- P0171: vs=1 ki=degenerate (DEGEN)
+  2018 Honda Civic (1.5L turbo I4) -- P0300: vs=1 ki=degenerate (DEGEN)
+  2018 Honda Civic (1.5L turbo I4) -- P0011: vs=3 ki=absent
+  2018 Honda Civic (1.5L turbo I4) -- P0455: vs=3 ki=absent
+  2020 BMW M5 (M550i substitute) (4.4L twin-turbo V8 (S63)) -- P0420: vs=1 ki=degenerate (DEGEN)
+  2020 BMW M5 (M550i substitute) (4.4L twin-turbo V8 (S63)) -- P0171: vs=1 ki=degenerate (DEGEN)
+  2020 BMW M5 (M550i substitute) (4.4L twin-turbo V8 (S63)) -- P0300: vs=2 ki=absent
+  2020 BMW M5 (M550i substitute) (4.4L twin-turbo V8 (S63)) -- P0011: vs=2 ki=absent
+  2020 BMW M5 (M550i substitute) (4.4L twin-turbo V8 (S63)) -- P0455: vs=3 ki=absent
+  2010 Toyota Camry (2.5L I4) -- P0420: vs=1 ki=degenerate (DEGEN)
+  2010 Toyota Camry (2.5L I4) -- P0171: vs=1 ki=degenerate (DEGEN)
+  2010 Toyota Camry (2.5L I4) -- P0300: vs=4 ki=absent
+  2010 Toyota Camry (2.5L I4) -- P0011: vs=1 ki=degenerate (DEGEN)
+  2010 Toyota Camry (2.5L I4) -- P0455: vs=4 ki=absent
+
+Updated report: C:\Users\conor\Documents\ClearDriveProject\ClearDrive\notes\baseline-gemma-format-validation-2026-05-18.md
+Aggregate: fmt=3.5/12, vs=2.4/5, degen=7/20, latency=44s mean
