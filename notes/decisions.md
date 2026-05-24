@@ -2,6 +2,28 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## 2026-05-23 — Model pivot: Gemma 4 E4B → Gemma 4 26B-A4B (MoE), local deployment
+
+### Decision
+Pivot from Gemma 4 E4B (current) to Gemma 4 26B-A4B (MoE) at Q4_K_M, served via SGLang locally on A4500, fine-tuned via Unsloth QLoRA on 5090.
+
+### Evidence (from 2026-05-23 verification, see notes/2026-05-23-a4500-capacity.md)
+- Hardware fit: 15.2 GB VRAM at Q4_K_M on 20 GB A4500, ~4.8 GB headroom at 2048 ctx
+- Inference: SGLang merged support 2026-04-07 (PR #21952), v0.5.12+; first-party NEXTN/EAGLE draft available
+- Training: Unsloth v0.1.36-beta ships Gemma 4 + Blackwell sm_120 (manual install: CUDA 12.8 / torch cu128 / triton ≥3.3.1)
+- Fine-tuning necessity: PR #8 prompt-fix rerun showed flat aggregate degeneracy (30–40% vs 35% baseline); base model behavior is structural, not prompt-noise
+
+### Rejected
+- Qwen3-30B-A3B: only 0.13 GB headroom at 2048 ctx on A4500, will OOM on any real context expansion
+- Together.ai serverless: deployment scope restricted to local
+- Status quo (Gemma 4 E4B): degeneracy is model-structural per rerun, won't be fixed by prompt engineering
+
+### Open / next
+- Recompute headroom at production context size (TBD what that is — needs measurement)
+- SSH key resolution required before SGLang setup on A4500
+- Scorer bug at scripts/baseline_score_responses.py:25 must be fixed before training cycle (this session)
+- iPhone on-device path moves to "offline fallback demo" — separate decision, not blocked by this one
+
 ## 2026-05-18
 
 ### Base Gemma 4 E4B baseline captured (PR #8)
