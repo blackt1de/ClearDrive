@@ -12,17 +12,29 @@ without inflating individual scores.
 
 Usage:
     py -3 scripts/baseline_score_responses.py
+    py -3 scripts/baseline_score_responses.py --input-file notes/baseline-gemma-format-validation-2026-05-23.md
+    py -3 scripts/baseline_score_responses.py --input-file <in> --output-file <out>
+
+When no flags are given, defaults to today's report at
+notes/baseline-gemma-format-validation-<YYYY-MM-DD>.md and overwrites in
+place (preserves prior behavior).
 """
 
 from __future__ import annotations
 
+import argparse
+import datetime
 import re
 import sys
 from collections import Counter
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-REPORT = PROJECT_ROOT / "notes" / "baseline-gemma-format-validation-2026-05-18.md"
+
+
+def _default_report_path() -> Path:
+    today = datetime.date.today().strftime("%Y-%m-%d")
+    return PROJECT_ROOT / "notes" / f"baseline-gemma-format-validation-{today}.md"
 
 
 # --- Heuristic dictionaries ----------------------------------------------------
@@ -265,9 +277,33 @@ def make_summary_table(scenarios: list[dict], codes: list[str], vehicles: list[s
 
 
 def main() -> None:
-    md = REPORT.read_text(encoding="utf-8")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--input-file",
+        type=Path,
+        default=None,
+        help="Path to the baseline-format-validation markdown to score. "
+             "Defaults to notes/baseline-gemma-format-validation-<today>.md.",
+    )
+    parser.add_argument(
+        "--output-file",
+        type=Path,
+        default=None,
+        help="Path to write the scored markdown. Defaults to the input path "
+             "(overwrites in place — original behavior).",
+    )
+    args = parser.parse_args()
+
+    input_path = args.input_file or _default_report_path()
+    output_path = args.output_file or input_path
+
+    if not input_path.exists():
+        print(f"ERROR: input file does not exist: {input_path}", file=sys.stderr)
+        sys.exit(1)
+
+    md = input_path.read_text(encoding="utf-8")
     scenarios = parse_scenarios(md)
-    print(f"Parsed {len(scenarios)} scenarios", flush=True)
+    print(f"Parsed {len(scenarios)} scenarios from {input_path}", flush=True)
 
     if not scenarios:
         print("ERROR: no scenarios parsed.", file=sys.stderr)
@@ -425,8 +461,8 @@ endpoint (or change `DEFAULT_MODEL`) and re-run for a side-by-side comparison.
     )
     new_md = assessment_pattern.sub(assessment, new_md, count=1)
 
-    REPORT.write_text(new_md, encoding="utf-8")
-    print(f"\nUpdated report: {REPORT}")
+    output_path.write_text(new_md, encoding="utf-8")
+    print(f"\nUpdated report: {output_path}")
     print(f"Aggregate: fmt={avg_fmt:.1f}/12, vs={avg_vs:.1f}/5, degen={n_degen}/{total}, latency={avg_latency:.0f}s mean")
 
 
