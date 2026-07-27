@@ -1,149 +1,93 @@
 # CLAUDE.md — ClearDrive
 
-This file is loaded at the start of every Claude Code session in this repo. It is the source of truth for project-level operational rules. Keep it short. Detailed conventions live in subdirectory CLAUDE.md files (e.g. `ml/CLAUDE.md` when `ml/` exists).
+<!-- Maintainer note: loaded in full every session. Target <200 lines.
+     RULE FOR EDITING THIS FILE: it describes what EXISTS TODAY. Anything planned goes under
+     "Direction" and must be marked as not-yet-built. A CLAUDE.md written in the future tense
+     misleads every session. Procedures -> .claude/skills/. Scoped rules -> .claude/rules/.
+     HTML comments are stripped before injection, so they cost no context. -->
 
----
+ClearDrive reads OBD-II data from real cars over ELM327 Bluetooth and produces plain-English, vehicle-specific diagnoses. iOS client + FastAPI backend + a locally served LLM.
 
-## What this is
+Also a research project: does a domain-fine-tuned LM beat rule-based DTC lookup on accuracy and comprehension. WESEF March 2027. Lead: Austin Brennan. Mentor: Nikita Makarov.
 
-ClearDrive is a vehicle diagnostic iOS app. It reads OBD-II codes from real cars (via ELM327 Bluetooth) and produces plain-English, vehicle-specific diagnoses through a small language model. The iOS app is in TestFlight beta. The FastAPI backend runs at `https://api.cleardriveapp.com` (TestFlight is currently dormant — see "Deployment topology" below for the real state).
+## The one idea that governs every change
 
-The fine-tuning of Gemma 4 E4B into a domain-specific `ClearDrive-Gemma` is the active research project, targeting WESEF March 2027. Austin Brennan is the lead. Mentor: Nikita Makarov.
+**The model reasons. Everything else remembers.**
 
----
+Facts about a vehicle — recalls, TSBs, known failure patterns, code definitions — come from retrieval or from a data file with a `source` field. The model connects evidence to conclusions. It never supplies a vehicle fact from its own weights. A confidently wrong "known issue" is worse than a generic answer.
 
-## Deployment topology (read this before touching anything infra-related)
+This is the target behavior, not current behavior. Today `/interpret` still asks the model to recall TSBs from memory. Fixing that is the first queued change.
 
-**Everything runs on one box: the A4500 (`ajb1ubuntu`, Ubuntu 24.04, NVIDIA RTX A4500).** Three systemd services on that box:
+## What actually runs today
 
-| Service | What | Port | Notes |
-|---|---|---|---|
-| `ollama.service` | Ollama 0.24.0 serving `gemma4:e4b` | `0.0.0.0:11434` | Override at `/etc/systemd/system/ollama.service.d/override.conf` |
-| `cleardrive.service` | FastAPI uvicorn (`/home/abrennan/cleardrive`, venv) | `0.0.0.0:8000` | Loads `.env` from project dir |
-| `cloudflared.service` | Cloudflare Tunnel | outbound | Routes `api.cleardriveapp.com` → `localhost:8000` |
+| Piece | State |
+|---|---|
+| Inference | **Ollama**, `gemma4:e4b`, via `ollama_client.py`. Not fine-tuned — base model. |
+| Backend | FastAPI `main.py` on the A4500 (`ajb1ubuntu`, Ubuntu 24.04, RTX A4500) |
+| Services | `ollama.service` :11434 · `cleardrive.service` :8000 · `cloudflared.service` |
+| Ingress | Cloudflare Tunnel → `api.cleardriveapp.com`. Dev: `100.100.254.15:8000` over Tailscale. |
+| iOS | SwiftUI client, `ios/ClearDrive/`. TestFlight currently dormant. |
+| Output format | 12 string-parsed sections via `parse_guidance()` |
 
-Public ingress is via Cloudflare Tunnel — **no PaaS, no router port-forwards.** Original residential-IP A record was replaced by the tunnel's CNAME.
+`OLLAMA_HOST` accepts a bare hostname or `host:port`; defaults to `100.100.254.15`.
 
-Reachable as:
-- `https://api.cleardriveapp.com` (public, via tunnel)
-- `http://100.100.254.15:8000` (dev, via Tailscale)
+## Direction — decided, not yet built
 
-## Current LLM situation (read this before touching anything LLM-related)
+- **Target model: a Qwen MoE (~4B active).** Exact SKU still open. Note: `decisions.md` previously rejected Qwen3-30B-A3B on VRAM headroom (0.13 GB at 2048 ctx on 20 GB) and selected Gemma 4 26B-A4B; that decision has been superseded in favor of Qwen for training-ecosystem reasons, but **the VRAM constraint has not been re-measured.** Do not treat any SKU as pinned until a measured context budget exists.
+- Serving moves from Ollama to SGLang.
+- Output moves from string-parsed sections to a validated JSON contract.
+- Retrieval (NHTSA + platform KB) replaces model-recalled vehicle facts.
 
-The backend calls **Ollama** for all LLM work. `main.py:14` reads `from ollama_client import ask_ollama, check_ollama`. `ollama_client.py` POSTs to **`/api/chat`** (not `/api/generate` — that endpoint returns empty `response` for chat-trained Gemma 4 in Ollama 0.24). Model: `gemma4:e4b`. Groq has been fully cut — `groq_client.py` is deleted, `GROQ_API_KEY` is no longer used anywhere.
+None of the above is implemented. Do not write code that assumes it is.
 
-`OLLAMA_HOST` env var configures the host (accepts `host` or `host:port`). Values per environment:
-- **Prod on A4500:** `OLLAMA_HOST=localhost` (FastAPI and Ollama on the same box — loopback)
-- **Dev on this Windows box:** `OLLAMA_HOST=100.100.254.15` (Tailscale to A4500)
-- **Default in code:** `100.100.254.15` (so a fresh dev clone "just works" on this network)
+## Never
 
----
+1. Send any UDS service other than `0x19`, `10 03`, `3E 80`. Standard OBD modes 01/02/03/06/07/09/0A and AT/ST adapter commands are fine. Full rules: `.claude/rules/obd-safety.md` (loads when you touch OBD code).
+2. Substitute a default for a missing measurement. Missing is `null`, rendered as `unavailable`.
+3. Change the LLM output format without updating `parse_guidance()` in `main.py` — iOS parses those 12 sections field by field and will break silently.
+4. Write `research_scans` rows into `scans` or vice versa. Parallel tables by design, different audiences.
+5. Break an existing API endpoint without a migration path. Old iOS builds hit them.
+6. Invent manufacturer PIDs, module addresses, or scaling formulas. These come only from versioned files with `source` and `verified_by`.
+7. Add scrapers or new scraped sources.
+8. Hardcode secrets, IPs, or hostnames. Use `os.environ`.
+9. `git push --force`, or amend a pushed commit.
 
-## Critical rules
+## Always
 
-### Never
+1. Verify a line anchor before editing — quote the string, don't trust the number.
+2. When a spec's precondition doesn't match real code: **stop and report with the actual code quoted.** Do not improvise a substitute design.
+3. Keep diffs scoped to the current task. No opportunistic refactors.
+4. New data files carry `source`, `verified_by`, `verified_at`.
+5. Run `test_adapter.py` when touching OBD code.
+6. Append a `notes/decisions.md` entry after any decision-bearing change. Supersede prior entries; never delete them.
 
-- **Commit API keys.** `CARSXE_API_KEY` and `AUTODEV_API_KEY` are loaded from `os.environ` via `python-dotenv` (see `vehicle_data.py:13,18`). The old cleartext keys still live in git history (PR that rotates + scrubs is pending — `git-filter-repo` follow-up). Real keys go in `.env` (gitignored) locally and in the PaaS dashboard in prod. `.env.example` documents the required names.
-- **Modify the LLM output format** without also updating `parse_guidance()` in `main.py`. The format has 12 structured sections (SAFETY LEVEL, WHAT'S HAPPENING, LIKELY CAUSES, WHAT YOU MIGHT NOTICE, IF YOU IGNORE THIS, QUICK CHECKS, DIY FIX, WHEN TO SEE A MECHANIC, ESTIMATED REPAIR COST, SERVICE RECOMMENDATIONS, KNOWN ISSUES FOR THIS ENGINE, OTHER OWNERS REPORT). The iOS app parses these field-by-field; format drift breaks production.
-- **Drop or merge `research_scans` into `scans`.** When the `research_scans` table is added (Stream A), it's parallel to the legacy `scans` table by design. `scans` is the production-quality log; `research_scans` is the training-data capture with explicit consent flag. Different audiences, different retention, do not unify.
-- **Push directly to `main`.** Feature branch, PR, Austin reviews.
-- **Break existing API endpoints.** Real TestFlight users are hitting them. Additive changes only; deprecate before remove.
+## Commands
 
-### Always
-
-- Treat the production backend as live. No breaking changes to endpoints in `main.py`.
-- Match the existing prompt-construction pattern when extending the LLM pipeline. The structured output format is what the iOS app expects.
-- Use environment variables for secrets. `.env.example` should document required keys (without values).
-- When making a load-bearing decision, log it in `notes/decisions.md` (create the file if it doesn't exist).
-
----
-
-## Repo at a glance
-
-```
-/
-├── main.py                  FastAPI app · 21 endpoints · ~76 KB
-├── ollama_client.py         ONLY LLM client · posts to gemma4:e4b · /api/chat
-│                            OLLAMA_HOST env var (default 100.100.254.15 over Tailscale;
-│                            prod on A4500 uses localhost)
-├── database.py              SQLite · scans + research_scans (parallel tables by design)
-├── schemas.py               Pydantic models (minimal)
-├── vehicle_data.py          CarsXE + Auto.dev · keys via os.environ (python-dotenv)
-├── code_scraper.py          CarComplaints / RepairPal (OBD-Codes was removed in PR #5)
-├── forum_scraper.py         Reddit scraper
-├── knowledge.py             NHTSA Complaints API + known_issues.json
-├── obd_reader.py            python-obd / ELM327 Bluetooth
-├── known_issues.json        seed knowledge (15 vehicle entries)
-├── scrape_training_data.py  v2 corpus builder (300 vehicles × 50 codes × 5 sources)
-├── backfill_reddit.py       Reddit-only re-run with broader query strategy
-├── backfill_carcomplaints.py  CarComplaints-only re-fetch for vehicles hit by .title() bug
-├── corpus_stats.py          one-shot stats over training_data/raw/
-├── GLC300_INVESTIGATION.md  source-coverage diagnostic (April)
-├── .env.example             required env vars (no values)
-├── ios/                     Swift app · TestFlight beta
-├── index.html, sw.js, manifest.json    vestigial PWA, served at /
-├── .claude/
-│   ├── agents/              5 council subagents (Contrarian / Executor / etc.)
-│   └── commands/            /council slash command
-├── notes/                   decisions.md and council/decisions/ live here
-└── ml/                      PLANNED · created in Stream B · has its own CLAUDE.md
+```bash
+uvicorn main:app --reload     # backend, local
+pytest test_api.py            # API tests
+python test_adapter.py        # OBD adapter tests
 ```
 
-When `ml/` exists, its `CLAUDE.md` takes precedence inside `ml/` for fine-tuning operational rules. This root doc covers backend + cross-cutting concerns.
+Deploy: `cd /home/abrennan/cleardrive && git pull && sudo systemctl restart cleardrive`
 
----
+## Repo notes
 
-## The council
+- `ml/` exists — training code, configs, notes. See `ml/CLAUDE.md`.
+- `nixpacks.toml` and `Procfile` are vestiges of a prior PaaS deploy. Not load-bearing; leave alone.
+- `knowledge.py` contains working NHTSA and local-KB retrieval that **is never called** from `/interpret`. Wiring it in is queued work, not a bug to fix opportunistically.
 
-Five strategic-thinking subagents are defined in `.claude/agents/`: Contrarian, Executor, Expansionist, First Principles, Outsider.
+## Work model
 
-Convene the full council via `/council "<question>"` for irreversible decisions, major artifact reviews, or pre-mortems. Do not convene for execution work, bug fixes, or quick clarifications.
+Work arrives as numbered execution briefs, pasted per session. One brief = one session = one branch = one PR. Invoke the `brief-executor` skill when starting one.
 
-Individual personas are invokable directly:
+## Research integrity
 
-```
-Agent(subagent_type="executor", prompt="Gut-check this timeline: ...")
-```
+Anything touching `ml/` or scoring scripts affects published results. Held-out splits are by platform, not by example. Training input format must stay byte-identical to the production prompt assembler.
 
-Council verdicts are written to `notes/council/decisions/YYYY-MM-DD--<slug>.md`. Austin makes the actual decision after reading the synthesis.
+## Where things live
 
----
-
-## Settled decisions (as of 2026-05-10)
-
-These are committed. Don't relitigate without escalating.
-
-- **Repo layout:** same repo, `ml/` subdirectory for fine-tune work (rather than separate ML repo)
-- **Hardware:** training on RTX 5090 desktop (Blackwell, sm_120, 32 GB); inference on RTX A4500 Linux server (Ampere, sm_86, 20 GB)
-- **Model:** Gemma 4 E4B (Apache 2.0)
-- **Default training method:** QLoRA r=128 — 16-bit LoRA is on the table given 32 GB VRAM, open decision
-- **Install path:** Unsloth Studio, not pypi `unsloth` (needs Blackwell kernels and the KV-share bug patches)
-- **Attention:** always `attn_implementation="sdpa"` for Gemma 4 (FA2 rejects head_dim > 256 in hybrid global layers)
-- **Chat template:** pull from `tokenizer.apply_chat_template()` at runtime — never hand-roll
-- **Reflection LM for GEPA:** Claude Opus 4.7 via OpenRouter (must NOT be any of the 5 eval-condition models)
-- **Frontend:** iOS is the product. PWA is vestigial but kept as a low-cost browser fallback.
-- **Orchestration:** Austin uses Claude web (orchestrator with persistent context) for strategy and Claude Code (this surface, with subagents) for execution. Council convenes for council-worthy decisions only.
-
-Full history will live in `notes/decisions.md` once Stream A creates it.
-
----
-
-## Workflow expectations
-
-- **Feature branches and PRs.** Don't push to `main`. Austin reviews.
-- **Tests:** `test_adapter.py` (OBD adapter) and `test_api.py` (API smoke tests) exist. Run them when touching OBD or API code.
-- **Deployment:** systemd unit (`cleardrive.service`) on the A4500. `nixpacks.toml` and `Procfile` are leftover from the prior PaaS attempt and are no longer load-bearing — safe to ignore unless you're considering re-introducing a PaaS path. Code updates: `cd /home/abrennan/cleardrive && git pull && sudo systemctl restart cleardrive`.
-- **Secrets:** environment variables only. Never `.env` files committed. `.env.example` documents required keys without values.
-- **Long context:** when a task is design-heavy (schema changes, methodology decisions), check `notes/decisions.md` first to avoid relitigating. When unsure, ask Austin.
-
----
-
-## When stuck
-
-1. Check `notes/decisions.md` for prior commitments.
-2. Read the relevant existing code — `main.py`'s prompt construction is the canonical source for output format, `database.py` is the canonical source for schema patterns, `ollama_client.py`'s system message is the canonical source for system-prompt expectations.
-3. If still ambiguous, ask Austin. Don't guess at design decisions on a research project — the wrong call here is much more expensive than the round trip of a clarifying question.
-
----
-
-*Maintained at the repo root. Last updated 2026-05-18 (Groq cut, env-var migration, CarComplaints fix, A4500 Ollama live + /api/chat switch + OLLAMA_HOST env var, FastAPI deployed on A4500, Cloudflare Tunnel live at api.cleardriveapp.com).*
+- `notes/decisions.md` — the decision log
+- `.claude/rules/` — path-scoped, load only when touching matching files
+- `.claude/skills/` — procedures, loaded on demand
+- `.claude/agents/` — five-instance strategic council (`/council`)
