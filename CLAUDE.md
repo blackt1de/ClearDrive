@@ -48,7 +48,7 @@ None of the above is implemented. Do not write code that assumes it is.
 4. Write `research_scans` rows into `scans` or vice versa. Parallel tables by design, different audiences.
 5. Break an existing API endpoint without a migration path. Old iOS builds hit them.
 6. Invent manufacturer PIDs, module addresses, or scaling formulas. These come only from versioned files with `source` and `verified_by`.
-7. Add scrapers or new scraped sources.
+7. **Put scraped content in a prompt.** Per-request live scraping makes prompt content depend on what a website said that day, so a baseline is not reproducible and eval arms are not comparable across time. Reddit is deleted from `/interpret`; OBD-Codes / CarComplaints / RepairPal are gated OFF behind `ENABLE_SCRAPED_CODE_CONTEXT` (default `0`) and get deleted when their sourced replacements land (SAE J2012 + manufacturer definitions; NHTSA + platform KB). Do not add scrapers or new scraped sources. **The corpus half of this rule is OPEN** — see `[OPEN] Scraped content in the training corpus` in `notes/decisions.md`. `training_data/raw/` is built from scraped sources and `ml/CLAUDE.md` marks it read-only source of truth; extending the ban to the corpus invalidates it and the ETL design. Decide before the synthesis run.
 8. Hardcode secrets, IPs, or hostnames. Use `os.environ`.
 9. `git push --force`, or amend a pushed commit.
 

@@ -2,6 +2,55 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Brief 1a — truth fixes in `/interpret` — 2026-07-27
+Context: `/interpret` substituted invented telemetry for missing measurements, instructed the
+  model to recall TSBs and known issues from its weights, logged demo/mock scans into
+  `research_scans`, and injected live-scraped web content into the prompt.
+Decision, all landed on `brief-1a-truth-fixes`:
+  1. Missing telemetry is `null`, never a substitute. `is not None`, not truthiness — the old
+     `if snapshot.rpm else 750` turned 0 RPM (engine off) into a warm idle and 0 F coolant
+     into 205 F. Verified safe for clients: `APIClient.swift:915-917` already declares `Int?`,
+     `index.html:1901-1916` already null-checks. No schema or iOS change.
+  2. Recall instructions deleted from both prompt paths. `KNOWN ISSUES` in each is now
+     "use ONLY sourced material above; if none, say no verified issue history was available."
+     With retrieval not yet wired (1b), that sentence is the expected output — correct per the
+     governing principle: a generic answer beats a confidently wrong known issue.
+  3. Mock/demo scans no longer reach `research_scans`. Gate is `snapshot.is_mock`, not the
+     `obd_source` string — `obd_source` has two demo spellings and its client-supplied value
+     is unvalidated, so it cannot carry the decision. `ClientSnapshot` grew `is_mock = False`.
+  4. Reddit deleted from `/interpret`; `code_scraper` (OBD-Codes / CarComplaints / RepairPal)
+     gated behind `ENABLE_SCRAPED_CODE_CONTEXT`, default off. `forum_scraper.py` stays on disk
+     because `scrape_training_data.py:75` imports its primitives.
+  5. `log_research_scan` reads telemetry off the snapshot, not out of `response_data`.
+Rationale for removing scrapers: reproducibility, not ToS. Per-request live scraping makes
+  prompt content depend on what a website said that day, so a baseline is not reproducible and
+  eval arms are not comparable across time. Fatal at WESEF independent of copyright exposure.
+Contamination audit — **no quarantine needed.** Production
+  `/home/abrennan/cleardrive/cleardrive.db` (confirmed via `WorkingDirectory` in
+  `cleardrive.service`; `DB_FILE` is a relative path) holds **0 rows in `research_scans` and
+  0 in `scans`**. Tables exist from startup init; nothing was ever logged. Dev-tree snapshots
+  hold 2 `scans` rows and no `research_scans` table at all. Every fix above is prophylactic.
+Corpus provenance — **the fine-tuning corpus is generated offline, not harvested from
+  production.** Nothing outside `database.py` reads `research_scans`. The corpus is
+  `training_data/raw/` built by `scrape_training_data.py`, then Opus-4.7-distilled per
+  `ml/notes/synthesis_design.md`. The "production output becomes training data" argument used
+  to justify sequencing does **not** hold today. `research_scans` is eval/telemetry
+  infrastructure that is *designed* to become training data later (see its docstring), so the
+  fixes remain correct — but the urgency claim was overstated and is withdrawn.
+Supersedes: nothing. Extends Never #7 in `CLAUDE.md`.
+
+## [OPEN] Scraped content in the training corpus
+The prompt-path ban on scraped content is settled (Never #7). The corpus half is not.
+`training_data/raw/` (marked read-only source of truth in `ml/CLAUDE.md`) is built from Reddit,
+RepairPal, CarComplaints, and NHTSA by `scrape_training_data.py`, and
+`ml/notes/synthesis_design.md` sources `OTHER OWNERS REPORT` from Reddit data. Applying the ban
+to the corpus invalidates both the existing corpus and the ETL synthesis design.
+Blocked on: a decision about whether the reproducibility argument that removed scrapers from
+  the prompt applies with equal force to a one-time frozen corpus snapshot — where the
+  "depends on what a website said that day" objection is weaker, since the corpus is fixed and
+  hashable, but the provenance objection stands.
+Must be settled before the synthesis run.
+
 ## [DECIDED] Pivot to Qwen MoE — 2026-07-27
 Context: Gemma 4 26B-A4B was locked 2026-05-23 (below) on VRAM headroom. Since then the
   decision has been revisited on training-ecosystem grounds: Qwen MoE has substantially

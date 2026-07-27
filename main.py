@@ -1,3 +1,4 @@
+import os
 import random
 import re
 import urllib.parse
@@ -23,9 +24,30 @@ from database import (
 from obd_reader import get_reader, connect_obd
 from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context, decode_obd_codes_batch, format_engine_string, format_transmission_string, format_drive_string
 from code_scraper import get_code_info, format_code_context
-from forum_scraper import scrape_reddit_fallback, format_reddit_context
 
 app = FastAPI(title="ClearDrive", version="0.7.0")
+
+# =============================================================================
+# SCRAPED-CONTENT FLAGS
+# =============================================================================
+# Per-request live scraping makes prompt content depend on what a website said
+# that day, so a baseline is not reproducible and eval arms are not comparable
+# across time. Scraped context is therefore being removed from the prompt path.
+#
+# Reddit (forum_scraper) is already gone from /interpret — worst provenance,
+# uncitable in an evidence pointer. forum_scraper.py itself stays because
+# scrape_training_data.py:75 imports its primitives.
+#
+# OBD-Codes / CarComplaints / RepairPal (code_scraper) are gated OFF here and
+# get deleted once their sourced replacements land: SAE J2012 + a manufacturer
+# definitions table for code semantics, NHTSA complaints + the platform KB for
+# vehicle-specific failure patterns. Both replacements carry source and
+# retrieved_at; nothing is lost.
+#
+# The flag exists only so the old path can be re-enabled for a controlled
+# A/B against the replacement. It must stay OFF in any run that produces
+# published numbers.
+ENABLE_SCRAPED_CODE_CONTEXT = os.environ.get("ENABLE_SCRAPED_CODE_CONTEXT", "0") == "1"
 
 app.add_middleware(
     CORSMiddleware,
@@ -1123,6 +1145,10 @@ async def interpret(request: InterpretRequest):
                 self.rpm = rpm
                 self.speed_mph = speed
                 self.coolant_temp_f = coolant
+                # Real data off a real vehicle. Mirrors OBDSnapshot.is_mock so
+                # the research-logging gate below can test one attribute for
+                # every snapshot type instead of string-matching obd_source.
+                self.is_mock = False
 
         snapshot = ClientSnapshot(
             codes=request.client_codes,
@@ -1234,9 +1260,15 @@ async def interpret(request: InterpretRequest):
         "mpg_combined": vehicle_data.get("mpg_combined", "") if vehicle_data else "",
         "tank_capacity": vehicle_data.get("tank_capacity", "") if vehicle_data else "",
         "horsepower": vehicle_data.get("horsepower", "") if vehicle_data else "",
-        "rpm": int(snapshot.rpm) if snapshot.rpm else 750,
-        "speed": int(snapshot.speed_mph) if snapshot.speed_mph else 0,
-        "coolant_temp": int(snapshot.coolant_temp_f) if snapshot.coolant_temp_f else 205,
+        # A measurement we do not have is null, never a plausible-looking
+        # substitute. `is not None` (not truthiness) is load-bearing: 0 RPM is
+        # a real reading meaning the engine is not running, and the previous
+        # `if snapshot.rpm else 750` rendered it as a warm idle. Likewise 0 F
+        # coolant became 205 F. Clients already treat these as optional —
+        # APIClient.swift:915-917 declares Int?, index.html:1901-1916 null-checks.
+        "rpm": int(snapshot.rpm) if snapshot.rpm is not None else None,
+        "speed": int(snapshot.speed_mph) if snapshot.speed_mph is not None else None,
+        "coolant_temp": int(snapshot.coolant_temp_f) if snapshot.coolant_temp_f is not None else None,
         "safety_level": "SAFE",
         "safety_meaning": SAFETY_DEFINITIONS["SAFE"]["meaning"],
         "safety_description": SAFETY_DEFINITIONS["SAFE"]["description"],
@@ -1285,9 +1317,11 @@ SERVICE RECOMMENDATIONS:
 - Service notes: [One sentence about any special maintenance for this engine]
 
 KNOWN ISSUES:
-Even though no codes are present, list 2-3 common issues that owners of this SPECIFIC vehicle/engine should watch out for.
-Examples: "2.0T engines may develop oil consumption after 60k miles", "DSG transmissions benefit from fluid changes every 40k", etc.
-Be specific to this exact model year and engine - don't give generic advice.
+Use ONLY sourced material provided above in this prompt. Do not add known issues,
+recalls, technical service bulletins, or failure patterns from your own knowledge —
+not even ones you are confident about.
+If no sourced material about this vehicle was provided above, write exactly this sentence
+and nothing else: No verified issue history was available for this vehicle.
 
 RULES:
 - Use simple language
@@ -1364,43 +1398,36 @@ RULES:
         if "CarsXE OBD" not in response_data["data_sources"]:
             response_data["data_sources"].append("CarsXE OBD")
     
-    # Get code info from reliable sources
-    code_context = ""
     make = vehicle_data.get("make", "") if vehicle_data else ""
     model = vehicle_data.get("model", "") if vehicle_data else ""
     year = vehicle_data.get("year", "") if vehicle_data else ""
     engine_str = response_data.get("engine", "")
-    
-    for code in codes_list[:2]:
-        # Pass trim and engine for personalized code info
-        code_info = await get_code_info(code, make, model, year, trim, engine_str)
-        
-        if code_info:
-            ctx = format_code_context(code_info, vehicle_str, trim, engine_str)
-            if ctx:
-                code_context += ctx + "\n\n"
-                
-                if code_info.get("obd_codes"):
-                    if "OBD-Codes.com" not in response_data["data_sources"]:
-                        response_data["data_sources"].append("OBD-Codes.com")
-                if code_info.get("car_complaints"):
-                    if "CarComplaints.com" not in response_data["data_sources"]:
-                        response_data["data_sources"].append("CarComplaints.com")
-                if code_info.get("repairpal"):
-                    if "RepairPal.com" not in response_data["data_sources"]:
-                        response_data["data_sources"].append("RepairPal.com")
-    
-    # Get Reddit data
-    reddit_context = ""
-    if make and model:
-        for code in codes_list[:1]:
-            reddit_data = await scrape_reddit_fallback(code, make, model, year)
-            reddit_ctx = format_reddit_context(reddit_data)
-            if reddit_ctx:
-                reddit_context = reddit_ctx
-                if "Community Forums" not in response_data["data_sources"]:
-                    response_data["data_sources"].append("Community Forums")
-    
+
+    # Scraped code context — OFF by default, see ENABLE_SCRAPED_CODE_CONTEXT.
+    # Note this also truncates to the first 2 codes; the replacement retrieval
+    # path must either cover every code or record that it truncated.
+    code_context = ""
+    if ENABLE_SCRAPED_CODE_CONTEXT:
+        for code in codes_list[:2]:
+            # Pass trim and engine for personalized code info
+            code_info = await get_code_info(code, make, model, year, trim, engine_str)
+
+            if code_info:
+                ctx = format_code_context(code_info, vehicle_str, trim, engine_str)
+                if ctx:
+                    code_context += ctx + "\n\n"
+
+                    if code_info.get("obd_codes"):
+                        if "OBD-Codes.com" not in response_data["data_sources"]:
+                            response_data["data_sources"].append("OBD-Codes.com")
+                    if code_info.get("car_complaints"):
+                        if "CarComplaints.com" not in response_data["data_sources"]:
+                            response_data["data_sources"].append("CarComplaints.com")
+                    if code_info.get("repairpal"):
+                        if "RepairPal.com" not in response_data["data_sources"]:
+                            response_data["data_sources"].append("RepairPal.com")
+
+
     # Build the diagnostic prompt with DEEP vehicle context
     # NOTE: Structure is important to prevent prompt leakage with smaller models
     # Instructions go at START, output format in MIDDLE, data at END
@@ -1431,9 +1458,6 @@ Vehicle specifics:
 - Performance tier: {engine_profile.get('performance_tier', 'standard')}
 
 CRITICAL: Your analysis must be UNIQUE to this car. Think about:
-- What is the MOST COMMON reason this specific make/model/engine triggers this code?
-- Are there any TSBs (Technical Service Bulletins) or recalls related to this code on this vehicle?
-- What parts on THIS engine are known to fail and could cause this code?
 - How does this car's specific engine design (turbo, NA, V6, I4, etc.) affect the diagnosis?
 - What would a mechanic who specializes in {response_data.get('vehicle', 'this brand').split()[1] if len(response_data.get('vehicle', '').split()) > 1 else 'this brand'} check first?
 
@@ -1545,8 +1569,6 @@ List 5 possible causes for THIS specific vehicle ({vehicle_str_with_trim} with {
 4. [Fourth cause] - Simple explanation
 5. [Fifth cause] - Simple explanation
 
-Prioritize causes that are KNOWN to affect this make/model/engine. If other owners of this same vehicle commonly report this code, mention that!
-
 WHAT YOU MIGHT NOTICE:
 List 4 things the driver might experience:
 1. [What they'll feel/hear/see] - Why this happens
@@ -1604,18 +1626,17 @@ Based on this specific vehicle, provide:
 Be specific to the vehicle - European cars often need specific oil specs, turbos need synthetic, older cars might use conventional.
 
 KNOWN ISSUES FOR THIS ENGINE:
-Write 2-3 sentences about common issues that owners of this SPECIFIC vehicle/engine should know about.
-If the data above contains trim-specific issues from CarComplaints.com, include those.
-Also include your knowledge of common issues for this model year and engine.
-Examples: "This engine is known for...", "Owners commonly report...", "TSB issued for..."
-Be specific to this exact vehicle - not generic advice."""
+Use ONLY sourced material provided above in this prompt. Do not add known issues,
+recalls, technical service bulletins, or failure patterns from your own knowledge —
+not even ones you are confident about.
+If no sourced material about this vehicle was provided above, write exactly this sentence
+and nothing else: No verified issue history was available for this vehicle.
+"""
 
-    if reddit_context:
-        prompt += f"""
-
-OTHER OWNERS REPORT:
-Based on community data, write 2-3 sentences about what owners of similar vehicles experienced:
-{reddit_context}"""
+    # OTHER OWNERS REPORT section removed with the Reddit scraper. The
+    # owner_reports key stays in parse_guidance() and in response_data (as "")
+    # so the 12-section contract and every existing client are unchanged.
+    # It gets repopulated from NHTSA complaints in the retrieval work.
 
     # End marker to help model know where to stop
     prompt += """
@@ -1671,23 +1692,36 @@ Based on community data, write 2-3 sentences about what owners of similar vehicl
     #   - Pass real user_id_hash from the request once iOS sends one.
     #   - Pass ab_bucket once the assignment logic exists.
     #   - Pass consent_version once the onboarding screen ships.
-    log_research_scan(
-        model_version="gemma4-e4b-base",
-        vehicle_id=request.vehicle_id,
-        trim=trim,
-        vehicle_profile=vehicle_data,
-        codes=codes_list,
-        rpm=response_data.get("rpm"),
-        speed_mph=response_data.get("speed"),
-        coolant_temp_f=response_data.get("coolant_temp"),
-        obd_source=obd_source,
-        prompt_text=prompt,
-        response_text=ai_response,
-        response_parsed=parsed,
-        safety_level=parsed["safety_level"],
-        had_error=False,
-        data_sources=response_data.get("data_sources"),
-    )
+    #
+    # Mock scans never enter the research record. get_mock_snapshot() picks a
+    # RANDOM scenario, so a demo row is a randomly generated DTC paired with
+    # whatever vehicle happened to be selected — an artifact of the demo path,
+    # not an observation. Gating on is_mock rather than on the obd_source
+    # string matters: obd_source has two distinct demo spellings and its
+    # client-provided value is unvalidated, so it cannot carry this decision.
+    if getattr(snapshot, "is_mock", False):
+        print("[Research] Skipping research log — mock/demo snapshot", flush=True)
+    else:
+        log_research_scan(
+            model_version="gemma4-e4b-base",
+            vehicle_id=request.vehicle_id,
+            trim=trim,
+            vehicle_profile=vehicle_data,
+            codes=codes_list,
+            # Straight off the snapshot, not out of response_data. These must
+            # stay NULL when the vehicle did not report them — a substituted
+            # value is indistinguishable from a measurement once it is a row.
+            rpm=int(snapshot.rpm) if snapshot.rpm is not None else None,
+            speed_mph=int(snapshot.speed_mph) if snapshot.speed_mph is not None else None,
+            coolant_temp_f=int(snapshot.coolant_temp_f) if snapshot.coolant_temp_f is not None else None,
+            obd_source=obd_source,
+            prompt_text=prompt,
+            response_text=ai_response,
+            response_parsed=parsed,
+            safety_level=parsed["safety_level"],
+            had_error=False,
+            data_sources=response_data.get("data_sources"),
+        )
 
     return response_data
 
