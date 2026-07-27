@@ -33,7 +33,7 @@ This is the target behavior, not current behavior. Today `/interpret` still asks
 
 ## Direction — decided, not yet built
 
-- **Target model: a Qwen MoE (~4B active).** Exact SKU still open. Note: `decisions.md` previously rejected Qwen3-30B-A3B on VRAM headroom (0.13 GB at 2048 ctx on 20 GB) and selected Gemma 4 26B-A4B; that decision has been superseded in favor of Qwen for training-ecosystem reasons, but **the VRAM constraint has not been re-measured.** Do not treat any SKU as pinned until a measured context budget exists.
+- **Target model family: Qwen MoE. Exact SKU is OPEN** — see `[DECIDED] Pivot to Qwen MoE — 2026-07-27` and `[OPEN] Canonical Qwen SKU` in `notes/decisions.md`. It supersedes the 2026-05-23 Gemma 4 26B-A4B lock on model family only. Constraints, all measured: **Qwen3-30B-A3B is ruled out** — 1.93 GB headroom against the measured ~6,500-token demand, below the 2 GB target (`notes/2026-05-23-production-context-size.md`). VRAM is set by **total** params, not active, so the SKU must be under 30B total. A **typical-case** context budget exists (~6,500 tokens = ~2,000–2,500 input + `num_predict=4000`), measured over 2 vehicles both P0420; **no worst-case budget exists**, and payload v2 + retrieval will push demand above 6,500. Do not pin a SKU by estimate.
 - Serving moves from Ollama to SGLang.
 - Output moves from string-parsed sections to a validated JSON contract.
 - Retrieval (NHTSA + platform KB) replaces model-recalled vehicle facts.

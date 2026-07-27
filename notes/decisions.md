@@ -2,6 +2,25 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Pivot to Qwen MoE — 2026-07-27
+Context: Gemma 4 26B-A4B was locked 2026-05-23 (below) on VRAM headroom. Since then the
+  decision has been revisited on training-ecosystem grounds: Qwen MoE has substantially
+  more public documentation, Unsloth support, and community fine-tuning precedent, which
+  matters more than a headroom margin for a solo project on a fixed deadline.
+Decision: target family is Qwen MoE. Exact SKU OPEN.
+Evidence and constraint: the 2026-05-23 re-measurement (notes/2026-05-23-production-context-size.md)
+  puts Qwen3-30B-A3B at 1.93 GB headroom against the measured ~6,500-token demand — below
+  the 2 GB target. That SKU is ruled out. Note that MoE active-parameter count does not
+  reduce VRAM; total parameters do. A Qwen MoE with fewer total params than 30B is required.
+  Existing budget is typical-case (2 vehicles, both P0420); no worst-case prompt has been
+  measured, and payload v2 + retrieval will raise demand above 6,500.
+Supersedes: [DECIDED] Gemma 4 26B-A4B + SGLang + Unsloth (2026-05-23) on model family only.
+  SGLang and Unsloth QLoRA decisions stand unchanged.
+
+## [OPEN] Canonical Qwen SKU
+Blocked on: (1) candidate SKUs under 30B total params, (2) a worst-case context measurement
+  including payload v2 and retrieval digest. Do not pin by estimate.
+
 ## 2026-05-23 — Model pivot: Gemma 4 E4B → Gemma 4 26B-A4B (MoE), local deployment
 
 ### Decision
