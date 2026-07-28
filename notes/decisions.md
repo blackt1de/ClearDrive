@@ -2,6 +2,42 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Rule coverage, cause/status split, M6 hard case, regression suite — 2026-07-28
+Follows the payload-v2 entry below.
+- **New rules.** `rule_oxygen_sensor` separates a failed sensor from one correctly
+  reporting a real fuelling fault — when trims corroborate the sensor, the finding says
+  replacing it will not fix anything, which is the expensive misdiagnosis it exists to
+  prevent. `rule_unmatched_codes` guarantees a code with no rule is still named, so the
+  response never implies a code was considered when it was not.
+- **Rules take a vehicle context** (`analyze(snapshot, vehicle, engine_profile)`). Used
+  only for configuration facts that change which physical checks are possible — a boost
+  leak requires an engine that makes boost. It is NOT a channel for platform lore;
+  nothing asserts what fails on a given make.
+- **Bank-specific lean that worsens under load** now yields a second finding: a vacuum
+  leak fades as airflow rises, so the opposite pattern points at fuel delivery or a
+  post-turbo leak.
+- **`Finding.kind`: `cause` vs `status`.** Pending/permanent codes are facts about the
+  codes, not causes. Mixed together, the model numbered "there are permanent codes" as a
+  likely cause. Carried separately in the response as `code_status`.
+- **`all_checks()` de-duplicates** recommended checks across rules. Two rules sharing a
+  check made the model repeat it verbatim, correctly, because it was told not to omit.
+- **`ESTIMATED REPAIR COST` regression.** Anchoring header matching lost this section:
+  the old substring match saw "REPAIR COST" inside it, prefix matching does not, and the
+  header was absent from `section_map`. Added, plus a test asserting every header the
+  prompt emits resolves — this class of bug is silent by construction.
+- **`num_predict` 1600 → 2800.** A 7-finding differential truncated mid-sentence.
+- **`test_diagnostics.py`**, 16 tests, offline, no model or network. The repo previously
+  had no real test of this layer (`test_api.py` is an ad-hoc script that GETs
+  fueleconomy.gov). Runs under pytest or standalone.
+- **New fixture `m6-2014-bank1-lean-misfire-hard`** — 2014 BMW M6 4.4L twin-turbo, seven
+  codes across four systems, built so each code read alone points somewhere different
+  from all of them read together.
+
+Measured on that fixture: prompt ~5,100 tokens, response ~1,400, **12/12 sections**.
+Reinforces `[OPEN] Canonical Qwen SKU` — worst case is now ~5,100 input + ~2,800
+`num_predict` ≈ 7,900 tokens, above the ~6,500 the existing budget assumed, and the
+UDS/P1xxx work will push it further.
+
 ## [DECIDED] Payload v2, rule engine, tiered code definitions, retrieval — 2026-07-28
 Landed on `brief-1a-truth-fixes` after 1a. Six pieces:
   1. **Parser fixed.** `parse_guidance` matched headers as substrings against every line,

@@ -183,6 +183,12 @@ def parse_guidance(response: str) -> dict:
         "MECHANIC URGENCY": "urgency",
         "WHEN TO SEE": "urgency",
         "SEE A MECHANIC": "urgency",
+        # "ESTIMATED REPAIR COST" must be listed explicitly. Anchored prefix
+        # matching does not see "REPAIR COST" inside it the way the old
+        # substring matching did, and the prompt emits the longer form — so
+        # without this entry the section parses as empty. test_diagnostics.py
+        # asserts every header the prompt emits resolves, so this cannot recur.
+        "ESTIMATED REPAIR COST": "repair_cost",
         "REPAIR COST": "repair_cost",
         "ESTIMATED COST": "repair_cost",
         "COST ESTIMATE": "repair_cost",
@@ -785,18 +791,18 @@ async def demo_scenario(name: str):
         "snapshot": snap.model_dump(mode="json"),
         "resolved_definitions": dtc_definitions.resolve_all([c.code for c in snap.dtc_codes]),
         "analysis": {
-            "derived": diagnostics.analyze(snap).derived,
+            "derived": diagnostics.analyze(snap, s["vehicle"]).derived,
             "findings": [
                 {"rule": f.rule_id, "conclusion": f.conclusion,
                  "confidence": f.confidence, "basis": f.basis,
                  "evidence": [{"pointer": e.pointer, "restatement": e.restatement}
                               for e in f.evidence],
                  "next_checks": f.next_checks}
-                for f in diagnostics.analyze(snap).findings
+                for f in diagnostics.analyze(snap, s["vehicle"]).findings
             ],
             "not_assessed": [
                 {"rule": a.rule_id, "reason": a.reason, "missing": a.missing}
-                for a in diagnostics.analyze(snap).abstentions
+                for a in diagnostics.analyze(snap, s["vehicle"]).abstentions
             ],
         },
     }
@@ -1599,15 +1605,22 @@ RULES:
     # testable. Rules abstain with a stated reason rather than guess, and the
     # abstentions are carried into the prompt so the model reports what could
     # not be seen instead of quietly filling the gap.
-    analysis = diagnostics.analyze(snapshot)
+    analysis = diagnostics.analyze(snapshot, vehicle_data, engine_profile)
     response_data["differential"] = [
         {
             "rule": f.rule_id, "conclusion": f.conclusion, "confidence": f.confidence,
             "basis": f.basis, "next_checks": list(f.next_checks),
             "evidence": [{"pointer": e.pointer, "restatement": e.restatement} for e in f.evidence],
         }
-        for f in analysis.findings
+        for f in analysis.causes
     ]
+    # Status findings (pending/permanent codes) are facts about the codes, not
+    # causes of the fault, and are carried separately so no client renders them
+    # as a diagnosis.
+    response_data["code_status"] = [
+        {"rule": f.rule_id, "conclusion": f.conclusion} for f in analysis.statuses
+    ]
+    response_data["recommended_checks"] = analysis.all_checks()
     response_data["not_assessed"] = [
         {"rule": a.rule_id, "reason": a.reason, "missing": list(a.missing)}
         for a in analysis.abstentions
@@ -1799,12 +1812,16 @@ Explain in 4-5 simple sentences that anyone can understand:
 - Reassure them if it's not serious, or be honest if it is
 
 LIKELY CAUSES:
-Restate the computed differential above, in order, one numbered item each.
-For every item: say what the part does in plain words, then give the measurement
-that points at it, using the evidence line already provided.
-Do NOT add causes that are not in the computed differential. Do NOT reorder it.
-If the differential is empty, write one line saying the available evidence does
-not narrow this down, and list what would be needed to narrow it — nothing else.
+This section lists CAUSES ONLY. Items under "COULD NOT BE ASSESSED" are not causes
+and must never be numbered here — they belong in WHAT'S HAPPENING as things that
+could not be checked.
+If the DIFFERENTIAL section above has entries: restate them in order, one numbered
+item each. For every item say what the part does in plain words, then give the
+measurement that points at it, using the evidence line already provided. Add no
+causes of your own and do not reorder them.
+If the DIFFERENTIAL section is empty or absent: write only this single sentence and
+nothing else, with no numbered list at all — The available evidence does not narrow
+this down to a specific cause.
 
 WHAT YOU MIGHT NOTICE:
 List 4 things the driver might experience:
@@ -1821,10 +1838,10 @@ Explain what could happen if they don't fix it:
 - Any safety concerns
 
 QUICK CHECKS:
-Use the "check:" lines from the computed diagnosis above. Rewrite each as a step
-anyone could follow without special tools, in the same order. If a check needs
-equipment a driver will not have, say who should do it instead. Add nothing that
-is not in those lines.
+Use the RECOMMENDED CHECKS list above. It is already de-duplicated: reproduce it in
+order, each item exactly once, never repeating one. Rewrite each as a step a driver
+could follow, and where a check needs equipment they will not have, say who should
+do it instead. Add nothing that is not in that list.
 
 DIY FIX:
 If this is something a beginner/intermediate DIYer could realistically fix at home, provide:

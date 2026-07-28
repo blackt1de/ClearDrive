@@ -71,7 +71,10 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
                     "stream": False,
                     "options": {
                         "temperature": 0.2,
-                        "num_predict": 1600,
+                        # A rich differential (7+ findings on a multi-system fault)
+                        # needs room; at 1600 the M6 case truncated mid-sentence
+                        # inside ESTIMATED REPAIR COST, losing the last 4 sections.
+                        "num_predict": 2800,
                         # num_ctx MUST be set explicitly. Ollama defaults it to
                         # 4096, and the payload-v2 prompt (vehicle context +
                         # tiered code definitions + computed differential +

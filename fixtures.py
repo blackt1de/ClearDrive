@@ -307,6 +307,77 @@ _register(
 )
 
 
+# --- 10. Hard case: multi-system fault on a twin-turbo V8 --------------------
+# Deliberately difficult. Six codes across four systems, where the naive reading
+# of each code in isolation leads somewhere different from the reading of all of
+# them together:
+#   - bank 1 lean, bank 2 clean            -> not a shared component
+#   - bank 1 leaner under LOAD than idle   -> not a vacuum leak (those fade)
+#   - misfires only on bank 1 cylinders    -> consistent with the lean bank
+#   - an O2 code the trims corroborate     -> the sensor is telling the truth
+#   - P052E and a P1xxx with no definition -> must be named, never guessed
+# The trap is replacing the oxygen sensor, or chasing a vacuum leak that the
+# load behaviour rules out.
+_register(
+    "m6-2014-bank1-lean-misfire-hard",
+    "2014 BMW M6 4.4L twin-turbo V8. Six codes across four systems: bank 1 lean and "
+    "getting worse under boost, misfires confined to bank 1 cylinders, an oxygen "
+    "sensor code the fuel trims corroborate, plus a crankcase-ventilation code and a "
+    "manufacturer-specific code with no verified definition.",
+    _vehicle(2014, "BMW", "M6", "4.4L V8 Twin-Turbo", 4.4, 8, "7-Speed M-DCT", "RWD",
+             turbo=True, hp="560"),
+    "Base",
+    OBDSnapshot(
+        dtc_codes=[
+            DTCCode(code="P0171", description="System Too Lean (Bank 1)"),
+            DTCCode(code="P0300", description="Random/Multiple Cylinder Misfire Detected"),
+            DTCCode(code="P0302", description="Cylinder 2 Misfire Detected"),
+            DTCCode(code="P0304", description="Cylinder 4 Misfire Detected"),
+            DTCCode(code="P0133", description="O2 Sensor Circuit Slow Response (Bank 1 Sensor 1)"),
+            DTCCode(code="P052E", description=""),
+            DTCCode(code="P1497", description=""),
+        ],
+        pending_codes=[DTCCode(code="P0301", description="", status="pending")],
+        permanent_codes=[DTCCode(code="P0300", description="", status="permanent")],
+        rpm=742.0, speed_mph=0.0, coolant_temp_f=208.0, engine_load_pct=22.0,
+        intake_air_temp_f=104.0, maf_rate_gs=6.8, control_module_voltage=14.2,
+        fuel_trims=[
+            # Bank 1 is lean and gets WORSE under load — the opposite of a vacuum
+            # leak, which is diluted as airflow rises. Bank 2 is clean throughout.
+            FuelTrim(condition="idle", stft_bank1=6.4, ltft_bank1=12.1,
+                     stft_bank2=1.1, ltft_bank2=1.9),
+            FuelTrim(condition="loaded", stft_bank1=8.2, ltft_bank1=14.6,
+                     stft_bank2=0.8, ltft_bank2=2.2),
+        ],
+        freeze_frames=[
+            FreezeFrame(
+                dtc="P0300", rpm=3448.0, engine_load_pct=84.2, coolant_temp_f=207.0,
+                speed_mph=62.0, intake_air_temp_f=118.0, maf_rate_gs=71.4,
+                stft_bank1=8.5, ltft_bank1=14.2, stft_bank2=0.9, ltft_bank2=2.1,
+            ),
+            FreezeFrame(
+                dtc="P0171", rpm=3390.0, engine_load_pct=81.0, coolant_temp_f=206.0,
+                speed_mph=59.0, intake_air_temp_f=116.0,
+                stft_bank1=8.1, ltft_bank1=14.4, stft_bank2=1.0, ltft_bank2=2.0,
+            ),
+        ],
+        mode06=[
+            Mode06Test(mid="0x21", tid="0x80", name="Catalyst Monitor Bank 1 Switch Ratio",
+                       value=0.44, max_limit=0.75, units="ratio", passed=True),
+            Mode06Test(mid="0x22", tid="0x80", name="Catalyst Monitor Bank 2 Switch Ratio",
+                       value=0.41, max_limit=0.75, units="ratio", passed=True),
+            Mode06Test(mid="0xA2", tid="0x0B", name="Misfire Cylinder 2 Data",
+                       value=187.0, max_limit=100.0, units="counts", passed=False),
+            Mode06Test(mid="0xA4", tid="0x0B", name="Misfire Cylinder 4 Data",
+                       value=142.0, max_limit=100.0, units="counts", passed=False),
+        ],
+        mileage=78_400,
+        capability=CapabilityProfile(**FULL_CAPABILITY),
+        is_mock=True, fixture_name="m6-2014-bank1-lean-misfire-hard",
+    ),
+)
+
+
 def list_scenarios() -> list:
     return [
         {"name": s["name"], "description": s["description"],

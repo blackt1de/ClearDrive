@@ -54,6 +54,11 @@ class Finding:
     evidence: list = field(default_factory=list)
     next_checks: list = field(default_factory=list)
     basis: str = "heuristic"   # "heuristic" | "manufacturer_limit" | "structural"
+    # "cause" explains why the fault is happening; "status" is a fact about the
+    # codes themselves (pending, permanent) that changes urgency but is not a
+    # cause. Mixing them made the model number "there are permanent codes" as a
+    # likely cause of the fault.
+    kind: str = "cause"
 
 
 @dataclass
@@ -69,6 +74,29 @@ class DiagnosticResult:
     findings: list = field(default_factory=list)
     abstentions: list = field(default_factory=list)
 
+    @property
+    def causes(self) -> list:
+        return [f for f in self.findings if f.kind == "cause"]
+
+    @property
+    def statuses(self) -> list:
+        return [f for f in self.findings if f.kind == "status"]
+
+    def all_checks(self) -> list:
+        """Every recommended check, de-duplicated, in first-seen order.
+
+        Two rules often recommend the same physical check; without this the
+        model faithfully repeats it, because it was told not to invent and not
+        to omit.
+        """
+        seen, out = set(), []
+        for f in self.findings:
+            for c in f.next_checks:
+                if c not in seen:
+                    seen.add(c)
+                    out.append(c)
+        return out
+
     def to_prompt_block(self) -> str:
         lines = []
         if self.derived:
@@ -76,22 +104,33 @@ class DiagnosticResult:
             for k, v in self.derived.items():
                 lines.append(f"  {k} = {v}")
             lines.append("")
-        if self.findings:
+        if self.causes:
             lines.append("DIFFERENTIAL (computed by rule, ordered most to least supported):")
-            for i, f in enumerate(self.findings, 1):
+            for i, f in enumerate(self.causes, 1):
                 lines.append(f"  {i}. {f.conclusion}")
                 lines.append(f"     confidence: {f.confidence} · basis: {f.basis} · rule: {f.rule_id}")
                 for e in f.evidence:
                     lines.append(f"     evidence [{e.pointer}]: {e.restatement}")
-                for c in f.next_checks:
-                    lines.append(f"     check: {c}")
+            lines.append("")
+        if self.statuses:
+            lines.append("CODE STATUS (facts about the codes, NOT causes — never number "
+                         "these under LIKELY CAUSES):")
+            for f in self.statuses:
+                lines.append(f"  - {f.conclusion}")
+            lines.append("")
+        checks = self.all_checks()
+        if checks:
+            lines.append("RECOMMENDED CHECKS (already de-duplicated; use this exact list "
+                         "for QUICK CHECKS, in order, each once):")
+            for c in checks:
+                lines.append(f"  - {c}")
             lines.append("")
         if self.abstentions:
             lines.append("COULD NOT BE ASSESSED (say so plainly; do not fill these gaps):")
             for a in self.abstentions:
                 lines.append(f"  - {a.reason} (rule {a.rule_id}; needed: {', '.join(a.missing)})")
             lines.append("")
-        if not self.findings:
+        if not self.causes:
             lines.append(
                 "NO RULE REACHED A CONCLUSION. Do not invent one. Explain what the "
                 "code means generically, state what evidence was missing, and "
@@ -163,7 +202,7 @@ def _codes(snapshot) -> set:
     return {c.code.upper() for c in snapshot.dtc_codes}
 
 
-def rule_fuel_trim_triage(snapshot, result: DiagnosticResult):
+def rule_fuel_trim_triage(snapshot, result: DiagnosticResult, ctx: dict):
     """Separates unmetered air from fuel delivery from bank-specific faults."""
     rid = "fuel_trim_triage"
     present = _codes(snapshot) & (LEAN_CODES | RICH_CODES)
@@ -196,6 +235,13 @@ def rule_fuel_trim_triage(snapshot, result: DiagnosticResult):
     if asym is not None:
         ev.append(Evidence("derived.bank_asymmetry_at_idle_pct", f"the two banks differ by {asym:.1f}% at idle", asym))
 
+    # A boost leak is only physically possible on an engine that makes boost.
+    # This is a configuration fact from the vehicle record, not platform lore.
+    boost_checks = ([
+        "Pressure-test the charge pipes and intercooler plumbing on the affected "
+        "bank — on a turbocharged engine a leak after the turbo only shows under boost",
+    ] if ctx.get("forced_induction") else [])
+
     # Bank-specific fault: rules out anything both banks share.
     if asym is not None and asym >= TRIM_BANK_ASYMMETRY:
         result.findings.append(Finding(
@@ -204,8 +250,21 @@ def rule_fuel_trim_triage(snapshot, result: DiagnosticResult):
             "(fuel pump, fuel filter, and the mass airflow sensor all feed both banks).",
             "high", ev,
             ["Inspect the intake and vacuum lines on the affected bank",
-             "Compare the two banks' oxygen sensor activity"],
+             "Compare the two banks' oxygen sensor activity"] + boost_checks,
         ))
+        # A bank-specific fault that gets WORSE under load points past a vacuum
+        # leak, which would fade as airflow rises.
+        if i1 is not None and l1 is not None and l1 > i1 + 2.0:
+            result.findings.append(Finding(
+                rid + "_worse_under_load",
+                "The affected bank runs leaner under load than at idle. A vacuum leak "
+                "does the opposite — it fades as airflow rises — so this points at "
+                "fuel delivery to that bank, or at air escaping downstream of the "
+                "sensor once the engine is working hard.",
+                "moderate", ev,
+                ["Check fuel pressure and injector delivery on the affected bank"]
+                + boost_checks,
+            ))
         return
 
     # Unmetered air: leak is a large fraction of airflow at idle, small at load.
@@ -247,7 +306,7 @@ def rule_fuel_trim_triage(snapshot, result: DiagnosticResult):
         ))
 
 
-def rule_misfire_triage(snapshot, result: DiagnosticResult):
+def rule_misfire_triage(snapshot, result: DiagnosticResult, ctx: dict):
     """Uses freeze frame to separate ignition, fuel, and lean-caused misfire."""
     rid = "misfire_triage"
     present = sorted(_codes(snapshot) & MISFIRE_CODES)
@@ -331,7 +390,7 @@ def rule_misfire_triage(snapshot, result: DiagnosticResult):
         ))
 
 
-def rule_catalyst_assessment(snapshot, result: DiagnosticResult):
+def rule_catalyst_assessment(snapshot, result: DiagnosticResult, ctx: dict):
     """Mode 06 turns a catalyst code into a marginal-vs-dead judgement."""
     rid = "catalyst_assessment"
     present = _codes(snapshot) & CATALYST_CODES
@@ -400,7 +459,92 @@ def rule_catalyst_assessment(snapshot, result: DiagnosticResult):
         ))
 
 
-def rule_evap(snapshot, result: DiagnosticResult):
+O2_CODES = {f"P0{n:03X}" for n in range(0x130, 0x168)}
+
+
+def rule_oxygen_sensor(snapshot, result: DiagnosticResult, ctx: dict):
+    """Separates a failed sensor from a sensor correctly reporting a real fault.
+
+    The common misdiagnosis is replacing an oxygen sensor that is working. A
+    sensor reporting a mixture the fuel trims confirm is telling the truth.
+    """
+    rid = "oxygen_sensor_triage"
+    present = sorted(_codes(snapshot) & O2_CODES)
+    if not present:
+        return
+
+    # Sensor 2 sits after the catalyst and monitors it; sensor 1 controls fuelling.
+    downstream = [c for c in present if c in {"P0136", "P0137", "P0138", "P0139", "P0140",
+                                              "P0141", "P0156", "P0157", "P0158", "P0159",
+                                              "P0160", "P0161"}]
+    circuit = [c for c in present if c in {"P0131", "P0132", "P0134", "P0135", "P0137",
+                                           "P0138", "P0140", "P0141", "P0151", "P0152",
+                                           "P0154", "P0155"}]
+    ev = [Evidence("dtc_codes", f"oxygen sensor codes present: {', '.join(present)}")]
+
+    trims_abnormal = any(
+        abs(v) >= TRIM_NOTEWORTHY for k, v in result.derived.items()
+        if k.startswith("total_trim_") and isinstance(v, (int, float))
+    )
+
+    if circuit:
+        result.findings.append(Finding(
+            rid,
+            f"An oxygen sensor is reporting an electrical fault ({', '.join(circuit)}) rather "
+            "than an unusual reading. That points at the sensor, its heater, or its wiring, "
+            "rather than at how the engine is running.",
+            "moderate", ev,
+            ["Inspect the sensor connector and wiring for damage or corrosion",
+             "Have the sensor heater circuit tested before replacing anything"],
+        ))
+    elif trims_abnormal:
+        result.findings.append(Finding(
+            rid,
+            "An oxygen sensor is reporting an unusual mixture, and the fuel trims agree with "
+            "it. That means the sensor is most likely reporting a real fuelling problem "
+            "correctly — replacing the sensor would not fix the underlying cause.",
+            "moderate", ev,
+            ["Resolve the fuel mixture fault first, then rescan before touching the sensor"],
+        ))
+    elif downstream:
+        result.findings.append(Finding(
+            rid,
+            f"The affected sensor ({', '.join(downstream)}) sits after the catalytic converter, "
+            "where its job is monitoring the converter rather than controlling fuelling. This "
+            "does not usually affect how the car drives.",
+            "moderate", ev,
+            ["Have the sensor and its wiring checked", "Rescan after a full drive cycle"],
+        ))
+    else:
+        result.findings.append(Finding(
+            rid,
+            "An oxygen sensor is responding more slowly than expected while fuel trims look "
+            "normal, which is the usual pattern for a sensor that has aged.",
+            "low", ev,
+            ["Have the sensor's response time measured against specification"],
+        ))
+
+
+def rule_unmatched_codes(snapshot, result: DiagnosticResult, ctx: dict):
+    """Never let a code disappear silently because no rule covers it.
+
+    Rules cover what has been written. A code with no rule must still be named,
+    or the response quietly implies it was considered when it was not.
+    """
+    covered = (LEAN_CODES | RICH_CODES | MISFIRE_CODES | CATALYST_CODES
+               | set(EVAP_CODES) | O2_CODES)
+    unmatched = sorted(_codes(snapshot) - covered)
+    if not unmatched:
+        return
+    result.abstentions.append(Abstention(
+        "no_rule_for_code",
+        "No automated analysis exists yet for " + ", ".join(unmatched) +
+        ". These codes are reported but were not narrowed down by this scan.",
+        ["a diagnostic rule for these codes"],
+    ))
+
+
+def rule_evap(snapshot, result: DiagnosticResult, ctx: dict):
     rid = "evap_leak_class"
     present = [c for c in _codes(snapshot) if c in EVAP_CODES]
     if not present:
@@ -419,7 +563,7 @@ def rule_evap(snapshot, result: DiagnosticResult):
     ))
 
 
-def rule_pending_and_permanent(snapshot, result: DiagnosticResult):
+def rule_pending_and_permanent(snapshot, result: DiagnosticResult, ctx: dict):
     """Pending and permanent codes change urgency and what a retest will show."""
     rid = "code_status"
     if snapshot.pending_codes:
@@ -431,7 +575,7 @@ def rule_pending_and_permanent(snapshot, result: DiagnosticResult):
             "high",
             [Evidence("pending_codes", f"pending: {codes}")],
             ["Rescan after a few days of normal driving to see whether they confirm"],
-            basis="structural",
+            basis="structural", kind="status",
         ))
     if snapshot.permanent_codes:
         codes = ", ".join(c.code for c in snapshot.permanent_codes)
@@ -443,7 +587,7 @@ def rule_pending_and_permanent(snapshot, result: DiagnosticResult):
             "high",
             [Evidence("permanent_codes", f"permanent: {codes}")],
             ["Complete the repair, then drive a full drive cycle before any emissions test"],
-            basis="structural",
+            basis="structural", kind="status",
         ))
 
 
@@ -451,17 +595,36 @@ RULES = [
     rule_fuel_trim_triage,
     rule_misfire_triage,
     rule_catalyst_assessment,
+    rule_oxygen_sensor,
     rule_evap,
     rule_pending_and_permanent,
+    rule_unmatched_codes,
 ]
 
 
-def analyze(snapshot) -> DiagnosticResult:
-    """Run derivation then every rule. Rules abstain rather than guess."""
+def analyze(snapshot, vehicle: dict = None, engine_profile: dict = None) -> DiagnosticResult:
+    """Run derivation then every rule. Rules abstain rather than guess.
+
+    `vehicle` and `engine_profile` are configuration facts (cylinder count,
+    forced induction) that change which physical checks apply — a boost leak is
+    only possible on a car that makes boost. They are NOT a channel for
+    model-recalled platform knowledge; nothing here asserts what fails on a
+    specific make.
+    """
+    ctx = {
+        "vehicle": vehicle or {},
+        "engine_profile": engine_profile or {},
+        "forced_induction": bool(
+            (engine_profile or {}).get("is_turbocharged")
+            or (engine_profile or {}).get("is_supercharged")
+            or (vehicle or {}).get("turbocharged")
+            or (vehicle or {}).get("supercharged")
+        ),
+    }
     result = DiagnosticResult(derived=derive(snapshot))
     for rule in RULES:
         try:
-            rule(snapshot, result)
+            rule(snapshot, result, ctx)
         except Exception as exc:  # a broken rule must not fail the scan
             print(f"[Diagnostics] rule {rule.__name__} errored: {exc}")
             result.abstentions.append(Abstention(

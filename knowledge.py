@@ -28,25 +28,44 @@ async def search_nhtsa(make: str, model: str, year: str) -> list:
         return []
 
 
-def search_local_knowledge(make: str, model: str, year: str, code: str) -> str:
+def _engine_matches(entry: dict, engine: str) -> bool:
+    """Engine gate for KB records.
+
+    Records carrying an `engine` field only match a scan whose engine string
+    contains it — a V6 and a 2.4L of the same model year are different cars with
+    different failure patterns. Existing records have no `engine` field and match
+    as before, so this is forward-compatible: adding the field to a record makes
+    it stricter, never looser. Engine-keyed records with mileage windows are the
+    platform-KB work; this is the hook they will use.
+    """
+    required = (entry.get("engine") or "").strip().lower()
+    if not required:
+        return True
+    return required in (engine or "").lower()
+
+
+def search_local_knowledge(make: str, model: str, year: str, code: str,
+                           engine: str = "") -> str:
     if not LOCAL_KNOWLEDGE_FILE.exists():
         return ""
-    
+
     try:
         with open(LOCAL_KNOWLEDGE_FILE, "r") as f:
             knowledge = json.load(f)
-        
+
         make_lower = make.lower()
         model_lower = model.lower()
         year_int = int(year) if year else 0
         code_upper = code.upper()
-        
+
         for entry in knowledge.get("vehicles", []):
             if entry["make"].lower() != make_lower:
                 continue
             if entry["model"].lower() != model_lower:
                 continue
-            
+            if not _engine_matches(entry, engine):
+                continue
+
             year_start = entry.get("year_start", 0)
             year_end = entry.get("year_end", 9999)
             if not (year_start <= year_int <= year_end):
@@ -268,7 +287,7 @@ async def build_retrieval_block(make: str, model: str, year: str, codes: list,
 
     kb_lines = []
     for code in codes:
-        info = search_local_knowledge(make, model, year, code)
+        info = search_local_knowledge(make, model, year, code, engine)
         if info:
             kb_lines.append(f"{code}: {info}")
     general = get_general_vehicle_info(make, model, year)
