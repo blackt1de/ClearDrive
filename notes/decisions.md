@@ -2,6 +2,67 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Payload v2, rule engine, tiered code definitions, retrieval — 2026-07-28
+Landed on `brief-1a-truth-fixes` after 1a. Six pieces:
+  1. **Parser fixed.** `parse_guidance` matched headers as substrings against every line,
+     so prose containing "DATABASE"/"SERVICE"/"COMMUNITY" silently opened a section — and
+     the prompt itself contained "CAR DATABASES". Matching is now anchored: a line is a
+     header only as the label before a colon or as a short all-caps line, matched by
+     prefix, longest header first. The `DATABASE` key is deleted. **Every format-adherence
+     number measured before this commit was partly grading this bug.**
+  2. **Payload v2** (`schemas.py`): freeze frame, fuel trims at stated conditions, Mode 06
+     with manufacturer limits, pending/permanent codes, user-entered mileage, and a
+     `CapabilityProfile`. All optional with null defaults; `obd_reader.py` unchanged.
+  3. **Rule engine** (`diagnostics.py`): Layer 1 derivation (total trim, idle-vs-load
+     delta, bank asymmetry, Mode 06 margin) and Layer 2 rules that ABSTAIN with a stated
+     reason rather than guess. Findings carry `Evidence.pointer` into the payload.
+     Thresholds are tagged `heuristic` — they are shop convention, not a standard.
+  4. **Tiered code definitions** (`dtc_definitions.py`): `standardized_unverified` |
+     `oem_verified` (none yet) | `structural_only`. Manufacturer-specific codes never get
+     a guessed meaning — including the 12 P1xxx entries in `ml/data/sae_j2012.json`,
+     which are ignored outright.
+  5. **Retrieval wired** (`knowledge.py` → `/interpret`): NHTSA complaints, NHTSA recalls,
+     and the local KB inside `<retrieved_context source= retrieved_at=>`, `NONE` when
+     empty, try/except so failure degrades rather than fails. Both code paths.
+  6. **Fixtures** (`fixtures.py`): 9 deterministic scenarios incl. a no-capability vehicle
+     and a manufacturer-code case. `POST /interpret {"scenario": "..."}`.
+
+### Two prompt defects found by running it
+- **`ollama_client.py` SYSTEM_PROMPT rules 5 and 9** told the model to "provide general
+  advice" for any section lacking data, and to fill KNOWN ISSUES "even if you have to
+  provide general advice." A fourth gap-filling instruction, one file outside `main.py`,
+  silently overriding the user prompt. Rewritten.
+- **`num_ctx` was never set, so Ollama used its 4096 default.** The payload-v2 prompt is
+  ~4,000 tokens, so the response-format instructions were being truncated out of the
+  window. Observed effect: first the model invented its own report structure, then it
+  degenerated into repeating `SAFETY LEVEL: CAUTION` to the token limit. Set to 16384,
+  `num_predict` 4000 → 1600, `repeat_penalty` 1.15. Sections went 1/12 → 11/12 with no
+  other change.
+
+### Bearing on open decisions
+- **`[OPEN] Canonical Qwen SKU`:** this is the missing worst-case measurement. The v2
+  prompt with retrieval is ~4,000 input tokens against the ~2,000–2,500 typical case in
+  `notes/2026-05-23-production-context-size.md`, confirming that entry's warning. Demand
+  is roughly 4,000 + `num_predict`; the P1xxx/UDS work will push it further.
+- **PR #8 "fine-tuning is load-bearing":** the parser bug did contaminate that measurement,
+  but the observed failures here were genuine model behaviour at correct context, not
+  parser artefacts. My earlier suggestion that re-measurement might overturn that
+  conclusion is withdrawn — it is more likely to survive than not. Re-measure anyway.
+- Evidence for the JSON contract + constrained decoding: both observed failure modes
+  (invented structure, repetition loop) are structurally impossible under grammar-
+  constrained decoding, and neither needs training to prevent.
+
+### Known gaps
+- `known_issues.json` is keyed make/model/year with no engine field and no mileage
+  windows, against a rule requiring engine keying. Mileage is threaded through and
+  reported but not yet matched to a window.
+- On the abstention fixture the model listed abstentions as if they were numbered causes.
+  Honest but clumsy; prompt wording, not correctness.
+- No rule covers O2-sensor-response codes, so `escape-2013-p1131-mfg-code` produces no
+  findings. Rules cover what has been written; the empty-differential path handles it.
+- Fixtures are development and regression only. They encode assumptions about vehicle
+  behaviour and cannot validate diagnostic logic — that needs real captures.
+
 ## [DECIDED] Brief 1a — truth fixes in `/interpret` — 2026-07-27
 Context: `/interpret` substituted invented telemetry for missing measurements, instructed the
   model to recall TSBs and known issues from its weights, logged demo/mock scans into

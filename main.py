@@ -10,7 +10,9 @@ from fastapi.responses import HTMLResponse, Response, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
-from schemas import DTCCode, OBDSnapshot
+from schemas import (
+    DTCCode, OBDSnapshot, FuelTrim, FreezeFrame, Mode06Test, CapabilityProfile,
+)
 from ollama_client import ask_ollama, check_ollama
 from database import (
     init_db,
@@ -24,6 +26,10 @@ from database import (
 from obd_reader import get_reader, connect_obd
 from vehicle_data import get_available_trims, get_vehicle_by_id, get_vehicle_image, format_vehicle_string, format_vehicle_context, decode_obd_codes_batch, format_engine_string, format_transmission_string, format_drive_string
 from code_scraper import get_code_info, format_code_context
+import dtc_definitions
+import diagnostics
+import fixtures
+from knowledge import build_retrieval_block
 
 app = FastAPI(title="ClearDrive", version="0.7.0")
 
@@ -93,7 +99,8 @@ class TrimRequest(BaseModel):
 
 
 class InterpretRequest(BaseModel):
-    vehicle_id: str
+    # vehicle_id is not required when `scenario` supplies its own vehicle.
+    vehicle_id: str = ""
     trim: Optional[str] = ""
     color: Optional[str] = None  # Selected exterior color for image matching
     transmission: Optional[str] = None  # User-selected transmission option
@@ -104,6 +111,23 @@ class InterpretRequest(BaseModel):
     client_speed: Optional[int] = None
     client_coolant_temp: Optional[int] = None
     obd_source: Optional[str] = None
+
+    # --- payload v2, all optional so existing iOS builds are unaffected ---
+    # Odometer is not readable over generic OBD-II on most vehicles, so mileage
+    # is user-entered. Distance-since-codes-cleared is a different PID entirely.
+    client_mileage: Optional[int] = None
+    client_engine_load_pct: Optional[float] = None
+    client_intake_air_temp: Optional[float] = None
+    client_pending_codes: Optional[List[str]] = None
+    client_permanent_codes: Optional[List[str]] = None
+    client_fuel_trims: Optional[List[dict]] = None
+    client_freeze_frames: Optional[List[dict]] = None
+    client_mode06: Optional[List[dict]] = None
+    client_capability: Optional[dict] = None
+
+    # Name of a deterministic synthetic fixture from fixtures.py. Development
+    # and regression only — a scenario response is never research-logged.
+    scenario: Optional[str] = None
 
 
 class FollowUpRequest(BaseModel):
@@ -167,7 +191,9 @@ def parse_guidance(response: str) -> dict:
         "OIL TYPE": "service_recommendations",
         "MAINTENANCE": "service_recommendations",
         "KNOWN ISSUES": "known_issues",
-        "DATABASE": "known_issues",
+        # "DATABASE" was a section key here. It never appears as a legitimate
+        # header and, under the old substring matching, any prose mentioning a
+        # database silently opened the known_issues section. Removed.
         "ENGINE ISSUES": "known_issues",
         "COMMON ISSUES": "known_issues",
         "OTHER OWNERS": "owner_reports",
@@ -175,38 +201,61 @@ def parse_guidance(response: str) -> dict:
         "OWNER REPORTS": "owner_reports"
     }
     
+    # Header matching is ANCHORED, not substring-anywhere.
+    #
+    # The previous implementation tested `if header in line_upper` against every
+    # line, so any prose containing "DATABASE", "SERVICE", or "COMMUNITY" silently
+    # started a new section and dropped whatever preceded it. The prompt itself
+    # contained the words "CAR DATABASES", which made the failure self-inflicted
+    # and means the measured format-adherence score was partly grading this bug
+    # rather than the model.
+    #
+    # A line is a header candidate only if it is the label part before a colon,
+    # or a short all-caps line. Candidates are matched by PREFIX, longest header
+    # first, so "KNOWN ISSUES FOR THIS ENGINE:" resolves to "KNOWN ISSUES" while
+    # "WHAT WE FOUND FROM CAR DATABASES:" matches nothing.
+    ordered_headers = sorted(section_map.items(), key=lambda kv: -len(kv[0]))
+
+    def _header_for(raw_line: str):
+        stripped = raw_line.strip().lstrip("#*-• ").strip()
+        if not stripped:
+            return None
+        head = stripped.upper()
+        colon = head.find(":")
+        if 0 < colon <= 60:
+            candidate = head[:colon].strip()
+        elif head == stripped.upper() and stripped.upper() == stripped and len(stripped) <= 60:
+            candidate = head.strip()
+        else:
+            return None
+        for header, key in ordered_headers:
+            if candidate.startswith(header):
+                return key
+        return None
+
+    def _flush(section, text):
+        if not section or not text:
+            return
+        if section == "safety_level":
+            val = ' '.join(text).strip().upper()
+            sections[section] = "STOP" if "STOP" in val else "CAUTION" if "CAUTION" in val else "SAFE"
+        else:
+            sections[section] = '\n'.join(text).strip()
+
     for line in lines:
-        line_upper = line.upper().strip()
-        
-        matched = False
-        for header, key in section_map.items():
-            if header in line_upper:
-                if current_section and current_text:
-                    if current_section == "safety_level":
-                        val = ' '.join(current_text).strip().upper()
-                        if "STOP" in val:
-                            sections[current_section] = "STOP"
-                        elif "CAUTION" in val:
-                            sections[current_section] = "CAUTION"
-                        else:
-                            sections[current_section] = "SAFE"
-                    else:
-                        sections[current_section] = '\n'.join(current_text).strip()
-                
-                current_section = key
-                current_text = []
-                
-                after_colon = line.split(':', 1)
-                if len(after_colon) > 1 and after_colon[1].strip():
-                    current_text.append(after_colon[1].strip())
-                
-                matched = True
-                break
-        
-        if not matched and current_section:
-            if line.strip():
-                current_text.append(line.strip())
-    
+        key = _header_for(line)
+
+        if key:
+            _flush(current_section, current_text)
+            current_section = key
+            current_text = []
+
+            after_colon = line.split(':', 1)
+            if len(after_colon) > 1 and after_colon[1].strip():
+                current_text.append(after_colon[1].strip())
+        elif current_section and line.strip():
+            current_text.append(line.strip())
+
     if current_section and current_text:
         if current_section == "safety_level":
             val = ' '.join(current_text).strip().upper()
@@ -703,6 +752,56 @@ async def demo_snapshot():
     }
 
 
+@app.get("/demo/scenarios")
+async def demo_scenarios():
+    """List the deterministic synthetic scan fixtures.
+
+    Run one with: POST /interpret {"scenario": "<name>"}. A fixture supplies its
+    own vehicle profile, so a scenario run is fully offline and reproducible, and
+    is never written to research_scans.
+    """
+    return {
+        "scenarios": fixtures.list_scenarios(),
+        "usage": 'POST /interpret with {"scenario": "<name>"}',
+        "warning": (
+            "Synthetic data. Suitable for development and regression only — a "
+            "fixture encodes an assumption about how a car behaves and cannot "
+            "validate diagnostic logic. Validation needs real captures."
+        ),
+    }
+
+
+@app.get("/demo/scenario/{name}")
+async def demo_scenario(name: str):
+    """Return one fixture's raw payload without running the model."""
+    s = fixtures.get_scenario(name)
+    if not s:
+        return {"error": f"Unknown scenario '{name}'",
+                "available": [x["name"] for x in fixtures.list_scenarios()]}
+    snap = s["snapshot"]
+    return {
+        "name": s["name"], "description": s["description"],
+        "vehicle": s["vehicle"], "trim": s["trim"],
+        "snapshot": snap.model_dump(mode="json"),
+        "resolved_definitions": dtc_definitions.resolve_all([c.code for c in snap.dtc_codes]),
+        "analysis": {
+            "derived": diagnostics.analyze(snap).derived,
+            "findings": [
+                {"rule": f.rule_id, "conclusion": f.conclusion,
+                 "confidence": f.confidence, "basis": f.basis,
+                 "evidence": [{"pointer": e.pointer, "restatement": e.restatement}
+                              for e in f.evidence],
+                 "next_checks": f.next_checks}
+                for f in diagnostics.analyze(snap).findings
+            ],
+            "not_assessed": [
+                {"rule": a.rule_id, "reason": a.reason, "missing": a.missing}
+                for a in diagnostics.analyze(snap).abstentions
+            ],
+        },
+    }
+
+
 @app.get("/demo/vehicle")
 async def demo_vehicle():
     """
@@ -1129,32 +1228,56 @@ async def interpret(request: InterpretRequest):
     3. Demo mode with mock data
     """
 
+    scenario_vehicle = None
+
+    # Deterministic synthetic fixture. Development and regression only — the
+    # snapshot carries is_mock=True and fixture_name, so it can never be
+    # research-logged or mistaken for a capture.
+    if request.scenario:
+        fixture = fixtures.get_scenario(request.scenario)
+        if not fixture:
+            return {
+                "error": f"Unknown scenario '{request.scenario}'",
+                "available": [s["name"] for s in fixtures.list_scenarios()],
+            }
+        snapshot = fixture["snapshot"]
+        scenario_vehicle = fixture["vehicle"]
+        obd_source = f"Synthetic fixture: {fixture['name']}"
+        print(f"[Fixture] {fixture['name']} — {len(snapshot.dtc_codes)} codes", flush=True)
+
     # Check if client provided OBD data (from phone's Bluetooth)
-    if request.client_codes is not None:
-        # Use client-provided data
+    elif request.client_codes is not None:
         print(f"[OBD] Using client-provided data: {len(request.client_codes)} codes", flush=True)
 
-        class ClientDTC:
-            def __init__(self, code):
-                self.code = code
-                self.description = ""  # Will be filled by decode_obd_codes_batch
+        def _models(raw, cls):
+            out = []
+            for item in (raw or []):
+                try:
+                    out.append(cls(**item))
+                except Exception as exc:
+                    print(f"[OBD] discarding malformed {cls.__name__}: {exc}")
+            return out
 
-        class ClientSnapshot:
-            def __init__(self, codes, rpm, speed, coolant):
-                self.dtc_codes = [ClientDTC(c) for c in codes]
-                self.rpm = rpm
-                self.speed_mph = speed
-                self.coolant_temp_f = coolant
-                # Real data off a real vehicle. Mirrors OBDSnapshot.is_mock so
-                # the research-logging gate below can test one attribute for
-                # every snapshot type instead of string-matching obd_source.
-                self.is_mock = False
-
-        snapshot = ClientSnapshot(
-            codes=request.client_codes,
+        # A real OBDSnapshot rather than an ad-hoc shim, so the v2 fields and
+        # the trims_at()/freeze_frame_for() helpers work on the live path too.
+        snapshot = OBDSnapshot(
+            dtc_codes=[DTCCode(code=c, description="") for c in request.client_codes],
+            pending_codes=[DTCCode(code=c, description="", status="pending")
+                           for c in (request.client_pending_codes or [])],
+            permanent_codes=[DTCCode(code=c, description="", status="permanent")
+                             for c in (request.client_permanent_codes or [])],
             rpm=request.client_rpm,
-            speed=request.client_speed,
-            coolant=request.client_coolant_temp
+            speed_mph=request.client_speed,
+            coolant_temp_f=request.client_coolant_temp,
+            engine_load_pct=request.client_engine_load_pct,
+            intake_air_temp_f=request.client_intake_air_temp,
+            fuel_trims=_models(request.client_fuel_trims, FuelTrim),
+            freeze_frames=_models(request.client_freeze_frames, FreezeFrame),
+            mode06=_models(request.client_mode06, Mode06Test),
+            mileage=request.client_mileage,
+            capability=(CapabilityProfile(**request.client_capability)
+                        if request.client_capability else CapabilityProfile()),
+            is_mock=False,
         )
         obd_source = request.obd_source or "Bluetooth (iOS)"
     elif request.use_live_obd:
@@ -1183,10 +1306,20 @@ async def interpret(request: InterpretRequest):
         snapshot = get_mock_snapshot()
         obd_source = "Demo Mode"
     
-    # Get vehicle data by ID
-    print(f"[Interpret] Looking up vehicle_id: '{request.vehicle_id}'", flush=True)
-    vehicle_data = await get_vehicle_by_id(request.vehicle_id)
-    trim = request.trim or ""
+    # A fixture supplies its own vehicle profile, so a scenario run is fully
+    # offline and reproducible — it never depends on a live vehicle API.
+    if scenario_vehicle is not None:
+        vehicle_data = scenario_vehicle
+        trim = request.trim or fixtures.get_scenario(request.scenario)["trim"]
+        print(f"[Interpret] Fixture vehicle: {vehicle_data.get('full_name')}", flush=True)
+    else:
+        print(f"[Interpret] Looking up vehicle_id: '{request.vehicle_id}'", flush=True)
+        vehicle_data = await get_vehicle_by_id(request.vehicle_id)
+        trim = request.trim or ""
+
+    # Mileage is user-entered; an explicit request value wins over a fixture's.
+    if request.client_mileage is not None:
+        snapshot.mileage = request.client_mileage
 
     if vehicle_data:
         print(f"[Interpret] Found vehicle_data: {vehicle_data.get('full_name', 'unknown')} turbo={vehicle_data.get('turbocharged')} super={vehicle_data.get('supercharged')}", flush=True)
@@ -1286,10 +1419,21 @@ async def interpret(request: InterpretRequest):
         "data_sources": [],
         "obd_source": obd_source,
         "trim": trim,
-        "vehicleImageURL": vehicle_image_url
+        "vehicleImageURL": vehicle_image_url,
+        # --- v2 additions. Purely additive keys: Swift's Codable and the PWA
+        # both ignore unknown fields, so no existing client is affected. These
+        # are the fields the eventual JSON output contract will formalise.
+        "mileage": snapshot.mileage,
+        "pending_codes": [c.code for c in snapshot.pending_codes],
+        "permanent_codes": [c.code for c in snapshot.permanent_codes],
+        "capability_limitations": list(snapshot.capability.limitations),
+        "code_definitions": [],
+        "differential": [],
+        "not_assessed": [],
+        "is_synthetic": bool(getattr(snapshot, "fixture_name", None)),
     }
-    
-    if vehicle_data:
+
+    if vehicle_data and scenario_vehicle is None:
         response_data["data_sources"].append("CarsXE")
     
     # No codes detected
@@ -1297,24 +1441,49 @@ async def interpret(request: InterpretRequest):
         response_data["dont_panic"] = "No trouble codes detected. Your vehicle appears to be running fine."
 
         if vehicle_data:
+            # The no-codes path retrieves too, otherwise its KNOWN ISSUES section
+            # can only ever report that nothing was found.
+            try:
+                clean_retrieval, clean_sources = await build_retrieval_block(
+                    vehicle_data.get("make", ""), vehicle_data.get("model", ""),
+                    vehicle_data.get("year", ""), [], mileage=snapshot.mileage)
+            except Exception as exc:
+                print(f"[Retrieval] no-codes retrieval failed: {exc}", flush=True)
+                clean_retrieval, clean_sources = (
+                    '<retrieved_context source="none">\nNONE\n</retrieved_context>', [])
+            for s in clean_sources:
+                if s not in response_data["data_sources"]:
+                    response_data["data_sources"].append(s)
+
             prompt = f"""You are a friendly vehicle assistant helping a car owner.
 
 The owner scanned their vehicle and NO trouble codes were found.
 
+SOURCING RULE: you reason over the evidence in this prompt. Never supply a fact
+about this vehicle from your own knowledge. If the retrieved block says NONE,
+you do not know of any issues for this car, and you say so.
+
 {vehicle_context}
+
+[RETRIEVED INFORMATION ABOUT THIS VEHICLE]
+{clean_retrieval}
 
 Respond in this EXACT format:
 
 SUMMARY:
 Write 3-4 sentences that:
 1. Confirms no codes were found - their car's computer isn't reporting any problems
-2. Give ONE maintenance tip SPECIFIC to their engine (turbo, supercharged, V8, AWD, etc.)
+2. Give ONE general maintenance tip that follows from this engine's configuration
+   (turbocharged, supercharged, V8, AWD) — a characteristic listed above, not a
+   model-specific claim
 3. Be encouraging but practical
 
 SERVICE RECOMMENDATIONS:
-- Oil type: [Exact spec like "5W-40 Full Synthetic" or "0W-20 Synthetic" - be specific to this vehicle]
-- Oil change interval: [e.g., "7,500 miles or 6 months" - based on this engine type]
-- Service notes: [One sentence about any special maintenance for this engine]
+Oil specifications and intervals are vehicle-specific facts requiring a source, and
+we hold no verified maintenance table. Do NOT state an oil weight, specification
+code, or mileage interval. Write exactly this: The correct oil specification and
+service interval for this engine are in the owner's manual or on the oil filler cap.
+We do not yet hold a verified maintenance record for this vehicle.
 
 KNOWN ISSUES:
 Use ONLY sourced material provided above in this prompt. Do not add known issues,
@@ -1370,20 +1539,18 @@ RULES:
     codes_list = [c.code for c in snapshot.dtc_codes]
     response_data["codes"] = codes_list
 
-    # Get official OBD code diagnoses from CarsXE
-    obd_decoded = await decode_obd_codes_batch(codes_list)
+    # Code semantics now come from dtc_definitions, which reports a trust tier
+    # per code and refuses to guess at manufacturer-specific meanings. CarsXE is
+    # no longer the source for what a code MEANS — ml/CLAUDE.md records it as
+    # known-wrong for P0420 — but the call is kept for source bookkeeping on the
+    # live path. Fixtures skip it entirely so a scenario stays offline.
+    obd_decoded = {} if request.scenario else await decode_obd_codes_batch(codes_list)
 
-    # Build codes text with official diagnoses when available
-    codes_text_parts = []
-    for c in snapshot.dtc_codes:
-        decoded = obd_decoded.get(c.code.upper(), {})
-        if decoded.get("success") and decoded.get("diagnosis"):
-            # Use CarsXE's official diagnosis
-            codes_text_parts.append(f"{c.code}: {decoded['diagnosis']}")
-        else:
-            # Fall back to OBD reader's description
-            codes_text_parts.append(f"{c.code}: {c.description}")
-    codes_text = ", ".join(codes_text_parts)
+    resolved_defs = dtc_definitions.resolve_all(codes_list)
+    response_data["code_definitions"] = resolved_defs
+    codes_text = dtc_definitions.format_for_prompt(resolved_defs)
+    if any(r["tier"] == dtc_definitions.TIER_STRUCTURAL for r in resolved_defs):
+        response_data["data_sources"].append("SAE J2012 code structure")
 
     print(f"\n[Main] Processing codes: {codes_list}")
     print(f"[Main] Vehicle: {vehicle_str_with_trim}")
@@ -1427,6 +1594,55 @@ RULES:
                         if "RepairPal.com" not in response_data["data_sources"]:
                             response_data["data_sources"].append("RepairPal.com")
 
+    # --- Deterministic analysis, before the model sees anything --------------
+    # Every arithmetic and comparative step happens here, in Python, where it is
+    # testable. Rules abstain with a stated reason rather than guess, and the
+    # abstentions are carried into the prompt so the model reports what could
+    # not be seen instead of quietly filling the gap.
+    analysis = diagnostics.analyze(snapshot)
+    response_data["differential"] = [
+        {
+            "rule": f.rule_id, "conclusion": f.conclusion, "confidence": f.confidence,
+            "basis": f.basis, "next_checks": list(f.next_checks),
+            "evidence": [{"pointer": e.pointer, "restatement": e.restatement} for e in f.evidence],
+        }
+        for f in analysis.findings
+    ]
+    response_data["not_assessed"] = [
+        {"rule": a.rule_id, "reason": a.reason, "missing": list(a.missing)}
+        for a in analysis.abstentions
+    ]
+    print(f"[Diagnostics] {len(analysis.findings)} findings, "
+          f"{len(analysis.abstentions)} abstentions", flush=True)
+
+    # --- Retrieval: vehicle facts come from a source, never from weights ------
+    # Degrades the answer on failure; never fails the request.
+    try:
+        retrieval_block, retrieval_sources = await build_retrieval_block(
+            make, model, year, codes_list, engine_str, snapshot.mileage)
+    except Exception as exc:
+        print(f"[Retrieval] block build failed, continuing without: {exc}", flush=True)
+        retrieval_block, retrieval_sources = (
+            '<retrieved_context source="none">\nNONE — retrieval was unavailable '
+            'for this scan.\n</retrieved_context>', [])
+    for s in retrieval_sources:
+        if s not in response_data["data_sources"]:
+            response_data["data_sources"].append(s)
+
+    capability_block = "\n".join(
+        f"- {lim}" for lim in snapshot.capability.limitations) or "None recorded."
+
+    measured_block = "\n".join(
+        f"- {label}: {value}"
+        for label, value in (
+            ("engine speed (RPM)", response_data["rpm"]),
+            ("vehicle speed (mph)", response_data["speed"]),
+            ("coolant temperature (F)", response_data["coolant_temp"]),
+            ("engine load (%)", snapshot.engine_load_pct),
+            ("intake air temperature (F)", snapshot.intake_air_temp_f),
+            ("mileage", snapshot.mileage),
+        )
+    ).replace(": None", ": unavailable")
 
     # Build the diagnostic prompt with DEEP vehicle context
     # NOTE: Structure is important to prevent prompt leakage with smaller models
@@ -1440,14 +1656,18 @@ You are ClearDrive, a friendly car expert. Write like you're talking to a friend
 - No analogies or metaphors
 - English only
 
+SOURCING RULE — this governs everything below.
+You reason over the evidence in this prompt. You do not supply facts about this
+vehicle from your own knowledge. Every claim about what fails on this car, what
+is recalled, or what other owners experience must come from the RETRIEVED
+INFORMATION block. If that block says NONE, then you do not know of any, and you
+say so. A confident wrong answer is worse for this driver than a general one.
+The differential below was computed from this vehicle's own measurements before
+you were called. Explain it. Do not replace it, reorder it, or add causes to it.
+Never restate a number that does not appear in this prompt.
+
 [VEHICLE INFO]
 {vehicle_context}
-
-[TROUBLE CODE]
-{codes_text}
-
-[VEHICLE-SPECIFIC CODE ANALYSIS]
-The codes above have been decoded by our OBD database. You MUST analyze each code specifically for THIS vehicle — not generic advice.
 
 Vehicle specifics:
 - Exact vehicle: {vehicle_str_with_trim}
@@ -1457,11 +1677,24 @@ Vehicle specifics:
 - Transmission: {response_data.get('transmission', 'Unknown')}
 - Performance tier: {engine_profile.get('performance_tier', 'standard')}
 
-CRITICAL: Your analysis must be UNIQUE to this car. Think about:
-- How does this car's specific engine design (turbo, NA, V6, I4, etc.) affect the diagnosis?
-- What would a mechanic who specializes in {response_data.get('vehicle', 'this brand').split()[1] if len(response_data.get('vehicle', '').split()) > 1 else 'this brand'} check first?
+[TROUBLE CODES AND HOW WELL WE KNOW THEM]
+{codes_text}
 
-Do NOT give generic OBD code explanations. A P0420 on a 2015 Audi A4 2.0T has completely different common causes than a P0420 on a 2010 Toyota Camry 2.5L.
+Where a code's definition confidence is `structural_only`, its exact meaning is
+set by the manufacturer and we have not verified it. Say that plainly rather
+than guessing what it means.
+
+[MEASURED FROM THIS VEHICLE]
+{measured_block}
+
+[WHAT THIS VEHICLE COULD NOT REPORT]
+{capability_block}
+
+[COMPUTED DIAGNOSIS — already worked out; your job is to explain it]
+{analysis.to_prompt_block()}
+
+[RETRIEVED INFORMATION ABOUT THIS VEHICLE]
+{retrieval_block}
 
 [YOUR RESPONSE - START HERE]
 
@@ -1490,9 +1723,11 @@ Don't be afraid to use STOP when warranted - it could save them thousands in dam
 """
 
     if code_context:
-        prompt += f"""WHAT WE FOUND FROM CAR DATABASES:
-We checked OBD-Codes.com, CarComplaints.com, and RepairPal.com for information about this code.
-Look for any issues marked "SPECIFIC TO THIS TRIM/ENGINE" - those are from owners with the same engine as you!
+        # Only reachable with ENABLE_SCRAPED_CODE_CONTEXT=1, which must stay off
+        # for any run producing published numbers. The old header for this block
+        # contained the words "CAR DATABASES", which the section parser used to
+        # match as a header — the phrasing is deliberately different now.
+        prompt += f"""[UNVERIFIED SCRAPED MATERIAL — lower trust than the retrieved block above]
 
 {code_context}
 
@@ -1558,16 +1793,18 @@ WHAT'S HAPPENING:
 Start with "Your {vehicle_str_with_trim} is showing code {codes_list[0]}."
 Explain in 4-5 simple sentences that anyone can understand:
 - What this code actually means (imagine explaining to someone who knows nothing about cars)
-- Why this specific code tends to appear on the {vehicle_str_with_trim} specifically — reference its engine, known weak points, or design characteristics
+- What this vehicle's own readings showed, quoting the evidence lines from the
+  computed diagnosis above — this is the part a general web search cannot give them
+- If something could not be measured, say so in one sentence
 - Reassure them if it's not serious, or be honest if it is
 
 LIKELY CAUSES:
-List 5 possible causes for THIS specific vehicle ({vehicle_str_with_trim} with {response_data.get('engine', 'this engine')}), starting with the most common cause on this make/model:
-1. [Most common cause on this car] - What this part does, why it fails on this engine specifically
-2. [Second cause] - Simple explanation, reference this vehicle if possible
-3. [Third cause] - Simple explanation
-4. [Fourth cause] - Simple explanation
-5. [Fifth cause] - Simple explanation
+Restate the computed differential above, in order, one numbered item each.
+For every item: say what the part does in plain words, then give the measurement
+that points at it, using the evidence line already provided.
+Do NOT add causes that are not in the computed differential. Do NOT reorder it.
+If the differential is empty, write one line saying the available evidence does
+not narrow this down, and list what would be needed to narrow it — nothing else.
 
 WHAT YOU MIGHT NOTICE:
 List 4 things the driver might experience:
@@ -1584,12 +1821,10 @@ Explain what could happen if they don't fix it:
 - Any safety concerns
 
 QUICK CHECKS:
-List 3 things they can check themselves (if safe to do so):
-1. [Simple check] - Step by step instructions anyone can follow
-2. [Check] - Step by step
-3. [Check] - Step by step
-
-Keep it simple - don't suggest anything that requires special tools or expertise.
+Use the "check:" lines from the computed diagnosis above. Rewrite each as a step
+anyone could follow without special tools, in the same order. If a check needs
+equipment a driver will not have, say who should do it instead. Add nothing that
+is not in those lines.
 
 DIY FIX:
 If this is something a beginner/intermediate DIYer could realistically fix at home, provide:
@@ -1618,12 +1853,15 @@ Give honest cost ranges:
 - Let them know if this needs a specialist
 
 SERVICE RECOMMENDATIONS:
-Based on this specific vehicle, provide:
-- Oil type: [Exact oil spec, e.g., "5W-40 Full Synthetic" or "0W-20 Synthetic"]
-- Oil change interval: [X,XXX miles or X months, whichever comes first]
-- Service notes: [Any special maintenance considerations for this engine, e.g., "Turbocharged engines benefit from shorter intervals" or "Uses timing chain, no belt replacement needed"]
-
-Be specific to the vehicle - European cars often need specific oil specs, turbos need synthetic, older cars might use conventional.
+Oil specifications and service intervals are vehicle-specific facts that must come
+from a source. We do not currently hold a verified maintenance table, so do NOT
+state an oil weight, a specification code, or an interval in miles — those would be
+recalled from memory and may be wrong for this engine.
+Write exactly this instead: The correct oil specification and service interval for
+this engine are in the owner's manual or on the oil filler cap. We do not yet hold
+a verified maintenance record for this vehicle.
+Then, if and only if the retrieved block above contains maintenance information,
+add what it says and name the source.
 
 KNOWN ISSUES FOR THIS ENGINE:
 Use ONLY sourced material provided above in this prompt. Do not add known issues,
@@ -1633,15 +1871,32 @@ If no sourced material about this vehicle was provided above, write exactly this
 and nothing else: No verified issue history was available for this vehicle.
 """
 
-    # OTHER OWNERS REPORT section removed with the Reddit scraper. The
-    # owner_reports key stays in parse_guidance() and in response_data (as "")
-    # so the 12-section contract and every existing client are unchanged.
-    # It gets repopulated from NHTSA complaints in the retrieval work.
-
-    # End marker to help model know where to stop
+    # OTHER OWNERS REPORT is now fed by NHTSA complaint retrieval rather than by
+    # the deleted Reddit scraper, so the section survives with real provenance.
     prompt += """
 
-[END OF RESPONSE FORMAT]"""
+OTHER OWNERS REPORT:
+Summarise ONLY what the retrieved information block above reports from other
+owners of this vehicle, and name which source it came from.
+If that block says NONE, write exactly this sentence and nothing else:
+No owner-reported history was retrieved for this vehicle."""
+
+    # The prompt used to end with "[END OF RESPONSE FORMAT]", which the model
+    # mirrored back as "[End of Report]" along with a preamble and a disclaimer
+    # of its own. The final instruction is now imperative and names the exact
+    # first line to emit, because for a model this size the last thing in the
+    # prompt carries disproportionate weight.
+    prompt += f"""
+
+Now write the response.
+Write each of these headers once, in this order, each followed by its content:
+SAFETY LEVEL, WHAT'S HAPPENING, LIKELY CAUSES, WHAT YOU MIGHT NOTICE,
+IF YOU IGNORE THIS, QUICK CHECKS, DIY FIX, WHEN TO SEE A MECHANIC,
+ESTIMATED REPAIR COST, SERVICE RECOMMENDATIONS, KNOWN ISSUES FOR THIS ENGINE,
+OTHER OWNERS REPORT.
+Write each header exactly once and never repeat a header. No preamble, no
+disclaimer, no closing note, no headers of your own invention. Begin now with
+SAFETY LEVEL."""
 
     # Get AI response
     ai_response = await ask_ollama(prompt)

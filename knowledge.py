@@ -1,8 +1,10 @@
 import httpx
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 NHTSA_API = "https://api.nhtsa.gov/complaints/complaintsByVehicle"
+NHTSA_RECALLS_API = "https://api.nhtsa.gov/recalls/recallsByVehicle"
 
 LOCAL_KNOWLEDGE_FILE = Path(__file__).parent / "known_issues.json"
 
@@ -192,6 +194,103 @@ async def get_vehicle_context(make: str, model: str, year: str, codes: list) -> 
             context_parts.append(f"KNOWN ISSUE FOR THIS VEHICLE:\n{local_info}")
     
     return "\n\n".join(context_parts)
+
+
+async def search_nhtsa_recalls(make: str, model: str, year: str) -> list:
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            r = await client.get(NHTSA_RECALLS_API, params={
+                "make": make, "model": model, "modelYear": year})
+            r.raise_for_status()
+            return r.json().get("results", [])[:5]
+    except Exception as e:
+        print(f"[Retrieval] NHTSA recalls error: {e}")
+        return []
+
+
+async def build_retrieval_block(make: str, model: str, year: str, codes: list,
+                                engine: str = "", mileage=None) -> tuple:
+    """Assemble every retrieved vehicle fact into one provenance-tagged block.
+
+    Returns (block_text, source_labels).
+
+    Contract, per .claude/rules/prompt-integrity.md:
+      - retrieved material appears ONLY inside <retrieved_context>, never
+        interleaved with instructions;
+      - when nothing is found the block still appears and says NONE, so the
+        model can see that nothing was found rather than infer it;
+      - retrieval failure degrades the answer, it never fails the request.
+
+    KNOWN GAP: known_issues.json is keyed on make/model/year only. It carries
+    no engine field and no mileage windows, so a V6 and a 2.4L of the same year
+    resolve identically. Engine-keyed records with mileage windows are the
+    platform-KB work; `mileage` is threaded through and reported but is not yet
+    matched against a window.
+    """
+    retrieved_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    parts, sources = [], []
+
+    if make and model and year:
+        try:
+            complaints = await search_nhtsa(make, model, year)
+        except Exception as e:
+            print(f"[Retrieval] NHTSA complaints failed: {e}")
+            complaints = []
+
+        if complaints:
+            body = ""
+            for code in codes:
+                body = format_nhtsa_for_prompt(complaints, code)
+                if body:
+                    break
+            if not body:
+                body = format_nhtsa_general(complaints)
+            if body:
+                parts.append(
+                    f'<retrieved_context source="NHTSA Complaints Database (api.nhtsa.gov)" '
+                    f'retrieved_at="{retrieved_at}">\n{body}\n</retrieved_context>'
+                )
+                sources.append("NHTSA Complaints Database")
+
+        recalls = await search_nhtsa_recalls(make, model, year)
+        if recalls:
+            lines = ["NHTSA RECALLS FOR THIS VEHICLE:"]
+            for r in recalls:
+                lines.append(f"- {r.get('Component', 'Unknown component')}: "
+                             f"{(r.get('Summary') or '')[:400]}")
+                if r.get("Remedy"):
+                    lines.append(f"  Remedy: {r['Remedy'][:300]}")
+            parts.append(
+                f'<retrieved_context source="NHTSA Recalls Database (api.nhtsa.gov)" '
+                f'retrieved_at="{retrieved_at}">\n' + "\n".join(lines) + "\n</retrieved_context>"
+            )
+            sources.append("NHTSA Recalls Database")
+
+    kb_lines = []
+    for code in codes:
+        info = search_local_knowledge(make, model, year, code)
+        if info:
+            kb_lines.append(f"{code}: {info}")
+    general = get_general_vehicle_info(make, model, year)
+    if general:
+        kb_lines.append(f"General: {general}")
+    if kb_lines:
+        parts.append(
+            f'<retrieved_context source="ClearDrive local KB (known_issues.json)" '
+            f'retrieved_at="{retrieved_at}" '
+            f'caveat="keyed on make/model/year only; not engine-specific">\n'
+            + "\n".join(kb_lines) + "\n</retrieved_context>"
+        )
+        sources.append("ClearDrive Known Issues KB")
+
+    if not parts:
+        return (
+            '<retrieved_context source="none" '
+            f'retrieved_at="{retrieved_at}">\nNONE — no verified information about '
+            'this vehicle was retrieved.\n</retrieved_context>',
+            sources,
+        )
+    return "\n\n".join(parts), sources
 
 
 async def get_vehicle_general_context(make: str, model: str, year: str) -> tuple:
