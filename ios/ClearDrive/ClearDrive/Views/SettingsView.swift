@@ -157,6 +157,17 @@ struct SettingsView: View {
                     .font(.caption)
                     .foregroundStyle(Color.cdTextSecondary)
             }
+
+            #if DEBUG
+            // Deterministic fixtures, unlike Demo Mode's random codes — the same
+            // scenario returns identical data every run, so a UI change is the
+            // only thing that can alter what you see.
+            NavigationLink {
+                ScenarioPickerView()
+            } label: {
+                Label("Test Scenarios", systemImage: "testtube.2")
+            }
+            #endif
         } header: {
             Text("Testing")
         } footer: {

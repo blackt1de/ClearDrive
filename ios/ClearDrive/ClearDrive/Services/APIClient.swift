@@ -258,6 +258,92 @@ class APIClient: ObservableObject {
 
     // MARK: - AI Diagnosis
 
+    // MARK: - Development scenarios
+    //
+    // Deterministic synthetic scans served by the backend. Lets the UI be built
+    // and iterated against realistic payloads — freeze frame, fuel trims, Mode 06,
+    // manufacturer codes, and a vehicle that can report almost nothing — with no
+    // car and no adapter. Responses come back flagged `is_synthetic`, and the
+    // backend never writes them to the research table.
+
+    struct ScenarioSummary: Codable, Identifiable {
+        var id: String { name }
+        let name: String
+        let description: String
+        let vehicle: String
+        let trim: String
+        let codes: [String]
+    }
+
+    private struct ScenarioListResponse: Codable {
+        let scenarios: [ScenarioSummary]
+    }
+
+    func listScenarios() async throws -> [ScenarioSummary] {
+        let url = URL(string: "\(baseURL)/demo/scenarios")!
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return try JSONDecoder().decode(ScenarioListResponse.self, from: data).scenarios
+    }
+
+    /// Run one named fixture end to end and decode it exactly like a real scan.
+    func interpretScenario(_ name: String) async throws -> ScanResult {
+        let url = URL(string: "\(baseURL)/interpret")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 300
+        request.httpBody = try JSONSerialization.data(withJSONObject: ["scenario": name])
+
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let response = try JSONDecoder().decode(InterpretResponse.self, from: data)
+
+        let parts = response.vehicle.split(separator: " ").map(String.init)
+        let info = VehicleInfo(
+            year: parts.first ?? "",
+            make: parts.count > 1 ? parts[1] : "",
+            model: parts.count > 2 ? parts[2...].joined(separator: " ") : "",
+            trim: nil,
+            engine: response.engine,
+            fuelType: response.fuelType,
+            driveType: response.drive,
+            transmission: response.transmission
+        )
+        var result = ScanResult(
+            vehicle: info,
+            codes: response.codes.map { DTCCode(code: $0, description: "", severity: response.safetyLevel) },
+            safetyRating: SafetyRating(from: response.safetyLevel),
+            timestamp: Date()
+        )
+        result.dontPanic = response.dontPanic
+        result.likelyCauses = response.likelyCauses
+        result.symptoms = response.symptoms
+        result.ifIgnored = response.ifIgnored
+        result.quickChecks = response.quickChecks
+        result.diyFix = response.diyFix
+        result.urgency = response.urgency
+        result.repairCost = response.repairCost
+        result.serviceRecommendations = response.serviceRecommendations
+        result.knownIssues = response.knownIssues
+        result.ownerReports = response.ownerReports
+        result.engine = response.engine
+        result.drive = response.drive
+        result.transmission = response.transmission
+        result.dataSources = response.dataSources ?? []
+        result.obdSource = response.obdSource
+        result.rpm = response.rpm
+        result.speed = response.speed
+        result.coolantTemp = response.coolantTemp
+        result.differential = response.differential ?? []
+        result.codeStatus = response.codeStatus ?? []
+        result.recommendedChecks = response.recommendedChecks ?? []
+        result.notAssessed = response.notAssessed ?? []
+        result.capabilityLimitations = response.capabilityLimitations ?? []
+        result.codeDefinitions = response.codeDefinitions ?? []
+        result.mileage = response.mileage
+        result.isSynthetic = response.isSynthetic ?? true
+        return result
+    }
+
     /// Interpret OBD data read locally from phone's Bluetooth connection
     /// Sends raw codes and live data to server for AI analysis
     func interpretOBDData(
@@ -490,6 +576,17 @@ class APIClient: ObservableObject {
         result.rpm = response.rpm
         result.speed = response.speed
         result.coolantTemp = response.coolantTemp
+
+        // payload v2 — the evidence-backed diagnosis
+        result.differential = response.differential ?? []
+        result.codeStatus = response.codeStatus ?? []
+        result.recommendedChecks = response.recommendedChecks ?? []
+        result.notAssessed = response.notAssessed ?? []
+        result.capabilityLimitations = response.capabilityLimitations ?? []
+        result.codeDefinitions = response.codeDefinitions ?? []
+        result.mileage = response.mileage
+        result.isSynthetic = response.isSynthetic ?? false
+        print("[APIClient] v2: \(result.differential.count) causes, \(result.notAssessed.count) not assessed, \(result.recommendedChecks.count) checks")
 
         // Vehicle image - use backend URL (from /interpret), fallback to separate image fetch
         if let backendImageURL = response.vehicleImageURL, !backendImageURL.isEmpty {
@@ -931,6 +1028,18 @@ struct InterpretResponse: Codable {
     // Backend scan ID for linking followups and feedback
     let scanId: Int?
 
+    // MARK: payload v2
+    // Computed server-side by the rule engine before the model is called. All
+    // optional so a build talking to an older backend still decodes.
+    let differential: [DiagnosticCause]?
+    let codeStatus: [CodeStatusNote]?
+    let recommendedChecks: [String]?
+    let notAssessed: [NotAssessedItem]?
+    let capabilityLimitations: [String]?
+    let codeDefinitions: [CodeDefinition]?
+    let mileage: Int?
+    let isSynthetic: Bool?
+
     enum CodingKeys: String, CodingKey {
         case codes, vehicle, engine, drive, transmission
         case fuelType = "fuel_type"
@@ -959,5 +1068,13 @@ struct InterpretResponse: Codable {
         case tankCapacity = "tank_capacity"
         case horsepower
         case scanId = "scan_id"
+        case differential
+        case codeStatus = "code_status"
+        case recommendedChecks = "recommended_checks"
+        case notAssessed = "not_assessed"
+        case capabilityLimitations = "capability_limitations"
+        case codeDefinitions = "code_definitions"
+        case mileage
+        case isSynthetic = "is_synthetic"
     }
 }

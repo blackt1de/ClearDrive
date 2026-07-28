@@ -246,6 +246,89 @@ struct DTCCode: Identifiable, Codable {
     }
 }
 
+// MARK: - Evidence-backed diagnosis (payload v2)
+
+/// One measurement supporting a cause. `pointer` addresses the captured payload
+/// the backend actually sent, so a claim can always be traced to a reading.
+struct DiagnosticEvidence: Codable, Identifiable, Equatable {
+    var id: String { pointer + restatement }
+    let pointer: String
+    let restatement: String
+}
+
+/// A cause computed by the backend rule engine, not written by the language model.
+struct DiagnosticCause: Codable, Identifiable, Equatable {
+    var id: String { rule + "|" + String(conclusion.prefix(24)) }
+    let rule: String
+    let conclusion: String
+    let confidence: String
+    let basis: String
+    let evidence: [DiagnosticEvidence]
+    let nextChecks: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case rule, conclusion, confidence, basis, evidence
+        case nextChecks = "next_checks"
+    }
+
+    /// `manufacturer_limit` means the vehicle supplied the threshold itself, which
+    /// is stronger than a shop-convention rule of thumb. Worth showing the user.
+    var basisLabel: String {
+        switch basis {
+        case "manufacturer_limit": return "Measured against the manufacturer's limit"
+        case "structural": return "From the code definition"
+        default: return "Rule of thumb used by mechanics"
+        }
+    }
+
+    var confidenceColor: Color {
+        switch confidence {
+        case "high": return .cdSuccess
+        case "moderate": return .cdWarning
+        default: return .cdTextSecondary
+        }
+    }
+}
+
+/// Pending / permanent code facts. Affects urgency, is NOT a cause — kept apart
+/// so it can never be rendered as a diagnosis.
+struct CodeStatusNote: Codable, Identifiable, Equatable {
+    var id: String { rule }
+    let rule: String
+    let conclusion: String
+}
+
+/// Something the scan could not determine, and why. Showing this is the point:
+/// a scan that hides what it could not see is not trustworthy.
+struct NotAssessedItem: Codable, Identifiable, Equatable {
+    var id: String { rule + reason }
+    let rule: String
+    let reason: String
+    let missing: [String]
+}
+
+/// A code definition plus how well it is actually known.
+struct CodeDefinition: Codable, Identifiable, Equatable {
+    var id: String { code }
+    let code: String
+    let description: String
+    let tier: String
+    let source: String
+    let caveat: String?
+
+    /// Manufacturer-specific codes have no verified public definition; we report
+    /// what the code's structure guarantees and say the rest is unknown.
+    var isVerifiedMeaning: Bool { tier != "structural_only" }
+
+    var tierLabel: String {
+        switch tier {
+        case "oem_verified": return "Manufacturer verified"
+        case "standardized_unverified": return "Industry standard code"
+        default: return "Meaning not verified"
+        }
+    }
+}
+
 // MARK: - Live OBD Data
 
 struct LiveOBDData: Codable {
@@ -297,6 +380,9 @@ struct ScanResult: Identifiable, Codable {
         case rpm, speed, coolantTemp
         case vehicleImageURL
         case scanId
+        // payload v2
+        case differential, codeStatus, recommendedChecks, notAssessed
+        case capabilityLimitations, codeDefinitions, mileage, isSynthetic
     }
 
     // Custom decoder to handle optional/default values
@@ -345,6 +431,16 @@ struct ScanResult: Identifiable, Codable {
 
         vehicleImageURL = try container.decodeIfPresent(String.self, forKey: .vehicleImageURL)
         scanId = try container.decodeIfPresent(Int.self, forKey: .scanId)
+
+        // payload v2 — all optional, so scans saved before this shipped still decode
+        differential = try container.decodeIfPresent([DiagnosticCause].self, forKey: .differential) ?? []
+        codeStatus = try container.decodeIfPresent([CodeStatusNote].self, forKey: .codeStatus) ?? []
+        recommendedChecks = try container.decodeIfPresent([String].self, forKey: .recommendedChecks) ?? []
+        notAssessed = try container.decodeIfPresent([NotAssessedItem].self, forKey: .notAssessed) ?? []
+        capabilityLimitations = try container.decodeIfPresent([String].self, forKey: .capabilityLimitations) ?? []
+        codeDefinitions = try container.decodeIfPresent([CodeDefinition].self, forKey: .codeDefinitions) ?? []
+        mileage = try container.decodeIfPresent(Int.self, forKey: .mileage)
+        isSynthetic = try container.decodeIfPresent(Bool.self, forKey: .isSynthetic) ?? false
     }
 
     // Custom encoder to ensure all properties are saved
@@ -393,6 +489,15 @@ struct ScanResult: Identifiable, Codable {
 
         try container.encodeIfPresent(vehicleImageURL, forKey: .vehicleImageURL)
         try container.encodeIfPresent(scanId, forKey: .scanId)
+
+        try container.encode(differential, forKey: .differential)
+        try container.encode(codeStatus, forKey: .codeStatus)
+        try container.encode(recommendedChecks, forKey: .recommendedChecks)
+        try container.encode(notAssessed, forKey: .notAssessed)
+        try container.encode(capabilityLimitations, forKey: .capabilityLimitations)
+        try container.encode(codeDefinitions, forKey: .codeDefinitions)
+        try container.encodeIfPresent(mileage, forKey: .mileage)
+        try container.encode(isSynthetic, forKey: .isSynthetic)
     }
 
     // Standard initializer
@@ -447,6 +552,29 @@ struct ScanResult: Identifiable, Codable {
 
     // Backend scan ID for linking followups and feedback
     var scanId: Int?
+
+    // MARK: payload v2 — computed by the backend rule engine, not the model
+    /// Ranked causes, each carrying the measurements that support it.
+    var differential: [DiagnosticCause] = []
+    /// Pending / permanent code facts. Urgency, never a cause.
+    var codeStatus: [CodeStatusNote] = []
+    /// De-duplicated checks across all causes, in order.
+    var recommendedChecks: [String] = []
+    /// What the scan could not determine, and why.
+    var notAssessed: [NotAssessedItem] = []
+    /// What this vehicle could not report at all.
+    var capabilityLimitations: [String] = []
+    /// Per-code definitions with how well each is actually known.
+    var codeDefinitions: [CodeDefinition] = []
+    var mileage: Int?
+    /// True when this came from a synthetic development fixture rather than a car.
+    var isSynthetic: Bool = false
+
+    /// The differentiator, in one property: a diagnosis is evidence-backed when the
+    /// rule engine tied a cause to this vehicle's own readings.
+    var hasEvidenceBackedDiagnosis: Bool {
+        differential.contains { !$0.evidence.isEmpty }
+    }
 
     // Legacy property for backwards compatibility
     var diagnosis: String? { dontPanic }
