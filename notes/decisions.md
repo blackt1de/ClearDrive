@@ -2,6 +2,152 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Rule coverage, cause/status split, M6 hard case, regression suite — 2026-07-28
+Follows the payload-v2 entry below.
+- **New rules.** `rule_oxygen_sensor` separates a failed sensor from one correctly
+  reporting a real fuelling fault — when trims corroborate the sensor, the finding says
+  replacing it will not fix anything, which is the expensive misdiagnosis it exists to
+  prevent. `rule_unmatched_codes` guarantees a code with no rule is still named, so the
+  response never implies a code was considered when it was not.
+- **Rules take a vehicle context** (`analyze(snapshot, vehicle, engine_profile)`). Used
+  only for configuration facts that change which physical checks are possible — a boost
+  leak requires an engine that makes boost. It is NOT a channel for platform lore;
+  nothing asserts what fails on a given make.
+- **Bank-specific lean that worsens under load** now yields a second finding: a vacuum
+  leak fades as airflow rises, so the opposite pattern points at fuel delivery or a
+  post-turbo leak.
+- **`Finding.kind`: `cause` vs `status`.** Pending/permanent codes are facts about the
+  codes, not causes. Mixed together, the model numbered "there are permanent codes" as a
+  likely cause. Carried separately in the response as `code_status`.
+- **`all_checks()` de-duplicates** recommended checks across rules. Two rules sharing a
+  check made the model repeat it verbatim, correctly, because it was told not to omit.
+- **`ESTIMATED REPAIR COST` regression.** Anchoring header matching lost this section:
+  the old substring match saw "REPAIR COST" inside it, prefix matching does not, and the
+  header was absent from `section_map`. Added, plus a test asserting every header the
+  prompt emits resolves — this class of bug is silent by construction.
+- **`num_predict` 1600 → 2800.** A 7-finding differential truncated mid-sentence.
+- **`test_diagnostics.py`**, 16 tests, offline, no model or network. The repo previously
+  had no real test of this layer (`test_api.py` is an ad-hoc script that GETs
+  fueleconomy.gov). Runs under pytest or standalone.
+- **New fixture `m6-2014-bank1-lean-misfire-hard`** — 2014 BMW M6 4.4L twin-turbo, seven
+  codes across four systems, built so each code read alone points somewhere different
+  from all of them read together.
+
+Measured on that fixture: prompt ~5,100 tokens, response ~1,400, **12/12 sections**.
+Reinforces `[OPEN] Canonical Qwen SKU` — worst case is now ~5,100 input + ~2,800
+`num_predict` ≈ 7,900 tokens, above the ~6,500 the existing budget assumed, and the
+UDS/P1xxx work will push it further.
+
+## [DECIDED] Payload v2, rule engine, tiered code definitions, retrieval — 2026-07-28
+Landed on `brief-1a-truth-fixes` after 1a. Six pieces:
+  1. **Parser fixed.** `parse_guidance` matched headers as substrings against every line,
+     so prose containing "DATABASE"/"SERVICE"/"COMMUNITY" silently opened a section — and
+     the prompt itself contained "CAR DATABASES". Matching is now anchored: a line is a
+     header only as the label before a colon or as a short all-caps line, matched by
+     prefix, longest header first. The `DATABASE` key is deleted. **Every format-adherence
+     number measured before this commit was partly grading this bug.**
+  2. **Payload v2** (`schemas.py`): freeze frame, fuel trims at stated conditions, Mode 06
+     with manufacturer limits, pending/permanent codes, user-entered mileage, and a
+     `CapabilityProfile`. All optional with null defaults; `obd_reader.py` unchanged.
+  3. **Rule engine** (`diagnostics.py`): Layer 1 derivation (total trim, idle-vs-load
+     delta, bank asymmetry, Mode 06 margin) and Layer 2 rules that ABSTAIN with a stated
+     reason rather than guess. Findings carry `Evidence.pointer` into the payload.
+     Thresholds are tagged `heuristic` — they are shop convention, not a standard.
+  4. **Tiered code definitions** (`dtc_definitions.py`): `standardized_unverified` |
+     `oem_verified` (none yet) | `structural_only`. Manufacturer-specific codes never get
+     a guessed meaning — including the 12 P1xxx entries in `ml/data/sae_j2012.json`,
+     which are ignored outright.
+  5. **Retrieval wired** (`knowledge.py` → `/interpret`): NHTSA complaints, NHTSA recalls,
+     and the local KB inside `<retrieved_context source= retrieved_at=>`, `NONE` when
+     empty, try/except so failure degrades rather than fails. Both code paths.
+  6. **Fixtures** (`fixtures.py`): 9 deterministic scenarios incl. a no-capability vehicle
+     and a manufacturer-code case. `POST /interpret {"scenario": "..."}`.
+
+### Two prompt defects found by running it
+- **`ollama_client.py` SYSTEM_PROMPT rules 5 and 9** told the model to "provide general
+  advice" for any section lacking data, and to fill KNOWN ISSUES "even if you have to
+  provide general advice." A fourth gap-filling instruction, one file outside `main.py`,
+  silently overriding the user prompt. Rewritten.
+- **`num_ctx` was never set, so Ollama used its 4096 default.** The payload-v2 prompt is
+  ~4,000 tokens, so the response-format instructions were being truncated out of the
+  window. Observed effect: first the model invented its own report structure, then it
+  degenerated into repeating `SAFETY LEVEL: CAUTION` to the token limit. Set to 16384,
+  `num_predict` 4000 → 1600, `repeat_penalty` 1.15. Sections went 1/12 → 11/12 with no
+  other change.
+
+### Bearing on open decisions
+- **`[OPEN] Canonical Qwen SKU`:** this is the missing worst-case measurement. The v2
+  prompt with retrieval is ~4,000 input tokens against the ~2,000–2,500 typical case in
+  `notes/2026-05-23-production-context-size.md`, confirming that entry's warning. Demand
+  is roughly 4,000 + `num_predict`; the P1xxx/UDS work will push it further.
+- **PR #8 "fine-tuning is load-bearing":** the parser bug did contaminate that measurement,
+  but the observed failures here were genuine model behaviour at correct context, not
+  parser artefacts. My earlier suggestion that re-measurement might overturn that
+  conclusion is withdrawn — it is more likely to survive than not. Re-measure anyway.
+- Evidence for the JSON contract + constrained decoding: both observed failure modes
+  (invented structure, repetition loop) are structurally impossible under grammar-
+  constrained decoding, and neither needs training to prevent.
+
+### Known gaps
+- `known_issues.json` is keyed make/model/year with no engine field and no mileage
+  windows, against a rule requiring engine keying. Mileage is threaded through and
+  reported but not yet matched to a window.
+- On the abstention fixture the model listed abstentions as if they were numbered causes.
+  Honest but clumsy; prompt wording, not correctness.
+- No rule covers O2-sensor-response codes, so `escape-2013-p1131-mfg-code` produces no
+  findings. Rules cover what has been written; the empty-differential path handles it.
+- Fixtures are development and regression only. They encode assumptions about vehicle
+  behaviour and cannot validate diagnostic logic — that needs real captures.
+
+## [DECIDED] Brief 1a — truth fixes in `/interpret` — 2026-07-27
+Context: `/interpret` substituted invented telemetry for missing measurements, instructed the
+  model to recall TSBs and known issues from its weights, logged demo/mock scans into
+  `research_scans`, and injected live-scraped web content into the prompt.
+Decision, all landed on `brief-1a-truth-fixes`:
+  1. Missing telemetry is `null`, never a substitute. `is not None`, not truthiness — the old
+     `if snapshot.rpm else 750` turned 0 RPM (engine off) into a warm idle and 0 F coolant
+     into 205 F. Verified safe for clients: `APIClient.swift:915-917` already declares `Int?`,
+     `index.html:1901-1916` already null-checks. No schema or iOS change.
+  2. Recall instructions deleted from both prompt paths. `KNOWN ISSUES` in each is now
+     "use ONLY sourced material above; if none, say no verified issue history was available."
+     With retrieval not yet wired (1b), that sentence is the expected output — correct per the
+     governing principle: a generic answer beats a confidently wrong known issue.
+  3. Mock/demo scans no longer reach `research_scans`. Gate is `snapshot.is_mock`, not the
+     `obd_source` string — `obd_source` has two demo spellings and its client-supplied value
+     is unvalidated, so it cannot carry the decision. `ClientSnapshot` grew `is_mock = False`.
+  4. Reddit deleted from `/interpret`; `code_scraper` (OBD-Codes / CarComplaints / RepairPal)
+     gated behind `ENABLE_SCRAPED_CODE_CONTEXT`, default off. `forum_scraper.py` stays on disk
+     because `scrape_training_data.py:75` imports its primitives.
+  5. `log_research_scan` reads telemetry off the snapshot, not out of `response_data`.
+Rationale for removing scrapers: reproducibility, not ToS. Per-request live scraping makes
+  prompt content depend on what a website said that day, so a baseline is not reproducible and
+  eval arms are not comparable across time. Fatal at WESEF independent of copyright exposure.
+Contamination audit — **no quarantine needed.** Production
+  `/home/abrennan/cleardrive/cleardrive.db` (confirmed via `WorkingDirectory` in
+  `cleardrive.service`; `DB_FILE` is a relative path) holds **0 rows in `research_scans` and
+  0 in `scans`**. Tables exist from startup init; nothing was ever logged. Dev-tree snapshots
+  hold 2 `scans` rows and no `research_scans` table at all. Every fix above is prophylactic.
+Corpus provenance — **the fine-tuning corpus is generated offline, not harvested from
+  production.** Nothing outside `database.py` reads `research_scans`. The corpus is
+  `training_data/raw/` built by `scrape_training_data.py`, then Opus-4.7-distilled per
+  `ml/notes/synthesis_design.md`. The "production output becomes training data" argument used
+  to justify sequencing does **not** hold today. `research_scans` is eval/telemetry
+  infrastructure that is *designed* to become training data later (see its docstring), so the
+  fixes remain correct — but the urgency claim was overstated and is withdrawn.
+Supersedes: nothing. Extends Never #7 in `CLAUDE.md`.
+
+## [OPEN] Scraped content in the training corpus
+The prompt-path ban on scraped content is settled (Never #7). The corpus half is not.
+`training_data/raw/` (marked read-only source of truth in `ml/CLAUDE.md`) is built from Reddit,
+RepairPal, CarComplaints, and NHTSA by `scrape_training_data.py`, and
+`ml/notes/synthesis_design.md` sources `OTHER OWNERS REPORT` from Reddit data. Applying the ban
+to the corpus invalidates both the existing corpus and the ETL synthesis design.
+Blocked on: a decision about whether the reproducibility argument that removed scrapers from
+  the prompt applies with equal force to a one-time frozen corpus snapshot — where the
+  "depends on what a website said that day" objection is weaker, since the corpus is fixed and
+  hashable, but the provenance objection stands.
+Must be settled before the synthesis run.
+
 ## [DECIDED] Pivot to Qwen MoE — 2026-07-27
 Context: Gemma 4 26B-A4B was locked 2026-05-23 (below) on VRAM headroom. Since then the
   decision has been revisited on training-ecosystem grounds: Qwen MoE has substantially

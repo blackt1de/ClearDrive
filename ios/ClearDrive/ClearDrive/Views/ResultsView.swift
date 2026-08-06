@@ -416,12 +416,31 @@ struct ResultsView: View {
 
     private var diagnosticCardsSection: some View {
         VStack(spacing: CDSpacing.medium) {
+            if result.isSynthetic {
+                SyntheticDataBanner()
+            }
+
             if let content = result.dontPanic, !content.isEmpty {
                 VehicleDiagnosticCard(title: "What's Happening", content: content, icon: "info.circle.fill")
             }
 
-            if let content = result.likelyCauses, !content.isEmpty {
+            // The evidence-backed differential replaces the prose "Likely Causes"
+            // whenever the rule engine reached a conclusion, because it can show
+            // each cause next to the reading from THIS vehicle that supports it.
+            // The prose version stays as the fallback for older backends.
+            if !result.differential.isEmpty {
+                EvidenceCausesCard(causes: result.differential)
+            } else if let content = result.likelyCauses, !content.isEmpty {
                 VehicleDiagnosticCard(title: "Likely Causes", content: content, icon: "questionmark.circle.fill")
+            }
+
+            if !result.notAssessed.isEmpty || !result.capabilityLimitations.isEmpty {
+                NotAssessedCard(items: result.notAssessed,
+                                limitations: result.capabilityLimitations)
+            }
+
+            if !result.codeStatus.isEmpty {
+                CodeStatusCard(notes: result.codeStatus)
             }
 
             if let content = result.symptoms, !content.isEmpty {
@@ -672,6 +691,289 @@ struct ResultsView: View {
         }
     }
 }
+
+// MARK: - Evidence-backed causes
+//
+// This is the card that distinguishes ClearDrive from a web search: every cause
+// is shown with the reading from THIS vehicle that points at it. The causes and
+// their evidence are computed by the backend rule engine, not written by the
+// language model, so what is rendered here is traceable to a measurement.
+
+struct EvidenceCausesCard: View {
+    let causes: [DiagnosticCause]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: CDSpacing.medium) {
+            HStack(spacing: CDSpacing.small) {
+                Image(systemName: "list.bullet.clipboard.fill")
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color.cdPrimaryBright)
+                Text("WHAT THE READINGS POINT TO")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(Color.cdPrimaryBright)
+                    .tracking(0.5)
+            }
+
+            ForEach(Array(causes.enumerated()), id: \.element.id) { index, cause in
+                VStack(alignment: .leading, spacing: CDSpacing.small) {
+                    HStack(alignment: .top, spacing: CDSpacing.small) {
+                        Text("\(index + 1)")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(Color.cdBackground)
+                            .frame(width: 20, height: 20)
+                            .background(Circle().fill(cause.confidenceColor))
+
+                        Text(cause.conclusion)
+                            .font(.system(size: 14))
+                            .foregroundStyle(Color.cdTextPrimary.opacity(0.92))
+                            .lineSpacing(4)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+
+                    // The evidence lines are the whole point — a reading from this
+                    // specific car, not a generic claim about the model.
+                    ForEach(cause.evidence) { item in
+                        HStack(alignment: .top, spacing: 6) {
+                            Image(systemName: "chart.bar.doc.horizontal")
+                                .font(.system(size: 10))
+                                .foregroundStyle(Color.cdPrimaryBright.opacity(0.8))
+                                .padding(.top, 2)
+                            Text(item.restatement)
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(Color.cdPrimaryBright.opacity(0.95))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(.leading, 28)
+                    }
+
+                    HStack(spacing: 6) {
+                        Text(cause.confidence.uppercased())
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundStyle(cause.confidenceColor)
+                            .padding(.horizontal, 6).padding(.vertical, 2)
+                            .background(Capsule().fill(cause.confidenceColor.opacity(0.15)))
+                        Text(cause.basisLabel)
+                            .font(.system(size: 10))
+                            .foregroundStyle(Color.cdTextSecondary)
+                    }
+                    .padding(.leading, 28)
+
+                    if index < causes.count - 1 {
+                        Divider().background(Color.cdTextSecondary.opacity(0.15))
+                            .padding(.top, 4)
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(CDSpacing.medium)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color.cdCardBackground)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color.cdPrimary.opacity(0.18), lineWidth: 1)
+                )
+        )
+    }
+}
+
+// MARK: - What could not be checked
+//
+// Showing the gaps is what makes the rest trustworthy. A scan that quietly omits
+// what it could not see reads as more confident than it has any right to be.
+
+struct NotAssessedCard: View {
+    let items: [NotAssessedItem]
+    let limitations: [String]
+
+    private var lines: [String] {
+        var seen = Set<String>()
+        var out: [String] = []
+        for text in items.map(\.reason) + limitations where !seen.contains(text) {
+            seen.insert(text)
+            out.append(text)
+        }
+        return out
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: CDSpacing.small) {
+            HStack(spacing: CDSpacing.small) {
+                Image(systemName: "eye.slash.fill")
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color.cdTextSecondary)
+                Text("WHAT WE COULDN'T CHECK")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(Color.cdTextSecondary)
+                    .tracking(0.5)
+            }
+
+            ForEach(lines, id: \.self) { line in
+                HStack(alignment: .top, spacing: 6) {
+                    Text("•")
+                        .font(.system(size: 13))
+                        .foregroundStyle(Color.cdTextSecondary)
+                    Text(line)
+                        .font(.system(size: 13))
+                        .foregroundStyle(Color.cdTextPrimary.opacity(0.75))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            Text("These gaps are listed rather than guessed at.")
+                .font(.system(size: 11))
+                .foregroundStyle(Color.cdTextSecondary.opacity(0.8))
+                .padding(.top, 2)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(CDSpacing.medium)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color.cdCardBackground.opacity(0.6))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color.cdTextSecondary.opacity(0.18), lineWidth: 1)
+                )
+        )
+    }
+}
+
+// MARK: - Code status (pending / permanent)
+
+struct CodeStatusCard: View {
+    let notes: [CodeStatusNote]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: CDSpacing.small) {
+            HStack(spacing: CDSpacing.small) {
+                Image(systemName: "clock.badge.exclamationmark.fill")
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color.cdWarning)
+                Text("CODE STATUS")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(Color.cdWarning)
+                    .tracking(0.5)
+            }
+
+            ForEach(notes) { note in
+                Text(note.conclusion)
+                    .font(.system(size: 13))
+                    .foregroundStyle(Color.cdTextPrimary.opacity(0.85))
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(CDSpacing.medium)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color.cdWarning.opacity(0.07))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color.cdWarning.opacity(0.2), lineWidth: 1)
+                )
+        )
+    }
+}
+
+// MARK: - Synthetic fixture banner
+//
+// A scenario run must never be mistakable for a real scan of a real car.
+
+struct SyntheticDataBanner: View {
+    var body: some View {
+        HStack(spacing: CDSpacing.small) {
+            Image(systemName: "testtube.2")
+                .foregroundStyle(Color.cdWarning)
+            Text("Test scenario — synthetic data, not a real vehicle scan")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(Color.cdWarning)
+            Spacer()
+        }
+        .padding(CDSpacing.small)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.cdWarning.opacity(0.12))
+        )
+    }
+}
+
+// MARK: - Scenario Picker (DEBUG)
+//
+// Drives the full pipeline from a named backend fixture so UI work needs no car
+// and no adapter. Deterministic: the same scenario returns identical data every
+// run, so anything that changes on screen is a change you made.
+
+#if DEBUG
+struct ScenarioPickerView: View {
+    @EnvironmentObject var apiClient: APIClient
+    @State private var scenarios: [APIClient.ScenarioSummary] = []
+    @State private var result: ScanResult?
+    @State private var loadingName: String?
+    @State private var errorText: String?
+
+    var body: some View {
+        List {
+            if let errorText {
+                Text(errorText)
+                    .font(.caption)
+                    .foregroundStyle(Color.cdCritical)
+                    .listRowBackground(Color.cdCardBackground)
+            }
+
+            ForEach(scenarios) { scenario in
+                Button {
+                    run(scenario.name)
+                } label: {
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(scenario.vehicle)
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundStyle(Color.cdTextPrimary)
+                            Spacer()
+                            if loadingName == scenario.name {
+                                ProgressView()
+                            }
+                        }
+                        Text(scenario.codes.isEmpty ? "no codes" : scenario.codes.joined(separator: ", "))
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(Color.cdPrimaryBright)
+                        Text(scenario.description)
+                            .font(.system(size: 11))
+                            .foregroundStyle(Color.cdTextSecondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                .disabled(loadingName != nil)
+                .listRowBackground(Color.cdCardBackground)
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .background(Color.cdBackground)
+        .navigationTitle("Test Scenarios")
+        .task {
+            do { scenarios = try await apiClient.listScenarios() }
+            catch { errorText = "Could not load scenarios: \(error.localizedDescription)" }
+        }
+        .sheet(item: $result) { scan in
+            // Environment objects are passed explicitly — sheet content does not
+            // reliably inherit them across presentation boundaries.
+            ResultsView(result: scan)
+                .environmentObject(apiClient)
+        }
+    }
+
+    private func run(_ name: String) {
+        loadingName = name
+        errorText = nil
+        Task {
+            do { result = try await apiClient.interpretScenario(name) }
+            catch { errorText = "Scenario failed: \(error.localizedDescription)" }
+            loadingName = nil
+        }
+    }
+}
+#endif
 
 // MARK: - Quick Question Button
 

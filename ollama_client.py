@@ -25,16 +25,30 @@ OLLAMA_TAGS_URL = f"{OLLAMA_BASE}/api/tags"
 
 DEFAULT_MODEL = "gemma4:e4b"
 
-SYSTEM_PROMPT = """You are ClearDrive, a friendly car diagnostic expert. CRITICAL RULES:
-1. Follow the response format EXACTLY - use the EXACT section headers provided
-2. Start your response with "SAFETY LEVEL:" then the content
-3. NEVER use markdown formatting like ** or * or __
-4. EVERY section must have meaningful content - no empty sections
-5. If you don't have specific data for a section, provide general advice relevant to the vehicle
-6. Be specific to this exact vehicle make/model/engine
-7. Use plain English - explain technical terms in parentheses
-8. For "WHAT'S HAPPENING" always start with "Your [vehicle] is showing code [code]..."
-9. Include the KNOWN ISSUES section even if you have to provide general advice for this engine type"""
+# NOTE: rules 5 and 9 of the previous version told the model to invent content
+# for any section it lacked data for ("provide general advice", "even if you have
+# to provide general advice for this engine type"). That is the same gap-filling
+# defect removed from main.py's prompt, hiding one file further out — it silently
+# overrode the user prompt's instruction to report missing evidence honestly.
+SYSTEM_PROMPT = """You are ClearDrive, a car diagnostic expert writing for a driver who does not know cars.
+
+OUTPUT RULES:
+1. Reply with ONLY the sections listed in the user message, each introduced by its
+   exact header in capitals followed by a colon, in the order given.
+2. Your first line must be exactly: SAFETY LEVEL: followed by SAFE, CAUTION, or STOP.
+3. No preamble, no disclaimer, no safety warning, no closing note, no "[End of Report]".
+   Do not invent section headers of your own.
+4. Never use markdown formatting such as **, *, __ or #.
+5. Plain English. Explain any technical term in parentheses the first time it appears.
+
+EVIDENCE RULES — these outrank everything above:
+6. Reason only over evidence supplied in the user message. Never state a fact about
+   this vehicle from your own knowledge: no known issues, recalls, service bulletins,
+   failure patterns, or maintenance specifications.
+7. Never invent content to fill a section. If the evidence for a section is absent,
+   say plainly that it was not available and what would be needed. An honest gap is
+   correct output, not a failure.
+8. Never state a number that does not appear in the user message."""
 
 
 async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
@@ -57,7 +71,24 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
                     "stream": False,
                     "options": {
                         "temperature": 0.2,
-                        "num_predict": 4000,
+                        # A rich differential (7+ findings on a multi-system fault)
+                        # needs room; at 1600 the M6 case truncated mid-sentence
+                        # inside ESTIMATED REPAIR COST, losing the last 4 sections.
+                        "num_predict": 2800,
+                        # num_ctx MUST be set explicitly. Ollama defaults it to
+                        # 4096, and the payload-v2 prompt (vehicle context +
+                        # tiered code definitions + computed differential +
+                        # retrieved NHTSA material) is around 4,000 tokens on
+                        # its own. At the default the prompt was silently
+                        # truncated, taking the response-format instructions out
+                        # of the window — which is why the model first invented
+                        # its own structure and then degenerated into a loop.
+                        "num_ctx": 16384,
+                        # Degeneracy control. num_predict was 4000, a long leash
+                        # for a small model; 1600 is comfortably above the
+                        # longest well-formed response observed.
+                        "repeat_penalty": 1.15,
+                        "repeat_last_n": 256,
                     },
                 },
             )
