@@ -52,3 +52,6 @@ ml/data/pairs/*
 .DS_Store
 Thumbs.db
 .git-scrub-replacements.txt
+
+# Headless smoke-run artifacts (scripts/smoke_run.py)
+runs/
