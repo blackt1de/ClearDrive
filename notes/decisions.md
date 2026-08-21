@@ -28,7 +28,11 @@ Evidence: `test_diagnostics.py` 37 passed (16 prior + 21 new; hand-label table i
 file). Fixture distribution after: 6 ok / 3 stop_driving / 1 insufficient_data / 0
 caution — the CAUTION rules are covered by constructed-snapshot unit tests, no fixture
 was added or edited.
-Open: no fixture lands on CAUTION; a real capture that does would be worth adding.
+Ruling (same day): added `tacoma-2009-p0171-severe-trim-synthetic`, the one CAUTION
+fixture (severe trim, no misfire); distribution is now 6 ok / 1 caution / 3 stop / 1
+insufficient. Misfire + warm freeze frame (coolant ≥ 180°F, tagged heuristic in the
+reason) → STOP is **deliberately conservative** pending calibration against the frozen
+eval set; the cost of a false STOP is a tow, the cost of a false CAUTION is a converter.
 `SAFETY_MISFIRE_CODES` covers P0300–P0312 per the brief while `MISFIRE_CODES` in the
 triage rule still stops at P0308 — left as-is under the no-rule-changes prohibition.
 

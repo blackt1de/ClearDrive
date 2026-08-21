@@ -378,6 +378,38 @@ _register(
 )
 
 
+# --- 11. CAUTION case: severe lean trim, no misfire (synthetic) --------------
+# Added for the safety verdict. The only fixture whose verdict is CAUTION: total
+# trim past the severe threshold with no misfire, no overheat, nothing at a
+# manufacturer limit. Like every fixture it is is_mock=True and cannot reach
+# research_scans.
+_register(
+    "tacoma-2009-p0171-severe-trim-synthetic",
+    "2009 Toyota Tacoma 2.7L, P0171 with total fuel trim past the severe threshold "
+    "at idle and under load. Synthetic CAUTION case for the safety verdict: the "
+    "engine computer is near the end of its fuel authority, but nothing here "
+    "warrants a stop-driving verdict.",
+    _vehicle(2009, "Toyota", "Tacoma", "2.7L I4", 2.7, 4, "5-Speed Manual", "RWD", hp="159"),
+    "Base",
+    OBDSnapshot(
+        dtc_codes=[DTCCode(code="P0171", description="System Too Lean (Bank 1)")],
+        rpm=748.0, speed_mph=0.0, coolant_temp_f=193.0, engine_load_pct=19.0,
+        intake_air_temp_f=83.0, maf_rate_gs=3.4, control_module_voltage=14.0,
+        fuel_trims=[
+            FuelTrim(condition="idle", stft_bank1=7.8, ltft_bank1=19.5),
+            FuelTrim(condition="loaded", stft_bank1=6.1, ltft_bank1=18.9),
+        ],
+        freeze_frames=[FreezeFrame(
+            dtc="P0171", rpm=2210.0, engine_load_pct=44.0, coolant_temp_f=191.0,
+            speed_mph=43.0, intake_air_temp_f=85.0, stft_bank1=6.4, ltft_bank1=19.1,
+        )],
+        mileage=164_300,
+        capability=CapabilityProfile(**FULL_CAPABILITY),
+        is_mock=True, fixture_name="tacoma-2009-p0171-severe-trim-synthetic",
+    ),
+)
+
+
 def list_scenarios() -> list:
     return [
         {"name": s["name"], "description": s["description"],

@@ -175,6 +175,7 @@ def test_fixtures_are_deterministic_and_marked_synthetic():
 #   civic-2008-p0442-evap                 | ok                | evap leak, trims normal
 #   rav4-2018-clean                       | ok                | no codes
 #   m6-2014-bank1-lean-misfire-hard       | stop_driving      | misfires at 84% load, Mode 06 misfire counts over limit
+#   tacoma-2009-p0171-severe-trim-synthetic | caution         | total trim 27.3% idle / 25.0% load ≥ severe 25%; no misfire
 EXPECTED_VERDICTS = {
     "accord-2012-p0171-vacuum-leak": diagnostics.VERDICT_OK,
     "f150-2015-p0301-coil": diagnostics.VERDICT_STOP,
@@ -186,6 +187,7 @@ EXPECTED_VERDICTS = {
     "civic-2008-p0442-evap": diagnostics.VERDICT_OK,
     "rav4-2018-clean": diagnostics.VERDICT_OK,
     "m6-2014-bank1-lean-misfire-hard": diagnostics.VERDICT_STOP,
+    "tacoma-2009-p0171-severe-trim-synthetic": diagnostics.VERDICT_CAUTION,
 }
 
 
@@ -214,7 +216,8 @@ def test_verdict_table_covers_every_fixture():
 def test_verdicts_are_not_degenerate():
     """The bug this brief retires: 8 of 10 model-prose verdicts were CAUTION."""
     seen = {_verdict_for(n).verdict for n in fixtures.SCENARIOS}
-    assert len(seen) >= 3, seen
+    assert seen == {diagnostics.VERDICT_OK, diagnostics.VERDICT_CAUTION,
+                    diagnostics.VERDICT_STOP, diagnostics.VERDICT_INSUFFICIENT}, seen
 
 
 def test_compute_safety_is_deterministic():
