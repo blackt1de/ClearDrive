@@ -1473,6 +1473,11 @@ async def interpret(request: InterpretRequest):
     # No codes detected
     if not snapshot.dtc_codes:
         response_data["dont_panic"] = "No trouble codes detected. Your vehicle appears to be running fine."
+        # The verdict is computed on this path too. Without this a clean scan
+        # returned the hardcoded SAFE default and no `safety` field — found by
+        # the Brief 1c smoke runner, not by the unit suite.
+        apply_safety(response_data, diagnostics.compute_safety(
+            diagnostics.analyze(snapshot, vehicle_data), snapshot, vehicle_data))
 
         if vehicle_data:
             # The no-codes path retrieves too, otherwise its KNOWN ISSUES section

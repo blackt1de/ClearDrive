@@ -714,13 +714,12 @@ def compute_safety(result: DiagnosticResult, snapshot, vehicle_data: dict = None
         elif VERDICT_RANK[new_level] == VERDICT_RANK[level] and reason_basis == "manufacturer_limit":
             basis = reason_basis
 
-    if not codes:
-        reasons.append(SafetyReason(
-            "no_codes", "No trouble codes are stored, and no rule found a reason to escalate.",
-            [Evidence("dtc_codes", "no trouble codes stored")]))
-        return SafetyVerdict(VERDICT_OK, reasons, basis)
-
-    code_ev = Evidence("dtc_codes", f"codes present: {', '.join(sorted(codes))}")
+    # No codes does not short-circuit: an overheating engine with a clean code
+    # store is still an overheating engine (rule f — "no codes, no cause
+    # findings, no escalations" → OK).
+    code_ev = Evidence("dtc_codes",
+                       f"codes present: {', '.join(sorted(codes))}" if codes
+                       else "no trouble codes stored")
 
     # (a) active misfire: CAUTION floor; STOP when the payload shows it happened
     #     under sustained load or with the catalyst at operating temperature.
@@ -821,7 +820,9 @@ def compute_safety(result: DiagnosticResult, snapshot, vehicle_data: dict = None
 
     # (g) codes present, nothing escalated, and a relevant measurement was
     #     null: abstain rather than return an OK the payload cannot support.
-    if level == VERDICT_OK and missing:
+    #     With no codes there is nothing to assess, so missing data is not an
+    #     abstention.
+    if level == VERDICT_OK and missing and codes:
         reasons.append(SafetyReason(
             "insufficient_data",
             "A safety level could not be assigned because the payload is missing: "
@@ -829,8 +830,12 @@ def compute_safety(result: DiagnosticResult, snapshot, vehicle_data: dict = None
             [code_ev]))
         return SafetyVerdict(VERDICT_INSUFFICIENT, reasons, basis)
 
-    # (f) codes present, no escalation, nothing blocked.
-    if level == VERDICT_OK:
+    # (f) no escalation, nothing blocked.
+    if level == VERDICT_OK and not codes:
+        reasons.append(SafetyReason(
+            "no_codes", "No trouble codes are stored, and no rule found a reason to escalate.",
+            [code_ev]))
+    elif level == VERDICT_OK:
         reasons.append(SafetyReason(
             "no_escalation",
             "Codes are stored, but no measurement in this scan crossed a threshold "

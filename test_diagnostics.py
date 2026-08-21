@@ -301,6 +301,33 @@ def test_overheat_is_stop_and_null_coolant_is_not():
     assert all(r.rule_id != "coolant_overheat" for r in v.reasons)
 
 
+def test_no_codes_still_escalates_on_overheat_but_not_on_missing_data():
+    hot = _snap(codes=[], coolant_temp_f=diagnostics.COOLANT_OVERHEAT_F + 1)
+    assert diagnostics.compute_safety(diagnostics.analyze(hot), hot).verdict == diagnostics.VERDICT_STOP
+    unknown = _snap(codes=[], coolant_temp_f=None)
+    v = diagnostics.compute_safety(diagnostics.analyze(unknown), unknown)
+    assert v.verdict == diagnostics.VERDICT_OK
+    assert any(r.rule_id == "no_codes" for r in v.reasons)
+
+
+def test_interpret_no_codes_path_carries_safety():
+    """A clean scan must carry the computed verdict, not the SAFE placeholder."""
+    import asyncio
+    from unittest.mock import patch
+    async def fake_model(prompt, model=None):
+        return "SUMMARY:\nclean"
+    async def no_retrieval(*a, **k):
+        return '<retrieved_context source="none">\nNONE\n</retrieved_context>', []
+    import main
+    with patch.object(main, "ask_ollama", fake_model), \
+         patch.object(main, "build_retrieval_block", no_retrieval), \
+         patch.object(main, "log_scan", lambda *a, **k: -1):
+        r = asyncio.run(main.interpret(main.InterpretRequest(scenario="rav4-2018-clean")))
+    assert r["safety"]["verdict"] == diagnostics.VERDICT_OK
+    assert r["safety"]["reasons"][0]["rule"] == "no_codes"
+    assert r["safety_level"] == "SAFE"
+
+
 def test_severe_trim_is_caution():
     from schemas import FuelTrim
     s = _snap(codes=["P0171"], coolant_temp_f=190.0,

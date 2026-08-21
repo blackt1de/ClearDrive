@@ -33,6 +33,11 @@ fixture (severe trim, no misfire); distribution is now 6 ok / 1 caution / 3 stop
 insufficient. Misfire + warm freeze frame (coolant ≥ 180°F, tagged heuristic in the
 reason) → STOP is **deliberately conservative** pending calibration against the frozen
 eval set; the cost of a false STOP is a tow, the cost of a false CAUTION is a converter.
+Defect found by the Brief 1c smoke runner (same day): the no-codes path of `/interpret`
+returned before `compute_safety` ran, shipping the hardcoded SAFE placeholder and no
+`safety` field. Fixed: the verdict is computed on that path too, and `compute_safety`
+no longer short-circuits on an empty code store (an overheating engine with no codes
+is STOP; missing data with no codes is OK, not INSUFFICIENT). 40 tests.
 `SAFETY_MISFIRE_CODES` covers P0300–P0312 per the brief while `MISFIRE_CODES` in the
 triage rule still stops at P0308 — left as-is under the no-rule-changes prohibition.
 
