@@ -2,6 +2,36 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Safety verdict is computed, not narrated (Brief 1b) — 2026-08-21
+Context: the model assigned SAFETY LEVEL from prose. Measured on the unmodified code
+the same day, 8 of 10 fixtures came back CAUTION (civic P0442 and the clean RAV4 were SAFE) — a misfire at
+72% load, a marginal catalyst, and a vehicle that reported nothing all got the same
+label. Severity was the one field the driver acts on and it carried no information.
+Decision: `diagnostics.compute_safety(result, snapshot, vehicle_data)` is a pure
+function of rule output and payload. Ordinal scale `ok < caution < stop_driving`;
+`insufficient_data` is an abstention outside the scale. Max-wins escalation, every
+escalation carries evidence pointers. Rules: misfire → CAUTION, misfire with freeze-
+frame load ≥ 60% / coolant ≥ 180°F / Mode 06 misfire fail → STOP; coolant > 230°F →
+STOP; |total trim| ≥ 25% → CAUTION; high-confidence `manufacturer_limit` finding →
+CAUTION floor; status findings never move the verdict. Codes present, nothing
+escalated, and a relevant measurement null → INSUFFICIENT (interpreted as *any*
+applicable rule blocked, not *every* one — an OK the payload cannot support is a
+fabricated default). Thresholds are tagged heuristic in every reason. The prompt now
+hands the model the verdict and its reasons and tells it to write the label verbatim;
+the SAFE/CAUTION/STOP criteria block and "Don't be afraid to use STOP" are deleted. A
+model that writes a different label is logged as non-adherence and overridden.
+`response_data["safety"]` carries the full verdict; legacy `safety_level` maps
+ok→SAFE, caution→CAUTION, stop_driving→STOP, insufficient_data→UNKNOWN (new
+`SAFETY_DEFINITIONS` entry, additive). Model failure no longer downgrades the level to
+UNKNOWN — the computed verdict stands without narration.
+Evidence: `test_diagnostics.py` 37 passed (16 prior + 21 new; hand-label table in the
+file). Fixture distribution after: 6 ok / 3 stop_driving / 1 insufficient_data / 0
+caution — the CAUTION rules are covered by constructed-snapshot unit tests, no fixture
+was added or edited.
+Open: no fixture lands on CAUTION; a real capture that does would be worth adding.
+`SAFETY_MISFIRE_CODES` covers P0300–P0312 per the brief while `MISFIRE_CODES` in the
+triage rule still stops at P0308 — left as-is under the no-rule-changes prohibition.
+
 ## [DECIDED] Rule coverage, cause/status split, M6 hard case, regression suite — 2026-07-28
 Follows the payload-v2 entry below.
 - **New rules.** `rule_oxygen_sensor` separates a failed sensor from one correctly

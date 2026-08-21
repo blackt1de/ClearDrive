@@ -37,6 +37,17 @@ TRIM_SEVERE = 25.0       # near the limit of ECU fuel authority
 TRIM_BANK_ASYMMETRY = 8.0  # % difference that makes a fault bank-specific
 TRIM_LOAD_DELTA = 8.0    # idle-minus-load % gap implying an unmetered-air leak
 COOLANT_OPERATING_MIN_F = 180.0
+COOLANT_OVERHEAT_F = 230.0        # above this the engine is overheating, not merely warm
+MISFIRE_SUSTAINED_LOAD_PCT = 60.0  # freeze-frame load at which a misfire is feeding a hot catalyst
+
+# --- Safety verdict scale -----------------------------------------------------
+# Ordinal: ok < caution < stop_driving. insufficient_data sits OUTSIDE the scale:
+# it is an abstention ("the payload does not let us say"), not a severity.
+VERDICT_OK = "ok"
+VERDICT_CAUTION = "caution"
+VERDICT_STOP = "stop_driving"
+VERDICT_INSUFFICIENT = "insufficient_data"
+VERDICT_RANK = {VERDICT_OK: 0, VERDICT_CAUTION: 1, VERDICT_STOP: 2}
 
 
 @dataclass
@@ -66,6 +77,37 @@ class Abstention:
     rule_id: str
     reason: str
     missing: list = field(default_factory=list)
+
+
+@dataclass
+class SafetyReason:
+    rule_id: str
+    statement: str
+    evidence: list = field(default_factory=list)   # list[Evidence], pointers resolve into the payload
+    # The level this reason raised the verdict to, or None when it only
+    # modifies urgency wording (code status) or records missing data.
+    raises_to: Optional[str] = None
+
+
+@dataclass
+class SafetyVerdict:
+    verdict: str
+    reasons: list = field(default_factory=list)   # list[SafetyReason]
+    basis: str = "heuristic"   # "heuristic" | "manufacturer_limit" | "structural"
+
+    def to_dict(self) -> dict:
+        return {
+            "verdict": self.verdict,
+            "basis": self.basis,
+            "reasons": [
+                {
+                    "rule": r.rule_id, "statement": r.statement, "raises_to": r.raises_to,
+                    "evidence": [{"pointer": e.pointer, "restatement": e.restatement}
+                                 for e in r.evidence],
+                }
+                for r in self.reasons
+            ],
+        }
 
 
 @dataclass
@@ -633,3 +675,169 @@ def analyze(snapshot, vehicle: dict = None, engine_profile: dict = None) -> Diag
     for lim in snapshot.capability.limitations:
         result.abstentions.append(Abstention("capture_limitation", lim, ["vehicle support"]))
     return result
+
+
+# --- Layer 3: safety verdict ---------------------------------------------------
+# The brief's range (P0300–P0312) is wider than the triage rule's; the triage
+# rule is left untouched and this set is used only for the verdict.
+SAFETY_MISFIRE_CODES = {f"P03{i:02d}" for i in range(0, 13)}
+_DISPLAY = {VERDICT_OK: "OK", VERDICT_CAUTION: "CAUTION", VERDICT_STOP: "STOP DRIVING",
+            VERDICT_INSUFFICIENT: "INSUFFICIENT DATA"}
+
+
+def compute_safety(result: DiagnosticResult, snapshot, vehicle_data: dict = None) -> SafetyVerdict:
+    """Pure function of the rule output and the captured payload. No I/O, no model.
+
+    Starts at OK. Each escalation rule raises the verdict to at least its level
+    (max wins) and appends a reason whose evidence points into the payload. A
+    rule whose required measurement is null contributes nothing and records the
+    missing field; if no rule escalated and at least one applicable rule was
+    blocked that way, the verdict is INSUFFICIENT rather than a fabricated OK.
+
+    Status findings (pending/permanent) change urgency wording only. They are
+    facts about the codes, not about the fault, and never move the verdict.
+    """
+    codes = _codes(snapshot)
+    reasons: list = []
+    missing: list = []
+    basis = "heuristic"
+    level = VERDICT_OK
+
+    def raise_to(new_level, reason: SafetyReason, reason_basis="heuristic"):
+        # `basis` describes the rule that set the final level. On a tie, a
+        # vehicle-supplied limit outranks a rule of thumb.
+        nonlocal level, basis
+        reason.raises_to = new_level
+        reasons.append(reason)
+        if VERDICT_RANK[new_level] > VERDICT_RANK[level]:
+            level, basis = new_level, reason_basis
+        elif VERDICT_RANK[new_level] == VERDICT_RANK[level] and reason_basis == "manufacturer_limit":
+            basis = reason_basis
+
+    if not codes:
+        reasons.append(SafetyReason(
+            "no_codes", "No trouble codes are stored, and no rule found a reason to escalate.",
+            [Evidence("dtc_codes", "no trouble codes stored")]))
+        return SafetyVerdict(VERDICT_OK, reasons, basis)
+
+    code_ev = Evidence("dtc_codes", f"codes present: {', '.join(sorted(codes))}")
+
+    # (a) active misfire: CAUTION floor; STOP when the payload shows it happened
+    #     under sustained load or with the catalyst at operating temperature.
+    misfires = sorted(codes & SAFETY_MISFIRE_CODES)
+    if misfires:
+        raise_to(VERDICT_CAUTION, SafetyReason(
+            "misfire_active",
+            f"An active misfire code ({', '.join(misfires)}) is stored. Unburned fuel "
+            "from a misfire reaches the catalytic converter, so this needs attention "
+            "before it becomes a converter repair (heuristic).",
+            [code_ev]))
+        hot_ev = []
+        for c in misfires:
+            ff = snapshot.freeze_frame_for(c)
+            if not ff:
+                continue
+            if ff.engine_load_pct is not None and ff.engine_load_pct >= MISFIRE_SUSTAINED_LOAD_PCT:
+                hot_ev.append(Evidence(
+                    f"freeze_frames[{ff.dtc}].engine_load_pct",
+                    f"the misfire was recorded at {ff.engine_load_pct:.0f}% engine load "
+                    f"(threshold {MISFIRE_SUSTAINED_LOAD_PCT:.0f}%, heuristic)",
+                    ff.engine_load_pct))
+            if ff.coolant_temp_f is not None and ff.coolant_temp_f >= COOLANT_OPERATING_MIN_F:
+                hot_ev.append(Evidence(
+                    f"freeze_frames[{ff.dtc}].coolant_temp_f",
+                    f"the misfire was recorded with coolant at {ff.coolant_temp_f:.0f}°F, "
+                    f"i.e. at operating temperature (threshold {COOLANT_OPERATING_MIN_F:.0f}°F, heuristic)",
+                    ff.coolant_temp_f))
+        for t in snapshot.mode06:
+            if t.passed is False and t.value is not None and "misfire" in (t.name or "").lower():
+                hot_ev.append(Evidence(
+                    f"mode06[{t.mid}]",
+                    f"the on-board misfire monitor recorded {t.value:g} {t.units or ''} "
+                    f"against a limit of {t.max_limit if t.max_limit is not None else t.min_limit}",
+                    t.value))
+        if hot_ev:
+            raise_to(VERDICT_STOP, SafetyReason(
+                "misfire_under_load",
+                "The misfire occurred while the engine was working hard or fully warm. "
+                "Raw fuel entering a hot catalytic converter overheats and destroys it, "
+                "which turns an ignition repair into a converter replacement (heuristic).",
+                hot_ev))
+        else:
+            any_ff = any(snapshot.freeze_frame_for(c) for c in misfires)
+            if not any_ff:
+                missing.append("freeze frame for the misfire code")
+                reasons.append(SafetyReason(
+                    "misfire_under_load",
+                    "Whether the misfire happened under load could not be assessed: no "
+                    "freeze frame was stored for it.",
+                    [code_ev]))
+
+    # (b) overheating: STOP. Null coolant contributes nothing.
+    if snapshot.coolant_temp_f is None:
+        missing.append("coolant temperature")
+    elif snapshot.coolant_temp_f > COOLANT_OVERHEAT_F:
+        raise_to(VERDICT_STOP, SafetyReason(
+            "coolant_overheat",
+            f"Coolant is above {COOLANT_OVERHEAT_F:.0f}°F (heuristic overheat threshold). "
+            "Driving an overheating engine warps cylinder heads and fails head gaskets "
+            "within minutes.",
+            [Evidence("coolant_temp_f", f"coolant temperature is {snapshot.coolant_temp_f:.0f}°F",
+                      snapshot.coolant_temp_f)]))
+
+    # (c) severe fuel trim: CAUTION. Trims are the measurement that settles a
+    #     mixture code, so their absence blocks this rule only when such a code
+    #     is present.
+    trim_values = [(k, v) for k, v in result.derived.items()
+                   if k.startswith("total_trim_") and isinstance(v, (int, float))]
+    if trim_values:
+        severe = [(k, v) for k, v in trim_values if abs(v) >= TRIM_SEVERE]
+        if severe:
+            raise_to(VERDICT_CAUTION, SafetyReason(
+                "fuel_trim_severe",
+                f"Total fuel trim is at or beyond ±{TRIM_SEVERE:.0f}% (heuristic), which is "
+                "near the limit of what the engine computer can correct for. Past that "
+                "limit the mixture goes uncontrolled.",
+                [Evidence(f"derived.{k}", f"{k.replace('_', ' ')} is {v:+.1f}%", v)
+                 for k, v in severe]))
+    elif codes & (LEAN_CODES | RICH_CODES):
+        missing.append("fuel trims")
+
+    # (d) a high-confidence finding against a manufacturer limit: CAUTION floor.
+    for f in result.causes:
+        if f.basis == "manufacturer_limit" and f.confidence == "high":
+            raise_to(VERDICT_CAUTION, SafetyReason(
+                "manufacturer_limit_exceeded",
+                "A measurement is past a limit supplied by the vehicle itself, not a "
+                "rule of thumb: " + f.conclusion,
+                list(f.evidence)), "manufacturer_limit")
+
+    # (e) code status modifies urgency wording only; never the verdict.
+    for f in result.statuses:
+        reasons.append(SafetyReason(
+            f.rule_id,
+            f.conclusion + " This changes how soon to act, not how serious the fault is.",
+            list(f.evidence)))
+
+    # (g) codes present, nothing escalated, and a relevant measurement was
+    #     null: abstain rather than return an OK the payload cannot support.
+    if level == VERDICT_OK and missing:
+        reasons.append(SafetyReason(
+            "insufficient_data",
+            "A safety level could not be assigned because the payload is missing: "
+            + ", ".join(missing) + ".",
+            [code_ev]))
+        return SafetyVerdict(VERDICT_INSUFFICIENT, reasons, basis)
+
+    # (f) codes present, no escalation, nothing blocked.
+    if level == VERDICT_OK:
+        reasons.append(SafetyReason(
+            "no_escalation",
+            "Codes are stored, but no measurement in this scan crossed a threshold "
+            "that would make continued driving risky.",
+            [code_ev]))
+    return SafetyVerdict(level, reasons, basis)
+
+
+def verdict_display(verdict: str) -> str:
+    return _DISPLAY[verdict]
