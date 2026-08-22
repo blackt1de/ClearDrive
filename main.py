@@ -88,8 +88,34 @@ SAFETY_DEFINITIONS = {
         "description": "Continuing to drive could cause permanent damage to your engine, transmission, or other major components. This could turn a $500 repair into a $5,000+ repair.",
         "action": "Go to a mechanic immediately or have vehicle towed",
         "icon": "🔴"
+    },
+    "UNKNOWN": {
+        "meaning": "Could Not Be Determined",
+        "description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+        "action": "Have the vehicle checked rather than assuming it is fine",
+        "icon": "⚪"
     }
 }
+
+# The verdict is computed in diagnostics.compute_safety and the model restates
+# it. These are the legacy labels iOS and the PWA already render.
+VERDICT_TO_LEGACY = {
+    diagnostics.VERDICT_OK: "SAFE",
+    diagnostics.VERDICT_CAUTION: "CAUTION",
+    diagnostics.VERDICT_STOP: "STOP",
+    diagnostics.VERDICT_INSUFFICIENT: "UNKNOWN",
+}
+
+
+def apply_safety(response_data: dict, verdict: diagnostics.SafetyVerdict) -> str:
+    """Write the computed verdict into the response; returns the legacy label."""
+    label = VERDICT_TO_LEGACY[verdict.verdict]
+    response_data["safety"] = verdict.to_dict()
+    response_data["safety_level"] = label
+    response_data["safety_meaning"] = SAFETY_DEFINITIONS[label]["meaning"]
+    response_data["safety_description"] = SAFETY_DEFINITIONS[label]["description"]
+    response_data["safety_action"] = SAFETY_DEFINITIONS[label]["action"]
+    return label
 
 
 class TrimRequest(BaseModel):
@@ -790,6 +816,8 @@ async def demo_scenario(name: str):
         "vehicle": s["vehicle"], "trim": s["trim"],
         "snapshot": snap.model_dump(mode="json"),
         "resolved_definitions": dtc_definitions.resolve_all([c.code for c in snap.dtc_codes]),
+        "safety": diagnostics.compute_safety(
+            diagnostics.analyze(snap, s["vehicle"]), snap, s["vehicle"]).to_dict(),
         "analysis": {
             "derived": diagnostics.analyze(snap, s["vehicle"]).derived,
             "findings": [
@@ -1445,6 +1473,11 @@ async def interpret(request: InterpretRequest):
     # No codes detected
     if not snapshot.dtc_codes:
         response_data["dont_panic"] = "No trouble codes detected. Your vehicle appears to be running fine."
+        # The verdict is computed on this path too. Without this a clean scan
+        # returned the hardcoded SAFE default and no `safety` field — found by
+        # the Brief 1c smoke runner, not by the unit suite.
+        apply_safety(response_data, diagnostics.compute_safety(
+            diagnostics.analyze(snapshot, vehicle_data), snapshot, vehicle_data))
 
         if vehicle_data:
             # The no-codes path retrieves too, otherwise its KNOWN ISSUES section
@@ -1628,6 +1661,21 @@ RULES:
     print(f"[Diagnostics] {len(analysis.findings)} findings, "
           f"{len(analysis.abstentions)} abstentions", flush=True)
 
+    # --- Safety verdict: computed here, restated by the model -----------------
+    # A pure function of the rule output and the payload. The model is told the
+    # verdict and explains its reasons; it never assigns or adjusts severity.
+    safety = diagnostics.compute_safety(analysis, snapshot, vehicle_data)
+    safety_label = apply_safety(response_data, safety)
+    safety_block = "\n".join(
+        [f"VERDICT: {diagnostics.verdict_display(safety.verdict)}  "
+         f"(label to write under SAFETY LEVEL: {safety_label}; basis: {safety.basis})"]
+        + [f"  - {r.statement}" + "".join(f"\n      evidence [{e.pointer}]: {e.restatement}"
+                                          for e in r.evidence)
+           for r in safety.reasons]
+    )
+    print(f"[Safety] {safety.verdict} ({safety_label}), "
+          f"{sum(1 for r in safety.reasons if r.raises_to)} escalations", flush=True)
+
     # --- Retrieval: vehicle facts come from a source, never from weights ------
     # Degrades the answer on failure; never fails the request.
     try:
@@ -1709,29 +1757,19 @@ than guessing what it means.
 [RETRIEVED INFORMATION ABOUT THIS VEHICLE]
 {retrieval_block}
 
+[SAFETY VERDICT — already computed from this vehicle's measurements; you do not assign it]
+{safety_block}
+
+The safety level has been decided by the checks above. Write the label given
+there verbatim under SAFETY LEVEL. Do not raise it, lower it, or pick your own.
+Explain the reasons listed, in plain words, wherever urgency comes up. Your
+"WHEN TO SEE A MECHANIC" advice must match this verdict: SAFE means it can wait
+weeks; CAUTION means schedule service within 1-2 weeks and driving short trips is
+fine; STOP means do not drive except straight to a mechanic, or have it towed;
+UNKNOWN means the scan could not measure enough to judge — say that, and do not
+guess a level.
+
 [YOUR RESPONSE - START HERE]
-
-SAFETY LEVEL: [Pick ONE: SAFE, CAUTION, or STOP]
-
-IMPORTANT - Be consistent! Your safety level MUST match your "WHEN TO SEE A MECHANIC" advice:
-
-- SAFE = Truly minor issues that can wait weeks/months with no consequences.
-  Examples: loose gas cap (P0442), minor O2 sensor drift, small EVAP leaks, cosmetic codes.
-  Your mechanic advice should say "fix whenever convenient" or "can wait a few weeks."
-
-- CAUTION = Needs attention within 1-2 weeks. Won't strand you today, but will get worse or affect performance.
-  Examples: occasional misfires (P0300), catalyst efficiency (P0420), lean/rich codes (P0171/P0174), most sensor failures.
-  Your mechanic advice should say "schedule service soon" or "get checked in the next week or two."
-
-- STOP = Continuing to drive WILL cause expensive damage or is unsafe. Use this for:
-  * Overheating codes (P0217, P0218) - will destroy engine
-  * Oil pressure codes (P0520, P0521) - engine will seize
-  * Severe/constant misfires with flashing CEL - destroys catalytic converter ($1000+)
-  * Transmission overheating/slipping codes - will burn up transmission
-  * Any code with symptoms like: burning smell, smoke, loud knocking, metal shavings, loss of power steering/brakes
-  Your mechanic advice should say "stop driving immediately" or "have it towed" or "go straight to a mechanic."
-
-Don't be afraid to use STOP when warranted - it could save them thousands in damage!
 
 """
 
@@ -1799,8 +1837,8 @@ This is a {perf_tier} vehicle. Keep in mind:
 
 RESPONSE FORMAT - Follow EXACTLY:
 
-SAFETY LEVEL: [SAFE, CAUTION, or STOP]
-(Remember: SAFE means truly fine to ignore for weeks. If you're saying "get checked soon" or "in the next few days" - use CAUTION!)
+SAFETY LEVEL: {safety_label}
+(Write exactly that word. It was computed above and is not yours to change.)
 
 WHAT'S HAPPENING:
 Start with "Your {vehicle_str_with_trim} is showing code {codes_list[0]}."
@@ -1919,20 +1957,22 @@ SAFETY LEVEL."""
     ai_response = await ask_ollama(prompt)
     
     if ai_response.startswith("ERROR:"):
-        response_data["safety_level"] = "UNKNOWN"
+        # The computed verdict already sits in response_data; a model failure
+        # loses the narration, not the safety level.
         response_data["dont_panic"] = ai_response
         return response_data
-    
+
     # Parse response
     parsed = parse_guidance(ai_response)
-    
-    # Set safety level and meaning
-    safety_level = parsed["safety_level"]
-    response_data["safety_level"] = safety_level
-    response_data["safety_meaning"] = SAFETY_DEFINITIONS.get(safety_level, SAFETY_DEFINITIONS["CAUTION"])["meaning"]
-    response_data["safety_description"] = SAFETY_DEFINITIONS.get(safety_level, SAFETY_DEFINITIONS["CAUTION"])["description"]
-    response_data["safety_action"] = SAFETY_DEFINITIONS.get(safety_level, SAFETY_DEFINITIONS["CAUTION"])["action"]
-    
+
+    # The safety fields were set from compute_safety before the model ran and
+    # are not overwritten from prose. A mismatch is logged as model
+    # non-adherence, which the format-adherence metric should see.
+    if parsed["safety_level"] != safety_label:
+        print(f"[Safety] model wrote {parsed['safety_level']!r}, computed {safety_label!r} "
+              "— computed verdict kept", flush=True)
+    parsed["safety_level"] = safety_label
+
     response_data["dont_panic"] = parsed["dont_panic"]
     response_data["likely_causes"] = parsed["likely_causes"]
     response_data["symptoms"] = parsed["symptoms"]
@@ -1946,7 +1986,7 @@ SAFETY LEVEL."""
     response_data["owner_reports"] = parsed["owner_reports"]
     
     # Log scan and return scan_id for followup/feedback linking
-    scan_id = log_scan(", ".join(codes_list), parsed["safety_level"], ai_response)
+    scan_id = log_scan(", ".join(codes_list), safety_label, ai_response)
     response_data["scan_id"] = scan_id
 
     # Research logging — additive, parallel to log_scan above.
@@ -1990,7 +2030,7 @@ SAFETY LEVEL."""
             prompt_text=prompt,
             response_text=ai_response,
             response_parsed=parsed,
-            safety_level=parsed["safety_level"],
+            safety_level=safety_label,
             had_error=False,
             data_sources=response_data.get("data_sources"),
         )
@@ -2097,6 +2137,7 @@ The safety level is {safety}. Your driving advice MUST match this:
 - SAFE = Can drive normally for weeks/months, no rush
 - CAUTION = Safe to drive short distances, but schedule service within 1-2 weeks. DON'T say "don't drive" or "avoid driving" - they CAN drive!
 - STOP = Should NOT drive at all (except to mechanic). Only say "don't drive" if safety level is STOP.
+- UNKNOWN = The scan could not measure enough to judge. Say so; do not assign a level yourself.
 
 If someone asks "can I drive?" or similar:
 - CAUTION: "Yes, you can drive but schedule service soon" NOT "I wouldn't recommend driving"

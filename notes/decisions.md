@@ -2,6 +2,62 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Headless fixture smoke runner is the baseline instrument (Brief 1c) — 2026-08-21
+Context: the fixture sweep was run by hand, once, through the iOS client or ad-hoc scripts.
+Decision: `scripts/smoke_run.py` POSTs every fixture scenario to a running server
+exactly as iOS does, saves each raw response to `runs/smoke_<date>/` (gitignored), and
+prints one row per fixture: verdict, codes, definition-tier counts, retrieval sources,
+model-adherence to the computed label, seconds. Adherence is read back from the
+`scans` table via `scan_id` (the raw model text is stored there), so no pipeline code
+changed. Columns are mechanical facts only; no LLM judging. Non-zero exit on any error
+or missing `safety`.
+Evidence: first full run against the 1b code found that the no-codes path shipped no
+`safety` field (fixed on 1b, 101cf06). Final run: 11/11 clean, verdicts 6 ok / 1
+caution / 3 stop / 1 insufficient, 10/10 coded fixtures adhered, mean 13.6 s. The
+no-codes fixture reports adherence `n/a` — that path uses a SUMMARY/SERVICE/KNOWN
+prompt with no SAFETY LEVEL line, so there is nothing to compare.
+Server facts the same day are in `notes/2026-08-21-server-sanity.md`: Ollama serving,
+`num_ctx` 16384, GPU at 91–93 % during a request, production checkout stale at 18cd60c.
+
+## [DECIDED] Safety verdict is computed, not narrated (Brief 1b) — 2026-08-21
+Context: the model assigned SAFETY LEVEL from prose. Measured on the unmodified code
+the same day, 8 of 10 fixtures came back CAUTION (civic P0442 and the clean RAV4 were SAFE) — a misfire at
+72% load, a marginal catalyst, and a vehicle that reported nothing all got the same
+label. Severity was the one field the driver acts on and it carried no information.
+Decision: `diagnostics.compute_safety(result, snapshot, vehicle_data)` is a pure
+function of rule output and payload. Ordinal scale `ok < caution < stop_driving`;
+`insufficient_data` is an abstention outside the scale. Max-wins escalation, every
+escalation carries evidence pointers. Rules: misfire → CAUTION, misfire with freeze-
+frame load ≥ 60% / coolant ≥ 180°F / Mode 06 misfire fail → STOP; coolant > 230°F →
+STOP; |total trim| ≥ 25% → CAUTION; high-confidence `manufacturer_limit` finding →
+CAUTION floor; status findings never move the verdict. Codes present, nothing
+escalated, and a relevant measurement null → INSUFFICIENT (interpreted as *any*
+applicable rule blocked, not *every* one — an OK the payload cannot support is a
+fabricated default). Thresholds are tagged heuristic in every reason. The prompt now
+hands the model the verdict and its reasons and tells it to write the label verbatim;
+the SAFE/CAUTION/STOP criteria block and "Don't be afraid to use STOP" are deleted. A
+model that writes a different label is logged as non-adherence and overridden.
+`response_data["safety"]` carries the full verdict; legacy `safety_level` maps
+ok→SAFE, caution→CAUTION, stop_driving→STOP, insufficient_data→UNKNOWN (new
+`SAFETY_DEFINITIONS` entry, additive). Model failure no longer downgrades the level to
+UNKNOWN — the computed verdict stands without narration.
+Evidence: `test_diagnostics.py` 37 passed (16 prior + 21 new; hand-label table in the
+file). Fixture distribution after: 6 ok / 3 stop_driving / 1 insufficient_data / 0
+caution — the CAUTION rules are covered by constructed-snapshot unit tests, no fixture
+was added or edited.
+Ruling (same day): added `tacoma-2009-p0171-severe-trim-synthetic`, the one CAUTION
+fixture (severe trim, no misfire); distribution is now 6 ok / 1 caution / 3 stop / 1
+insufficient. Misfire + warm freeze frame (coolant ≥ 180°F, tagged heuristic in the
+reason) → STOP is **deliberately conservative** pending calibration against the frozen
+eval set; the cost of a false STOP is a tow, the cost of a false CAUTION is a converter.
+Defect found by the Brief 1c smoke runner (same day): the no-codes path of `/interpret`
+returned before `compute_safety` ran, shipping the hardcoded SAFE placeholder and no
+`safety` field. Fixed: the verdict is computed on that path too, and `compute_safety`
+no longer short-circuits on an empty code store (an overheating engine with no codes
+is STOP; missing data with no codes is OK, not INSUFFICIENT). 40 tests.
+`SAFETY_MISFIRE_CODES` covers P0300–P0312 per the brief while `MISFIRE_CODES` in the
+triage rule still stops at P0308 — left as-is under the no-rule-changes prohibition.
+
 ## [DECIDED] Rule coverage, cause/status split, M6 hard case, regression suite — 2026-07-28
 Follows the payload-v2 entry below.
 - **New rules.** `rule_oxygen_sensor` separates a failed sensor from one correctly
