@@ -2,6 +2,23 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Headless fixture smoke runner is the baseline instrument (Brief 1c) — 2026-08-21
+Context: the fixture sweep was run by hand, once, through the iOS client or ad-hoc scripts.
+Decision: `scripts/smoke_run.py` POSTs every fixture scenario to a running server
+exactly as iOS does, saves each raw response to `runs/smoke_<date>/` (gitignored), and
+prints one row per fixture: verdict, codes, definition-tier counts, retrieval sources,
+model-adherence to the computed label, seconds. Adherence is read back from the
+`scans` table via `scan_id` (the raw model text is stored there), so no pipeline code
+changed. Columns are mechanical facts only; no LLM judging. Non-zero exit on any error
+or missing `safety`.
+Evidence: first full run against the 1b code found that the no-codes path shipped no
+`safety` field (fixed on 1b, 101cf06). Final run: 11/11 clean, verdicts 6 ok / 1
+caution / 3 stop / 1 insufficient, 10/10 coded fixtures adhered, mean 13.6 s. The
+no-codes fixture reports adherence `n/a` — that path uses a SUMMARY/SERVICE/KNOWN
+prompt with no SAFETY LEVEL line, so there is nothing to compare.
+Server facts the same day are in `notes/2026-08-21-server-sanity.md`: Ollama serving,
+`num_ctx` 16384, GPU at 91–93 % during a request, production checkout stale at 18cd60c.
+
 ## [DECIDED] Safety verdict is computed, not narrated (Brief 1b) — 2026-08-21
 Context: the model assigned SAFETY LEVEL from prose. Measured on the unmodified code
 the same day, 8 of 10 fixtures came back CAUTION (civic P0442 and the clean RAV4 were SAFE) — a misfire at
