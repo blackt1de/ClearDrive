@@ -188,6 +188,11 @@ EXPECTED_VERDICTS = {
     "rav4-2018-clean": diagnostics.VERDICT_OK,
     "m6-2014-bank1-lean-misfire-hard": diagnostics.VERDICT_STOP,
     "tacoma-2009-p0171-severe-trim-synthetic": diagnostics.VERDICT_CAUTION,
+    # Replay-validity pilot fixtures (2026-08-22): clean scans of the three
+    # physically accessible cars. No codes, no escalations -> ok.
+    "landcruiser-2014-clean-replay": diagnostics.VERDICT_OK,
+    "audi-a4-2015-clean-replay": diagnostics.VERDICT_OK,
+    "volvo-v70-2004-clean-replay": diagnostics.VERDICT_OK,
 }
 
 
