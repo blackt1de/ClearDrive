@@ -456,14 +456,13 @@ _register_replay_clean(
     engine="5.7L V8 (3UR-FE)", displacement=5.7, cylinders=8, hp="381", trim="VX",
 )
 # Facts from NHTSA VPIC decode of the owner's VIN, 2026-08-22: 2.0L I4, 220 hp,
-# AWD, trim quattro Premium Plus, automatic. VPIC does not state aspiration;
-# turbo flag pending owner confirmation — until then aspiration is a KNOWN
-# LIMITATION of this fixture (renders as Naturally Aspirated, see the
-# default-substitution finding in notes/decisions.md).
+# AWD, trim quattro Premium Plus, automatic. VPIC does not state aspiration
+# (optional manufacturer-filed field); turbo confirmed by the owner 2026-08-22
+# ("2.0T").
 _register_replay_clean(
     "audi-a4-2015-clean-replay", 2015, "Audi", "A4", "AWD",
     capability=CapabilityProfile(**FULL_CAPABILITY),
-    engine="2.0L I4", displacement=2.0, cylinders=4, hp="220",
+    engine="2.0L I4 Turbo (2.0T)", displacement=2.0, cylinders=4, hp="220", turbo=True,
     trim="quattro Premium Plus", transmission="Automatic",
 )
 # V70 facts: owner 2026-08-22 (2.5T, FWD) + NHTSA VPIC VIN decode (engine
