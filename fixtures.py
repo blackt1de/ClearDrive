@@ -419,8 +419,9 @@ _register(
 # V70 capability profile encodes a PREDICTION about what a pre-CAN 2004 vehicle
 # reports; prediction error against the real capture is a measured outcome of
 # the pilot, not a bug.
-def _register_replay_clean(name, year, make, model, drive, capability, limitations=(),
-                           fuel_trims=None, coolant=191.0, rpm=735.0):
+def _register_replay_clean(name, year, make, model, drive, capability=None, limitations=(),
+                           fuel_trims=None, coolant=191.0, rpm=735.0,
+                           engine="", displacement=None, cylinders=None, turbo=False):
     _register(
         name,
         f"{year} {make} {model}, no codes. Synthetic arm of the 2026-08-22 "
@@ -428,9 +429,9 @@ def _register_replay_clean(name, year, make, model, drive, capability, limitatio
         {
             "year": str(year), "make": make, "model": model,
             "full_name": f"{year} {make} {model}",
-            "engine": "", "displacement": None, "cylinders": None,
+            "engine": engine, "displacement": displacement, "cylinders": cylinders,
             "transmission": "", "drive": drive, "fuel_type": "Gasoline",
-            "turbocharged": False, "supercharged": False, "horsepower": "",
+            "turbocharged": turbo, "supercharged": False, "horsepower": "",
         },
         "",
         OBDSnapshot(
@@ -448,15 +449,17 @@ def _register_replay_clean(name, year, make, model, drive, capability, limitatio
 
 _register_replay_clean(
     "landcruiser-2014-clean-replay", 2014, "Toyota", "Land Cruiser", "",
-    CapabilityProfile(**FULL_CAPABILITY),
+    capability=CapabilityProfile(**FULL_CAPABILITY),
 )
 _register_replay_clean(
     "audi-a4-2015-clean-replay", 2015, "Audi", "A4 quattro", "AWD",
-    CapabilityProfile(**FULL_CAPABILITY),
+    capability=CapabilityProfile(**FULL_CAPABILITY),
 )
+# V70 facts supplied by the owner 2026-08-22: 2.5T (2.5L I5 turbo), FWD.
 _register_replay_clean(
-    "volvo-v70-2004-clean-replay", 2004, "Volvo", "V70", "",
-    CapabilityProfile(
+    "volvo-v70-2004-clean-replay", 2004, "Volvo", "V70", "FWD",
+    engine="2.5L I5 Turbo (2.5T)", displacement=2.5, cylinders=5, turbo=True,
+    capability=CapabilityProfile(
         protocol="ISO 9141-2 / KWP2000 (predicted, pre-CAN era)",
         freeze_frame_available=True,
         mode06_available=False,
