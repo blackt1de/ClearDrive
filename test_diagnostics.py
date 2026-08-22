@@ -188,6 +188,11 @@ EXPECTED_VERDICTS = {
     "rav4-2018-clean": diagnostics.VERDICT_OK,
     "m6-2014-bank1-lean-misfire-hard": diagnostics.VERDICT_STOP,
     "tacoma-2009-p0171-severe-trim-synthetic": diagnostics.VERDICT_CAUTION,
+    # Replay-validity pilot fixtures (2026-08-22): clean scans of the three
+    # physically accessible cars. No codes, no escalations -> ok.
+    "landcruiser-2014-clean-replay": diagnostics.VERDICT_OK,
+    "audi-a4-2015-clean-replay": diagnostics.VERDICT_OK,
+    "volvo-v70-2004-clean-replay": diagnostics.VERDICT_OK,
 }
 
 
@@ -326,6 +331,9 @@ def test_interpret_no_codes_path_carries_safety():
     assert r["safety"]["verdict"] == diagnostics.VERDICT_OK
     assert r["safety"]["reasons"][0]["rule"] == "no_codes"
     assert r["safety_level"] == "SAFE"
+    # The no-codes path logs a scan (the patched log_scan returns -1); without
+    # this the real-car arm of a replay comparison leaves no server-side record.
+    assert r["scan_id"] == -1
 
 
 def test_severe_trim_is_caution():

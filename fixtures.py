@@ -410,6 +410,70 @@ _register(
 )
 
 
+# --- Replay-validity pilot: three real cars, synthetic clean payloads --------
+# 2026-08-22. These replicate the researcher's physically accessible cars for
+# the synthetic arm of the replay-validity pilot (synthetic payload now, real
+# capture later the same day, compare). Engine, trim, transmission, and mileage
+# were NOT known at authoring time and are deliberately unknown/null — never
+# guessed. PID values are invented idle readings, as in every fixture. The
+# V70 capability profile encodes a PREDICTION about what a pre-CAN 2004 vehicle
+# reports; prediction error against the real capture is a measured outcome of
+# the pilot, not a bug.
+def _register_replay_clean(name, year, make, model, drive, capability=None, limitations=(),
+                           fuel_trims=None, coolant=191.0, rpm=735.0,
+                           engine="", displacement=None, cylinders=None, turbo=False):
+    _register(
+        name,
+        f"{year} {make} {model}, no codes. Synthetic arm of the 2026-08-22 "
+        "replay-validity pilot. Unknown vehicle facts are blank, not guessed.",
+        {
+            "year": str(year), "make": make, "model": model,
+            "full_name": f"{year} {make} {model}",
+            "engine": engine, "displacement": displacement, "cylinders": cylinders,
+            "transmission": "", "drive": drive, "fuel_type": "Gasoline",
+            "turbocharged": turbo, "supercharged": False, "horsepower": "",
+        },
+        "",
+        OBDSnapshot(
+            dtc_codes=[],
+            rpm=rpm, speed_mph=0.0, coolant_temp_f=coolant, engine_load_pct=18.0,
+            intake_air_temp_f=86.0, control_module_voltage=14.0,
+            fuel_trims=fuel_trims if fuel_trims is not None else
+                [FuelTrim(condition="idle", stft_bank1=1.2, ltft_bank1=2.1)],
+            mileage=None,
+            capability=capability,
+            is_mock=True, fixture_name=name,
+        ),
+    )
+
+
+_register_replay_clean(
+    "landcruiser-2014-clean-replay", 2014, "Toyota", "Land Cruiser", "",
+    capability=CapabilityProfile(**FULL_CAPABILITY),
+)
+_register_replay_clean(
+    "audi-a4-2015-clean-replay", 2015, "Audi", "A4 quattro", "AWD",
+    capability=CapabilityProfile(**FULL_CAPABILITY),
+)
+# V70 facts supplied by the owner 2026-08-22: 2.5T (2.5L I5 turbo), FWD.
+_register_replay_clean(
+    "volvo-v70-2004-clean-replay", 2004, "Volvo", "V70", "FWD",
+    engine="2.5L I5 Turbo (2.5T)", displacement=2.5, cylinders=5, turbo=True,
+    capability=CapabilityProfile(
+        protocol="ISO 9141-2 / KWP2000 (predicted, pre-CAN era)",
+        freeze_frame_available=True,
+        mode06_available=False,
+        pending_codes_available=True,
+        permanent_codes_available=False,
+        fuel_trim_available=True,
+        limitations=[
+            "Predicted pre-CAN capability: Mode 06 monitor results and permanent "
+            "codes (Mode 0A) are not expected on this 2004 vehicle.",
+        ],
+    ),
+)
+
+
 def list_scenarios() -> list:
     return [
         {"name": s["name"], "description": s["description"],
