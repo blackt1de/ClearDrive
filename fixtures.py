@@ -421,7 +421,8 @@ _register(
 # the pilot, not a bug.
 def _register_replay_clean(name, year, make, model, drive, capability=None, limitations=(),
                            fuel_trims=None, coolant=191.0, rpm=735.0,
-                           engine="", displacement=None, cylinders=None, turbo=False):
+                           engine="", displacement=None, cylinders=None, turbo=False,
+                           trim="", transmission="", hp=""):
     _register(
         name,
         f"{year} {make} {model}, no codes. Synthetic arm of the 2026-08-22 "
@@ -430,10 +431,10 @@ def _register_replay_clean(name, year, make, model, drive, capability=None, limi
             "year": str(year), "make": make, "model": model,
             "full_name": f"{year} {make} {model}",
             "engine": engine, "displacement": displacement, "cylinders": cylinders,
-            "transmission": "", "drive": drive, "fuel_type": "Gasoline",
-            "turbocharged": turbo, "supercharged": False, "horsepower": "",
+            "transmission": transmission, "drive": drive, "fuel_type": "Gasoline",
+            "turbocharged": turbo, "supercharged": False, "horsepower": hp,
         },
-        "",
+        trim,
         OBDSnapshot(
             dtc_codes=[],
             rpm=rpm, speed_mph=0.0, coolant_temp_f=coolant, engine_load_pct=18.0,
@@ -447,18 +448,30 @@ def _register_replay_clean(name, year, make, model, drive, capability=None, limi
     )
 
 
+# Facts from NHTSA VPIC decode of the owner's VIN, 2026-08-22 (decoded clean,
+# check digit valid): 5.7L V8 3UR-FE, 381 hp, 4WD, trim VX (URJ200L).
 _register_replay_clean(
-    "landcruiser-2014-clean-replay", 2014, "Toyota", "Land Cruiser", "",
+    "landcruiser-2014-clean-replay", 2014, "Toyota", "Land Cruiser", "4WD",
     capability=CapabilityProfile(**FULL_CAPABILITY),
+    engine="5.7L V8 (3UR-FE)", displacement=5.7, cylinders=8, hp="381", trim="VX",
 )
+# Facts from NHTSA VPIC decode of the owner's VIN, 2026-08-22: 2.0L I4, 220 hp,
+# AWD, trim quattro Premium Plus, automatic. VPIC does not state aspiration;
+# turbo flag pending owner confirmation — until then aspiration is a KNOWN
+# LIMITATION of this fixture (renders as Naturally Aspirated, see the
+# default-substitution finding in notes/decisions.md).
 _register_replay_clean(
-    "audi-a4-2015-clean-replay", 2015, "Audi", "A4 quattro", "AWD",
+    "audi-a4-2015-clean-replay", 2015, "Audi", "A4", "AWD",
     capability=CapabilityProfile(**FULL_CAPABILITY),
+    engine="2.0L I4", displacement=2.0, cylinders=4, hp="220",
+    trim="quattro Premium Plus", transmission="Automatic",
 )
-# V70 facts supplied by the owner 2026-08-22: 2.5T (2.5L I5 turbo), FWD.
+# V70 facts: owner 2026-08-22 (2.5T, FWD) + NHTSA VPIC VIN decode (engine
+# B5254T2 = 2.5L I5 turbo; automatic).
 _register_replay_clean(
     "volvo-v70-2004-clean-replay", 2004, "Volvo", "V70", "FWD",
-    engine="2.5L I5 Turbo (2.5T)", displacement=2.5, cylinders=5, turbo=True,
+    engine="2.5L I5 Turbo (2.5T, B5254T2)", displacement=2.5, cylinders=5, turbo=True,
+    transmission="Automatic", trim="2.5T",
     capability=CapabilityProfile(
         protocol="ISO 9141-2 / KWP2000 (predicted, pre-CAN era)",
         freeze_frame_available=True,
