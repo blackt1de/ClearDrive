@@ -326,6 +326,9 @@ def test_interpret_no_codes_path_carries_safety():
     assert r["safety"]["verdict"] == diagnostics.VERDICT_OK
     assert r["safety"]["reasons"][0]["rule"] == "no_codes"
     assert r["safety_level"] == "SAFE"
+    # The no-codes path logs a scan (the patched log_scan returns -1); without
+    # this the real-car arm of a replay comparison leaves no server-side record.
+    assert r["scan_id"] == -1
 
 
 def test_severe_trim_is_caution():

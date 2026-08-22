@@ -1572,6 +1572,37 @@ RULES:
                 if known_issues_lines:
                     response_data["known_issues"] = '\n'.join(known_issues_lines).strip()
 
+            # --- Logging, mirroring the coded path -------------------------
+            # Without this a clean scan left no server-side record at all,
+            # which made the real-car arm of a replay comparison unrecordable.
+            scan_id = log_scan("", response_data["safety_level"], ai_response)
+            response_data["scan_id"] = scan_id
+            if getattr(snapshot, "is_mock", False):
+                print("[Research] Skipping research log — mock/demo snapshot", flush=True)
+            else:
+                log_research_scan(
+                    model_version="gemma4-e4b-base",
+                    vehicle_id=request.vehicle_id,
+                    trim=trim,
+                    vehicle_profile=vehicle_data,
+                    codes=[],
+                    rpm=int(snapshot.rpm) if snapshot.rpm is not None else None,
+                    speed_mph=int(snapshot.speed_mph) if snapshot.speed_mph is not None else None,
+                    coolant_temp_f=int(snapshot.coolant_temp_f) if snapshot.coolant_temp_f is not None else None,
+                    obd_source=obd_source,
+                    prompt_text=prompt,
+                    response_text=ai_response,
+                    response_parsed={
+                        "safety_level": response_data["safety_level"],
+                        "dont_panic": response_data["dont_panic"],
+                        "service_recommendations": response_data.get("service_recommendations", ""),
+                        "known_issues": response_data.get("known_issues", ""),
+                    },
+                    safety_level=response_data["safety_level"],
+                    had_error=ai_response.startswith("ERROR:"),
+                    data_sources=response_data.get("data_sources"),
+                )
+
         return response_data
     
     # Process codes
