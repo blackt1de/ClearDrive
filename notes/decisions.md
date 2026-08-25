@@ -2,6 +2,59 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Replay-validity pilot: pre-registered agreement criteria — 2026-08-25
+
+Context: the whole evaluation methodology runs on frozen replay fixtures. The pilot
+tests whether a synthetic payload built to contain exactly what the adapter can pull
+behaves like a real capture from the same car. Synthetic arm is frozen: 15 runs
+(3 cars × 5 reps, VIN-decoded facts, mileage null), all `ok`, Tier-1 rubric 105/105
+applicable, merged at 6702d77. **This entry is written before any real capture
+exists.** The criteria below are fixed now so that agreement is not defined after
+looking at the results. No post-hoc reclassification: a criterion that fails is
+reported as failed with its cause; fixing the cause means rerunning BOTH arms, not
+editing this entry.
+
+Real arm protocol: TestFlight on the physical 2014 Land Cruiser, 2015 A4 2.0T
+quattro, 2004 V70 2.5T; 5 reps per car without disconnecting; mileage left blank.
+Captures land in `scans`/`research_scans` server-side.
+
+**Primary criteria — all three must hold, per car, for the fixtures to be declared
+replay-valid on that car:**
+1. **Verdict agreement 5/5.** Every real rep's `safety.verdict` equals the synthetic
+   verdict (`ok`). Exception, declared now: if a real car reports one or more generic
+   OBD codes, the condition itself differs from the fixture, so that car's verdict
+   comparison is **void** (condition mismatch, not replay invalidity) and the car
+   becomes a coded-path data point instead. The V70's SRS fault is manufacturer-
+   specific and predicted invisible to generic OBD; if it shows up anyway, that is
+   this exception firing, and also a capability-prediction miss under criterion 4.
+2. **Retrieval source set identical.** For each car, the set of retrieval sources hit
+   (`data_sources` minus CarsXE) is the same in every real rep as in the synthetic
+   arm. Known risk, declared now: the app-side decode may yield "A4 quattro" where
+   the fixture uses VPIC's "A4"; if the Audi's real reps lose the NHTSA complaints
+   hit, that is a **fail** of this criterion attributed to the name-normalization
+   bug — it is not excused.
+3. **Tier-1 rubric zero failures.** `scripts/rubric_score.py` on the real responses
+   passes every applicable check, same standard the synthetic arm met (105/105).
+
+**Secondary — logged either way, no pass/fail:**
+4. **V70 capability prediction.** Fixture predicts a pre-CAN car: no Mode 06, no
+   permanent codes. Real capture is recorded as-is; prediction correct or incorrect
+   is a finding about protocol-era capability limits, never a failed run.
+5. **Mileage.** Fixtures encode `null` on the prediction the adapter cannot read it.
+   Any real capture that reports mileage is a payload-shape divergence, noted per car.
+6. Latency, `summary_chars`, `known_issues_chars` distributions — descriptive only.
+
+**Blinding.** Tier-1 is a deterministic script (9 binary regex/equality checks) — no
+human judgment, nothing to blind. The two subjective instruments ARE blinded: the
+`invented_numbers` review queue and any Tier-2 claim scoring are adjudicated on
+pooled outputs with arm labels stripped and order shuffled (seeded), unblinded only
+after scores are recorded.
+
+**Scope, stated now for the methods section:** n=3 cars × 5 reps tests within-car
+reproducibility of the synthetic↔real correspondence on three specific platforms. It
+does not support a fleet-generalization claim, and no car-level p-value is possible
+at n=3; claim-level testing (Fisher's exact, with clustering caveat) comes later.
+
 ## [DECIDED] Headless fixture smoke runner is the baseline instrument (Brief 1c) — 2026-08-21
 Context: the fixture sweep was run by hand, once, through the iOS client or ad-hoc scripts.
 Decision: `scripts/smoke_run.py` POSTs every fixture scenario to a running server
