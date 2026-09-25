@@ -1,0 +1,106 @@
+=== phase 0.5 on BLACK_5090 2026-09-25T23:38:25Z
+=== nvidia-smi
+name, memory.total [MiB], driver_version
+NVIDIA GeForce RTX 5090, 32607 MiB, 610.62
+=== which python / version
+/c/Users/conor/AppData/Local/Microsoft/WindowsApps/python
+/c/Users/conor/AppData/Local/Microsoft/WindowsApps/python3
+/c/Users/conor/AppData/Local/Programs/Python/Launcher/py
+Python 3.12.0
+=== torch
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'torch'
+=== pip show unsloth
+WARNING: Package(s) not found: unsloth
+=== pip show transformers peft bitsandbytes trl
+WARNING: Package(s) not found: bitsandbytes, peft, transformers, trl
+=== where ollama
+C:\Users\conor\AppData\Local\Programs\Ollama\ollama.exe
+/c/Users/conor/AppData/Local/Programs/Ollama/ollama
+=== ollama list
+time=2026-09-25T19:38:27.764-04:00 level=INFO source=app_windows.go:282 msg="starting Ollama" app=C:\Users\conor\AppData\Local\Programs\Ollama version=0.30.9 OS=Windows/10.0.26200
+time=2026-09-25T19:38:27.766-04:00 level=INFO source=app.go:235 msg="initialized tools registry" tool_count=0
+time=2026-09-25T19:38:27.771-04:00 level=INFO source=app.go:250 msg="starting ollama server"
+time=2026-09-25T19:38:27.772-04:00 level=INFO source=app.go:281 msg="starting ui server" port=57365
+time=2026-09-25T19:38:30.773-04:00 level=INFO source=updater.go:355 msg="beginning update checker" interval=1h0m0s
+time=2026-09-25T19:38:30.941-04:00 level=INFO source=updater.go:133 msg="New update available at https://github.com/ollama/ollama/releases/download/v0.34.4/OllamaSetup.exe"
+NAME                                                         ID              SIZE      MODIFIED      
+gemma4:e4b                                                   c6eb396dbd59    9.6 GB    5 months ago     
+llama3:8b                                                    365c0bd3c000    4.7 GB    8 months ago     
+qwen2.5:7b                                                   845dbda0ea48    4.7 GB    8 months ago     
+qwen2.5:3b                                                   357c53fb659c    1.9 GB    8 months ago     
+sqlcoder:7b                                                  77ac14348387    4.1 GB    10 months ago    
+sqlcoder:latest                                              77ac14348387    4.1 GB    10 months ago    
+deepseek-r1:70b                                              d37b54d01a76    42 GB     11 months ago    
+hf.co/bartowski/DeepSeek-R1-Distill-Llama-70B-GGUF:Q4_K_M    a4a57a062546    42 GB     11 months ago    
+deepseek-r1:8b                                               6995872bfe4c    5.2 GB    11 months ago    
+=== disk
+Filesystem      Size  Used Avail Use% Mounted on
+C:              3.7T  3.1T  564G  85% /c
+/usr/bin/bash: line 24: wmic: command not found
+=== HF_HOME=[] HF_HUB_CACHE=[]
+C:\Users\conor/.cache/huggingface
+3.1G	C:\Users\conor/.cache/huggingface
+=== OPENROUTER_API_KEY env: UNSET
+=== OPENROUTER_API_KEY in .env: UNSET
+.env
+OPENROUTER_API_KEY registry User : UNSET
+OPENROUTER_API_KEY registry Machine : UNSET
+time=2026-09-25T19:39:14.226-04:00 level=INFO source=updater.go:236 msg="new update downloaded C:\\Users\\conor\\AppData\\Local\\Ollama\\updates_v2\\66387dbcedca09dcb8239fdf32fc5b6068927f630c2e045b4e65f1c75196002f\\OllamaSetup.exe"
+=== extra: py launcher list
+ -V:3.12 *        C:\Users\conor\AppData\Local\Programs\Python\Python312\python.exe
+=== extra: conda/venvs
+which: no conda in (/c/Users/conor/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/conor/bin:/c/Program Files/Oculus/Support/oculus-runtime:/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/c/Program Files/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin:/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/c/Program Files/PuTTY:/c/Program Files/dotnet:/c/Program Files/Cloudflare/Cloudflare WARP:/c/Program Files/nodejs:/cmd:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/c/Users/conor/AppData/Local/Programs/Python/Launcher:/c/Users/conor/AppData/Local/Python/bin:/c/Users/conor/AppData/Local/Python/pythoncore-3.14-64/Scripts:/c/Users/conor/AppData/Local/Microsoft/WindowsApps:/c/Users/conor/AppData/Local/Programs/Ollama:/c/Users/conor/.lmstudio/bin:/c/Users/conor/AppData/Local/Microsoft/WindowsApps:/c/Users/conor/AppData/Roaming/npm:/c/Users/conor/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/conor/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-8.1-full_build/bin:/usr/bin/vendor_perl:/usr/bin/core_perl)
+which: no mamba in (/c/Users/conor/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/conor/bin:/c/Program Files/Oculus/Support/oculus-runtime:/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/c/Program Files/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin:/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/c/Program Files/PuTTY:/c/Program Files/dotnet:/c/Program Files/Cloudflare/Cloudflare WARP:/c/Program Files/nodejs:/cmd:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/c/Users/conor/AppData/Local/Programs/Python/Launcher:/c/Users/conor/AppData/Local/Python/bin:/c/Users/conor/AppData/Local/Python/pythoncore-3.14-64/Scripts:/c/Users/conor/AppData/Local/Microsoft/WindowsApps:/c/Users/conor/AppData/Local/Programs/Ollama:/c/Users/conor/.lmstudio/bin:/c/Users/conor/AppData/Local/Microsoft/WindowsApps:/c/Users/conor/AppData/Roaming/npm:/c/Users/conor/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/conor/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-8.1-full_build/bin:/usr/bin/vendor_perl:/usr/bin/core_perl)
+which: no uv in (/c/Users/conor/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/conor/bin:/c/Program Files/Oculus/Support/oculus-runtime:/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/c/Program Files/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin:/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/c/Program Files/PuTTY:/c/Program Files/dotnet:/c/Program Files/Cloudflare/Cloudflare WARP:/c/Program Files/nodejs:/cmd:/c/Program Files/GitHub CLI:/c/Program Files/Tailscale:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/c/Users/conor/AppData/Local/Programs/Python/Launcher:/c/Users/conor/AppData/Local/Python/bin:/c/Users/conor/AppData/Local/Python/pythoncore-3.14-64/Scripts:/c/Users/conor/AppData/Local/Microsoft/WindowsApps:/c/Users/conor/AppData/Local/Programs/Ollama:/c/Users/conor/.lmstudio/bin:/c/Users/conor/AppData/Local/Microsoft/WindowsApps:/c/Users/conor/AppData/Roaming/npm:/c/Users/conor/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/conor/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-8.1-full_build/bin:/usr/bin/vendor_perl:/usr/bin/core_perl)
+ls: cannot access '.venv': No such file or directory
+ls: cannot access 'venv': No such file or directory
+ls: cannot access 'ml/.venv': No such file or directory
+=== extra: logical drives
+
+Name FreeGB UsedGB
+---- ------ ------
+C     562.5 3162.6
+
+
+
+=== extra: nvcc / CUDA toolkit
+/usr/bin/bash: line 11: nvcc: command not found
+CUDA_PATH=[]
+=== extra: WSL
+  NAME      STATE           VERSION
+* Ubuntu    Stopped         2
+=== corpus search 1: dirs named training_data/corpus/scraped/raw under C:/Users/conor (depth 7, excl AppData/node_modules/.git)
+/c/Users/conor/Documents/ClearDriveProject/ClearDrive/ml/data/raw
+/c/Users/conor/Documents/ClearDriveProject/ClearDrive/training_data
+/c/Users/conor/Documents/ClearDriveProject/ClearDrive/training_data/raw
+=== corpus: training_data/ size
+5.3G	training_data
+=== file count by extension
+  15000 json
+      5 log
+=== total files
+15005
+=== top-level listing
+backfill_carcomplaints.log
+backfill_reddit.log
+launcher_stderr.log
+launcher_stdout.log
+raw
+scrape.log
+--- raw sample
+2015_chevrolet_silverado-1500
+2015_dodge_challenger
+2015_dodge_charger
+2015_ford_edge
+2015_ford_explorer
+300
+=== git check-ignore
+.gitignore:34:training_data/	training_data
+=== largest 5 files
+2928415 training_data/raw/2018_ram_2500/P0171.json
+2927072 training_data/raw/2018_ram_2500/P0300.json
+2915910 training_data/raw/2018_ram_2500/P0750.json
+2915910 training_data/raw/2018_ram_2500/P0740.json
+2915910 training_data/raw/2018_ram_2500/P0730.json
