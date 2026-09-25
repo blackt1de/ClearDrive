@@ -23,8 +23,8 @@ yesterday?" — but it is **not enough** to:
    text, vehicle profile, and sensor readings, a scan cannot be turned
    into a training example.
 2. **A/B test between model variants.** Without a `model_version` column,
-   there's no way to split responses into "served by base Gemma" vs
-   "served by ClearDrive-Gemma" later.
+   there's no way to split responses into "served by base Qwen" vs
+   "served by ClearDrive-Qwen" later.
 3. **Correlate user satisfaction with response quality.** Without a
    `user_rating` column tied to specific scans, the good/ok/bad feedback
    is floating signal with nothing to attach it to.
@@ -225,10 +225,10 @@ In rough priority order, the follow-ups that complete the system:
 4. **Latency measurement.** `start = time.time()` at function entry,
    `latency_ms = int((time.time() - start) * 1000)` at each log call.
 
-5. **Model version auto-detection.** Replace the hard-coded literal
-   `"groq-llama-3.1-8b-instant"` with a value read from whichever
-   client module is active. Could be as simple as a `MODEL_VERSION`
-   constant exported from `groq_client.py` / `ollama_client.py`.
+5. **Model version auto-detection.** Replace hard-coded model strings
+   with a value read from whichever client module is active. Target
+   stack is an OpenAI-compatible SGLang client serving ClearDrive-Qwen;
+   older Groq/Ollama client names are historical.
 
 6. **User ID hashing.** Once iOS sends a device-level anonymous ID,
    hash it (SHA-256, keep the first 16 hex chars) and pass as

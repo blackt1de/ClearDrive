@@ -20,7 +20,7 @@ Stub — will be expanded Wed during ETL design session.
 - `WHEN TO SEE A MECHANIC`
 - `KNOWN ISSUES FOR THIS ENGINE`
 
-Opus chosen because it must **not** be one of the five eval condition models (rule-based DTC lookup, base Gemma 4 E4B, Llama 3.1 8B via Groq, base Gemma 4 + DSPy, ClearDrive-Gemma) — eliminates contamination.
+Opus chosen because it must **not** be one of the five eval condition models (rule-based DTC lookup, base Qwen, Llama 3.1 8B cross-family baseline, Qwen + DSPy, ClearDrive-Qwen) — eliminates contamination.
 
 ## Deduplication
 
@@ -28,7 +28,7 @@ Opus chosen because it must **not** be one of the five eval condition models (ru
 - ~50 per-DTC explanations (one per DTC, regardless of vehicle)
 - Final stitching = ~15,000 training pairs
 
-This is the knowledge-distillation pattern: Opus does heavy synthesis offline, one-time. Inference at runtime is local on ClearDrive-Gemma.
+This is the knowledge-distillation pattern: Opus does heavy synthesis offline, one-time. Inference at runtime is local on ClearDrive-Qwen.
 
 ## Cost estimate
 
@@ -36,7 +36,7 @@ This is the knowledge-distillation pattern: Opus does heavy synthesis offline, o
 
 ## Inference
 
-Local on ClearDrive-Gemma (Gemma 4 E4B fine-tune). Production deploy on A4500.
+Local on ClearDrive-Qwen (Qwen MoE fine-tune). Production deploy target is SGLang on the A4500.
 
 ## Pre-flight items (resolve before synthesis run)
 

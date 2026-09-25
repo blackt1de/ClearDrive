@@ -68,8 +68,8 @@ In `SettingsView.swift`, update the default server URL:
 
 The app requires a running ClearDrive server. Make sure:
 1. Server is running on port 8000
-2. Server is accessible from your phone's network
-3. Ollama is running for AI diagnosis
+2. Server is accessible from your phone's network or through the Cloudflare Tunnel
+3. The backend's configured LLM service is reachable. Target stack is SGLang + ClearDrive-Qwen on the A4500; older Ollama/Gemma notes are historical.
 
 ## Troubleshooting
 

@@ -1,6 +1,6 @@
-# ml/CLAUDE.md
+# ml/AGENTS.md
 
-Inherits from root `CLAUDE.md`. Scoped to `ml/`: corpus prep, training data synthesis, fine-tuning, eval, and deployment artifacts.
+Inherits from root `AGENTS.md`. Scoped to `ml/`: corpus prep, training data synthesis, fine-tuning, eval, and deployment artifacts.
 
 The current ML direction is **ClearDrive-Qwen**, not ClearDrive-Gemma. Exact Qwen SKU is still **[DECIDE]**.
 

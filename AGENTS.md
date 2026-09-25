@@ -1,6 +1,6 @@
-# CLAUDE.md - ClearDrive
+# AGENTS.md - ClearDrive
 
-This file is loaded at the start of every Claude Code session in this repo. It is the source of truth for project-level operational rules. Keep it short. Detailed conventions live in subdirectory `CLAUDE.md` files, especially `ml/CLAUDE.md`.
+This file is loaded at the start of every Codex session in this repo. It is the source of truth for project-level operational rules. Keep it short. Detailed conventions live in subdirectory `AGENTS.md` files, especially `ml/AGENTS.md`.
 
 ---
 
@@ -77,7 +77,7 @@ The backend should move away from `ollama_client.py` toward an OpenAI-compatible
 
 Contamination guardrail:
 
-- Claude/Opus writes specs and reviews; GPT/Codex writes implementation code.
+- GPT/Codex writes code only.
 - Synthesis LM for training-pair generation: Claude Opus 4.7 via OpenRouter.
 - Reflection/judge LM for GEPA/eval: Claude Opus 4.7 via OpenRouter.
 - None of the 5 eval-condition models may be used for synthesis or judging.
