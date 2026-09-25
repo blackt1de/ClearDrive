@@ -1,0 +1,108 @@
+=== phase 4.1 on BLACK_5090 2026-09-25T23:43:13Z
+Doc followed: https://unsloth.ai/docs/get-started/install/windows-installation (conda env py3.12 -> torch cu130 -> pip install unsloth). conda absent; using stdlib venv with Python 3.12.0 instead.
+CMD: py -3.12 -m venv .venv
+CMD: .venv/Scripts/python -m pip install -U pip
+Successfully installed pip-26.2.1
+CMD: .venv/Scripts/python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
+Installing collected packages: torchaudio, mpmath, typing-extensions, sympy, setuptools, pillow, numpy, networkx, MarkupSafe, fsspec, filelock, jinja2, torch, torchvision
+
+Successfully installed MarkupSafe-3.0.3 filelock-3.32.3 fsspec-2026.7.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.6.1 numpy-2.5.2 pillow-12.3.0 setuptools-78.1.0 sympy-1.14.0 torch-2.14.0+cu130 torchaudio-2.11.0+cu130 torchvision-0.29.0+cu130 typing-extensions-4.16.0
+=== torch check
+2.14.0+cu130 True 13.0 NVIDIA GeForce RTX 5090 (12, 0)
+CMD: .venv/Scripts/python -m pip install unsloth
+    Found existing installation: torch 2.14.0+cu130
+    Uninstalling torch-2.14.0+cu130:
+      Successfully uninstalled torch-2.14.0+cu130
+  Attempting uninstall: torchvision
+    Found existing installation: torchvision 0.29.0+cu130
+    Uninstalling torchvision-0.29.0+cu130:
+      Successfully uninstalled torchvision-0.29.0+cu130
+Successfully installed accelerate-1.15.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.3 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 attrs-26.1.0 bitsandbytes-0.50.2 certifi-2026.7.22 charset_normalizer-3.5.1 click-8.5.0 colorama-0.4.6 cut_cross_entropy-25.1.1 datasets-4.3.0 diffusers-0.40.0 dill-0.4.0 docstring-parser-0.18.0 frozenlist-1.8.0 fsspec-2025.9.0 h11-0.16.0 hf-xet-1.6.0 hf_transfer-0.1.9 httpcore-1.0.9 httpx-0.28.1 huggingface_hub-1.33.0 idna-3.20 importlib_metadata-9.0.1 markdown-it-py-4.2.0 mdurl-0.1.2 msgspec-0.21.1 multidict-6.9.1 multiprocess-0.70.16 nest-asyncio-1.6.0 packaging-26.3 pandas-3.0.6 peft-0.21.0 propcache-0.5.4 protobuf-7.36.2 psutil-7.2.2 pyarrow-25.0.1 pydantic-2.13.5 pydantic-core-2.46.5 pygments-2.21.0 python-dateutil-2.9.0.post0 pyyaml-6.0.3 regex-2026.9.10 requests-2.34.2 rich-15.0.0 safetensors-0.8.0 sentencepiece-0.2.2 shellingham-1.5.4 six-1.17.0 structlog-26.1.0 tokenizers-0.22.2 torch-2.12.1 torchao-0.18.0 torchvision-0.27.1 tqdm-4.70.1 transformers-5.5.0 triton-windows-3.8.0.post28 trl-0.24.0 typeguard-4.6.0 typer-0.27.2 typing-inspection-0.4.4 tyro-1.0.16 tzdata-2026.4 unsloth-2026.9.11 unsloth_zoo-2026.9.7 urllib3-2.8.0 wheel-0.48.0 xformers-0.0.35 xxhash-4.0.1 yarl-1.25.1 zipp-4.1.0
+=== versions
+Name: unsloth
+Version: 2026.9.11
+Name: unsloth_zoo
+Version: 2026.9.7
+Name: torch
+Version: 2.12.1
+Name: transformers
+Version: 5.5.0
+Name: peft
+Version: 0.21.0
+Name: bitsandbytes
+Version: 0.50.2
+Name: trl
+Version: 0.24.0
+Name: triton-windows
+Version: 3.8.0.post28
+Name: xformers
+Version: 0.0.35
+=== torch check after unsloth install
+2.12.1+cpu False None
+CMD: .venv/Scripts/python -m pip install --force-reinstall --no-deps torch==2.12.1 torchvision==0.27.1 --index-url https://download.pytorch.org/whl/cu130
+      Successfully uninstalled torchvision-0.27.1
+      Successfully uninstalled torch-2.12.1
+Successfully installed torch-2.12.1+cu130 torchvision-0.27.1+cu130
+=== torch check
+2.12.1+cu130 True 13.0 (12, 0)
+CMD: .venv/Scripts/python -m pip uninstall -y torchaudio
+  Successfully uninstalled torchaudio-2.11.0+cu130
+=== pip check
+No broken requirements found.
+=== blackwell_check (GEMMA_MODEL_ID=Qwen/Qwen3-14B PYTHONPATH=ml/src)
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+  torch:        2.12.1+cu130
+  cuda built:   13.0
+  cuda devices: 1
+  device[0]:    NVIDIA GeForce RTX 5090
+  capability:   sm_120
+  sdpa attn:    settable on Qwen/Qwen3-14B
+PASS
+exit=0
+=== unsloth import
+W0925 19:46:47.999000 35580 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0925 19:46:48.035000 35580 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+C:\Users\conor\Documents\ClearDriveProject\ClearDrive\.venv\Lib\site-packages\unsloth\import_fixes.py:4896: FutureWarning: torch._dynamo.config.inline_inbuilt_nn_modules is deprecated and does not do anything, inline_inbuilt_nn_modules is always True. It will be removed in a future version of PyTorch.
+  original_setattr(self, name, value)
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+unsloth 2026.9.11
+FastLanguageModel OK
+=== phase 4.2 smoke 2026-09-25T23:47:02Z
+CMD: .venv/Scripts/python ml/smoke_load.py Qwen/Qwen3-14B
+=== phase 4.3/4.4 static checks 2026-09-25T23:48:09Z
+py_compile OK
+1809:def save_to_gguf(
+2232:def unsloth_save_pretrained_merged(
+3774:def unsloth_save_pretrained_gguf(
+5227:def save_to_gguf_generic(
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+'<|im_start|>system\nSYS<|im_end|>\n<|im_start|>user\nUSER<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nANSWER<|im_end|>\n'
+user markers: 1 assistant markers: 1
+=== GGUF export prerequisites (llama.cpp build) 2026-09-25T23:48:59Z
+cmake: NOT FOUND
+cl: NOT FOUND
+gcc: NOT FOUND
+make: NOT FOUND
+ls: cannot access '/c/Program Files/Microsoft Visual Studio': No such file or directory
+ls: cannot access '/c/Program Files (x86)/Microsoft Visual Studio': No such file or directory
+C:\Users\conor\Documents\ClearDriveProject\ClearDrive\.venv\Lib\site-packages\huggingface_hub\file_download.py:149: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\conor\.cache\huggingface\hub. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+C:\Users\conor\Documents\ClearDriveProject\ClearDrive\.venv\Lib\site-packages\huggingface_hub\file_download.py:149: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\conor\.cache\huggingface\hub\models--unsloth--qwen3-14b-unsloth-bnb-4bit. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+==((====))==  Unsloth 2026.9.11: Fast Qwen3 patching. Transformers: 5.5.0.
+   \\   /|    NVIDIA GeForce RTX 5090. Num GPUs = 1. Max memory: 31.842 GB. Platform: Windows.
+O^O/ \_/ \    Torch: 2.12.1+cu130. CUDA: 12.0. CUDA Toolkit: 13.0. Triton: 3.8.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+model:     Qwen/Qwen3-14B (unsloth/qwen3-14b-unsloth-bnb-4bit)
+dtype:     torch.bfloat16
+allocated: 11.23 GB
+exit=0 2026-09-25T23:49:16Z
+=== disk free after 4.2 2026-09-25T23:49:25Z
+C:              3.7T  3.2T  545G  86% /c
+11G	/c/Users/conor/.cache/huggingface/hub/models--unsloth--qwen3-14b-unsloth-bnb-4bit
+3.8G	.venv

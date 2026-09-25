@@ -43,6 +43,10 @@ ml/data/processed/*
 !ml/data/processed/.gitkeep
 ml/data/pairs/*
 !ml/data/pairs/.gitkeep
+# Brief 2 training outputs (adapters, merged weights, GGUF); logs are committed.
+ml/out/*
+!ml/out/train_log.jsonl
+!ml/out/train_stdout.log
 
 # Secrets
 .env
