@@ -2,6 +2,36 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Base model pinned: Qwen3-14B dense — 2026-09-25
+Context: Weekend Brief 2 (`docs/briefs/weekend/brief-2-weekend-master.md`, Phase 1.1)
+needs a pinned base model serving on the A4500 before the eval set can be baselined and a
+fine-tune built by Sunday 2026-09-27. Austin ruled 2026-09-25.
+Decision: base model is **Qwen3-14B dense**. Serving: Ollama `qwen3:14b-q4_K_M` (already on
+the A4500, 14.8B, Q4_K_M, digest `bdbd181c33f2…`; no pull), wrapped as `cleardrive-qwen`
+by `~/cleardrive-qwen.Modelfile` (`num_ctx 16384`, `temperature 0.2`). Training: HF
+`Qwen/Qwen3-14B`, with `unsloth/Qwen3-14B` as the fallback mirror (Phase 4.2). Gemma 4 E4B
+was a placeholder and is retired from serving. `research_scans.model_version` is
+`qwen3-14b-base` for this condition and `qwen3-14b-ft` after Phase 6. That label is how the
+conditions are told apart in the table.
+Reason: the prompt fits the 16k context with margin, the model is under 30B total params,
+it uses standard attention with verified Unsloth QLoRA support, and the fine-tune has to
+exist by Sunday.
+Evidence: largest fixture prompt measured with the served model's tokenizer (Ollama
+`prompt_eval_count`, system + user + chat template) is **5,822 tokens**
+(`m6-2014-bank1-lean-misfire-hard`). The other coded fixtures measured 4,200–5,122; a
+repeat send gave an identical count, so prefix caching is not affecting it. 5,822 +
+`num_predict` 2,800 = 8,622 of 16,384. The ruling cited ~7,900, which was the 2026-07-28
+estimate (~5,100 + 2,800); the measurement replaces it. This is the maximum over the 14
+fixtures, not a proven worst case, because retrieval volume varies by vehicle. VRAM with
+the model resident at 16k context: 14,071 MiB of 20,470. Qwen3 thinks by default; on
+Ollama 0.24 without a `think` key the reasoning lands in `message.thinking`, not
+`content`, so `parse_guidance()` sees clean sections. On M6 that was 12/12 sections,
+`done_reason stop`, 1,508 output tokens including thinking (within 2,800), 36.5 s.
+Log: `notes/reports/logs/2026-09-25-phase-1.log`.
+Supersedes: [DECIDED] Pivot to Qwen MoE (2026-07-27), whose target family was MoE. Closes
+[OPEN] Canonical Qwen SKU. This ruling does not address the earlier SGLang decision; serving
+is on Ollama as measured.
+
 ## [DECIDED] Replay-validity pilot: pre-registered agreement criteria — 2026-08-25
 
 Context: the whole evaluation methodology runs on frozen replay fixtures. The pilot

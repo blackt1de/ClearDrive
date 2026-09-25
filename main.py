@@ -1581,7 +1581,7 @@ RULES:
                 print("[Research] Skipping research log — mock/demo snapshot", flush=True)
             else:
                 log_research_scan(
-                    model_version="gemma4-e4b-base",
+                    model_version="qwen3-14b-base",
                     vehicle_id=request.vehicle_id,
                     trim=trim,
                     vehicle_profile=vehicle_data,
@@ -2046,7 +2046,7 @@ SAFETY LEVEL."""
         print("[Research] Skipping research log — mock/demo snapshot", flush=True)
     else:
         log_research_scan(
-            model_version="gemma4-e4b-base",
+            model_version="qwen3-14b-base",
             vehicle_id=request.vehicle_id,
             trim=trim,
             vehicle_profile=vehicle_data,

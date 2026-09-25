@@ -392,6 +392,49 @@ def test_interpret_response_carries_safety_shape():
     assert r["safety_level"] == "STOP"
 
 
+# research_scans.model_version is how eval conditions are told apart in the
+# table, so a label that does not match what is serving silently mixes arms.
+SERVING_MODEL = "cleardrive-qwen"
+SERVING_LABEL = "qwen3-14b-base"
+
+
+def _research_label_for(scenario):
+    """model_version a non-mock scan of this fixture would be research-logged under."""
+    import asyncio
+    from unittest.mock import patch
+    import main
+    real_get = fixtures.get_scenario
+    def as_live(name):
+        s = real_get(name)
+        s["snapshot"] = s["snapshot"].model_copy(update={"is_mock": False})
+        return s
+    async def fake_model(prompt, model=None):
+        return "SAFETY LEVEL: CAUTION\nSUMMARY:\nx"
+    async def no_retrieval(*a, **k):
+        return '<retrieved_context source="none">\nNONE\n</retrieved_context>', []
+    logged = {}
+    with patch.object(main.fixtures, "get_scenario", as_live), \
+         patch.object(main, "ask_ollama", fake_model), \
+         patch.object(main, "build_retrieval_block", no_retrieval), \
+         patch.object(main, "log_scan", lambda *a, **k: -1), \
+         patch.object(main, "log_research_scan", lambda **k: logged.update(k) or -1):
+        asyncio.run(main.interpret(main.InterpretRequest(scenario=scenario)))
+    return logged.get("model_version")
+
+
+def test_serving_model_is_pinned_qwen():
+    import ollama_client
+    assert ollama_client.DEFAULT_MODEL == SERVING_MODEL
+
+
+def test_research_label_matches_serving_model_coded_path():
+    assert _research_label_for("f150-2015-p0301-coil") == SERVING_LABEL
+
+
+def test_research_label_matches_serving_model_no_codes_path():
+    assert _research_label_for("rav4-2018-clean") == SERVING_LABEL
+
+
 if __name__ == "__main__":
     passed = failed = 0
     for fn_name, fn in sorted(globals().items()):

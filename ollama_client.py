@@ -23,7 +23,7 @@ OLLAMA_BASE = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}"
 OLLAMA_CHAT_URL = f"{OLLAMA_BASE}/api/chat"
 OLLAMA_TAGS_URL = f"{OLLAMA_BASE}/api/tags"
 
-DEFAULT_MODEL = "gemma4:e4b"
+DEFAULT_MODEL = "cleardrive-qwen"
 
 # NOTE: rules 5 and 9 of the previous version told the model to invent content
 # for any section it lacked data for ("provide general advice", "even if you have
