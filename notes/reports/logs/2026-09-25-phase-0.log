@@ -1,0 +1,1047 @@
+# Phase 0 log — 2026-09-25T23:19:37+00:00 — host ajb1ubuntu
+### $ git status
+On branch brief-2-weekend
+Your branch is up to date with 'origin/brief-2-weekend'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.venv/
+	notes/reports/
+
+nothing added to commit but untracked files present (use "git add" to track)
+### exit=0
+
+### $ git branch -a
+* brief-2-weekend
+  fix/post-council-cleanup
+  main
+  remotes/origin/HEAD -> origin/main
+  remotes/origin/brief-1a-truth-fixes
+  remotes/origin/brief-1b-safety-verdict
+  remotes/origin/brief-1c-smoke-runner
+  remotes/origin/brief-2-weekend
+  remotes/origin/docs/claude-md-reconcile
+  remotes/origin/feat/baseline-gemma-format-validation
+  remotes/origin/feat/canonical-codes-expansion
+  remotes/origin/feat/etl-pre-flight-2026-05-18
+  remotes/origin/feat/research-logging
+  remotes/origin/feat/training-data-scraper-v2
+  remotes/origin/feat/training-data-scraping
+  remotes/origin/fix/claude-md-line-endings
+  remotes/origin/fix/nhtsa-empty-results-remove-obd-codes
+  remotes/origin/irl-pilot-readiness
+  remotes/origin/main
+  remotes/origin/no-codes-logging
+  remotes/origin/preregister-replay-agreement
+  remotes/origin/replay-fixtures-vin-facts
+  remotes/origin/revert/initial-scraper
+### exit=0
+
+### $ git log --oneline -25
+16718ed brief2/phase0: add weekend briefs (master, 2a eval freeze, 2c distillation)
+9cfe192 Merge pull request #18 from blackt1de/preregister-replay-agreement
+3f8c812 Pre-register replay-validity agreement criteria before any real capture
+6702d77 Merge pull request #17 from blackt1de/replay-fixtures-vin-facts
+c7200d2 A4 is the 2.0T per owner; VPIC aspiration field was unfiled
+9885ad5 Replay fixtures: VPIC VIN-decoded facts for all three pilot cars
+76cd309 Merge pull request #16 from blackt1de/no-codes-logging
+0c5ccc2 Merge branch 'replay-pilot-fixtures' into no-codes-logging
+1dbb2b4 Log the no-codes path: scans row + research_scans (is_mock gated)
+a8eb089 Merge pull request #15 from blackt1de/irl-pilot-readiness
+67a5b5f IRL pilot readiness: no-codes logging + Tier-1 mechanical rubric
+b69f64a Replay pilot: V70 is 2.5T FWD per owner
+10fe5cd Replay pilot: three clean-car fixtures with unknown facts left blank
+10ccae2 Merge pull request #13 from blackt1de/brief-1b-safety-verdict
+96ed4e1 Merge pull request #14 from blackt1de/brief-1c-smoke-runner
+d4ce59b Brief 1c: server sanity note and decisions entry
+101cf06 Brief 1b: compute the verdict on the no-codes path too
+f775980 Brief 1c: headless fixture smoke runner
+800d2dd Brief 1b rulings: CAUTION fixture, conservative-misfire note
+ad6efbd Brief 1b: deterministic safety verdict in diagnostics.py
+a6469c8 Merge pull request #12 from blackt1de/brief-1a-truth-fixes
+0b46ee3 Add 2026-07-28 session state note
+a3c6742 iOS: decode and render the evidence-backed diagnosis
+40ec2d3 Rule coverage, cause/status split, M6 hard case, regression suite
+7e77a3b Payload v2, rule engine, tiered code definitions, retrieval wiring
+### exit=0
+
+### $ git tag
+V1.1_Alpha_Release
+V2.0_Beta_Release
+### exit=0
+
+### $ git remote -v
+origin	git@github.com:blackt1de/ClearDrive.git (fetch)
+origin	git@github.com:blackt1de/ClearDrive.git (push)
+### exit=0
+
+### $ gh pr list --state all --limit 20
+18	Pre-register replay-validity agreement criteria	preregister-replay-agreement	MERGED	2026-08-25T16:32:32Z
+17	Replay fixtures: VIN-decoded facts for the three pilot cars	replay-fixtures-vin-facts	MERGED	2026-08-22T16:10:42Z
+16	No-codes logging + replay-pilot fixtures (completes IRL readiness)	no-codes-logging	MERGED	2026-08-22T13:20:36Z
+15	IRL pilot readiness: no-codes logging, replay fixtures, mechanical rubric	irl-pilot-readiness	MERGED	2026-08-22T13:19:17Z
+14	Brief 1c: headless fixture smoke runner	brief-1c-smoke-runner	MERGED	2026-08-22T12:49:08Z
+13	Brief 1b: deterministic safety verdict in diagnostics.py	brief-1b-safety-verdict	MERGED	2026-08-22T12:48:43Z
+12	Brief 1a truth fixes	brief-1a-truth-fixes	MERGED	2026-08-06T09:24:53Z
+11	Canonical OBD code dict expansion (50 entries) + support ticket + rerun brief	feat/canonical-codes-expansion	MERGED	2026-05-18T18:31:39Z
+10	ETL pre-flight setup: council resolution, decisions log, ml/ scaffold, CarsXE audit + hotfix	feat/etl-pre-flight-2026-05-18	MERGED	2026-05-18T18:16:54Z
+9	Force LF on .claude/ files so /council loads on Windows	fix/claude-md-line-endings	MERGED	2026-05-18T16:23:11Z
+8	Baseline format-validation experiment for base Gemma 4 E4B	feat/baseline-gemma-format-validation	MERGED	2026-05-18T16:18:04Z
+7	Post-council cleanup: env-var secrets, Groq cut, CarComplaints fix	fix/post-council-cleanup	MERGED	2026-05-18T15:16:47Z
+6	Reddit backfill script + GLC300 source-coverage investigation	fix/reddit-backfill-and-glc-investigation	MERGED	2026-04-26T20:41:16Z
+5	Fix NHTSA empty-result handling, remove OBD-Codes, add corpus cleanup	fix/nhtsa-empty-results-remove-obd-codes	MERGED	2026-04-25T17:13:30Z
+4	Add v2 overnight scraper: 300 vehicles x 50 codes x 6 sources	feat/training-data-scraper-v2	MERGED	2026-04-25T14:21:28Z
+3	Revert v1 scraper (PR #2) — scope too narrow, v2 incoming	revert/initial-scraper	MERGED	2026-04-25T02:07:07Z
+2	Add overnight scraper for raw training data	feat/training-data-scraping	MERGED	2026-04-25T01:48:51Z
+1	Add research-grade scan logging (research_scans table)	feat/research-logging	MERGED	2026-04-25T01:34:49Z
+### exit=0
+
+### $ find . -path ./.git -prune -o -path ./node_modules -prune -o -path ./.venv -prune -o -type f -print | grep -v -E '\.(pyc|png|jpg)$' | head -300
+./.claude/commands/council.md
+./.claude/rules/obd-safety.md
+./.claude/rules/prompt-integrity.md
+./.claude/skills/brief-executor/SKILL.md
+./.claude/settings.json
+./.claude/agents/outsider.md
+./.claude/agents/executor.md
+./.claude/agents/first-principles.md
+./.claude/agents/expansionist.md
+./.claude/agents/contrarian.md
+./.claude/hooks/block-forbidden-uds.sh
+./known_issues.json
+./GLC300_INVESTIGATION.md
+./ollama_client.py
+./vehicle_cache.json
+./forum_scraper.py
+./code_scraper.py
+./schemas.py
+./main.py
+./.gitattributes
+./index.html
+./test_adapter.py
+./.env.example
+./release_notes/V2.0.0_Beta_Release.md
+./docs/briefs/weekend/brief-2a-eval-set-freeze.md
+./docs/briefs/weekend/brief-2-weekend-master.md
+./docs/briefs/weekend/brief-2c-training-data-distillation.md
+./docs/briefs/cleardrive-execution-briefs-v2.md
+./ios/README.md
+./ios/ClearDrive/ClearDriveUITests/ClearDriveUITests.swift
+./ios/ClearDrive/ClearDriveUITests/ClearDriveUITestsLaunchTests.swift
+./ios/ClearDrive/ClearDriveTests/ClearDriveTests.swift
+./ios/ClearDrive/ClearDrive.xcodeproj/project.xcworkspace/xcuserdata/cbrennan.xcuserdatad/UserInterfaceState.xcuserstate
+./ios/ClearDrive/ClearDrive.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+./ios/ClearDrive/ClearDrive.xcodeproj/project.pbxproj
+./ios/ClearDrive/ClearDrive.xcodeproj/xcuserdata/cbrennan.xcuserdatad/xcschemes/xcschememanagement.plist
+./ios/ClearDrive/ClearDrive/Theme.swift
+./ios/ClearDrive/ClearDrive/Models/Models.swift
+./ios/ClearDrive/ClearDrive/ClearDriveApp.swift
+./ios/ClearDrive/ClearDrive/ContentView.swift
+./ios/ClearDrive/ClearDrive/Views/ServiceView.swift
+./ios/ClearDrive/ClearDrive/Views/SettingsView.swift
+./ios/ClearDrive/ClearDrive/Views/HomeView.swift
+./ios/ClearDrive/ClearDrive/Views/SplashView.swift
+./ios/ClearDrive/ClearDrive/Views/ScanView.swift
+./ios/ClearDrive/ClearDrive/Views/OBDConnectionView.swift
+./ios/ClearDrive/ClearDrive/Views/ResultsView.swift
+./ios/ClearDrive/ClearDrive/Views/HistoryView.swift
+./ios/ClearDrive/ClearDrive/Views/VehiclesView.swift
+./ios/ClearDrive/ClearDrive/Assets.xcassets/Contents.json
+./ios/ClearDrive/ClearDrive/Assets.xcassets/AccentColor.colorset/Contents.json
+./ios/ClearDrive/ClearDrive/Assets.xcassets/AppIcon.appiconset/Contents.json
+./ios/ClearDrive/ClearDrive/Assets.xcassets/Logo.imageset/Contents.json
+./ios/ClearDrive/ClearDrive/Persistence.swift
+./ios/ClearDrive/ClearDrive/Components/CDCard.swift
+./ios/ClearDrive/ClearDrive/ClearDrive.xcdatamodeld/.xccurrentversion
+./ios/ClearDrive/ClearDrive/ClearDrive.xcdatamodeld/ClearDrive.xcdatamodel/contents
+./ios/ClearDrive/ClearDrive/Services/OBDManager.swift
+./ios/ClearDrive/ClearDrive/Services/VehicleStore.swift
+./ios/ClearDrive/ClearDrive/Services/APIClient.swift
+./sw.js
+./ml/src/__init__.py
+./ml/src/eval/__init__.py
+./ml/src/chat_template.py
+./ml/src/etl/__init__.py
+./ml/src/training/__init__.py
+./ml/runs/.gitkeep
+./ml/data/pairs/.gitkeep
+./ml/data/sae_j2012.json
+./ml/data/processed/.gitkeep
+./ml/data/splits/.gitkeep
+./ml/data/raw/.gitkeep
+./ml/configs/.gitkeep
+./ml/CLAUDE.md
+./ml/scripts/blackwell_check.py
+./ml/scripts/build_sae_j2012.py
+./ml/notes/synthesis_design.md
+./test_diagnostics.py
+./.env
+./diagnostics.py
+./fixtures.py
+./CLAUDE.md
+./.gitignore
+./backfill_reddit.py
+./test_api.py
+./obd_reader.py
+./deploy.sh
+./knowledge.py
+./scripts/baseline_format_validation.py
+./scripts/rubric_score.py
+./scripts/baseline_validation_rerun.md
+./scripts/smoke_run.py
+./scripts/baseline_score_responses.py
+./database.py
+./corpus_stats.py
+./start.sh
+./RESEARCH_LOGGING_README.md
+./backfill_carcomplaints.py
+./dtc_definitions.py
+./vehicle_data.py
+./Procfile
+./notes/2026-05-23-production-context-size.md
+./notes/2026-05-18-carsxe-decode-audit.md
+./notes/baseline-gemma-format-validation-2026-05-23.md
+./notes/CLAUDE.md.superseded-2026-07-27
+./notes/reports/logs/2026-09-25-phase-0.log
+./notes/2026-05-23-a4500-capacity.md
+./notes/2026-05-23-pr8-rerun.log
+./notes/baseline-gemma-format-validation-2026-05-18.md
+./notes/council/decisions/2026-05-10--corpus-cleanup-before-training.md
+./notes/carsxe-raw-responses/P0171.json
+./notes/carsxe-raw-responses/P0420.json
+./notes/carsxe-raw-responses/P0506.json
+./notes/carsxe-raw-responses/P0128.json
+./notes/carsxe-raw-responses/P0700.json
+./notes/carsxe-raw-responses/P0419.json
+./notes/carsxe-raw-responses/P0300.json
+./notes/carsxe-raw-responses/P0301.json
+./notes/carsxe-raw-responses/P0011.json
+./notes/carsxe-raw-responses/P0455.json
+./notes/2026-08-21-server-sanity.md
+./notes/2026-05-21-status-sweep.md
+./notes/2026-05-18-carsxe-support-ticket-draft.md
+./notes/2026-05-18-a4500-optimization.md
+./notes/2026-07-28-session-state.md
+./notes/2026-05-23-pr8-rerun.md
+./notes/2026-05-20-status-sweep.md
+./notes/2026-05-18-carsxe-independent-verification.md
+./notes/2026-05-23-pr8-rerun-scored.md
+./notes/decisions.md
+./requirements.txt
+./cleardrive.db
+./generate_icons.py
+./manifest.json
+./nixpacks.toml
+./scrape_training_data.py
+./RELEASE_NOTES.md
+./migrate_corpus.py
+### exit=0
+
+### $ cat CLAUDE.md | head -5; echo '[... CLAUDE.md read in full in session; head only logged]'
+# CLAUDE.md — ClearDrive
+
+<!-- Maintainer note: loaded in full every session. Target <200 lines.
+     RULE FOR EDITING THIS FILE: it describes what EXISTS TODAY. Anything planned goes under
+     "Direction" and must be marked as not-yet-built. A CLAUDE.md written in the future tense
+[... CLAUDE.md read in full in session; head only logged]
+### exit=0
+
+### $ tail -40 notes/decisions.md
+## 2026-05-18
+
+### Base Gemma 4 E4B baseline captured (PR #8)
+
+20 scenarios (5 DTCs × 4 vehicles) sent through `main.interpret()` with a spy on `main.ask_ollama`. Results in `notes/baseline-gemma-format-validation-2026-05-18.md`:
+
+- Format adherence: 3.5/12 mean, 0/20 produced all 12 sections (max 6/12)
+- Vehicle-specificity: 2.4/5 mean, 0/20 referenced real vehicle-specific known issues
+- 35% degenerate responses (loops, dropped codes, hallucinated years)
+- 44s mean latency
+- All P0420 responses reasoned about the WRONG code (Secondary Air Injection instead of Catalyst Efficiency) due to upstream CarsXE bug — see ETL pre-flight #1
+
+Conclusion: fine-tuning is load-bearing. Format adherence and vehicle-specific knowledge are both wide gaps. Anti-degeneracy / length control is a training concern.
+
+### ETL pre-flight items
+
+1. **CarsXE wrong-decode bug** — audit needed (TASK 5). Decision pending: re-source code definitions from SAE J2012 or NHTSA OBD-II canonical table, or fix at CarsXE layer.
+2. **`get_vehicle_by_id` trim selection** — bug in production and ETL. Production fix: iOS prompts user to confirm trim post-VIN decode, stores their confirmation. ETL fix: implement canonical-trim selector (highest-volume sales trim or curated mapping).
+3. **CarsXE coverage gaps** — implement fallback to NHTSA VPIC year/make/model search.
+
+### ETL synthesis design = hybrid
+
+- Rule-based extraction for structured fields (SAFETY LEVEL, ESTIMATED REPAIR COST, SERVICE RECOMMENDATIONS, OTHER OWNERS REPORT)
+- LLM-synthesized via Claude Opus 4.7 (OpenRouter) for prose fields (WHAT'S HAPPENING, LIKELY CAUSES, WHAT YOU MIGHT NOTICE, IF YOU IGNORE THIS, QUICK CHECKS, DIY FIX, WHEN TO SEE A MECHANIC, KNOWN ISSUES FOR THIS ENGINE)
+- Opus chosen because it must not be one of the 5 eval condition models to avoid contamination
+- Knowledge distillation pattern: Opus synthesizes training pairs offline, one-time. Inference runs locally on ClearDrive-Gemma (Gemma 4 E4B fine-tune)
+- Deduplication: ~300 per-vehicle summaries + ~50 per-DTC explanations + final stitching = ~$300-600 in OpenRouter spend, one-time
+
+### Corpus cleanup = Option C with NHTSA fix deferred
+
+See `notes/council/decisions/2026-05-10--corpus-cleanup-before-training.md`.
+
+## 2026-05-10
+
+- Same repo with `ml/` subdirectory, not separate ML repo
+- `attn_implementation="sdpa"` for all Gemma 4 loading
+- Unsloth Studio install path, not pypi `unsloth`
+- Chat template pulled from `tokenizer.apply_chat_template()`, never hand-rolled
+- Hybrid orchestration: web Claude holds strategic context, Claude Code executes
+- iOS is the product. PWA at `/` is vestigial but kept as low-cost browser fallback
+### exit=0
+
+### $ ls notes/ai-collab/ notes/briefs/ 2>/dev/null; ls docs/briefs docs/briefs/weekend
+docs/briefs:
+cleardrive-execution-briefs-v2.md
+weekend
+
+docs/briefs/weekend:
+brief-2a-eval-set-freeze.md
+brief-2c-training-data-distillation.md
+brief-2-weekend-master.md
+### exit=0
+
+### $ grep -rn 'app = FastAPI\|@app.post\|@app.get\|@router' --include=*.py . | grep -v test | grep -v .venv
+./main.py:34:app = FastAPI(title="ClearDrive", version="0.7.0")
+./main.py:736:@app.get("/", response_class=HTMLResponse)
+./main.py:742:@app.get("/manifest.json")
+./main.py:747:@app.get("/sw.js")
+./main.py:752:@app.get("/icons/{icon_name}")
+./main.py:757:@app.get("/health")
+./main.py:763:@app.get("/health/dtc")
+./main.py:770:@app.get("/demo/snapshot")
+./main.py:787:@app.get("/demo/scenarios")
+./main.py:806:@app.get("/demo/scenario/{name}")
+./main.py:839:@app.get("/demo/vehicle")
+./main.py:858:@app.get("/obd/ports")
+./main.py:884:@app.post("/obd/connect")
+./main.py:917:@app.get("/obd/status")
+./main.py:965:@app.get("/obd/live")
+./main.py:1054:@app.get("/obd/read-vin")
+./main.py:1088:@app.post("/vin/decode")
+./main.py:1105:@app.post("/trims")
+./main.py:1112:@app.post("/vehicle-image")
+./main.py:1139:@app.get("/image-proxy")
+./main.py:1252:@app.post("/interpret")
+./main.py:2072:@app.post("/followup")
+./main.py:2215:@app.get("/history")
+./main.py:2224:@app.post("/feedback")
+./main.py:2234:@app.get("/safety-definitions")
+### exit=0
+
+### $ grep -rn -i 'ollama\|OLLAMA_\|model_name\|MODEL=\|gemma\|qwen\|num_ctx\|sglang' --include=*.py --include=*.env* --include=*.toml --include=*.yaml --include=*.yml --include=*.json --include=Modelfile . | grep -v -E 'node_modules|\.git/|\.venv/|training_data/'
+./ollama_client.py:11:# OLLAMA_HOST may be a bare hostname/IP or `host:port`. Defaults to the
+./ollama_client.py:14:_raw_host = os.environ.get("OLLAMA_HOST", "100.100.254.15")
+./ollama_client.py:16:    OLLAMA_HOST, _port_str = _raw_host.rsplit(":", 1)
+./ollama_client.py:17:    OLLAMA_PORT = int(_port_str)
+./ollama_client.py:19:    OLLAMA_HOST = _raw_host
+./ollama_client.py:20:    OLLAMA_PORT = int(os.environ.get("OLLAMA_PORT", "11434"))
+./ollama_client.py:22:OLLAMA_BASE = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}"
+./ollama_client.py:23:OLLAMA_CHAT_URL = f"{OLLAMA_BASE}/api/chat"
+./ollama_client.py:24:OLLAMA_TAGS_URL = f"{OLLAMA_BASE}/api/tags"
+./ollama_client.py:26:DEFAULT_MODEL = "gemma4:e4b"
+./ollama_client.py:54:async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
+./ollama_client.py:55:    """Send a prompt to Ollama (Gemma 4 E4B on the A4500) and get a response.
+./ollama_client.py:57:    Uses /api/chat (not /api/generate) — Gemma 4 is chat-trained, and
+./ollama_client.py:59:    in Ollama 0.24.
+./ollama_client.py:64:                OLLAMA_CHAT_URL,
+./ollama_client.py:78:                        # num_ctx MUST be set explicitly. Ollama defaults it to
+./ollama_client.py:86:                        "num_ctx": 16384,
+./ollama_client.py:105:        return f"ERROR: Could not connect to Ollama at {OLLAMA_HOST}:{OLLAMA_PORT}."
+./ollama_client.py:110:async def check_ollama() -> dict:
+./ollama_client.py:111:    """Check if Ollama is running and which models are available."""
+./ollama_client.py:114:            response = await client.get(OLLAMA_TAGS_URL)
+./ollama_client.py:118:            return {"status": "ok", "models": models, "host": OLLAMA_HOST}
+./main.py:16:from ollama_client import ask_ollama, check_ollama
+./main.py:759:    ai_status = await check_ollama()
+./main.py:1540:            ai_response = await ask_ollama(prompt)
+./main.py:1584:                    model_version="gemma4-e4b-base",
+./main.py:1988:    ai_response = await ask_ollama(prompt)
+./main.py:2034:    #     active LLM client (currently ollama_client serving Gemma 4 E4B).
+./main.py:2049:            model_version="gemma4-e4b-base",
+./main.py:2193:    response = await ask_ollama(prompt)
+./.env.example:11:# Ollama (LLM backend). Dev: A4500 Tailscale IP. Prod: Cloudflare Tunnel hostname.
+./.env.example:13:OLLAMA_HOST=
+./ml/src/chat_template.py:1:"""Single source of truth for the Gemma 4 chat template.
+./ml/src/chat_template.py:3:Wraps tokenizer.apply_chat_template(...). Never hand-roll the template — Gemma
+./ml/src/chat_template.py:8:serious load (likely "google/gemma-4-e4b-it" or similar). The Ollama tag in
+./ml/src/chat_template.py:9:production is `gemma4:e4b`.
+./ml/src/chat_template.py:17:# code path. Set MODEL_ID via the env var GEMMA_MODEL_ID if it differs.
+./ml/src/chat_template.py:20:MODEL_ID = os.environ.get("GEMMA_MODEL_ID", "google/gemma-4-e4b-it")
+./ml/src/chat_template.py:38:    """Render a messages list to the Gemma 4 chat format.
+./ml/scripts/blackwell_check.py:40:    # Confirm sdpa attention is settable on Gemma 4. We don't load the model
+./test_diagnostics.py:322:    async def fake_model(prompt, model=None):
+./test_diagnostics.py:327:    with patch.object(main, "ask_ollama", fake_model), \
+./test_diagnostics.py:377:    async def fake_model(prompt, model=None):
+./test_diagnostics.py:383:    with patch.object(main, "ask_ollama", fake_model), \
+./.env:4:OLLAMA_HOST=localhost
+./scripts/baseline_format_validation.py:2:"""Baseline format-validation experiment for base Gemma 4 E4B on ClearDrive prompts.
+./scripts/baseline_format_validation.py:5:(vehicle, DTC) combination. Monkey-patches `main.ask_ollama` with a spy so we
+./scripts/baseline_format_validation.py:12:fine-tuned model by repointing ollama_client to the new endpoint or model.
+./scripts/baseline_format_validation.py:14:Writes results to notes/baseline-gemma-format-validation-<YYYY-MM-DD>.md.
+./scripts/baseline_format_validation.py:103:    original_ask = main.ask_ollama
+./scripts/baseline_format_validation.py:114:    main.ask_ollama = spy_ask
+./scripts/baseline_format_validation.py:128:        main.ask_ollama = original_ask
+./scripts/baseline_format_validation.py:208:    out = PROJECT_ROOT / "notes" / f"baseline-gemma-format-validation-{date_str()}.md"
+./scripts/baseline_format_validation.py:212:        fh.write(f"# Base Gemma 4 E4B -- format validation baseline\n\n")
+./scripts/baseline_format_validation.py:215:            f"**Setup:** `gemma4:e4b` on A4500 via `ollama_client.py` (/api/chat). "
+./scripts/baseline_format_validation.py:216:            f"Prompts built by `main.interpret()`, captured via spy on `main.ask_ollama`.\n"
+./scripts/baseline_format_validation.py:311:        fh.write("### What base Gemma 4 E4B does well\n\n- \n\n")
+./scripts/baseline_score_responses.py:15:    py -3 scripts/baseline_score_responses.py --input-file notes/baseline-gemma-format-validation-2026-05-23.md
+./scripts/baseline_score_responses.py:19:notes/baseline-gemma-format-validation-<YYYY-MM-DD>.md and overwrites in
+./scripts/baseline_score_responses.py:37:    return PROJECT_ROOT / "notes" / f"baseline-gemma-format-validation-{today}.md"
+./scripts/baseline_score_responses.py:286:             "Defaults to notes/baseline-gemma-format-validation-<today>.md.",
+./scripts/baseline_score_responses.py:414:### What base Gemma 4 E4B does well
+./scripts/baseline_score_responses.py:453:Point `ollama_client.py`'s `OLLAMA_HOST` env var at the fine-tuned model
+./database.py:144:            -- Critical for A/B analysis between base-gemma, dspy-gemma,
+./database.py:145:            -- cleardrive-gemma, etc. Today it'll be 'groq-llama-3.1-8b'.
+./database.py:196:    # - model_version: A/B analysis ("show me all cleardrive-gemma scans")
+./database.py:372:      - model_version: e.g. 'groq-llama-3.1-8b-instant' or 'gemma4-e4b-base'
+./vehicle_data.py:2004:                print(f"[NHTSA] Incomplete data: year={year} make={make} model={model}")
+./vehicle_data.py:2233:                        print(f"[CarsXE] ⚠ VIN decode incomplete: year={result['year']} make={result['make']} model={result['model']}")
+### exit=0
+
+### $ grep -rn -i 'research_scans\|save_scan\|capture\|scan_id' --include=*.py . | grep -v .venv | head -50
+./schemas.py:1:"""Wire formats for OBD capture.
+./schemas.py:31:    Captured at a stated engine condition, because the same trim numbers mean
+./schemas.py:82:    """What this vehicle could and could not report during capture.
+./schemas.py:108:        return f"{label} was not captured"
+./schemas.py:139:    # capture in logs, in the research table, or in a training corpus.
+./main.py:163:    scan_id: Optional[int] = None
+./main.py:168:    scan_id: int
+./main.py:793:    is never written to research_scans.
+./main.py:801:            "validate diagnostic logic. Validation needs real captures."
+./main.py:1269:    # research-logged or mistaken for a capture.
+./main.py:1578:            scan_id = log_scan("", response_data["safety_level"], ai_response)
+./main.py:1579:            response_data["scan_id"] = scan_id
+./main.py:2019:    # Log scan and return scan_id for followup/feedback linking
+./main.py:2020:    scan_id = log_scan(", ".join(codes_list), safety_label, ai_response)
+./main.py:2021:    response_data["scan_id"] = scan_id
+./main.py:2024:    # Captures the full prompt, response, vehicle context, and OBD data
+./main.py:2201:    if request.scan_id is not None:
+./main.py:2204:                scan_id=request.scan_id,
+./main.py:2230:    feedback_id = log_feedback(request.scan_id, request.rating)
+./test_diagnostics.py:256:    """Resolve an evidence pointer into the captured payload. Raises if it cannot."""
+./test_diagnostics.py:336:    assert r["scan_id"] == -1
+./diagnostics.py:20:was actually captured. A conclusion with no resolvable pointer is a bug, not
+./diagnostics.py:55:    pointer: str       # path into the captured payload, e.g. "fuel_trims[idle].ltft_bank1"
+./diagnostics.py:193:    """Arithmetic over the raw capture. Every value here is server-computed."""
+./diagnostics.py:598:        "captures fuel vapour is not holding pressure. It does not affect how the car "
+./diagnostics.py:676:        result.abstentions.append(Abstention("capture_limitation", lim, ["vehicle support"]))
+./diagnostics.py:689:    """Pure function of the rule output and the captured payload. No I/O, no model.
+./fixtures.py:12:    captures from real vehicles, and no research claim may rest on these.
+./fixtures.py:15:cannot reach `research_scans` or a training corpus.
+./fixtures.py:385:# research_scans.
+./fixtures.py:416:# capture later the same day, compare). Engine, trim, transmission, and mileage
+./fixtures.py:420:# reports; prediction error against the real capture is a measured outcome of
+./scripts/baseline_format_validation.py:6:capture both:
+./scripts/baseline_format_validation.py:102:    captured = {"prompt": None, "raw_response": None}
+./scripts/baseline_format_validation.py:106:        captured["prompt"] = prompt
+./scripts/baseline_format_validation.py:111:        captured["raw_response"] = result
+./scripts/baseline_format_validation.py:133:        "prompt": captured["prompt"],
+./scripts/baseline_format_validation.py:134:        "raw_response": captured["raw_response"],
+./scripts/baseline_format_validation.py:216:            f"Prompts built by `main.interpret()`, captured via spy on `main.ask_ollama`.\n"
+./scripts/smoke_run.py:23:(read back from the `scans` table via the response's scan_id — /interpret
+./scripts/smoke_run.py:52:def model_safety_line(db_path: str, scan_id) -> str:
+./scripts/smoke_run.py:54:    if scan_id is None or not os.path.exists(db_path):
+./scripts/smoke_run.py:58:        row = conn.execute("SELECT guidance FROM scans WHERE id = ?", (scan_id,)).fetchone()
+./scripts/smoke_run.py:99:    written = model_safety_line(db_path, data.get("scan_id"))
+./scripts/baseline_score_responses.py:442:- The corpus needs to capture **{{vehicle, code}} -> structured 12-section output** examples, not raw scrape data dumps. The transformation step (a -> c) needs to do real synthesis, not just template-filling, because the format/vehicle-specificity gap is wide.
+./database.py:24:            scan_id INTEGER,
+./database.py:29:            FOREIGN KEY (scan_id) REFERENCES scans(id)
+./database.py:35:            scan_id INTEGER,
+./database.py:38:            FOREIGN KEY (scan_id) REFERENCES scans(id)
+./database.py:51:    scan_id = cursor.lastrowid
+### exit=0
+
+### $ ls research_scans/ | head; find research_scans -type f | wc -l
+ls: cannot access 'research_scans/': No such file or directory
+find: ‘research_scans’: No such file or directory
+0
+### exit=0
+
+### $ ls fixtures/ tests/fixtures/ 2>/dev/null; ls fixtures.py; grep -c '^_register\|^    _register\|_register_replay_clean(' fixtures.py
+fixtures.py
+16
+### exit=0
+
+### $ ls -R eval/ 2>/dev/null; git tag | grep -i eval
+### exit=1
+
+### $ ls data/ ml/ training/ 2>/dev/null
+ml/:
+CLAUDE.md
+configs
+data
+notes
+runs
+scripts
+src
+### exit=2
+
+### $ find . -iname '*.jsonl' -not -path './.git/*' -not -path './.venv/*' | xargs -I{} sh -c 'echo {}; wc -l < {}'
+### exit=0
+
+### $ git ls-files .env .env.example; git check-ignore -v .env
+.env.example
+.gitignore:47:.env	.env
+### exit=0
+
+### $ ls training_data 2>/dev/null | head; find training_data -type f 2>/dev/null | sed 's/.*\.//' | sort | uniq -c
+### exit=0
+
+### $ du -sh training_data 2>/dev/null; find training_data -type f 2>/dev/null | head -20
+### exit=0
+
+### $ ls ml/data ml/runs ml/scripts ml/src ml/configs
+ml/configs:
+
+ml/data:
+pairs
+processed
+raw
+sae_j2012.json
+splits
+
+ml/runs:
+
+ml/scripts:
+blackwell_check.py
+build_sae_j2012.py
+
+ml/src:
+chat_template.py
+etl
+eval
+__init__.py
+training
+### exit=0
+
+### $ .venv/bin/python -c 'import fixtures; n=[k for k in dir(fixtures)]; print([a for a in n if a.isupper()])'
+['FULL_CAPABILITY', 'SCENARIOS']
+### exit=0
+
+### $ .venv/bin/python -c 'import fixtures as f; d=getattr(f,"SCENARIOS",None) or getattr(f,"FIXTURES",None); print(len(d)); [print(k) for k in d]'
+14
+accord-2012-p0171-vacuum-leak
+f150-2015-p0301-coil
+camry-2010-p0420-marginal
+silverado-2014-p0420-p0300-secondary
+bmw-550i-2013-p0171-bank-specific
+escape-2013-p1131-mfg-code
+sonata-2011-p0171-no-capability
+civic-2008-p0442-evap
+rav4-2018-clean
+m6-2014-bank1-lean-misfire-hard
+tacoma-2009-p0171-severe-trim-synthetic
+landcruiser-2014-clean-replay
+audi-a4-2015-clean-replay
+volvo-v70-2004-clean-replay
+### exit=0
+
+### $ .venv/bin/python -c 'import json;d=json.load(open("known_issues.json"));print(type(d).__name__,len(d))'
+dict 1
+### exit=0
+
+### $ grep -n -i 'oem_verified\|tier' dtc_definitions.py | head -30
+1:"""Trouble-code definition resolution, with an explicit trust tier per answer.
+15:This module therefore never guesses. It returns one of three tiers:
+21:    oem_verified             definition sourced from that manufacturer's own
+68:TIER_STANDARDIZED = "standardized_unverified"
+69:TIER_OEM = "oem_verified"
+70:TIER_STRUCTURAL = "structural_only"
+119:    """Resolve one DTC to a definition plus the tier it was resolved at.
+121:    Returns keys: code, description, tier, source, system, subsystem, caveat.
+150:            "tier": TIER_STRUCTURAL,
+161:            "tier": TIER_STANDARDIZED,
+177:        "tier": TIER_STRUCTURAL,
+190:    """Render resolved definitions with their tier visible to the model."""
+196:        lines.append(f"    definition confidence: {r['tier']} (source: {r['source']})")
+### exit=0
+
+### $ .venv/bin/python - <<'EOF'
+import json,sqlite3
+c=sqlite3.connect('cleardrive.db')
+print('tables',[r[0] for r in c.execute("select name from sqlite_master where type='table'")])
+for t in ('scans','research_scans','feedback','followups'):
+    try: print(t, c.execute(f'select count(*) from {t}').fetchone())
+    except Exception as e: print(t,e)
+print('research_scans by is_mock', c.execute('select is_mock,count(*) from research_scans group by is_mock').fetchall())
+EOF
+tables ['scans', 'followups', 'feedback', 'research_scans', 'sqlite_sequence']
+scans (12,)
+research_scans (0,)
+feedback (0,)
+followups (0,)
+Traceback (most recent call last):
+  File "<stdin>", line 7, in <module>
+sqlite3.OperationalError: no such column: is_mock
+### exit=1
+
+### $ .venv/bin/python -m pytest -q 2>&1 | tail -5
+/home/abrennan/cleardrive/.venv/bin/python: No module named pytest
+### exit=0
+
+### $ .venv/bin/python -c "import sqlite3;c=sqlite3.connect('cleardrive.db');print([r[1] for r in c.execute('pragma table_info(research_scans)')]);print([r[1] for r in c.execute('pragma table_info(scans)')]);print(c.execute('select id,timestamp,dtc_codes,safety_level from scans').fetchall())"
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+sqlite3.OperationalError: no such column: dtc_codes
+['id', 'timestamp', 'user_id_hash', 'ab_bucket', 'consent_version', 'model_version', 'vehicle_id', 'trim', 'vehicle_profile_json', 'codes_json', 'rpm', 'speed_mph', 'coolant_temp_f', 'obd_source', 'prompt_text', 'response_text', 'response_parsed_json', 'safety_level', 'had_error', 'latency_ms', 'user_rating', 'user_comment', 'data_sources_json', 'schema_version']
+['id', 'timestamp', 'codes', 'safety', 'guidance']
+### exit=1
+
+### $ grep -n 'is_mock' main.py database.py | head
+main.py:448:        is_mock=True,
+main.py:783:        "is_mock": True
+main.py:1268:    # snapshot carries is_mock=True and fixture_name, so it can never be
+main.py:1314:            is_mock=False,
+main.py:1580:            if getattr(snapshot, "is_mock", False):
+main.py:2042:    # not an observation. Gating on is_mock rather than on the obd_source
+main.py:2045:    if getattr(snapshot, "is_mock", False):
+### exit=0
+
+### $ find ml/data -type f | sed 's/.*\.//' | sort | uniq -c; du -sh ml/data/*
+      4 gitkeep
+      1 json
+4.0K	ml/data/pairs
+4.0K	ml/data/processed
+4.0K	ml/data/raw
+92K	ml/data/sae_j2012.json
+4.0K	ml/data/splits
+### exit=0
+
+### $ find ml/data/raw ml/data/processed ml/data/pairs ml/data/splits -maxdepth 2 | head -30
+ml/data/raw
+ml/data/raw/.gitkeep
+ml/data/processed
+ml/data/processed/.gitkeep
+ml/data/pairs
+ml/data/pairs/.gitkeep
+ml/data/splits
+ml/data/splits/.gitkeep
+### exit=0
+
+### $ which python python3 pytest; python3 -c 'import pytest;print(pytest.__version__)'; .venv/bin/python --version
+/usr/bin/python3
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'pytest'
+Python 3.12.3
+### exit=0
+
+### $ .venv/bin/python test_diagnostics.py 2>&1 | tail -5
+  PASS  test_verdict_tacoma_2009_p0171_severe_trim_synthetic
+  PASS  test_verdict_volvo_v70_2004_clean_replay
+  PASS  test_verdicts_are_not_degenerate
+
+43 passed, 0 failed
+### exit=0
+
+### $ .venv/bin/python -c "import dtc_definitions as d, inspect; print([n for n in dir(d) if n.isupper()])"
+['J2012_FILE', 'P_SUBSYSTEMS', 'SYSTEM_NAMES', 'TIER_OEM', 'TIER_STANDARDIZED', 'TIER_STRUCTURAL']
+### exit=0
+
+### $ .venv/bin/python -c "import sqlite3;c=sqlite3.connect('cleardrive.db');print(c.execute('select id,timestamp,codes,safety from scans').fetchall())"
+[(1, '2026-08-22T12:54:40.549065', 'P0171', 'SAFE'), (2, '2026-08-22T12:54:51.533323', 'P0301', 'STOP'), (3, '2026-08-22T12:55:12.660404', 'P0420', 'SAFE'), (4, '2026-08-22T12:55:41.220979', 'P0420, P0300', 'STOP'), (5, '2026-08-22T12:55:51.040856', 'P0345', 'SAFE'), (6, '2026-08-22T12:55:59.832870', 'P0171', 'SAFE'), (7, '2026-08-22T12:56:35.214260', 'P1131, P0133', 'SAFE'), (8, '2026-08-22T12:57:08.188269', 'P0171', 'UNKNOWN'), (9, '2026-08-22T12:57:23.810557', 'P0442', 'SAFE'), (10, '2026-08-22T12:57:46.975989', 'P0171, P0300, P0302, P0304, P0133, P052E, P1497', 'STOP'), (11, '2026-08-22T12:58:07.711240', 'P0171', 'CAUTION'), (12, '2026-08-22T13:21:04.524401', '', 'SAFE')]
+### exit=0
+
+### $ grep -n 'training_data\|OUTPUT_DIR\|out_dir\|open(' scrape_training_data.py | head -15; grep -n 'training_data' .gitignore ml/CLAUDE.md | head
+21:    training_data/raw/{vehicle_slug}/{code}.json
+52:  training_data/scrape.log so a detached run is fully inspectable
+80:DATA_ROOT = Path(__file__).parent / "training_data"
+536:    _log_handle = LOG_FILE.open("a", encoding="utf-8")
+824:        with tmp.open("w", encoding="utf-8") as f:
+.gitignore:33:# Scraped training data (regenerable via scrape_training_data.py)
+.gitignore:34:training_data/
+ml/CLAUDE.md:9:- **Edit `../training_data/raw/`.** Read-only. 5.3 GB corpus is source of truth.
+### exit=0
+
+### $ find / -maxdepth 4 -type d -name 'training_data' 2>/dev/null | head
+### exit=0
+
+### $ sed -n 60,120p dtc_definitions.py
+    "4": "auxiliary emission controls",
+    "5": "vehicle speed control, idle control, and auxiliary inputs",
+    "6": "computer output circuit or control module",
+    "7": "transmission",
+    "8": "transmission",
+    "9": "transmission or control module",
+}
+
+TIER_STANDARDIZED = "standardized_unverified"
+TIER_OEM = "oem_verified"
+TIER_STRUCTURAL = "structural_only"
+
+_cache: Optional[dict] = None
+
+
+def _load() -> dict:
+    global _cache
+    if _cache is not None:
+        return _cache
+    try:
+        with open(J2012_FILE) as f:
+            entries = json.load(f)
+        _cache = {e["code"].upper(): e for e in entries}
+    except Exception as exc:  # missing or malformed file must not break a scan
+        print(f"[DTC] definition table unavailable: {exc}")
+        _cache = {}
+    return _cache
+
+
+def is_manufacturer_specific(code: str) -> bool:
+    """True when the standard delegates this code's meaning to the OEM."""
+    c = code.upper().strip()
+    if len(c) < 2 or c[0] not in SYSTEM_NAMES:
+        return False
+    d = c[1]
+    if d == "1":
+        return True
+    if c[0] == "P" and d == "3":
+        # P30xx-P33xx manufacturer, P34xx-P39xx standardized
+        return len(c) >= 3 and c[2] in "0123"
+    return d in "23" and c[0] != "P"
+
+
+def structural_reading(code: str) -> dict:
+    """What the code's structure alone guarantees. Never a guess at meaning."""
+    c = code.upper().strip()
+    out = {
+        "system": SYSTEM_NAMES.get(c[0], "unknown") if c else "unknown",
+        "subsystem": None,
+        "convention_not_guaranteed": False,
+    }
+    if len(c) >= 3 and c[0] == "P":
+        out["subsystem"] = P_SUBSYSTEMS.get(c[2])
+        if c[1] == "1":
+            out["convention_not_guaranteed"] = True
+    return out
+
+
+def resolve(code: str) -> dict:
+    """Resolve one DTC to a definition plus the tier it was resolved at.
+
+### exit=0
+
+### $ .venv/bin/python -c "import json;d=json.load(open('ml/data/sae_j2012.json'));print(type(d).__name__, list(d)[:8] if isinstance(d,dict) else len(d))"
+list 418
+### exit=0
+
+### $ .venv/bin/python -c "
+import json,collections,dtc_definitions as d
+e=json.load(open('ml/data/sae_j2012.json'))
+print('entries',len(e),'keys',sorted(e[0]))
+print('resolve() tier counts over table codes', collections.Counter(d.resolve(x['code'])['tier'] for x in e))
+print('oem_verified sources in repo: grep follows')"
+entries 418 keys ['category', 'code', 'description', 'manufacturer_specific', 'standardized', 'subsystem']
+resolve() tier counts over table codes Counter({'standardized_unverified': 405, 'structural_only': 13})
+oem_verified sources in repo: grep follows
+### exit=0
+
+### $ grep -rn 'TIER_OEM' --include=*.py . | grep -v .venv
+./dtc_definitions.py:69:TIER_OEM = "oem_verified"
+### exit=0
+
+### $ tailscale status 2>&1 | head -10
+100.100.254.15   ajb1ubuntu             conorpbrennan@   linux    -                                                        
+100.101.159.126  av-fle                 flebr1@          windows  offline, last seen 46d ago                               
+100.125.65.3     black-4090-1           conorpbrennan@   windows  offline, last seen 5h ago                                
+100.70.149.49    black-4090             conorpbrennan@   linux    offline, last seen 10d ago                               
+100.114.44.47    black-5090             conorpbrennan@   windows  active; direct 192.168.1.182:41641, tx 897512 rx 562144  
+100.113.243.10   conors-mac-mini        conorpbrennan@   macOS    offline, last seen 27d ago                               
+100.78.139.11    frederics-macbook-pro  flebr1@          macOS    offline, last seen 20d ago                               
+100.124.151.95   ipad-pro-11-gen-2      paulobrennan@    iOS      -                                                        
+100.77.43.97     iphone-13-pro          paulobrennan@    iOS      offline, last seen 5h ago                                
+100.69.138.123   iphone-14-pro-max      conorpbrennan@   iOS      offline, last seen 91d ago                               
+### exit=0
+
+### $ hostname; uptime; nvidia-smi --query-gpu=name,memory.total,memory.used --format=csv
+ajb1ubuntu
+ 23:20:35 up 14 min,  1 user,  load average: 0.08, 0.10, 0.09
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA RTX A4500, 20470 MiB, 0 MiB
+### exit=0
+
+### $ ollama --version; ollama list; ollama ps
+ollama version is 0.24.0
+NAME                ID              SIZE      MODIFIED     
+qwen3:14b-q4_K_M    bdbd181c33f2    9.3 GB    6 weeks ago     
+gemma4:e4b          c6eb396dbd59    9.6 GB    4 months ago    
+NAME    ID    SIZE    PROCESSOR    CONTEXT    UNTIL 
+### exit=0
+
+### $ systemctl list-units --type=service | grep -i -E 'cleardrive|ollama|cloudflared|uvicorn|fastapi'
+  cleardrive.service                                                                        loaded active running ClearDrive FastAPI backend (uvicorn)
+  cloudflared-flexagg.service                                                               loaded active running cloudflared flexagg tunnel (risk.barra-poc.com -> nginx:8090)
+  cloudflared.service                                                                       loaded active running cloudflared
+  flexagg-api.service                                                                       loaded active running Barra flexagg risk API (FastAPI + Atoti cube, 127.0.0.1:8010, cube :9095)
+  ollama.service                                                                            loaded active running Ollama Service
+### exit=0
+
+### $ systemctl status cleardrive --no-pager | head -12
+● cleardrive.service - ClearDrive FastAPI backend (uvicorn)
+     Loaded: loaded (/etc/systemd/system/cleardrive.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-09-25 23:06:44 UTC; 13min ago
+   Main PID: 1387 (uvicorn)
+      Tasks: 6 (limit: 76445)
+     Memory: 73.6M (peak: 74.1M)
+        CPU: 1.782s
+     CGroup: /system.slice/cleardrive.service
+             └─1387 /home/abrennan/cleardrive/.venv/bin/python3 /home/abrennan/cleardrive/.venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+
+Sep 25 23:06:44 ajb1ubuntu systemd[1]: Started cleardrive.service - ClearDrive FastAPI backend (uvicorn).
+Sep 25 23:06:44 ajb1ubuntu uvicorn[1387]: INFO:     Started server process [1387]
+### exit=0
+
+### $ systemctl status ollama --no-pager | head -12
+● ollama.service - Ollama Service
+     Loaded: loaded (/etc/systemd/system/ollama.service; enabled; preset: enabled)
+    Drop-In: /etc/systemd/system/ollama.service.d
+             └─override.conf
+     Active: active (running) since Fri 2026-09-25 23:06:44 UTC; 13min ago
+   Main PID: 1386 (ollama)
+      Tasks: 20 (limit: 76445)
+     Memory: 301.1M (peak: 557.6M)
+        CPU: 6.622s
+     CGroup: /system.slice/ollama.service
+             └─1386 /usr/local/bin/ollama serve
+
+### exit=0
+
+### $ systemctl status cloudflared --no-pager | head -12
+● cloudflared.service - cloudflared
+     Loaded: loaded (/etc/systemd/system/cloudflared.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-09-25 23:06:44 UTC; 13min ago
+   Main PID: 1381 (cloudflared)
+      Tasks: 12 (limit: 76445)
+     Memory: 36.5M (peak: 39.6M)
+        CPU: 2.733s
+     CGroup: /system.slice/cloudflared.service
+             └─1381 /usr/bin/cloudflared --no-autoupdate tunnel run --token <REDACTED>
+
+Sep 25 23:06:50 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:06:50Z INF Retrying connection in up to 2s connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:06:52 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:06:52Z WRN Connection terminated error="control stream encountered a failure while serving" connIndex=2
+### exit=0
+
+### $ systemctl cat cleardrive --no-pager | grep -v -i -E 'key|token|secret'
+# /etc/systemd/system/cleardrive.service
+[Unit]
+Description=ClearDrive FastAPI backend (uvicorn)
+After=network-online.target ollama.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=abrennan
+WorkingDirectory=/home/abrennan/cleardrive
+ExecStart=/home/abrennan/cleardrive/.venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+### exit=0
+
+### $ systemctl cat ollama --no-pager | grep -v -i -E 'key|token|secret'
+# /etc/systemd/system/ollama.service
+[Unit]
+Description=Ollama Service
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/ollama serve
+User=ollama
+Group=ollama
+Restart=always
+RestartSec=3
+Environment="PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+
+[Install]
+WantedBy=default.target
+
+# /etc/systemd/system/ollama.service.d/override.conf
+[Service]
+Environment="OLLAMA_HOST=0.0.0.0:11434"
+Environment="OLLAMA_FLASH_ATTENTION=1"
+Environment="OLLAMA_KV_CACHE_TYPE=f16"
+Environment="OLLAMA_NUM_PARALLEL=2"
+Environment="OLLAMA_KEEP_ALIVE=24h"
+### exit=0
+
+### $ ps aux | grep -E 'uvicorn|gunicorn|python.*main|cloudflared|sglang' | grep -v grep | cut -c1-250
+root        1380  0.3  0.0 1361684 38776 ?       Ssl  23:06   0:02 /usr/bin/cloudflared --no-autoupdate --config /etc/cloudflared/flexagg.yml tunnel run
+root        1381  0.3  0.0 1296396 39160 ?       Ssl  23:06   0:02 /usr/bin/cloudflared --no-autoupdate tunnel run --token <REDACTED>
+abrennan    1383  2.6  3.9 10246948 2612048 ?    Ssl  23:06   0:22 /home/abrennan/dev/barra_poc/barra/bin/python /home/abrennan/dev/barra_poc/barra/bin/uvicorn risk_api:app --host 127.0.0.1 --port 8010
+abrennan    1387  0.2  0.1 250668 73548 ?        Ssl  23:06   0:01 /home/abrennan/cleardrive/.venv/bin/python3 /home/abrennan/cleardrive/.venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+### exit=0
+
+### $ cd /home/abrennan/cleardrive && git log --oneline -3 && git status --short
+ec173ae brief2/phase0: ignore .venv/
+16718ed brief2/phase0: add weekend briefs (master, 2a eval freeze, 2c distillation)
+9cfe192 Merge pull request #18 from blackt1de/preregister-replay-agreement
+?? notes/reports/
+### exit=0
+
+### $ echo 'running process start:'; ps -o lstart= -p $(systemctl show -p MainPID --value cleardrive); git reflog --date=iso -5
+running process start:
+Fri Sep 25 23:06:43 2026
+ec173ae HEAD@{2026-09-25 23:19:57 +0000}: commit: brief2/phase0: ignore .venv/
+16718ed HEAD@{2026-09-25 23:19:25 +0000}: commit: brief2/phase0: add weekend briefs (master, 2a eval freeze, 2c distillation)
+9cfe192 HEAD@{2026-09-25 23:19:21 +0000}: checkout: moving from main to brief-2-weekend
+9cfe192 HEAD@{2026-09-25 23:17:59 +0000}: pull origin main: Fast-forward
+6702d77 HEAD@{2026-08-22 16:10:46 +0000}: pull -q origin main: Fast-forward
+### exit=0
+
+### $ curl -s localhost:11434/api/tags | head -c 1500
+{"models":[{"name":"qwen3:14b-q4_K_M","model":"qwen3:14b-q4_K_M","modified_at":"2026-08-08T10:28:20.015151977Z","size":9276198565,"digest":"bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8","details":{"parent_model":"","format":"gguf","family":"qwen3","families":["qwen3"],"parameter_size":"14.8B","quantization_level":"Q4_K_M"}},{"name":"gemma4:e4b","model":"gemma4:e4b","modified_at":"2026-05-18T15:24:15.36936434Z","size":9608350718,"digest":"c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb","details":{"parent_model":"","format":"gguf","family":"gemma4","families":["gemma4"],"parameter_size":"8.0B","quantization_level":"Q4_K_M"}}]}### exit=0
+
+### $ curl -s -w '\nHTTP %{http_code}\n' localhost:8000/health
+{"status":"ok","ai":{"status":"ok","models":["qwen3:14b-q4_K_M","gemma4:e4b"],"host":"localhost"}}
+HTTP 200
+### exit=0
+
+### $ cat ~/.cloudflared/config.yml 2>/dev/null; ls /etc/cloudflared/ 2>/dev/null; cloudflared tunnel list 2>&1 | head -5
+8b17c657-bbb7-4e61-bbf2-81df6aa1f3f8.json
+flexagg.yml
+You can obtain more detailed information for each tunnel with `cloudflared tunnel info <name/uuid>`
+ID                                   NAME    CREATED              CONNECTIONS                        
+8b17c657-bbb7-4e61-bbf2-81df6aa1f3f8 flexagg 2026-06-18T12:53:20Z 1xewr05, 1xewr07, 1xewr11, 1xewr14 
+2026-09-25T23:20:49Z WRN Your version 2026.5.0 is outdated. We recommend upgrading it to 2026.9.3
+### exit=0
+
+### $ df -h / /home | tail -2
+/dev/mapper/ubuntu--vg-ubuntu--lv   98G   58G   36G  62% /
+/dev/mapper/ubuntu--vg-ubuntu--lv   98G   58G   36G  62% /
+### exit=0
+
+### $ journalctl -u cloudflared -n 15 --no-pager | cut -c1-220
+Sep 25 23:06:46 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:06:46Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=3 event=0 ip=198.41.192.77
+Sep 25 23:06:46 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:06:46Z INF Registered tunnel connection connIndex=3 connection=ff88b365-0615-44c4-aec2-dc13d57d73dc event=0 ip=198.41.192.77 location=ewr01 protocol=quic
+Sep 25 23:06:50 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:06:50Z ERR failed to run the datagram handler error="context canceled" connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:06:50 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:06:50Z WRN failed to serve tunnel connection error="control stream encountered a failure while serving" connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:06:50 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:06:50Z WRN Serve tunnel error error="control stream encountered a failure while serving" connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:06:50 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:06:50Z INF Retrying connection in up to 2s connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:06:52 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:06:52Z WRN Connection terminated error="control stream encountered a failure while serving" connIndex=2
+Sep 25 23:07:06 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:07:06Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:07:11 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:07:11Z ERR failed to run the datagram handler error="context canceled" connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:07:11 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:07:11Z WRN failed to serve tunnel connection error="control stream encountered a failure while serving" connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:07:11 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:07:11Z WRN Serve tunnel error error="control stream encountered a failure while serving" connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:07:11 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:07:11Z INF Retrying connection in up to 4s connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:07:13 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:07:13Z WRN Connection terminated error="control stream encountered a failure while serving" connIndex=2
+Sep 25 23:07:51 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:07:51Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=2 event=0 ip=198.41.200.53
+Sep 25 23:07:52 ajb1ubuntu cloudflared[1381]: 2026-09-25T23:07:52Z INF Registered tunnel connection connIndex=2 connection=3fec8963-3dfa-4231-89f8-e09e2a414d71 event=0 ip=198.41.200.53 location=ewr16 protocol=quic
+### exit=0
+
+### $ nslookup api.cleardriveapp.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+Name:	api.cleardriveapp.com
+Address: 172.67.223.71
+Name:	api.cleardriveapp.com
+Address: 104.21.91.149
+Name:	api.cleardriveapp.com
+Address: 2606:4700:3033::6815:5b95
+Name:	api.cleardriveapp.com
+Address: 2606:4700:3037::ac43:df47
+
+### exit=0
+
+### $ curl -s -o /dev/null -w '%{http_code}\n' https://api.cleardriveapp.com/health
+200
+### exit=0
+
+### $ curl -s -w '\nHTTP %{http_code}\n' https://api.cleardriveapp.com/health
+{"status":"ok","ai":{"status":"ok","models":["qwen3:14b-q4_K_M","gemma4:e4b"],"host":"localhost"}}
+HTTP 200
+### exit=0
+
+### $ curl -X POST https://api.cleardriveapp.com/interpret -d '{"scenario":"f150-2015-p0301-coil"}'
+REQUEST: {"scenario":"f150-2015-p0301-coil"}
+{"codes":["P0301"],"vehicle":"2015 Ford F-150 XLT","engine":"5.0L V8","fuel_type":"Gasoline","drive":"4WD","transmission":"6-Speed Automatic","supercharged":false,"turbocharged":false,"hybrid":false,"electric":false,"performance_tier":"sport","mpg_city":"","mpg_highway":"","mpg_combined":"","tank_capacity":"","horsepower":"385","rpm":734,"speed":0,"coolant_temp":201,"safety_level":"STOP","safety_meaning":"High Urgency - Immediate Attention Required","safety_description":"Continuing to drive could cause permanent damage to your engine, transmission, or other major components. This could turn a $500 repair into a $5,000+ repair.","safety_action":"Go to a mechanic immediately or have vehicle towed","dont_panic":"Your 2015 Ford F-150 XLT is showing code P0301. This code means that the engine is detecting a misfire on Cylinder 1. Simply put, it means that cylinder is not firing correctly, which is like a hiccup in the engine's breathing. The vehicle's own readings showed that the total trim for Bank 1 at idle was 5.4% and the total trim for Bank 2 at idle was 4.3%. The misfire was recorded when the engine was running hard, specifically at 68% engine load and with the coolant temperature at 197°F. This is something that needs attention because the misfire happened while the engine was working hard and at operating temperature.","likely_causes":"1. The ignition coil (the part that creates the spark) for Cylinder 1 is suspected because the misfire is confined to one cylinder (P0301), which points at a component specific to that cylinder rather than anything shared by the whole engine. This is supported by the evidence that the misfire was recorded at 2814 RPM and 68% engine load with coolant at 197°F.","symptoms":"1. Rough idling or stumbling acceleration - This happens because the engine is not getting the power it needs from one cylinder.\n2. Loss of power - The engine won't feel as strong as normal because one cylinder is misfiring.\n3. Check Engine Light flashing - A flashing light indicates a severe misfire that needs immediate attention.\n4. Engine running unevenly - You might feel the vehicle shaking or vibrating slightly while driving.","if_ignored":"If you ignore this, the unburned fuel from the misfire can reach the catalytic converter (a device that cleans up exhaust gases), causing it to overheat and potentially get destroyed. In the next few days or weeks, the misfire could worsen, and the catalytic converter could fail. Long-term, this turns a simple ignition repair into a much more expensive converter replacement. There are no specific safety concerns mentioned, but the engine running poorly can affect overall vehicle performance.","quick_checks":"Swap the ignition coil for P0301 with a neighbouring cylinder and rescan — if the code follows the coil, the coil is the fault\nInspect that cylinder's spark plug\nCompare fuel injector operation against the other cylinders\nRescan after a few days of normal driving to see whether they confirm","diy_fix":"This repair is NOT recommended for DIY because diagnosing the exact cause (coil, plug, or injector) requires specialized diagnostic equipment and knowledge to ensure the correct component is replaced. A professional mechanic should handle this.","urgency":"Go to a mechanic today - don't drive more than necessary.","repair_cost":"Parts: $400 - $1,200\nLabor: $300 - $800\nTotal at independent shop: $700 - $2,000\nTotal at dealer: $1,000 - $3,000 (dealers charge more)\nThis repair requires an experienced mechanic familiar with modern engine diagnostics.","known_issues":"Ford Motor Company (Ford) is recalling certain 2015-2019 Ford F-150 and 2017-2019 Ford F-250 Super Duty, F-350 Super Duty, F-450 Super Duty, and F-550 Super Duty pick-up trucks equipped with an engine block heater. Water and contaminants may get into the block heater cable's splice connector causing corrosion and damage.\nFord Motor Company (Ford) is recalling certain 2015-2019 Ford F-150 and 2017-2019 Ford F-250 Super Duty, F-350 Super Duty, F-450 Super Duty, and F-550 Super Duty pick-up trucks equipped with an engine block heater and previously remedied under recall 18V894. During the previous repair, the block heater cable's splice connector may have been damaged.\nFord Motor Company (Ford) is recalling certain 2015-2018 Ford F-150 Regular Cab and SuperCrew Cab vehicles. If a front seat belt pretensioner deploys as the result of a crash, the sparks may ignite materials such as carpeting or insulation within the B-pillar area.\nFord Motor Company (Ford) is recalling certain 2015-2017 Ford F-150, and 2017 F-250, F-350, F-450, and F-550 Super Duty trucks. The doors on these vehicles may have a bent or kinked actuation cable or the door latches may freeze after water gets into the latch. Either condition can result in the doors opening while driving although they appear to be closed.\nFord Motor Company (Ford) is recalling certain 2015-2017 F-150, and 2017 F-250 and F-350 trucks equipped with a crew cab. The left rear inflatable seat belt buckle assembly may be inadequately attached to its mounting bracket. As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 210, \"Seat Belt Assembly Anchorages.\"","owner_reports":"The 5.0L V8 is generally more reliable long-term (Source: ClearDrive local KB).","data_sources":["NHTSA Recalls Database","ClearDrive Known Issues KB"],"obd_source":"Synthetic fixture: f150-2015-p0301-coil","trim":"XLT","vehicleImageURL":"/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10213%2F2015-Ford-F150%2520Super%2520Cab-front_10213_032_1837x807_YZ_cropped.png","mileage":96500,"pending_codes":["P0316"],"permanent_codes":[],"capability_limitations":[],"code_definitions":[{"code":"P0301","description":"Cylinder 1 Misfire Detected","tier":"standardized_unverified","source":"ml/data/sae_j2012.json (not yet verified against SAE J2012)","system":"powertrain","subsystem":"ignition_misfire","caveat":"Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."}],"differential":[{"rule":"misfire_triage","conclusion":"The misfire is confined to one cylinder (P0301), which points at a component specific to that cylinder rather than anything shared by the whole engine.","confidence":"high","basis":"heuristic","next_checks":["Swap the ignition coil for P0301 with a neighbouring cylinder and rescan — if the code follows the coil, the coil is the fault","Inspect that cylinder's spark plug","Compare fuel injector operation against the other cylinders"],"evidence":[{"pointer":"freeze_frames[P0301]","restatement":"the misfire was recorded at 2814 RPM and 68% engine load with coolant at 197°F"}]}],"not_assessed":[],"is_synthetic":true,"code_status":[{"rule":"code_status_pending","conclusion":"There are pending codes (P0316) — faults the computer has seen once but not yet confirmed. They are an early warning, not a confirmed failure."}],"recommended_checks":["Swap the ignition coil for P0301 with a neighbouring cylinder and rescan — if the code follows the coil, the coil is the fault","Inspect that cylinder's spark plug","Compare fuel injector operation against the other cylinders","Rescan after a few days of normal driving to see whether they confirm"],"safety":{"verdict":"stop_driving","basis":"heuristic","reasons":[{"rule":"misfire_active","statement":"An active misfire code (P0301) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).","raises_to":"caution","evidence":[{"pointer":"dtc_codes","restatement":"codes present: P0301"}]},{"rule":"misfire_under_load","statement":"The misfire occurred while the engine was working hard or fully warm. Raw fuel entering a hot catalytic converter overheats and destroys it, which turns an ignition repair into a converter replacement (heuristic).","raises_to":"stop_driving","evidence":[{"pointer":"freeze_frames[P0301].engine_load_pct","restatement":"the misfire was recorded at 68% engine load (threshold 60%, heuristic)"},{"pointer":"freeze_frames[P0301].coolant_temp_f","restatement":"the misfire was recorded with coolant at 197°F, i.e. at operating temperature (threshold 180°F, heuristic)"}]},{"rule":"code_status_pending","statement":"There are pending codes (P0316) — faults the computer has seen once but not yet confirmed. They are an early warning, not a confirmed failure. This changes how soon to act, not how serious the fault is.","raises_to":null,"evidence":[{"pointer":"pending_codes","restatement":"pending: P0316"}]}]},"service_recommendations":"The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.","scan_id":13}
+HTTP 200 time_total=30.130949s
+### exit=0
+
+### $ ollama ps; nvidia-smi --query-gpu=memory.used --format=csv
+NAME          ID              SIZE     PROCESSOR    CONTEXT    UNTIL             
+gemma4:e4b    c6eb396dbd59    11 GB    100% GPU     16384      24 hours from now    
+memory.used [MiB]
+10487 MiB
+### exit=0
+
+### $ ls ios/; find ios -maxdepth 3 -name '*.xcodeproj' -o -maxdepth 3 -name '*.xcworkspace'
+ClearDrive
+README.md
+ios/ClearDrive/ClearDrive.xcodeproj
+ios/ClearDrive/ClearDrive.xcodeproj/project.xcworkspace
+### exit=0
+
+### $ grep -rn 'cleardriveapp.com\|baseURL\|BASE_URL' ios/ | head -20
+ios/ClearDrive/ClearDrive/Views/SettingsView.swift:234:                let email = "support@cleardriveapp.com"
+ios/ClearDrive/ClearDrive/Views/SettingsView.swift:253:            Text("support@cleardriveapp.com has been copied to your clipboard.")
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:14:    @Published var baseURL: String {
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:16:            UserDefaults.standard.set(baseURL, forKey: "serverURL")
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:30:        self.baseURL = UserDefaults.standard.string(forKey: "serverURL") ?? "https://api.cleardriveapp.com"
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:37:        let url = URL(string: "\(baseURL)/health")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:53:        let url = URL(string: "\(baseURL)/obd/connect")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:70:        let url = URL(string: "\(baseURL)/obd/disconnect")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:78:        let url = URL(string: "\(baseURL)/obd/live")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:85:        let url = URL(string: "\(baseURL)/obd/status")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:92:        let url = URL(string: "\(baseURL)/obd/read-vin")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:118:        let url = URL(string: "\(baseURL)/vin/decode")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:178:        let url = URL(string: "\(baseURL)/trims")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:226:        let url = URL(string: "\(baseURL)/vehicle-image")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:251:            let fullURL = "\(baseURL)\(imageURL)"
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:283:        let url = URL(string: "\(baseURL)/demo/scenarios")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:290:        let url = URL(string: "\(baseURL)/interpret")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:369:        let url = URL(string: "\(baseURL)/interpret")!
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:467:                result.vehicleImageURL = baseURL + backendImageURL
+ios/ClearDrive/ClearDrive/Services/APIClient.swift:491:        let url = URL(string: "\(baseURL)/interpret")!
+### exit=0
+
+### $ ssh -o BatchMode=yes -o ConnectTimeout=8 black-5090 'hostname' ; ssh -o BatchMode=yes -o ConnectTimeout=8 100.114.44.47 'hostname'
+ssh: connect to host black-5090 port 22: Connection timed out
+ssh: connect to host 100.114.44.47 port 22: Connection timed out
+### exit=255
+
+### $ [ -n "$OPENROUTER_API_KEY" ] && echo 'env OPENROUTER_API_KEY: SET' || echo 'env OPENROUTER_API_KEY: UNSET'; grep -q '^OPENROUTER_API_KEY=.\+' .env && echo '.env OPENROUTER_API_KEY: SET' || echo '.env OPENROUTER_API_KEY: UNSET'; cut -d= -f1 .env | grep -v '^#' | sed 's/^/.env key name: /'
+env OPENROUTER_API_KEY: UNSET
+.env OPENROUTER_API_KEY: UNSET
+.env key name: CARSXE_API_KEY
+.env key name: AUTODEV_API_KEY
+.env key name: OLLAMA_HOST
+### exit=0
+
+### $ .venv/bin/python -c 'import torch' ; .venv/bin/pip show unsloth transformers peft 2>&1 | grep -E 'Name|Version|not found'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'torch'
+WARNING: Package(s) not found: peft, transformers, unsloth
+### exit=0
+
+### $ grep -n -i 'offline\|5090\|Unsloth sm_120' docs/briefs/cleardrive-execution-briefs-v2.md | head
+169:**Objective:** freeze the contracts everything downstream depends on, and pin the Qwen SKU against a measured worst-case prompt. Runs on the A4500 over Tailscale; no 5090 required.
+530:3. QLoRA fine-tune is blocked on the 5090 returning **and** Unsloth sm_120 verification for the pinned SKU. Nothing in Briefs 1–9 requires it.
+### exit=0
+
+### $ known_issues.json structure
+top key: vehicles list 15
+first entry keys ['codes', 'general_issues', 'make', 'model', 'year_end', 'year_start']
+### $ ollama show qwen3:14b-q4_K_M (params)
+  Model
+    architecture        qwen3     
+    parameters          14.8B     
+    context length      40960     
+    embedding length    5120      
+    quantization        Q4_K_M    
+
+  Capabilities
+    completion    
+    tools         
+    thinking      
+
+  Parameters
+    repeat_penalty    1                 
+
