@@ -1,0 +1,319 @@
+# Phase 1 log — 2026-09-25T23:29:37+00:00 — host ajb1ubuntu
+### $ .venv/bin/pip install -q pytest && .venv/bin/python -m pytest --version
+
+[notice] A new release of pip is available: 26.1.1 -> 26.2.1
+[notice] To update, run: /home/abrennan/cleardrive/.venv/bin/python3 -m pip install --upgrade pip
+pytest 9.1.1
+### exit=0
+
+### $ .venv/bin/python -m pytest -q test_api.py 2>&1 | tail -25
+
+no tests ran in 0.20s
+### exit=0
+
+### $ wc -l test_api.py; grep -c '^def test_\|^async def test_' test_api.py
+13 test_api.py
+0
+### exit=1
+
+### $ .venv/bin/python -m pytest -q test_diagnostics.py 2>&1 | tail -4
+...........................................                              [100%]
+43 passed in 0.41s
+### exit=0
+
+### $ cat /tmp/claude-1000/-home-abrennan-cleardrive/6787c4ca-74d3-468a-be15-42d3185c38b7/scratchpad/capture_prompts.py; echo ----; cat /tmp/claude-1000/-home-abrennan-cleardrive/6787c4ca-74d3-468a-be15-42d3185c38b7/scratchpad/count_tokens.py
+"""Capture the exact user prompt /interpret builds for every fixture.
+Model call stubbed, DB writes stubbed; retrieval runs for real (it is part of
+the prompt). Writes one JSON per fixture: {name, system, user}."""
+import asyncio, json, sys
+from pathlib import Path
+from unittest.mock import patch
+sys.path.insert(0, "/home/abrennan/cleardrive")
+import main, fixtures, ollama_client
+out = Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=True)
+captured = {}
+async def fake_model(prompt, model=None):
+    captured["user"] = prompt
+    return "SAFETY LEVEL: SAFE"
+for s in fixtures.list_scenarios():
+    name = s["name"]; captured.clear()
+    with patch.object(main, "ask_ollama", fake_model), \
+         patch.object(main, "log_scan", lambda *a, **k: -1), \
+         patch.object(main, "log_research_scan", lambda *a, **k: -1):
+        asyncio.run(main.interpret(main.InterpretRequest(scenario=name)))
+    (out / f"{name}.json").write_text(json.dumps(
+        {"name": name, "system": ollama_client.SYSTEM_PROMPT, "user": captured.get("user")}))
+    print(name, len(captured.get("user") or ""), "chars")
+----
+"""Token count per captured prompt, using the served model's own tokenizer:
+Ollama /api/chat prompt_eval_count with num_predict=1 (system+user, chat template
+included). The largest prompt is sent first and again last to detect prefix-cache
+effects on the count."""
+import json, sys, httpx
+from pathlib import Path
+model = sys.argv[2]
+ps = sorted((json.loads(p.read_text()) for p in Path(sys.argv[1]).glob("*.json")),
+            key=lambda d: -len(d["user"]))
+order = ps + [ps[0]]
+for d in order:
+    r = httpx.post("http://localhost:11434/api/chat", timeout=600, json={
+        "model": model, "stream": False, "think": False,
+        "messages": [{"role": "system", "content": d["system"]}, {"role": "user", "content": d["user"]}],
+        "options": {"num_predict": 1, "num_ctx": 16384, "temperature": 0}}).json()
+    print(f'{d["name"]:45s} chars={len(d["system"])+len(d["user"]):6d} prompt_eval_count={r.get("prompt_eval_count")}')
+### exit=0
+
+### $ ollama stop gemma4:e4b; .venv/bin/python /tmp/claude-1000/-home-abrennan-cleardrive/6787c4ca-74d3-468a-be15-42d3185c38b7/scratchpad/count_tokens.py /tmp/claude-1000/-home-abrennan-cleardrive/6787c4ca-74d3-468a-be15-42d3185c38b7/scratchpad/prompts qwen3:14b-q4_K_M
+m6-2014-bank1-lean-misfire-hard               chars= 22341 prompt_eval_count=5822
+silverado-2014-p0420-p0300-secondary          chars= 19352 prompt_eval_count=5122
+camry-2010-p0420-marginal                     chars= 18550 prompt_eval_count=4904
+escape-2013-p1131-mfg-code                    chars= 18043 prompt_eval_count=4583
+tacoma-2009-p0171-severe-trim-synthetic       chars= 17322 prompt_eval_count=4489
+f150-2015-p0301-coil                          chars= 16903 prompt_eval_count=4359
+accord-2012-p0171-vacuum-leak                 chars= 16818 prompt_eval_count=4619
+sonata-2011-p0171-no-capability               chars= 16790 prompt_eval_count=4200
+bmw-550i-2013-p0171-bank-specific             chars= 16308 prompt_eval_count=4207
+civic-2008-p0442-evap                         chars= 15543 prompt_eval_count=4322
+volvo-v70-2004-clean-replay                   chars=  8431 prompt_eval_count=2447
+rav4-2018-clean                               chars=  7315 prompt_eval_count=1851
+landcruiser-2014-clean-replay                 chars=  6692 prompt_eval_count=1794
+audi-a4-2015-clean-replay                     chars=  5450 prompt_eval_count=1305
+m6-2014-bank1-lean-misfire-hard               chars= 22341 prompt_eval_count=5822
+### exit=0
+
+### $ cat ~/cleardrive-qwen.Modelfile
+FROM qwen3:14b-q4_K_M
+PARAMETER num_ctx 16384
+PARAMETER temperature 0.2
+### exit=0
+
+### $ ollama create cleardrive-qwen -f ~/cleardrive-qwen.Modelfile
+gathering model components 
+using existing layer sha256:a8cc1361f3145dc01f6d77c6c82c9116b9ffe3c97b34716fe20418455876c40e 
+using existing layer sha256:ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4 
+using existing layer sha256:d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12 
+creating new layer sha256:f5402c7712de73c1634a38cb658bc5d12632c808bd68d507f16e1ccaabb23e0d 
+writing manifest 
+success 
+### exit=0
+
+### $ ollama list
+NAME                      ID              SIZE      MODIFIED               
+cleardrive-qwen:latest    bb3302d8673b    9.3 GB    Less than a second ago    
+qwen3:14b-q4_K_M          bdbd181c33f2    9.3 GB    6 weeks ago               
+gemma4:e4b                c6eb396dbd59    9.6 GB    4 months ago              
+### exit=0
+
+### $ ollama show cleardrive-qwen --parameters
+top_p                          0.95
+num_ctx                        16384
+repeat_penalty                 1
+stop                           "<|im_start|>"
+stop                           "<|im_end|>"
+temperature                    0.2
+top_k                          20
+### exit=0
+
+### $ ollama run cleardrive-qwen 'Reply with the single word READY' 2>/dev/null
+Thinking...
+Okay, the user wants me to reply with just the word "READY". Let me check t
+the instructions again. They said to reply with the single word READY. No o
+other text, just that one word. I need to make sure there's no extra spaces
+spaces or punctuation. Let me confirm the requirements once more. Yes, it's
+it's straightforward. The response should be exactly "READY" without any ad
+additional characters. Alright, I'll generate that response now.
+...done thinking.
+
+READY
+
+### exit=0
+
+### $ ollama ps; nvidia-smi --query-gpu=memory.used --format=csv
+NAME                ID              SIZE     PROCESSOR    CONTEXT    UNTIL             
+qwen3:14b-q4_K_M    bdbd181c33f2    14 GB    100% GPU     16384      24 hours from now    
+memory.used [MiB]
+14071 MiB
+### exit=0
+
+### $ cat /tmp/claude-1000/-home-abrennan-cleardrive/6787c4ca-74d3-468a-be15-42d3185c38b7/scratchpad/think_probe.py
+"""Send the backend's exact /api/chat body (copied from ollama_client.ask_ollama,
+no `think` key) for one captured prompt; report where thinking lands and the budget."""
+import json, sys, re, httpx, time
+d = json.load(open(sys.argv[1])); model = sys.argv[2]
+t = time.time()
+r = httpx.post("http://localhost:11434/api/chat", timeout=600, json={
+    "model": model, "stream": False,
+    "messages": [{"role": "system", "content": d["system"]}, {"role": "user", "content": d["user"]}],
+    "options": {"temperature": 0.2, "num_predict": 2800, "num_ctx": 16384,
+                "repeat_penalty": 1.15, "repeat_last_n": 256}}).json()
+m = r.get("message", {}); c = m.get("content", ""); th = m.get("thinking") or ""
+print("wall_s", round(time.time() - t, 1), "prompt_eval_count", r.get("prompt_eval_count"),
+      "eval_count", r.get("eval_count"), "done_reason", r.get("done_reason"))
+print("thinking_field_chars", len(th), "content_chars", len(c), "<think> in content:", "<think>" in c)
+print("headers in content:", re.findall(r"^([A-Z][A-Z' ]{3,}):", c, re.M))
+print("---content head---"); print(c[:600])
+### exit=0
+
+### $ .venv/bin/python /tmp/claude-1000/-home-abrennan-cleardrive/6787c4ca-74d3-468a-be15-42d3185c38b7/scratchpad/think_probe.py /tmp/claude-1000/-home-abrennan-cleardrive/6787c4ca-74d3-468a-be15-42d3185c38b7/scratchpad/prompts/m6-2014-bank1-lean-misfire-hard.json cleardrive-qwen
+wall_s 36.5 prompt_eval_count 5816 eval_count 1508 done_reason stop
+thinking_field_chars 2403 content_chars 4087 <think> in content: False
+headers in content: ['SAFETY LEVEL', "WHAT'S HAPPENING", 'LIKELY CAUSES', 'WHAT YOU MIGHT NOTICE', 'IF YOU IGNORE THIS', 'QUICK CHECKS', 'DIY FIX', 'WHEN TO SEE A MECHANIC', 'ESTIMATED REPAIR COST', 'SERVICE RECOMMENDATIONS', 'KNOWN ISSUES FOR THIS ENGINE', 'OTHER OWNERS REPORT']
+---content head---
+SAFETY LEVEL: STOP  
+WHAT'S HAPPENING:  
+Your 2014 BMW M6 Base is showing code P0171 (System Too Lean on Bank 1). This means the engine is burning too little fuel on one side, which can damage the catalytic converter. The engine is running lean (not enough fuel) at idle (+18.5% fuel trim) and even more so under load (+22.8% fuel trim). Misfires in cylinders 2 and 4 (P0302, P0304) happened while the engine was hot (207°F coolant) and under heavy load (84% engine load). The oxygen sensor (P0133) is also reporting a slow response, which matches the fuel trim data. No other measurements were avail
+### exit=0
+
+### $ git log --oneline -1; git status --short
+cad6465 brief2/phase1: serve cleardrive-qwen; label research scans qwen3-14b-base
+M  features/brief-2-weekend.md
+?? notes/reports/logs/2026-09-25-phase-1.log
+### exit=0
+
+### $ sudo systemctl restart cleardrive; sleep 10; systemctl status cleardrive --no-pager | head -12
+● cleardrive.service - ClearDrive FastAPI backend (uvicorn)
+     Loaded: loaded (/etc/systemd/system/cleardrive.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-09-25 23:40:49 UTC; 10s ago
+   Main PID: 13640 (uvicorn)
+      Tasks: 6 (limit: 76445)
+     Memory: 48.9M (peak: 49.8M)
+        CPU: 428ms
+     CGroup: /system.slice/cleardrive.service
+             └─13640 /home/abrennan/cleardrive/.venv/bin/python3 /home/abrennan/cleardrive/.venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+
+Sep 25 23:40:49 ajb1ubuntu systemd[1]: Started cleardrive.service - ClearDrive FastAPI backend (uvicorn).
+Sep 25 23:40:50 ajb1ubuntu uvicorn[13640]: INFO:     Started server process [13640]
+### exit=0
+
+### $ journalctl -u cleardrive -n 30 --no-pager | cut -c1-220
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [carsxe] Using cached image for 2015 Ford F-150 XLT
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Interpret] Vehicle image URL: /image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com... (color=none)
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Interpret] Transmission: request.transmission='None', using raw_trans='6-Speed Automatic'
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Interpret] Turbo check: engine_profile=False, vehicle_data=False
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Interpret] Super check: engine_profile=False, vehicle_data=False
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Interpret] MPG data: city= hwy= combined= tank=
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Main] Processing codes: ['P0301']
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Main] Vehicle: 2015 Ford F-150 XLT
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Main] Engine: 5.0L V8
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Main] Performance Tier: sport
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Main] Cost Multiplier: 1.4x
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Diagnostics] 2 findings, 0 abstentions
+Sep 25 23:20:57 ajb1ubuntu uvicorn[1387]: [Safety] stop_driving (STOP), 2 escalations
+Sep 25 23:21:27 ajb1ubuntu uvicorn[1387]: NHTSA search error: Client error '400 Bad Request' for url 'https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150&modelYear=2015'
+Sep 25 23:21:27 ajb1ubuntu uvicorn[1387]: For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+Sep 25 23:21:27 ajb1ubuntu uvicorn[1387]: [Research] Skipping research log — mock/demo snapshot
+Sep 25 23:21:27 ajb1ubuntu uvicorn[1387]: INFO:     2600:4040:99dd:300:9e6b:ff:fe79:dab:0 - "POST /interpret HTTP/1.1" 200 OK
+Sep 25 23:40:49 ajb1ubuntu systemd[1]: Stopping cleardrive.service - ClearDrive FastAPI backend (uvicorn)...
+Sep 25 23:40:49 ajb1ubuntu uvicorn[1387]: INFO:     Shutting down
+Sep 25 23:40:49 ajb1ubuntu uvicorn[1387]: INFO:     Waiting for application shutdown.
+Sep 25 23:40:49 ajb1ubuntu uvicorn[1387]: INFO:     Application shutdown complete.
+Sep 25 23:40:49 ajb1ubuntu uvicorn[1387]: INFO:     Finished server process [1387]
+Sep 25 23:40:49 ajb1ubuntu systemd[1]: cleardrive.service: Deactivated successfully.
+Sep 25 23:40:49 ajb1ubuntu systemd[1]: Stopped cleardrive.service - ClearDrive FastAPI backend (uvicorn).
+Sep 25 23:40:49 ajb1ubuntu systemd[1]: cleardrive.service: Consumed 3.626s CPU time, 74.1M memory peak, 0B memory swap peak.
+Sep 25 23:40:49 ajb1ubuntu systemd[1]: Started cleardrive.service - ClearDrive FastAPI backend (uvicorn).
+Sep 25 23:40:50 ajb1ubuntu uvicorn[13640]: INFO:     Started server process [13640]
+Sep 25 23:40:50 ajb1ubuntu uvicorn[13640]: INFO:     Waiting for application startup.
+Sep 25 23:40:50 ajb1ubuntu uvicorn[13640]: INFO:     Application startup complete.
+Sep 25 23:40:50 ajb1ubuntu uvicorn[13640]: INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+### exit=0
+
+### $ curl -s -w '\nHTTP %{http_code}\n' localhost:8000/health
+{"status":"ok","ai":{"status":"ok","models":["cleardrive-qwen:latest","qwen3:14b-q4_K_M","gemma4:e4b"],"host":"localhost"}}
+HTTP 200
+### exit=0
+
+### $ curl -s -w '\nHTTP %{http_code}\n' https://api.cleardriveapp.com/health
+{"status":"ok","ai":{"status":"ok","models":["cleardrive-qwen:latest","qwen3:14b-q4_K_M","gemma4:e4b"],"host":"localhost"}}
+HTTP 200
+### exit=0
+
+### $ curl -X POST https://api.cleardriveapp.com/interpret
+REQUEST: {"scenario":"accord-2012-p0171-vacuum-leak"}
+{"codes":["P0171"],"vehicle":"2012 Honda Accord LX","engine":"2.4L I4","fuel_type":"Gasoline","drive":"FWD","transmission":"5-Speed Automatic","supercharged":false,"turbocharged":false,"hybrid":false,"electric":false,"performance_tier":"standard","mpg_city":"","mpg_highway":"","mpg_combined":"","tank_capacity":"","horsepower":"177","rpm":812,"speed":0,"coolant_temp":196,"safety_level":"SAFE","safety_meaning":"Low Urgency - Safe to Drive","safety_description":"This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.","safety_action":"Schedule service when convenient","dont_panic":"Your 2012 Honda Accord LX is showing code P0171. This means the engine is getting too much air and not enough fuel in Bank 1, making the mixture \"lean.\" The vehicle’s readings show a 22.7% fuel trim increase at idle and 7.8% under load, which matches a pattern caused by an air leak after the mass airflow sensor. The engine is running at operating temperature (196°F coolant), and the issue is not urgent. No other measurements were missing.","likely_causes":"1. Air is entering the engine after the mass airflow sensor. A fixed-size leak explains the higher fuel trim at idle (+22.7%) and lower under load (+7.8%).","symptoms":"1. Rough idle or stalling when stopping — due to uneven fuel-air mixture.\n2. Hesitation or lack of power during acceleration — from the lean condition.\n3. Check engine light on — triggered by the P0171 code.\n4. Slight decrease in fuel efficiency — from the engine compensating for the lean mixture.","if_ignored":"- In the next few days/weeks: The engine may misfire or run roughly, especially at low speeds.\n- Long-term: The catalytic converter could overheat and fail, leading to expensive repairs.\n- Cost: Repairing the catalytic converter later could cost $1,000–$3,000.\n- Safety: No immediate safety risk, but prolonged neglect could cause engine damage.","quick_checks":"- Inspect the intake boot between the airflow sensor and the throttle body for cracks or disconnection.\n- Check PCV hoses and the intake manifold gasket for cracks or loose fittings.\n- Ensure the oil filler cap and dipstick seal properly to rule out leaks.","diy_fix":"This repair is NOT recommended for DIY because it requires specialized tools to inspect and replace the intake manifold gasket, which is hidden under the engine. A professional mechanic should handle this.","urgency":"This can wait a week or two, but don’t forget about it. Schedule a check within 7–10 days to avoid long-term damage.","repair_cost":"- Parts: $100–$200 (intake manifold gasket, seals).\n- Labor: $200–$400 (at an independent shop).\n- Total at independent shop: $300–$600.\n- Total at dealer: $400–$800 (higher labor rates).","known_issues":"The 2.4L engine in these years is known for intake manifold gasket failures, which can cause vacuum leaks and P0171 codes.","owner_reports":"From NHTSA Complaints Database: Some 2012 Honda Accords had axle failures and electrical issues (e.g., fires from defective batteries). These are unrelated to the P0171 code but highlight other potential concerns.","data_sources":["NHTSA Complaints Database","NHTSA Recalls Database","ClearDrive Known Issues KB"],"obd_source":"Synthetic fixture: accord-2012-p0171-vacuum-leak","trim":"LX","vehicleImageURL":"/image-proxy?url=https%3A%2F%2Fi.redd.it%2F2012-honda-accord-lx-v0-xx67omcae74d1.jpg%3Fwidth%3D3000%26format%3Dpjpg%26auto%3Dwebp%26s%3D7ca277b5b2b914892c0a376501aa5d7957549427","mileage":118400,"pending_codes":[],"permanent_codes":[],"capability_limitations":[],"code_definitions":[{"code":"P0171","description":"System Too Lean (Bank 1)","tier":"standardized_unverified","source":"ml/data/sae_j2012.json (not yet verified against SAE J2012)","system":"powertrain","subsystem":"fuel_air_metering","caveat":"Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."}],"differential":[{"rule":"fuel_trim_triage","conclusion":"Air is entering the engine after the mass airflow sensor. A fixed-size leak is a large share of the small airflow at idle and a small share of the large airflow under load, which is exactly the pattern here.","confidence":"high","basis":"heuristic","next_checks":["Inspect the intake boot between the airflow sensor and the throttle body","Check PCV hoses and the intake manifold gasket for cracks or loose fittings","Check that the oil filler cap and dipstick seal properly"],"evidence":[{"pointer":"fuel_trims[idle].bank1","restatement":"total fuel trim at idle is +22.7% on bank 1"},{"pointer":"fuel_trims[loaded].bank1","restatement":"total fuel trim under load is +7.8% on bank 1"}]}],"not_assessed":[],"is_synthetic":true,"code_status":[],"recommended_checks":["Inspect the intake boot between the airflow sensor and the throttle body","Check PCV hoses and the intake manifold gasket for cracks or loose fittings","Check that the oil filler cap and dipstick seal properly"],"safety":{"verdict":"ok","basis":"heuristic","reasons":[{"rule":"no_escalation","statement":"Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.","raises_to":null,"evidence":[{"pointer":"dtc_codes","restatement":"codes present: P0171"}]}]},"service_recommendations":"The correct oil specification and service interval for this engine are in the owner’s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.","scan_id":14}
+HTTP 200 time_total=32.967804s
+### exit=0
+
+### $ curl -X POST https://api.cleardriveapp.com/interpret
+REQUEST: {"scenario":"f150-2015-p0301-coil"}
+{"codes":["P0301"],"vehicle":"2015 Ford F-150 XLT","engine":"5.0L V8","fuel_type":"Gasoline","drive":"4WD","transmission":"6-Speed Automatic","supercharged":false,"turbocharged":false,"hybrid":false,"electric":false,"performance_tier":"sport","mpg_city":"","mpg_highway":"","mpg_combined":"","tank_capacity":"","horsepower":"385","rpm":734,"speed":0,"coolant_temp":201,"safety_level":"STOP","safety_meaning":"High Urgency - Immediate Attention Required","safety_description":"Continuing to drive could cause permanent damage to your engine, transmission, or other major components. This could turn a $500 repair into a $5,000+ repair.","safety_action":"Go to a mechanic immediately or have vehicle towed","dont_panic":"Your 2015 Ford F-150 XLT is showing code P0301. This means cylinder 1 is misfiring (not burning fuel properly). The engine was running at 2814 RPM, 68% load, and 197°F coolant when the misfire happened — all signs it occurred while the engine was working hard and fully warm. Unburned fuel from the misfire could damage the catalytic converter, which is expensive to replace. The vehicle has 96,500 miles, so this is likely due to wear rather than a sudden failure.","likely_causes":"1. The misfire is confined to one cylinder (P0301), pointing to a component specific to that cylinder (like the ignition coil or spark plug). Evidence: the misfire was recorded at 68% engine load and 197°F coolant.","symptoms":"1. Rough idle or hesitation when accelerating — the engine is not firing all cylinders evenly.\n2. Increased fuel smell — unburned fuel from the misfire may escape through the exhaust.\n3. Check engine light staying on — the computer has confirmed the misfire.\n4. Possible decrease in fuel efficiency — the engine is working harder to compensate.","if_ignored":"- In the next few days/weeks: The catalytic converter could overheat and fail, costing $2,000–$4,000 to replace.\n- Long-term: Continued misfires may damage the engine’s internal components (like piston rings) and increase emissions.\n- Safety risk: A failing catalytic converter can cause the engine to lose power or stall unexpectedly.","quick_checks":"- Swap the ignition coil for P0301 with a neighboring cylinder and rescan — if the code follows the coil, the coil is faulty.\n- Inspect that cylinder’s spark plug for cracks, oil, or carbon buildup.\n- Compare fuel injector operation against other cylinders (requires a mechanic’s scanner).\n- Rescan after a few days of normal driving to see if the code confirms.","diy_fix":"This repair is NOT recommended for DIY because it requires specialized tools (like a scan tool to test injectors) and expertise to diagnose the exact cause. A professional mechanic should handle this.","urgency":"Go to a mechanic today — do not drive more than necessary. The misfire could damage the catalytic converter immediately.","repair_cost":"- Parts: $200–$600 (ignition coil, spark plug, or fuel injector).\n- Labor: $150–$300 (independent shop).\n- Total at independent shop: $350–$900.\n- Total at dealer: $500–$1,200 (dealers charge 30–50% more).","known_issues":"No verified issue history was available for this vehicle.","owner_reports":"No owner-reported history was retrieved for this vehicle.","data_sources":["NHTSA Recalls Database","ClearDrive Known Issues KB"],"obd_source":"Synthetic fixture: f150-2015-p0301-coil","trim":"XLT","vehicleImageURL":"/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10213%2F2015-Ford-F150%2520Super%2520Cab-front_10213_032_1837x807_YZ_cropped.png","mileage":96500,"pending_codes":["P0316"],"permanent_codes":[],"capability_limitations":[],"code_definitions":[{"code":"P0301","description":"Cylinder 1 Misfire Detected","tier":"standardized_unverified","source":"ml/data/sae_j2012.json (not yet verified against SAE J2012)","system":"powertrain","subsystem":"ignition_misfire","caveat":"Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."}],"differential":[{"rule":"misfire_triage","conclusion":"The misfire is confined to one cylinder (P0301), which points at a component specific to that cylinder rather than anything shared by the whole engine.","confidence":"high","basis":"heuristic","next_checks":["Swap the ignition coil for P0301 with a neighbouring cylinder and rescan — if the code follows the coil, the coil is the fault","Inspect that cylinder's spark plug","Compare fuel injector operation against the other cylinders"],"evidence":[{"pointer":"freeze_frames[P0301]","restatement":"the misfire was recorded at 2814 RPM and 68% engine load with coolant at 197°F"}]}],"not_assessed":[],"is_synthetic":true,"code_status":[{"rule":"code_status_pending","conclusion":"There are pending codes (P0316) — faults the computer has seen once but not yet confirmed. They are an early warning, not a confirmed failure."}],"recommended_checks":["Swap the ignition coil for P0301 with a neighbouring cylinder and rescan — if the code follows the coil, the coil is the fault","Inspect that cylinder's spark plug","Compare fuel injector operation against the other cylinders","Rescan after a few days of normal driving to see whether they confirm"],"safety":{"verdict":"stop_driving","basis":"heuristic","reasons":[{"rule":"misfire_active","statement":"An active misfire code (P0301) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).","raises_to":"caution","evidence":[{"pointer":"dtc_codes","restatement":"codes present: P0301"}]},{"rule":"misfire_under_load","statement":"The misfire occurred while the engine was working hard or fully warm. Raw fuel entering a hot catalytic converter overheats and destroys it, which turns an ignition repair into a converter replacement (heuristic).","raises_to":"stop_driving","evidence":[{"pointer":"freeze_frames[P0301].engine_load_pct","restatement":"the misfire was recorded at 68% engine load (threshold 60%, heuristic)"},{"pointer":"freeze_frames[P0301].coolant_temp_f","restatement":"the misfire was recorded with coolant at 197°F, i.e. at operating temperature (threshold 180°F, heuristic)"}]},{"rule":"code_status_pending","statement":"There are pending codes (P0316) — faults the computer has seen once but not yet confirmed. They are an early warning, not a confirmed failure. This changes how soon to act, not how serious the fault is.","raises_to":null,"evidence":[{"pointer":"pending_codes","restatement":"pending: P0316"}]}]},"service_recommendations":"The correct oil specification and service interval for this engine are in the owner’s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.","scan_id":15}
+HTTP 200 time_total=27.444596s
+### exit=0
+
+### $ ollama ps; nvidia-smi --query-gpu=memory.used --format=csv
+NAME                ID              SIZE     PROCESSOR    CONTEXT    UNTIL             
+qwen3:14b-q4_K_M    bdbd181c33f2    14 GB    100% GPU     16384      24 hours from now    
+memory.used [MiB]
+14071 MiB
+### exit=0
+
+### $ journalctl -u ollama --since '-4 min' --no-pager | grep -E 'api/chat|model=|loading|cleardrive' | cut -c1-200 | tail -8
+Sep 25 23:41:45 ajb1ubuntu ollama[1386]: [GIN] 2026/09/25 - 23:41:45 | 200 | 32.710242835s |       127.0.0.1 | POST     "/api/chat"
+Sep 25 23:42:12 ajb1ubuntu ollama[1386]: [GIN] 2026/09/25 - 23:42:12 | 200 | 26.902811954s |       127.0.0.1 | POST     "/api/chat"
+### exit=0
+
+### $ .venv/bin/python -c "import sqlite3;c=sqlite3.connect('cleardrive.db');[print(r) for r in c.execute('select id,timestamp,codes,safety,length(guidance) from scans order by id desc limit 3')];print('research_scans',c.execute('select count(*) from research_scans').fetchone())"
+(15, '2026-09-25T23:42:12.783161', 'P0301', 'STOP', 2871)
+(14, '2026-09-25T23:41:45.357179', 'P0171', 'SAFE', 2851)
+(13, '2026-09-25T23:21:27.564090', 'P0301', 'STOP', 4935)
+research_scans (0,)
+### exit=0
+
+### $ ollama stop qwen3:14b-q4_K_M; sleep 3; ollama ps; nvidia-smi --query-gpu=memory.used --format=csv
+NAME    ID    SIZE    PROCESSOR    CONTEXT    UNTIL 
+memory.used [MiB]
+0 MiB
+### exit=0
+
+### $ curl -X POST https://api.cleardriveapp.com/interpret (model-identity check after unload)
+REQUEST: {"scenario":"f150-2015-p0301-coil"}
+{"codes":["P0301"],"vehicle":"2015 Ford F-150 XLT","engine":"5.0L V8","fuel_type":"Gasoline","drive":"4WD","transmission":"6-Speed Automatic","supercharged":false,"turbocharged":false,"hybrid":false,"electric":false,"performance_tier":"sport","mpg_city":"","mpg_highway":"","mpg_combined":"","tank_capacity":"","horsepower":"385","rpm":734,"speed":0,"coolant_temp":201,"safety_level":"STOP","safety_meaning":"High Urgency - Immediate Attention Required","safety_description":"Continuing to drive could cause permanent damage to your engine, transmission, or other major components. This could turn a $500 repair into a $5,000+ repair.","safety_action":"Go to a mechanic immediately or have vehicle towed","dont_panic":"Your 2015 Ford F-150 XLT is showing code P0301. This means cylinder 1 is misfiring, which happens when the spark plug or ignition coil in that cylinder fails to ignite the fuel properly. The engine was running at 68% load (working hard) and 197°F coolant temperature (fully warm) when the misfire occurred. Unburned fuel from the misfire can damage the catalytic converter, which is expensive to replace. The vehicle also has a pending code (P0316), which suggests another issue may be developing.","likely_causes":"1. The misfire is confined to one cylinder (P0301), pointing to a problem specific to cylinder 1, such as a faulty ignition coil or spark plug. Evidence: the misfire was recorded at 2814 RPM and 68% engine load with coolant at 197°F.","symptoms":"1. Rough idle or hesitation when accelerating — the engine is misfiring and losing power.\n2. Check engine light on — the computer detected the misfire.\n3. Smell of fuel — unburned fuel from the misfire may escape through the exhaust.\n4. Increased fuel consumption — the engine is working harder to compensate for the misfire.","if_ignored":"- In the next few days/weeks: The catalytic converter could overheat and fail, leading to a loud noise, reduced power, and a failed emissions test.\n- Long-term: Engine damage from unburned fuel, costly catalytic converter replacement, and potential failure of other components like the ignition coil or spark plug.\n- Cost: A new catalytic converter can cost $1,000–$3,000, plus labor. Ignition coil or spark plug repairs are cheaper but still significant.\n- Safety: No immediate safety risk, but driving with a misfire can worsen the problem.","quick_checks":"- Swap the ignition coil for P0301 with a neighboring cylinder and rescan — if the code follows the coil, the coil is faulty.\n- Inspect that cylinder’s spark plug for damage or carbon buildup.\n- Compare fuel injector operation against other cylinders (requires a mechanic’s tools).\n- Rescan after a few days of normal driving to see if the code confirms.","diy_fix":"This repair is NOT recommended for DIY because it requires specialized tools to test ignition coils and fuel injectors, and improper handling could damage other components. A professional mechanic should handle this.","urgency":"Go to a mechanic today — do not drive more than necessary. The misfire could damage the catalytic converter, which is expensive to replace.","repair_cost":"- Parts: $100–$300 (ignition coil, spark plug, or fuel injector).\n- Labor: $150–$400 (depending on the shop).\n- Total at independent shop: $250–$700.\n- Total at dealer: $350–$1,000 (dealers charge more for parts and labor).","known_issues":"No verified issue history was available for this vehicle.","owner_reports":"No owner-reported history was retrieved for this vehicle.","data_sources":["NHTSA Recalls Database","ClearDrive Known Issues KB"],"obd_source":"Synthetic fixture: f150-2015-p0301-coil","trim":"XLT","vehicleImageURL":"/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10213%2F2015-Ford-F150%2520Super%2520Cab-front_10213_032_1837x807_YZ_cropped.png","mileage":96500,"pending_codes":["P0316"],"permanent_codes":[],"capability_limitations":[],"code_definitions":[{"code":"P0301","description":"Cylinder 1 Misfire Detected","tier":"standardized_unverified","source":"ml/data/sae_j2012.json (not yet verified against SAE J2012)","system":"powertrain","subsystem":"ignition_misfire","caveat":"Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."}],"differential":[{"rule":"misfire_triage","conclusion":"The misfire is confined to one cylinder (P0301), which points at a component specific to that cylinder rather than anything shared by the whole engine.","confidence":"high","basis":"heuristic","next_checks":["Swap the ignition coil for P0301 with a neighbouring cylinder and rescan — if the code follows the coil, the coil is the fault","Inspect that cylinder's spark plug","Compare fuel injector operation against the other cylinders"],"evidence":[{"pointer":"freeze_frames[P0301]","restatement":"the misfire was recorded at 2814 RPM and 68% engine load with coolant at 197°F"}]}],"not_assessed":[],"is_synthetic":true,"code_status":[{"rule":"code_status_pending","conclusion":"There are pending codes (P0316) — faults the computer has seen once but not yet confirmed. They are an early warning, not a confirmed failure."}],"recommended_checks":["Swap the ignition coil for P0301 with a neighbouring cylinder and rescan — if the code follows the coil, the coil is the fault","Inspect that cylinder's spark plug","Compare fuel injector operation against the other cylinders","Rescan after a few days of normal driving to see whether they confirm"],"safety":{"verdict":"stop_driving","basis":"heuristic","reasons":[{"rule":"misfire_active","statement":"An active misfire code (P0301) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).","raises_to":"caution","evidence":[{"pointer":"dtc_codes","restatement":"codes present: P0301"}]},{"rule":"misfire_under_load","statement":"The misfire occurred while the engine was working hard or fully warm. Raw fuel entering a hot catalytic converter overheats and destroys it, which turns an ignition repair into a converter replacement (heuristic).","raises_to":"stop_driving","evidence":[{"pointer":"freeze_frames[P0301].engine_load_pct","restatement":"the misfire was recorded at 68% engine load (threshold 60%, heuristic)"},{"pointer":"freeze_frames[P0301].coolant_temp_f","restatement":"the misfire was recorded with coolant at 197°F, i.e. at operating temperature (threshold 180°F, heuristic)"}]},{"rule":"code_status_pending","statement":"There are pending codes (P0316) — faults the computer has seen once but not yet confirmed. They are an early warning, not a confirmed failure. This changes how soon to act, not how serious the fault is.","raises_to":null,"evidence":[{"pointer":"pending_codes","restatement":"pending: P0316"}]}]},"service_recommendations":"The correct oil specification and service interval for this engine are in the owner’s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.","scan_id":16}
+HTTP 200 time_total=38.100411s
+### exit=0
+
+### $ ollama ps; nvidia-smi --query-gpu=memory.used --format=csv
+NAME                      ID              SIZE     PROCESSOR    CONTEXT    UNTIL             
+cleardrive-qwen:latest    bb3302d8673b    14 GB    100% GPU     16384      24 hours from now    
+memory.used [MiB]
+14069 MiB
+### exit=0
+
+### $ sed -n 1282,1284p main.py; sed -n 1312,1316p main.py; sed -n 2042,2049p main.py
+    # Check if client provided OBD data (from phone's Bluetooth)
+    elif request.client_codes is not None:
+        print(f"[OBD] Using client-provided data: {len(request.client_codes)} codes", flush=True)
+            capability=(CapabilityProfile(**request.client_capability)
+                        if request.client_capability else CapabilityProfile()),
+            is_mock=False,
+        )
+        obd_source = request.obd_source or "Bluetooth (iOS)"
+    # not an observation. Gating on is_mock rather than on the obd_source
+    # string matters: obd_source has two distinct demo spellings and its
+    # client-provided value is unvalidated, so it cannot carry this decision.
+    if getattr(snapshot, "is_mock", False):
+        print("[Research] Skipping research log — mock/demo snapshot", flush=True)
+    else:
+        log_research_scan(
+            model_version="qwen3-14b-base",
+### exit=0
+
+### $ .venv/bin/python -c "import sqlite3;c=sqlite3.connect('cleardrive.db');[print(r) for r in c.execute('select id,timestamp,codes,safety,length(guidance) from scans where id>=13 order by id')];print('research_scans rows',c.execute('select count(*) from research_scans').fetchone()[0])"
+(13, '2026-09-25T23:21:27.564090', 'P0301', 'STOP', 4935)
+(14, '2026-09-25T23:41:45.357179', 'P0171', 'SAFE', 2851)
+(15, '2026-09-25T23:42:12.783161', 'P0301', 'STOP', 2871)
+(16, '2026-09-25T23:43:06.601401', 'P0301', 'STOP', 3157)
+research_scans rows 0
+### exit=0
+
+### $ journalctl -u cleardrive --since '-8 min' --no-pager | grep -E 'Research|Fixture' | cut -c1-160
+Sep 25 23:41:12 ajb1ubuntu uvicorn[13640]: [Fixture] accord-2012-p0171-vacuum-leak — 1 codes
+Sep 25 23:41:12 ajb1ubuntu uvicorn[13640]: [Interpret] Fixture vehicle: 2012 Honda Accord
+Sep 25 23:41:45 ajb1ubuntu uvicorn[13640]: [Research] Skipping research log — mock/demo snapshot
+Sep 25 23:41:45 ajb1ubuntu uvicorn[13640]: [Fixture] f150-2015-p0301-coil — 1 codes
+Sep 25 23:41:45 ajb1ubuntu uvicorn[13640]: [Interpret] Fixture vehicle: 2015 Ford F-150
+Sep 25 23:42:12 ajb1ubuntu uvicorn[13640]: [Research] Skipping research log — mock/demo snapshot
+Sep 25 23:42:28 ajb1ubuntu uvicorn[13640]: [Fixture] f150-2015-p0301-coil — 1 codes
+Sep 25 23:42:28 ajb1ubuntu uvicorn[13640]: [Interpret] Fixture vehicle: 2015 Ford F-150
+Sep 25 23:43:06 ajb1ubuntu uvicorn[13640]: [Research] Skipping research log — mock/demo snapshot
+### exit=0
+

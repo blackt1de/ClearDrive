@@ -15,4 +15,8 @@
 
 ## History
 
-<!-- populated on commit -->
+- 2026-09-25 `cad6465` — brief2/phase1: serve cleardrive-qwen; label research scans qwen3-14b-base
+  - main.py
+  - notes/decisions.md
+  - ollama_client.py
+  - test_diagnostics.py
