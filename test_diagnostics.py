@@ -427,6 +427,68 @@ def test_serving_model_is_pinned_qwen():
     assert ollama_client.DEFAULT_MODEL == SERVING_MODEL
 
 
+def test_output_budget_leaves_room_for_thinking():
+    """Qwen3 thinking counts against num_predict; 4096 was ruled 2026-09-25.
+    Also pins that thinking is left at the model default (no `think` key), so
+    base and fine-tuned conditions are measured the same way."""
+    import asyncio
+    from unittest.mock import patch
+    import ollama_client
+    sent = {}
+    class FakeResponse:
+        def raise_for_status(self): pass
+        def json(self): return {"message": {"content": "SAFETY LEVEL: SAFE"}}
+    async def fake_post(self, url, json=None, **kw):
+        sent.update(json)
+        return FakeResponse()
+    with patch("httpx.AsyncClient.post", fake_post):
+        asyncio.run(ollama_client.ask_ollama("x"))
+    assert sent["options"]["num_predict"] == 4096
+    assert sent["options"]["num_ctx"] == 16384
+    assert "think" not in sent
+
+
+def _finish_reason_for(scenario, ollama_body):
+    """finish_reason /interpret reports when Ollama answers with `ollama_body`."""
+    import asyncio
+    from unittest.mock import patch
+    import main
+    class FakeResponse:
+        def raise_for_status(self): pass
+        def json(self): return ollama_body
+    async def fake_post(self, url, json=None, **kw):
+        return FakeResponse()
+    async def no_retrieval(*a, **k):
+        return '<retrieved_context source="none">\nNONE\n</retrieved_context>', []
+    with patch("httpx.AsyncClient.post", fake_post), \
+         patch.object(main, "build_retrieval_block", no_retrieval), \
+         patch.object(main, "log_scan", lambda *a, **k: -1):
+        r = asyncio.run(main.interpret(main.InterpretRequest(scenario=scenario)))
+    return r["finish_reason"]
+
+
+def test_finish_reason_reported_coded_path():
+    truncated = {"message": {"content": "SAFETY LEVEL: STOP\nWHAT'S HAPPENING:\ncut"},
+                 "done_reason": "length"}
+    assert _finish_reason_for("f150-2015-p0301-coil", truncated) == "length"
+
+
+def test_finish_reason_reported_no_codes_path():
+    body = {"message": {"content": "SUMMARY:\nclean"}, "done_reason": "stop"}
+    assert _finish_reason_for("rav4-2018-clean", body) == "stop"
+
+
+def test_finish_reason_is_null_when_the_response_cannot_be_parsed():
+    # A failed call yields ERROR text; its finish reason must not claim a clean stop.
+    body = {"message": {"content": None}, "done_reason": "stop"}
+    assert _finish_reason_for("f150-2015-p0301-coil", body) is None
+
+
+def test_finish_reason_is_null_when_ollama_omits_it():
+    # Missing is null, never a substituted default.
+    assert _finish_reason_for("f150-2015-p0301-coil", {"message": {"content": "x"}}) is None
+
+
 def test_research_label_matches_serving_model_coded_path():
     assert _research_label_for("f150-2015-p0301-coil") == SERVING_LABEL
 

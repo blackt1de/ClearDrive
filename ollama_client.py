@@ -1,4 +1,5 @@
 import os
+from contextvars import ContextVar
 from pathlib import Path
 
 import httpx
@@ -24,6 +25,11 @@ OLLAMA_CHAT_URL = f"{OLLAMA_BASE}/api/chat"
 OLLAMA_TAGS_URL = f"{OLLAMA_BASE}/api/tags"
 
 DEFAULT_MODEL = "cleardrive-qwen"
+
+# Ollama's done_reason for the last ask_ollama() in this request ("stop", "length"),
+# None when Ollama omits it or the call failed. A ContextVar, so concurrent
+# requests never read each other's value.
+last_done_reason: ContextVar = ContextVar("last_done_reason", default=None)
 
 # NOTE: rules 5 and 9 of the previous version told the model to invent content
 # for any section it lacked data for ("provide general advice", "even if you have
@@ -58,6 +64,7 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
     /api/generate returns an empty response field for chat-trained models
     in Ollama 0.24.
     """
+    last_done_reason.set(None)
     try:
         async with httpx.AsyncClient(timeout=180.0) as client:
             response = await client.post(
@@ -74,7 +81,7 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
                         # A rich differential (7+ findings on a multi-system fault)
                         # needs room; at 1600 the M6 case truncated mid-sentence
                         # inside ESTIMATED REPAIR COST, losing the last 4 sections.
-                        "num_predict": 2800,
+                        "num_predict": 4096,
                         # num_ctx MUST be set explicitly. Ollama defaults it to
                         # 4096, and the payload-v2 prompt (vehicle context +
                         # tiered code definitions + computed differential +
@@ -84,9 +91,9 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
                         # of the window — which is why the model first invented
                         # its own structure and then degenerated into a loop.
                         "num_ctx": 16384,
-                        # Degeneracy control. num_predict was 4000, a long leash
-                        # for a small model; 1600 is comfortably above the
-                        # longest well-formed response observed.
+                        # Degeneracy control for the output. The 4096 num_predict
+                        # above is set for Qwen3 thinking tokens, which count
+                        # against it (ruled 2026-09-25, notes/decisions.md).
                         "repeat_penalty": 1.15,
                         "repeat_last_n": 256,
                     },
@@ -98,6 +105,7 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
             # Strip markdown bold/italic that won't render in the app
             content = content.replace("**", "").replace("__", "")
             content = content.replace("*", "").replace("_", "")
+            last_done_reason.set(data.get("done_reason"))
             return content
     except httpx.TimeoutException:
         return "ERROR: Request timed out. The model took too long to respond."

@@ -13,7 +13,7 @@ from typing import Optional, List
 from schemas import (
     DTCCode, OBDSnapshot, FuelTrim, FreezeFrame, Mode06Test, CapabilityProfile,
 )
-from ollama_client import ask_ollama, check_ollama
+from ollama_client import ask_ollama, check_ollama, last_done_reason
 from database import (
     init_db,
     log_scan,
@@ -1538,6 +1538,7 @@ RULES:
 - English only"""
 
             ai_response = await ask_ollama(prompt)
+            response_data["finish_reason"] = last_done_reason.get()
             if not ai_response.startswith("ERROR:"):
                 # Parse the response for summary, service recommendations, and known issues
                 lines = ai_response.split('\n')
@@ -1986,6 +1987,7 @@ SAFETY LEVEL."""
 
     # Get AI response
     ai_response = await ask_ollama(prompt)
+    response_data["finish_reason"] = last_done_reason.get()
     
     if ai_response.startswith("ERROR:"):
         # The computed verdict already sits in response_data; a model failure

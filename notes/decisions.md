@@ -40,6 +40,80 @@ Supersedes: 2c step 5.3 (`anthropic/claude-opus-4.5` or newer via OpenRouter, 4,
 records, concurrency 8). Also supersedes the "Claude Opus 4.7 via OpenRouter" synthesis
 lines in `ml/CLAUDE.md` and this log's 2026-05 ETL entries, and the Phase 4 script
 defaults (4096, batch 4 × accum 4).
+## [DECIDED] Output budget 4,096 with default thinking; finish reason exposed — 2026-09-25
+Context: Qwen3 thinks by default, and the thinking tokens count against `num_predict`.
+With the budget at 2,800, a long case could be truncated. Brief 2a's runner has to count
+truncations, but `/interpret` never exposed Ollama's `done_reason`.
+Decision (Austin, 2026-09-25):
+- Thinking stays at the model default, which is on, for both the base and the fine-tuned
+  conditions. Disabling it would handicap the base condition.
+- `num_predict` goes from 2,800 to **4,096** in `ollama_client.py`. The fine-tuned run in
+  Phase 6 uses the same value. Worst case: the M6 prompt of 5,822 tokens + 4,096 = 9,918 of
+  16,384.
+- `ask_ollama` records `done_reason` in a per-request `ContextVar`. `/interpret` returns it
+  as the additive field `finish_reason` on both the coded and no-codes paths, and it is null
+  when Ollama omits it. Old iOS builds ignore the field.
+- `eval_run.py` records the finish reason for every call. If more than 5% of a run is
+  truncated (`finish_reason == "length"`), stop and report before scoring.
+
+Evidence: `test_diagnostics.py` pins `num_predict` 4096, `num_ctx` 16384 and the absence
+of a `think` key, plus `finish_reason` on both paths. It is null when Ollama omits it or
+when the response cannot be parsed. Result: 63 passed with `test_knowledge.py`. The live
+regression output is in `notes/reports/logs/2026-09-25-phase-2.log`, committed with the
+Phase 2 report.
+
+## [DECIDED] Retrieval model-name normalization fixed 2026-09-25 before eval freeze and before the replay real arm; applies equally to all conditions — 2026-09-25
+Context: NHTSA lookups returned HTTP 400 for the 2015 F-150, the 2014 Land Cruiser and
+"A4 quattro", so those prompts carried no complaints. The 400 is not a malformed request.
+NHTSA returns it with the body `{"count":0,"results":[]}` when it files the vehicle under
+a different model name. The two endpoints spell models differently:
+- **Complaints** uses `F-150 REGULAR CAB` / `SUPER CREW` / `SUPERCAB` and `LANDCRUISER`.
+- **Recalls** accepts `F-150` and `Land Cruiser`, and returns 400 for `LANDCRUISER`.
+
+`httpx` already URL-encodes query parameters. The ruled fallbacks (URL-encode, strip trim
+words, first token) would have fixed only the A4.
+
+Decision (Austin, 2026-09-25, which replaces the first ruling): `knowledge.py` only. When
+an endpoint returns 400, fetch NHTSA's own model list for that endpoint
+(`api.nhtsa.gov/products/vehicle/models`, with `issueType` `c` or `r`). Compare names with
+case, spaces and hyphens removed, in this order:
+1. an exact match;
+2. an exact match after stripping trailing drivetrain/trim words (quattro, hybrid, awd,
+   4wd, fwd, rwd, xdrive, 4matic, 4motion);
+3. every NHTSA name whose leading words equal that key and whose remaining words are all
+   cab/body-style words (`REGULAR`, `SUPER`, `CREW`, `CAB`, `SUPERCAB`, `CREWMAX`, …; no
+   drivetrain words, so a query never picks up another drivetrain's records),
+   so `F-150` picks up `F-150 SUPER CREW`. Code review found that a plain prefix match
+   would have attached `COROLLA CROSS` complaints to a `COROLLA` query; that is a different
+   vehicle line, so this step only accepts body-style suffixes.
+
+Results from all matched names are merged, deduplicated on the ODI or campaign number, and
+capped as before (10 complaints, 5 recalls). The names used are logged. Every name comes
+from NHTSA and none is guessed. `diagnostics.py` and the prompts are untouched. The fix is
+about 45 lines, over the ruled 30, which was accepted with this design.
+
+The frozen-files rule exists so that every condition is measured on the same system.
+Nothing has been measured yet, so a retrieval fix made before touch one is legitimate.
+
+Evidence: live regression set, before → after (complaints / recalls), logged in
+`notes/reports/logs/2026-09-25-phase-2.log`:
+
+| Vehicle | Before | After | Matched names |
+|---|---|---|---|
+| 2015 Ford F-150 | 0 / 5 | 10 / 5 | three cab variants |
+| 2014 Toyota Land Cruiser | 0 / 4 | 2 / 4 | `LANDCRUISER` |
+| 2015 Audi A4 quattro | 0 / 0 | 10 / 0 | `A4` |
+| 2015 Audi A4 | 10 / 0 | 10 / 0 | unchanged |
+
+NHTSA has no recalls for the 2015 A4; the direct query also returns 0. `test_knowledge.py`
+has 12 offline tests that replay the observed NHTSA behaviour. They cover the Corolla Cross
+case, drivetrain variants, a falsy-id dedupe, a non-400 error and a failed model-list call.
+The last two return `[]` through the existing error handler, never as a silent absence.
+
+**Bearing on the replay pilot.** The synthetic arm (merged 6702d77) ran before this fix, so
+the Land Cruiser and A4 had no complaints in their prompts. The pre-registration requires
+rerunning BOTH arms when a cause is fixed. The synthetic arm must therefore be rerun before
+the real arm is compared.
 
 ## [DECIDED] Base model pinned: Qwen3-14B dense — 2026-09-25
 Context: Weekend Brief 2 (`docs/briefs/weekend/brief-2-weekend-master.md`, Phase 1.1)

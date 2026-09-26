@@ -1,28 +1,72 @@
 import httpx
+import re
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 
 NHTSA_API = "https://api.nhtsa.gov/complaints/complaintsByVehicle"
 NHTSA_RECALLS_API = "https://api.nhtsa.gov/recalls/recallsByVehicle"
+NHTSA_MODELS_API = "https://api.nhtsa.gov/products/vehicle/models"
+# Drivetrain/trim suffixes that app-side decodes append but NHTSA does not file under.
+TRIM_WORDS = {"QUATTRO", "HYBRID", "AWD", "4WD", "FWD", "RWD", "XDRIVE", "4MATIC", "4MOTION"}
+# Words NHTSA appends for cab/body variants of one model line (F-150 SUPER CREW). A prefix
+# match counts only if every extra word is one of these: COROLLA CROSS is another vehicle.
+# Drivetrain words are deliberately absent: a 4WD query must not pick up 2WD records.
+BODY_WORDS = {"REGULAR", "SUPER", "SUPERCAB", "CREW", "CREWMAX", "CAB", "EXTENDED", "DOUBLE",
+              "QUAD", "ACCESS", "KING", "CLUB", "MEGA"}
 
 LOCAL_KNOWLEDGE_FILE = Path(__file__).parent / "known_issues.json"
+
+
+def _model_key(name: str) -> str:
+    return re.sub(r"[\s\-]", "", name).upper()
+
+
+async def _nhtsa_names(client, make, model, year, issue_type) -> list:
+    """NHTSA's own spellings of `model` (exact, then trim-stripped, then prefix variants)."""
+    r = await client.get(NHTSA_MODELS_API, params={"modelYear": year, "make": make, "issueType": issue_type})
+    r.raise_for_status()
+    names = sorted({x["model"] for x in r.json().get("results", [])})
+    words = model.split()
+    while len(words) > 1 and words[-1].upper() in TRIM_WORDS:
+        words.pop()
+    base = _model_key(" ".join(words))
+    if not base:
+        return []
+    for key in (_model_key(model), base):
+        if exact := [n for n in names if _model_key(n) == key]:
+            return exact
+    first = len(words)
+    return [n for n in names if _model_key(" ".join(n.split()[:first])) == base
+            and n.split()[first:] and set(n.upper().split()[first:]) <= BODY_WORDS]
+
+
+async def _nhtsa_fetch(client, url, issue_type, make, model, year, limit) -> list:
+    """NHTSA answers 400 with an empty result set when it files the model under another name."""
+    r = await client.get(url, params={"make": make, "model": model, "modelYear": year})
+    if r.status_code != 400:
+        r.raise_for_status()
+        return r.json().get("results", [])[:limit]
+    results, seen, hits = [], set(), []
+    names = await _nhtsa_names(client, make, model, year, issue_type)
+    for name in names:
+        r = await client.get(url, params={"make": make, "model": name, "modelYear": year})
+        if r.status_code == 200:
+            hits.append(name)
+            for x in r.json().get("results", []):
+                key = next((x[k] for k in ("odiNumber", "NHTSACampaignNumber") if x.get(k) is not None),
+                           json.dumps(x, sort_keys=True))
+                if key not in seen:
+                    seen.add(key)
+                    results.append(x)
+    print(f"[NHTSA] {url.rsplit('/', 1)[-1]} {year} {make} '{model}': NHTSA names {names}, results from {hits}")
+    return results[:limit]
 
 
 async def search_nhtsa(make: str, model: str, year: str) -> list:
     try:
         async with httpx.AsyncClient(timeout=15) as client:
-            params = {
-                "make": make,
-                "model": model,
-                "modelYear": year
-            }
-            response = await client.get(NHTSA_API, params=params)
-            response.raise_for_status()
-            data = response.json()
-            
-            complaints = data.get("results", [])
-            return complaints[:10]
+            return await _nhtsa_fetch(client, NHTSA_API, "c", make, model, year, 10)
     except Exception as e:
         print(f"NHTSA search error: {e}")
         return []
@@ -218,10 +262,7 @@ async def get_vehicle_context(make: str, model: str, year: str, codes: list) -> 
 async def search_nhtsa_recalls(make: str, model: str, year: str) -> list:
     try:
         async with httpx.AsyncClient(timeout=10) as client:
-            r = await client.get(NHTSA_RECALLS_API, params={
-                "make": make, "model": model, "modelYear": year})
-            r.raise_for_status()
-            return r.json().get("results", [])[:5]
+            return await _nhtsa_fetch(client, NHTSA_RECALLS_API, "r", make, model, year, 5)
     except Exception as e:
         print(f"[Retrieval] NHTSA recalls error: {e}")
         return []
