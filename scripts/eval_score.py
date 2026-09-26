@@ -142,6 +142,15 @@ H4_NULL_RESPONSE = ("Your air bags and seat belts are fine. Keep the engine cool
                     "seat belts or service brakes are repaired free by the dealer.")
 
 
+# Second fixed null (pre-registered 2026-09-26): generic advice that names parts, so
+# it tests the part-level word path the system-level null cannot reach.
+H4_NULL_PART_RESPONSE = ("No verified issue history was available. A failing fuel pump is a common issue. "
+                         "Have the brake master cylinder checked. The driver side or passenger side air bag "
+                         "inflator should be inspected. The occupant classification sensor may need "
+                         "recalibration.")
+H4_NULL_RESPONSES = {"system_level": H4_NULL_RESPONSE, "part_level": H4_NULL_PART_RESPONSE}
+
+
 def h4_text(resp):
     """H4 reads the KNOWN ISSUES section only: the section meant to carry vehicle facts."""
     return resp.get("known_issues") or ""
@@ -182,6 +191,8 @@ def check_gate(meta):
     calls is reported, not scored."""
     if meta["truncation"]["gate"] == "FAIL":
         sys.exit(f"TRUNCATION GATE FAILED ({meta['truncation']}); stop and report before scoring")
+    if "failure" not in meta:
+        sys.exit("run_meta.json has no failure record; cannot confirm the failure gate, refusing to score")
     if meta["failure"]["gate"] == "FAIL":
         sys.exit(f"FAILURE GATE FAILED ({meta['failure']}); stop and report before scoring")
 
@@ -231,9 +242,10 @@ def score(cases, profiles, labels, responses, rule_based=False):
         h2_rows.append({"case_id": p["case_id"], "response_text": narrative(resp),
                         "h2_expected_specificity": p["h2_expected_specificity"]})
     rate = round(sum(h["hit"] for h in hits) / len(hits), 4) if hits else 0.0
-    return ({"h1": {"macro_f1": macro, "top1_accuracy": round(sum(top1) / len(top1), 4),
+    return ({"h1": {"macro_f1": macro, "top1_accuracy": round(sum(top1) / len(top1), 4) if top1 else 0.0,
                     "per_label": per, "cases": len(cases)},
-             "h4": {"hit_rate": rate, "threshold": 0.5, "null_baseline": h4_null_rate(profiles),
+             "h4": {"hit_rate": rate, "threshold": 0.5,
+                    "null_baselines": {k: h4_null_rate(profiles, t) for k, t in H4_NULL_RESPONSES.items()},
                     "hits": hits}}, h2_rows, unmapped)
 
 
@@ -246,8 +258,11 @@ def _markdown(run_id, s, lat, unmapped, missing, failed=None):
     lines = [f"# Scores: {run_id}\n", f"**H1 macro-F1: {s['h1']['macro_f1']}**; top-1 accuracy "
              f"{s['h1']['top1_accuracy']} over {s['h1']['cases']} cases.\n",
              f"**H4 hit rate: {s['h4']['hit_rate']}** (threshold {s['h4']['threshold']}).\n",
-             f"H4 null baseline (fixed generic response, scored the same way): {s['h4']['null_baseline']}. "
-             "Read H4 against this baseline, not against the threshold alone.\n"]
+             f"H4 system-level null (fixed generic response, scored the same way): "
+             f"{s['h4']['null_baselines']['system_level']}.\n",
+             f"H4 part-level null (fixed generic response naming parts): "
+             f"{s['h4']['null_baselines']['part_level']}. "
+             "Read H4 against both nulls, not against the threshold alone.\n"]
     if lat:
         lines.append(f"Latency (s, warm-up and failures excluded): {lat}\n")
     lines += ["| Label | P | R | F1 | Support |", "|---|---|---|---|---|"]
@@ -263,7 +278,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--run-id", required=True)
     ap.add_argument("--rule-based", action="store_true")
+    ap.add_argument("--rescore", help="name for a re-score written beside the original scores.json")
+    ap.add_argument("--reason", help="why the re-score exists (required with --rescore)")
     args = ap.parse_args()
+    if args.rescore is not None and not re.fullmatch(r"[A-Za-z0-9_-]+", args.rescore):
+        sys.exit("--rescore NAME may use letters, digits, '_' and '-' only")
+    if args.rescore and not args.reason:
+        sys.exit("--rescore needs --reason; the report must say why the run was re-scored")
     cases = json.loads((EVAL / "eval_set.json").read_text())["cases"]
     profiles = json.loads((EVAL / "codeless_set.json").read_text())["profiles"]
     labels = [lb["label"] for lb in json.loads((EVAL / "taxonomy.json").read_text())["labels"]]
@@ -281,16 +302,26 @@ def main():
             else:
                 missing.append(item["case_id"])
         lat = latency(meta["calls"])
+    # The first score of a run is permanent: a re-score is written beside it, never over it.
+    stem = f"scores-{args.rescore}" if args.rescore else "scores"
+    if not args.rescore and (out / "scores.json").exists():
+        sys.exit(f"{out / 'scores.json'} exists; re-score with --rescore NAME --reason TEXT")
+    if (out / f"{stem}.json").exists():
+        sys.exit(f"{out / (stem + '.json')} exists; pick a new --rescore name")
     s, h2_rows, unmapped = score(cases, profiles, labels, responses, rule_based=args.rule_based)
     s.update(run_id=args.run_id, arm="rule-based" if args.rule_based else "model", latency=lat,
              unmapped_predictions=unmapped, missing_responses=missing)
-    (out / "scores.json").write_text(json.dumps(s, indent=1))
+    if args.rescore:
+        s["rescore"] = {"name": args.rescore, "reason": args.reason}
+    (out / f"{stem}.json").write_text(json.dumps(s, indent=1))
+    # check_gate above guarantees meta["failure"] exists on the model arm.
     failed = meta["failure"] if not args.rule_based else "n/a (no model calls)"
-    (out / "scores.md").write_text(_markdown(args.run_id, s, lat, unmapped, missing, failed))
-    with open(out / "h2_pending.jsonl", "w") as f:
-        for row in h2_rows:
-            f.write(json.dumps(row) + "\n")
-    print((out / "scores.md").read_text())
+    (out / f"{stem}.md").write_text(_markdown(args.run_id, s, lat, unmapped, missing, failed))
+    if not args.rescore:  # the responses do not change on a re-score, so neither does the H2 input
+        with open(out / "h2_pending.jsonl", "w") as f:
+            for row in h2_rows:
+                f.write(json.dumps(row) + "\n")
+    print((out / f"{stem}.md").read_text())
 
 
 if __name__ == "__main__":

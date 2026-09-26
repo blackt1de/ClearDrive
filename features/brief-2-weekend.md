@@ -32,6 +32,14 @@
 
 ## History
 
+- 2026-09-26 `bed0615` — brief2/phase2: eval runner and scorer; backend model timeout 300 s
+  - .gitignore
+  - notes/decisions.md
+  - ollama_client.py
+  - scripts/eval_run.py
+  - scripts/eval_score.py
+  - test_eval_scripts.py
+
 - 2026-09-26 `aa308a1` — brief2/phase2: freeze eval-v1 (102 cases, 30 codeless profiles)
   - eval/MANIFEST.json
   - eval/codeless_set.json

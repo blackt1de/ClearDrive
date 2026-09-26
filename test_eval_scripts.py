@@ -448,5 +448,77 @@ def test_air_fuel_mixture_talk_is_not_an_oxygen_sensor():
 
 def test_gate_fails_closed_when_the_failure_record_is_missing():
     _, s = _run_score()
-    with pytest.raises((SystemExit, KeyError)):
+    with pytest.raises(SystemExit, match="failure record"):
         s.check_gate({"truncation": {"gate": "PASS"}})
+
+
+# --- pre-registered 2026-09-26: two H4 null baselines; re-scoring never overwrites ---
+
+PART_LEVEL_NULL = ("No verified issue history was available. A failing fuel pump is a common issue. "
+                   "Have the brake master cylinder checked. The driver side or passenger side air bag "
+                   "inflator should be inspected. The occupant classification sensor may need recalibration.")
+
+
+def test_both_fixed_null_texts_are_published_in_the_scorer():
+    _, s = _run_score()
+    assert s.H4_NULL_RESPONSES == {"system_level": s.H4_NULL_RESPONSE, "part_level": PART_LEVEL_NULL}
+
+
+def test_scores_report_both_null_baselines(tmp_path):
+    _, s = _run_score()
+    taxonomy = json.loads((ROOT / "eval" / "taxonomy.json").read_text())
+    labels = [lb["label"] for lb in taxonomy["labels"]]
+    profiles = json.loads((ROOT / "eval" / "codeless_set.json").read_text())["profiles"]
+    scores, _, _ = s.score([], profiles, labels, {})
+    nulls = scores["h4"]["null_baselines"]
+    assert nulls["system_level"] == s.h4_null_rate(profiles, s.H4_NULL_RESPONSE)
+    assert nulls["part_level"] == s.h4_null_rate(profiles, PART_LEVEL_NULL)
+    md = s._markdown("r", {**scores, "h1": {"macro_f1": 0, "top1_accuracy": 0, "cases": 0, "per_label": {}}},
+                     None, [], [], None)
+    assert "system-level null" in md and "part-level null" in md
+
+
+def _fake_run(tmp_path, s, monkeypatch):
+    out = tmp_path / "runs" / "r1"
+    out.mkdir(parents=True)
+    (out / "run_meta.json").write_text(json.dumps({"truncation": {"gate": "PASS"}, "failure": {"gate": "PASS"},
+                                                    "calls": []}))
+    monkeypatch.setattr(s, "EVAL", tmp_path)
+    for name in ("eval_set.json", "codeless_set.json", "taxonomy.json"):
+        (tmp_path / name).write_text((ROOT / "eval" / name).read_text())
+    return out
+
+
+def test_rescoring_never_overwrites_the_original_scores(tmp_path, monkeypatch):
+    _, s = _run_score()
+    out = _fake_run(tmp_path, s, monkeypatch)
+    monkeypatch.setattr("sys.argv", ["eval_score.py", "--run-id", "r1"])
+    s.main()
+    original = (out / "scores.json").read_text()
+    with pytest.raises(SystemExit, match="--rescore"):
+        s.main()
+    monkeypatch.setattr("sys.argv", ["eval_score.py", "--run-id", "r1", "--rescore", "v2",
+                                     "--reason", "vocabulary fix after review"])
+    s.main()
+    assert (out / "scores.json").read_text() == original
+    rescored = json.loads((out / "scores-v2.json").read_text())
+    assert rescored["rescore"] == {"name": "v2", "reason": "vocabulary fix after review"}
+    assert (out / "scores-v2.md").exists()
+
+
+def test_rescore_requires_a_reason(tmp_path, monkeypatch):
+    _, s = _run_score()
+    _fake_run(tmp_path, s, monkeypatch)
+    monkeypatch.setattr("sys.argv", ["eval_score.py", "--run-id", "r1", "--rescore", "v2"])
+    with pytest.raises(SystemExit):
+        s.main()
+
+
+@pytest.mark.parametrize("name", ["../x", "a/b", "a\\b", "..", ""])
+def test_rescore_name_cannot_leave_the_run_directory(tmp_path, monkeypatch, name):
+    _, s = _run_score()
+    _fake_run(tmp_path, s, monkeypatch)
+    monkeypatch.setattr("sys.argv", ["eval_score.py", "--run-id", "r1", "--rescore", name, "--reason", "x"])
+    with pytest.raises(SystemExit):
+        s.main()
+    assert not list(tmp_path.rglob("scores-*"))

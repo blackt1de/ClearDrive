@@ -2,6 +2,36 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Second H4 null, re-scoring rule, base abstention recorded as a finding — 2026-09-26
+Context: the H4 scorer review showed that the system-level null scores 0.0 partly by
+construction. It uses only system-category words, which `h4_hit` no longer counts. Generic
+text that names parts gets further: a four-sentence composite scores about 0.33. Separately,
+a 3-case dry run showed base Qwen answering "the evidence does not narrow this down" on
+code-only reconstructed cases.
+
+Decision (Austin, 2026-09-26). This entry was written after the base run began and before
+any output was scored:
+- **Second null.** A part-level null response is added:
+  - The text is `eval_score.H4_NULL_PART_RESPONSE`. It is "No verified issue history was
+    available", followed by four generic sentences naming a fuel pump, a brake master
+    cylinder, an air bag inflator and an occupant classification sensor.
+  - It is a second permanent line in every `scores.md`, next to the system-level null.
+  - Both fixed texts are in the repo (`H4_NULL_RESPONSES`).
+  - On the frozen profiles: system-level **0.0**, part-level **0.333**.
+  - The pinned 50% threshold stays the primary H4 criterion. `results.md` reports the hit
+    rate against both nulls so the reader can judge the margin.
+- **Re-scoring.** Any later re-scoring of saved responses leaves the original
+  `scores.json` untouched. `eval_score.py` refuses to overwrite it. A re-score needs
+  `--rescore NAME --reason TEXT`, writes `scores-NAME.json` and `scores-NAME.md` beside the
+  original, and records the reason; the report must repeat it.
+- **Base abstention.** On code-only cases, base Qwen's abstention is recorded as a finding,
+  not fixed. There are no prompt or rule changes for it.
+- **Thinking mode overnight.** Production returns to thinking-on (`CLEARDRIVE_THINK`
+  unset, meaning default) after the thinking-off base run.
+
+Evidence: `test_eval_scripts.py` covers both nulls, the refusal to overwrite, and the
+requirement for a reason; 194 tests pass.
+
 ## [DECIDED] H4 null-baseline reporting, pre-registered before any run — 2026-09-26
 Context: code review of `scripts/eval_score.py` found that the first H4 scorer passed a
 response that says nothing about the vehicle. The fixed text "Your air bags and seat belts
