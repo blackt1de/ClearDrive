@@ -7,7 +7,9 @@ produced by Brief 2c step 7: one {"messages": [system, user, assistant]} object 
     python ml/train_qlora.py --pilot         # 5% of train, 200 steps (required first; root CLAUDE.md)
 
 Run `ml/scripts/blackwell_check.py` before either. Chat template is the model's own, applied
-via tokenizer.apply_chat_template(); loss is computed on the assistant turn only.
+via tokenizer.apply_chat_template(enable_thinking=False), so every assistant target carries
+Qwen3's empty <think></think> block and the model is served with thinking off (decisions.md
+2026-09-25). Loss is computed on the assistant turn only.
 """
 from __future__ import annotations
 
@@ -57,7 +59,7 @@ class JsonlLogger(TrainerCallback):
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default=MODEL_ID)
-    ap.add_argument("--max-seq-length", type=int, default=4096)
+    ap.add_argument("--max-seq-length", type=int, default=8192)
     ap.add_argument("--pilot", action="store_true", help="5%% of train data, 200 steps")
     ap.add_argument("--report-to", default="none", help="HF Trainer report_to, e.g. wandb")
     args = ap.parse_args()
@@ -92,7 +94,9 @@ def main() -> int:
 
     def render(batch):
         return {"text": [
-            tokenizer.apply_chat_template(m, tokenize=False, add_generation_prompt=False)
+            tokenizer.apply_chat_template(
+                m, tokenize=False, add_generation_prompt=False, enable_thinking=False,
+            )
             for m in batch["messages"]
         ]}
 
@@ -121,9 +125,9 @@ def main() -> int:
         dataset_text_field="text",
         max_length=args.max_seq_length,
         packing=False,
-        per_device_train_batch_size=4,
-        gradient_accumulation_steps=4,
-        per_device_eval_batch_size=4,
+        per_device_train_batch_size=2,
+        gradient_accumulation_steps=8,
+        per_device_eval_batch_size=2,
         num_train_epochs=2,
         max_steps=max_steps,
         learning_rate=2e-4,

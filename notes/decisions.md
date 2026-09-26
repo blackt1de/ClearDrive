@@ -2,6 +2,45 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Brief 2 fine-tune rulings: thinking mode, training shape, synthesis LM — 2026-09-25
+Context: `notes/reports/2026-09-25-phase-4.md` raised four items for Phases 5 and 6 (sequence
+length, Qwen3's empty think block, pre-quantized training base, GGUF export on Windows).
+Austin ruled 2026-09-25.
+Decisions:
+1. **Thinking mode.** The fine-tuned model is trained with Qwen3's empty think block
+   (`apply_chat_template(..., enable_thinking=False)`) and served with thinking off. Base
+   Qwen is measured in **both** modes as two separate conditions: thinking on (the default;
+   the Phase 2 run) and thinking off (a second base run, added by the A4500 session). H1
+   reports the fine-tuned model against both. Reason: it removes the "base only lost because
+   it couldn't reason" objection instead of arguing about it.
+2. **Touch rule scope.** Base runs are fixed-model conditions, not touches. The two-touch
+   rule guards against iterating the fine-tune against the test set, so it applies to
+   fine-tuned runs only.
+3. **Training base vs served base.** Training loads `unsloth/qwen3-14b-unsloth-bnb-4bit`
+   (Unsloth's auto-mapped pre-quantized copy of `Qwen/Qwen3-14B`, same weights; see
+   `notes/reports/logs/2026-09-25-phase-4.log` L101). The served base on the A4500 is Ollama
+   `qwen3:14b-q4_K_M`. Both conditions are served as Q4_K_M GGUF, which is the comparison
+   that matters.
+4. **Training shape.** `max_seq_length` 8192, batch 2 × grad accumulation 8 (effective 16),
+   gradient checkpointing on. The length check stays: over-length pairs make
+   `ml/train_qlora.py` refuse to train, never truncate.
+5. **Pilot gate.** Phase 6 runs `ml/train_qlora.py --pilot` first (5% of train, 200 steps).
+   The full run goes ahead only if pilot loss decreases over the 200 steps. Both logs go in
+   the Phase 6 report.
+6. **GGUF export fallback order.** (a) Unsloth prebuilt llama.cpp; (b) WSL2 Ubuntu with
+   llama.cpp `convert_hf_to_gguf.py` on the merged safetensors, then quantize to Q4_K_M;
+   (c) `ollama create` from the merged safetensors directory. Stop and report only if all
+   three fail.
+7. **Synthesis LM (Brief 2c override).** Synthesis goes through the Anthropic API directly,
+   model `claude-opus-5-5`, key `ANTHROPIC_API_KEY`. Target 5,000 pairs (sample 5,500
+   records in 2c step 3), concurrency 16. Targets are written in the empty-think chat
+   layout, so training pairs and serving match. OpenRouter is not used anywhere.
+   `claude-opus-5-5` is not an eval-condition model, so the contamination firewall holds.
+Supersedes: 2c step 5.3 (`anthropic/claude-opus-4.5` or newer via OpenRouter, 4,000
+records, concurrency 8). Also supersedes the "Claude Opus 4.7 via OpenRouter" synthesis
+lines in `ml/CLAUDE.md` and this log's 2026-05 ETL entries, and the Phase 4 script
+defaults (4096, batch 4 × accum 4).
+
 ## [DECIDED] Base model pinned: Qwen3-14B dense — 2026-09-25
 Context: Weekend Brief 2 (`docs/briefs/weekend/brief-2-weekend-master.md`, Phase 1.1)
 needs a pinned base model serving on the A4500 before the eval set can be baselined and a

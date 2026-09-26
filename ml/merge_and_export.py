@@ -4,6 +4,12 @@ Brief 2, Phase 4.4 (written) / Phase 6.3 (run). Reads the adapter saved by
 ml/train_qlora.py; writes the bf16 merged model and the GGUF the A4500's Ollama serves.
 
     python ml/merge_and_export.py
+
+GGUF fallback order if the Unsloth export fails (decisions.md 2026-09-25); the merged
+safetensors in ml/out/cleardrive-qwen-merged/ are kept for both:
+  1. Unsloth save_pretrained_gguf (prebuilt llama.cpp)  <- this script
+  2. WSL2 Ubuntu: llama.cpp convert_hf_to_gguf.py on the merged dir, then quantize Q4_K_M
+  3. `ollama create` from the merged safetensors directory
 """
 from __future__ import annotations
 
@@ -20,7 +26,7 @@ ADAPTER_DIR = OUT / "cleardrive-qwen-lora"
 MERGED_DIR = OUT / "cleardrive-qwen-merged"
 GGUF_PATH = OUT / "cleardrive-qwen-Q4_K_M.gguf"
 GGUF_WORK = OUT / "cleardrive-qwen-gguf"
-MAX_SEQ_LENGTH = 4096  # keep equal to ml/train_qlora.py --max-seq-length
+MAX_SEQ_LENGTH = 8192  # keep equal to ml/train_qlora.py --max-seq-length
 
 
 def main() -> int:
@@ -40,7 +46,11 @@ def main() -> int:
     model.save_pretrained_merged(str(MERGED_DIR), tokenizer, save_method="merged_16bit")
     print(f"merged bf16: {MERGED_DIR}")
 
-    model.save_pretrained_gguf(str(GGUF_WORK), tokenizer, quantization_method="q4_k_m")
+    try:
+        model.save_pretrained_gguf(str(GGUF_WORK), tokenizer, quantization_method="q4_k_m")
+    except Exception as e:
+        print(f"FAIL: Unsloth GGUF export: {e!r}. Merged model kept at {MERGED_DIR}; use fallback 2.")
+        return 2
     ggufs = sorted(GGUF_WORK.rglob("*.gguf"), key=lambda p: p.stat().st_mtime)
     q4 = [p for p in ggufs if "q4_k_m" in p.name.lower()]
     if not q4:
