@@ -13,7 +13,9 @@ from typing import Optional, List
 from schemas import (
     DTCCode, OBDSnapshot, FuelTrim, FreezeFrame, Mode06Test, CapabilityProfile,
 )
-from ollama_client import ask_ollama, check_ollama, last_done_reason
+import math
+import ollama_client
+from ollama_client import ask_ollama, check_ollama
 from database import (
     init_db,
     log_scan,
@@ -154,6 +156,9 @@ class InterpretRequest(BaseModel):
     # Name of a deterministic synthetic fixture from fixtures.py. Development
     # and regression only — a scenario response is never research-logged.
     scenario: Optional[str] = None
+    # One frozen eval-set case (eval/): {case_id, vehicle, trim, snapshot}. Runs
+    # the fixture path; always is_mock, so it can never reach research_scans.
+    eval_case: Optional[dict] = None
 
 
 class FollowUpRequest(BaseModel):
@@ -757,7 +762,8 @@ async def icons(icon_name: str):
 @app.get("/health")
 async def health():
     ai_status = await check_ollama()
-    return {"status": "ok", "ai": ai_status}
+    return {"status": "ok", "ai": ai_status,
+            "serving": {"model": ollama_client.DEFAULT_MODEL, "think": ollama_client.THINK_MODE}}
 
 
 @app.get("/health/dtc")
@@ -1249,6 +1255,53 @@ async def image_proxy(url: str, fallback: str = None):
     )
 
 
+# Eval-case vehicle fields that downstream code treats as text. Null means unknown
+# and renders blank, as in the replay fixtures; any other non-string is malformed.
+_EVAL_VEHICLE_REQUIRED = ("year", "make", "model")
+_EVAL_VEHICLE_TEXT = _EVAL_VEHICLE_REQUIRED + ("full_name", "engine", "transmission",
+                                               "drive", "fuel_type", "horsepower")
+
+
+def _numbers(value):
+    """Every float or int nested anywhere in a dumped snapshot."""
+    if isinstance(value, dict):
+        for v in value.values():
+            yield from _numbers(v)
+    elif isinstance(value, list):
+        for v in value:
+            yield from _numbers(v)
+    elif isinstance(value, (int, float)) and not isinstance(value, bool):
+        yield value
+
+
+def _eval_fixture(ec: dict) -> dict:
+    """Validate one eval case into fixture shape. Raises ValueError when malformed."""
+    case_id = ec.get("case_id")
+    if not isinstance(case_id, str) or not case_id:
+        raise ValueError("case_id must be a non-empty string")
+    vehicle = ec.get("vehicle")
+    # A missing vehicle would fall through to the live vehicle lookup.
+    if not isinstance(vehicle, dict) or not vehicle:
+        raise ValueError("vehicle must be a non-empty object")
+    vehicle = dict(vehicle)
+    for key in _EVAL_VEHICLE_REQUIRED:
+        if not isinstance(vehicle.get(key), str) or not vehicle[key]:
+            raise ValueError(f"vehicle.{key} must be a non-empty string")
+    for key in _EVAL_VEHICLE_TEXT:
+        if key in vehicle and vehicle[key] is None:
+            vehicle[key] = ""
+        elif key in vehicle and not isinstance(vehicle[key], str):
+            raise ValueError(f"vehicle.{key} must be a string or null")
+    trim = "" if ec.get("trim") is None else ec["trim"]
+    if not isinstance(trim, str):
+        raise ValueError("trim must be a string or null")
+    snapshot = OBDSnapshot(**{**ec["snapshot"], "is_mock": True, "fixture_name": case_id})
+    # JSON NaN/Infinity pass pydantic and crash int() conversions downstream.
+    if not all(math.isfinite(x) for x in _numbers(snapshot.model_dump())):
+        raise ValueError("snapshot readings must be finite numbers or null")
+    return {"name": case_id, "vehicle": vehicle, "trim": trim, "snapshot": snapshot}
+
+
 @app.post("/interpret")
 async def interpret(request: InterpretRequest):
     """
@@ -1263,19 +1316,32 @@ async def interpret(request: InterpretRequest):
     """
 
     scenario_vehicle = None
+    scenario_trim = ""
 
     # Deterministic synthetic fixture. Development and regression only — the
     # snapshot carries is_mock=True and fixture_name, so it can never be
     # research-logged or mistaken for a capture.
-    if request.scenario:
-        fixture = fixtures.get_scenario(request.scenario)
-        if not fixture:
-            return {
-                "error": f"Unknown scenario '{request.scenario}'",
-                "available": [s["name"] for s in fixtures.list_scenarios()],
-            }
+    if request.eval_case is not None or request.scenario:
+        if request.eval_case is not None:
+            ec = request.eval_case
+            try:
+                fixture = _eval_fixture(ec)
+            except Exception as exc:
+                return {"error": f"Invalid eval_case '{ec.get('case_id')}': {exc}"}
+            # A frozen case is the whole input: request-level overrides would make
+            # the same case differ between runs.
+            request = request.model_copy(update={"trim": None, "transmission": None,
+                                                 "color": None, "client_mileage": None})
+        else:
+            fixture = fixtures.get_scenario(request.scenario)
+            if not fixture:
+                return {
+                    "error": f"Unknown scenario '{request.scenario}'",
+                    "available": [s["name"] for s in fixtures.list_scenarios()],
+                }
         snapshot = fixture["snapshot"]
         scenario_vehicle = fixture["vehicle"]
+        scenario_trim = fixture["trim"]
         obd_source = f"Synthetic fixture: {fixture['name']}"
         print(f"[Fixture] {fixture['name']} — {len(snapshot.dtc_codes)} codes", flush=True)
 
@@ -1344,7 +1410,7 @@ async def interpret(request: InterpretRequest):
     # offline and reproducible — it never depends on a live vehicle API.
     if scenario_vehicle is not None:
         vehicle_data = scenario_vehicle
-        trim = request.trim or fixtures.get_scenario(request.scenario)["trim"]
+        trim = request.trim or scenario_trim
         print(f"[Interpret] Fixture vehicle: {vehicle_data.get('full_name')}", flush=True)
     else:
         print(f"[Interpret] Looking up vehicle_id: '{request.vehicle_id}'", flush=True)
@@ -1538,7 +1604,7 @@ RULES:
 - English only"""
 
             ai_response = await ask_ollama(prompt)
-            response_data["finish_reason"] = last_done_reason.get()
+            response_data["finish_reason"] = ollama_client.last_done_reason.get()
             if not ai_response.startswith("ERROR:"):
                 # Parse the response for summary, service recommendations, and known issues
                 lines = ai_response.split('\n')
@@ -1614,8 +1680,8 @@ RULES:
     # per code and refuses to guess at manufacturer-specific meanings. CarsXE is
     # no longer the source for what a code MEANS — ml/CLAUDE.md records it as
     # known-wrong for P0420 — but the call is kept for source bookkeeping on the
-    # live path. Fixtures skip it entirely so a scenario stays offline.
-    obd_decoded = {} if request.scenario else await decode_obd_codes_batch(codes_list)
+    # live path. Fixtures and eval cases skip it entirely so they stay offline.
+    obd_decoded = {} if scenario_vehicle is not None else await decode_obd_codes_batch(codes_list)
 
     resolved_defs = dtc_definitions.resolve_all(codes_list)
     response_data["code_definitions"] = resolved_defs
@@ -1987,7 +2053,7 @@ SAFETY LEVEL."""
 
     # Get AI response
     ai_response = await ask_ollama(prompt)
-    response_data["finish_reason"] = last_done_reason.get()
+    response_data["finish_reason"] = ollama_client.last_done_reason.get()
     
     if ai_response.startswith("ERROR:"):
         # The computed verdict already sits in response_data; a model failure

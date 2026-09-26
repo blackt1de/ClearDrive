@@ -13,9 +13,18 @@
 - notes/decisions.md
 - ollama_client.py
 - test_diagnostics.py
+- test_eval_case.py
 - test_knowledge.py
 
 ## History
+
+- 2026-09-26 `f0cbd39` — brief2/phase2: pre-freeze fixes: NHTSA name resolution, num_predict 4096, finish_reason
+  - knowledge.py
+  - main.py
+  - notes/decisions.md
+  - ollama_client.py
+  - test_diagnostics.py
+  - test_knowledge.py
 
 - 2026-09-25 `cad6465` — brief2/phase1: serve cleardrive-qwen; label research scans qwen3-14b-base
   - main.py

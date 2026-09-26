@@ -2,6 +2,53 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Eval transport (`eval_case`) and the served-thinking switch — 2026-09-26
+Context: Brief 2a says to POST eval payloads to `/interpret` "in scenario mode". Scenario
+mode only accepts a fixture *name* from `fixtures.py`, and 2a prohibition 4 keeps eval
+cases out of there. The phone path (`client_codes`) hardcodes `is_mock=False`, so sending
+eval payloads that way would write fake `research_scans` rows. Separately, ruling #1 of
+the fine-tune entry below needs a thinking-off base run and a thinking-off fine-tuned
+model, but the backend never sent a `think` key.
+Decision (Austin, 2026-09-25: additive eval field; mechanism chosen by the executor):
+- `/interpret` accepts an optional `eval_case` of the form `{case_id, vehicle, trim,
+  snapshot}`. It runs the fixture code path unchanged, with the snapshot forced to
+  `is_mock=True` and `fixture_name=case_id`. It writes only a `scans` row and never a
+  `research_scans` row. A malformed case returns an error dict, not a 500. The scenario
+  trim is now carried with the fixture instead of being looked up by name again, which
+  gives the same result for scenarios.
+- The served thinking mode is set in server config with the env var
+  `CLEARDRIVE_THINK=default|off`. `default` sends no `think` key, so Qwen3 thinks. `off`
+  sends `think: false`. Any other value stops the service from starting, so it can never
+  silently run the wrong condition. `/health` reports `serving: {model, think}`, and
+  `eval_run.py` records that in `run_meta.json`. A condition therefore changes only through
+  the service environment and a restart, never through a public request field.
+
+- Validation (`main._eval_fixture`, from review rounds 1 and 2):
+  - `case_id` must be a non-empty string.
+  - `vehicle` must be a non-empty object, with `year`, `make` and `model` as non-empty
+    strings. Its other text fields must be strings or null; null means unknown and renders
+    blank, as in the replay fixtures.
+  - `trim` must be a string or null.
+  - Snapshot readings must be finite; JSON `NaN` and `Infinity` are rejected.
+  - Anything else returns an error dict. It never produces a 500 and never falls through
+    to the live vehicle lookup.
+  - Like a scenario, an eval case skips the live CarsXE decode (the gate is now "fixture
+    path", not "scenario name"), so an eval response never depends on CarsXE being
+    reachable that day.
+  - When `eval_case` is set, the request-level `trim`, `transmission`, `color` and
+    `client_mileage` are ignored, so a frozen case is the whole input.
+
+Evidence: `test_eval_case.py`, 26 tests. They check that an eval case and the equivalent
+fixture give identical safety, codes and data sources with no CarsXE call, that an eval case is never research-logged even
+when its payload says `is_mock: false`, and that it uses its own trim. They check that
+every malformed shape above is an error, that a null engine or transmission is accepted as
+unknown, that non-finite readings are rejected, and that request-level fields cannot
+override a case. They also cover the three
+think-mode behaviours and the `/health` report. 89 passed with `test_knowledge.py` and
+`test_diagnostics.py`. Review: round 1 FAIL (non-object vehicle), round 2 FAIL (vehicle
+field types, case_id); fixed and rerun on Austin's instruction. Round 3 PASS; its two
+IMPORTANT items (CarsXE on the eval path, non-finite readings) are fixed.
+
 ## [DECIDED] Brief 2 fine-tune rulings: thinking mode, training shape, synthesis LM — 2026-09-25
 Context: `notes/reports/2026-09-25-phase-4.md` raised four items for Phases 5 and 6 (sequence
 length, Qwen3's empty think block, pre-quantized training base, GGUF export on Windows).

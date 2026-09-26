@@ -26,6 +26,13 @@ OLLAMA_TAGS_URL = f"{OLLAMA_BASE}/api/tags"
 
 DEFAULT_MODEL = "cleardrive-qwen"
 
+# Served thinking mode, an eval condition (notes/decisions.md, 2026-09-25):
+# "default" leaves Qwen3 thinking on and sends no `think` key; "off" sends
+# think=false. Any other value refuses to start rather than run a wrong condition.
+THINK_MODE = os.environ.get("CLEARDRIVE_THINK", "default")
+if THINK_MODE not in ("default", "off"):
+    raise ValueError(f"CLEARDRIVE_THINK must be 'default' or 'off', got {THINK_MODE!r}")
+
 # Ollama's done_reason for the last ask_ollama() in this request ("stop", "length"),
 # None when Ollama omits it or the call failed. A ContextVar, so concurrent
 # requests never read each other's value.
@@ -76,6 +83,7 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
                         {"role": "user", "content": prompt},
                     ],
                     "stream": False,
+                    **({"think": False} if THINK_MODE == "off" else {}),
                     "options": {
                         "temperature": 0.2,
                         # A rich differential (7+ findings on a multi-system fault)
