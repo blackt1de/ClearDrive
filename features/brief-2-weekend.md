@@ -8,6 +8,7 @@
 
 ## Files involved
 
+- .gitignore
 - eval/MANIFEST.json
 - eval/codeless_set.json
 - eval/composition.md
@@ -21,6 +22,8 @@
 - notes/decisions.md
 - ollama_client.py
 - scripts/eval_build.py
+- scripts/eval_run.py
+- scripts/eval_score.py
 - scripts/eval_validate.py
 - test_diagnostics.py
 - test_eval_case.py
@@ -28,6 +31,20 @@
 - test_knowledge.py
 
 ## History
+
+- 2026-09-26 `aa308a1` — brief2/phase2: freeze eval-v1 (102 cases, 30 codeless profiles)
+  - eval/MANIFEST.json
+  - eval/codeless_set.json
+  - eval/composition.md
+  - eval/eval_set.json
+  - eval/schema.json
+  - eval/sources/adjudication.json
+  - eval/sources/recalls.json
+  - eval/taxonomy.json
+  - notes/decisions.md
+  - scripts/eval_build.py
+  - scripts/eval_validate.py
+  - test_eval_scripts.py
 
 - 2026-09-26 `5cfd3bf` — brief2/phase2: eval_case transport and CLEARDRIVE_THINK serving switch
   - main.py

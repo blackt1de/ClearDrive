@@ -2,6 +2,55 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] H4 null-baseline reporting, pre-registered before any run — 2026-09-26
+Context: code review of `scripts/eval_score.py` found that the first H4 scorer passed a
+response that says nothing about the vehicle. The fixed text "Your air bags and seat belts
+are fine." hit **17/30 = 0.57** of the frozen codeless profiles, above the pinned 50%
+threshold. Everyday words in NHTSA component names ("AIR BAGS", "SERVICE BRAKES") counted
+as "distinctive", and every narrative section was searched. **No eval run existed when this
+was found and fixed.** Nothing below was tuned against model outputs.
+
+Decision (Austin, 2026-09-26):
+- **Pre-registered reporting rule.** Every `scores.md` carries a permanent line with the
+  H4 hit rate of a fixed null response (`eval_score.H4_NULL_RESPONSE`: generic,
+  vehicle-agnostic advice), scored exactly like a model response. `results.md` reports H4
+  as the hit rate *alongside* that null baseline. The bare 50% threshold is not evidence on
+  its own.
+- **How `h4_hit` implements the pinned rule** ("campaign number, or at least two
+  distinctive words of its recall component"):
+  - Only the model's KNOWN ISSUES section is read, because that is the section meant to
+    carry vehicle facts.
+  - "Distinctive" means the part level of NHTSA's component path, which is the segments
+    after the first two system-category levels. Two such words must appear. A component
+    with no part-level words ("POWER TRAIN:AUTOMATIC TRANSMISSION") can be hit only
+    through its campaign number.
+  - On the frozen set, 39 of 119 documented issues have a word path.
+  - The null baseline is **0.0**.
+  - `test_eval_scripts.py` fails if the null baseline rises above 0.1.
+- **Silent failures.** `/interpret` reports a model failure as HTTP 200 with
+  `dont_panic: "ERROR: …"`. `eval_run.call_error` now counts that, a backend `error`, or a
+  missing `finish_reason` as a failed call. More than 5% failed calls fails the run, and the
+  scorer refuses a failed run, the same way as the truncation gate. A failed warm-up aborts
+  the run before any scored case.
+- **Timeouts.** The backend model call timeout (`ollama_client.MODEL_TIMEOUT_S`) goes from
+  180 s to **300 s**, so a long thinking case is not a failure. The change applies to every
+  condition and was made before any run. The runner's per-call timeout is **330 s**, so the
+  backend's own timeout fires first and comes back as a classified failure.
+- **Scoring vocabulary and rule-based ranges.** The H1 component vocabulary now covers
+  hyphen and slash spellings, "manifold absolute pressure" spelled out, and "(CKP)"-style
+  abbreviations. The rule-based arm's code ranges run to hex group ends (P00FF, not P0099).
+  An undefined code maps by its SAE group, which is all a lookup-only reader can know.
+  Before this fix, P219B and P04F1 in the frozen set mapped to nothing. P24xx maps to
+  auxiliary emissions, with EVAP overrides only for P2400–P2422 and P2450–P2451. Before
+  this fix, EV-032 (P245B, EGR cooler bypass) was scored as EVAP, which counted against
+  the rule-based arm. Codes in P28xx–P29xx remain unmapped.
+
+Evidence: 190 tests pass across `test_eval_scripts.py`, `test_eval_case.py`,
+`test_knowledge.py` and `test_diagnostics.py`. Review: round 1 FAIL (H4 one-word
+relaxation); round 2 FAIL (H4 generic hits, silent failures, spelling gaps, hex bounds);
+fixed on Austin's instruction. Round 3 (deep) PASS; its three IMPORTANT items are fixed:
+P24xx group, a gate that failed open, and an air-fuel-mixture negative test.
+
 ## [DECIDED] Eval set eval-v1 frozen — 2026-09-26
 Context: Brief 2a (weekend Phase 2). H1, H2 and H4 compare conditions, so they need one
 locked test.

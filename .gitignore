@@ -59,7 +59,7 @@ Thumbs.db
 .git-scrub-replacements.txt
 
 # Headless smoke-run artifacts (scripts/smoke_run.py)
-runs/
+/runs/
 
 # Unsloth runtime kernel cache (regenerated on import)
 unsloth_compiled_cache/

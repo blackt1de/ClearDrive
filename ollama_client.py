@@ -26,6 +26,10 @@ OLLAMA_TAGS_URL = f"{OLLAMA_BASE}/api/tags"
 
 DEFAULT_MODEL = "cleardrive-qwen"
 
+# Seconds one /api/chat call may take. Raised from 180 s (ruling 2026-09-26): Qwen3
+# thinking with num_predict 4096 can run long, and a timeout is a failed call.
+MODEL_TIMEOUT_S = 300.0
+
 # Served thinking mode, an eval condition (notes/decisions.md, 2026-09-25):
 # "default" leaves Qwen3 thinking on and sends no `think` key; "off" sends
 # think=false. Any other value refuses to start rather than run a wrong condition.
@@ -73,7 +77,7 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
     """
     last_done_reason.set(None)
     try:
-        async with httpx.AsyncClient(timeout=180.0) as client:
+        async with httpx.AsyncClient(timeout=MODEL_TIMEOUT_S) as client:
             response = await client.post(
                 OLLAMA_CHAT_URL,
                 json={
