@@ -1,0 +1,117 @@
+{
+ "codes": [
+  "P0302"
+ ],
+ "vehicle": "2005 Nissan TITAN",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "STOP",
+ "safety_meaning": "High Urgency - Immediate Attention Required",
+ "safety_description": "Continuing to drive could cause permanent damage to your engine, transmission, or other major components. This could turn a $500 repair into a $5,000+ repair.",
+ "safety_action": "Go to a mechanic immediately or have vehicle towed",
+ "dont_panic": "Your 2005 Nissan TITAN is showing code P0302. This means cylinder 2 is misfiring, which happens when the spark plug, ignition coil, or fuel injector in that cylinder isn\u2019t working properly. The engine was running at 2400 RPM and 45% load with coolant at 195\u00b0F (operating temperature) when the misfire occurred. Unburned fuel from the misfire could damage the catalytic converter, which is expensive to replace. No other measurements were available.",
+ "likely_causes": "1. The misfire is confined to one cylinder (P0302), pointing to a problem specific to cylinder 2, such as its ignition coil, spark plug, or fuel injector. Evidence: the misfire was recorded at 2400 RPM and 45% engine load with coolant at 195\u00b0F.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2013 because one cylinder isn\u2019t firing properly.\n2. A noticeable decrease in fuel efficiency \u2013 due to incomplete combustion.\n3. The check engine light staying on \u2013 as the code is active.\n4. A smell of unburned fuel \u2013 if the misfire is severe enough to let fuel escape.",
+ "if_ignored": "- In the next few days/weeks, the catalytic converter could overheat and fail, which would cost thousands to replace.\n- Long-term, the engine could suffer damage from unburned fuel and uneven wear.\n- Repair costs would increase significantly if the catalytic converter is damaged.\n- There is a safety risk if the misfire causes the engine to lose power unexpectedly.",
+ "quick_checks": "- Swap the ignition coil for P0302 with a neighbouring cylinder and rescan \u2014 if the code follows the coil, the coil is the fault.\n- Inspect that cylinder's spark plug.\n- Compare fuel injector operation against the other cylinders.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test ignition coils and fuel injectors, and improper handling could worsen the issue or cause safety risks. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 don\u2019t drive more than necessary. The misfire could damage the catalytic converter, which is expensive to replace.",
+ "repair_cost": "- Parts: $100 - $300 (spark plug, ignition coil, or fuel injector).\n- Labor: $150 - $300 (at an independent shop).\n- Total at independent shop: $250 - $600.\n- Total at dealer: $350 - $900 (dealers charge 30-50% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA complaints mention issues like random engine shutdowns, airbag warnings, steering column failures, and exhaust manifold leaks. However, none of these directly relate to the P0302 code.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-075",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcarfax-vrs.imgix.net%2F2005-Nissan-Titan-EX-100487508-01.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0302",
+   "description": "Cylinder 2 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "misfire_triage",
+   "conclusion": "The misfire is confined to one cylinder (P0302), which points at a component specific to that cylinder rather than anything shared by the whole engine.",
+   "confidence": "high",
+   "basis": "heuristic",
+   "next_checks": [
+    "Swap the ignition coil for P0302 with a neighbouring cylinder and rescan \u2014 if the code follows the coil, the coil is the fault",
+    "Inspect that cylinder's spark plug",
+    "Compare fuel injector operation against the other cylinders"
+   ],
+   "evidence": [
+    {
+     "pointer": "freeze_frames[P0302]",
+     "restatement": "the misfire was recorded at 2400 RPM and 45% engine load with coolant at 195\u00b0F"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Swap the ignition coil for P0302 with a neighbouring cylinder and rescan \u2014 if the code follows the coil, the coil is the fault",
+  "Inspect that cylinder's spark plug",
+  "Compare fuel injector operation against the other cylinders"
+ ],
+ "safety": {
+  "verdict": "stop_driving",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0302) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0302"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "The misfire occurred while the engine was working hard or fully warm. Raw fuel entering a hot catalytic converter overheats and destroys it, which turns an ignition repair into a converter replacement (heuristic).",
+    "raises_to": "stop_driving",
+    "evidence": [
+     {
+      "pointer": "freeze_frames[P0302].coolant_temp_f",
+      "restatement": "the misfire was recorded with coolant at 195\u00b0F, i.e. at operating temperature (threshold 180\u00b0F, heuristic)"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 96
+}

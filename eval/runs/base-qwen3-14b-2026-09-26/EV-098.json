@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0562"
+ ],
+ "vehicle": "2002 Audi S4",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2002 Audi S4 is showing code P0562. This means the car\u2019s electrical system is detecting low voltage, which could be caused by a weak battery, a failing alternator, or a loose connection. The engine is running at 720 RPM with no vehicle speed, coolant is at 195\u00b0F, and engine load is 22%. The car is at operating temperature, and the fuel trim asymmetry is 1.0% at idle. No specific cause was narrowed down by this scan.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Dim or flickering dashboard lights \u2013 The electrical system may not be supplying enough power.\n2. Battery warning light on the dashboard \u2013 Indicates a potential issue with charging or battery health.\n3. Electrical components acting erratically \u2013 Such as power windows or radio cutting out.\n4. Difficulty starting the car \u2013 A weak battery may not provide enough power to turn the engine over.",
+ "if_ignored": "- In the next few days/weeks: The battery could die, leaving you stranded.\n- Long-term: The alternator or other electrical components may fail, increasing repair costs.\n- Cost: Fixing the issue now may cost less than replacing multiple damaged parts later.\n- Safety: If the battery fails while driving, you could lose power to critical systems like lights or signals.",
+ "quick_checks": "- Check battery terminals for corrosion or looseness.\n- Test battery voltage with a multimeter (should read 12.6V when off, 13.7\u201314.7V when running).\n- Inspect the alternator belt for cracks or slippage.\n- Look for loose or damaged wires near the battery and alternator.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the alternator and battery accurately. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 1\u20132 weeks to avoid further issues.",
+ "repair_cost": "- Parts: $100\u2013$300 (battery or alternator).\n- Labor: $150\u2013$300 (independent shop).\n- Total at independent shop: $250\u2013$600.\n- Total at dealer: $325\u2013$780 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues with the instrument panel, such as flickering or incomplete displays, and a smell of electrical smoke (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-098",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fhouse%2F2002%2F2002-Audi-S4-Front_AUS4SED011_505x375.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0562",
+   "description": "System Voltage Low",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "vehicle_speed_idle",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0562. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0562"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 119
+}

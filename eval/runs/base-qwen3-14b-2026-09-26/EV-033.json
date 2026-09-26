@@ -1,0 +1,120 @@
+{
+ "codes": [
+  "P0172",
+  "P291F"
+ ],
+ "vehicle": "2017 Honda CR-V",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2017 Honda CR-V is showing code P0172. This means the engine is getting too much fuel (called \"rich\") in Bank 1, which can harm performance and fuel efficiency. The vehicle\u2019s own readings like coolant temperature or fuel trims were not captured, so the exact cause can\u2019t be narrowed down. Code P291F is also present, but its meaning is unknown because it\u2019s not in our definition table. No live data or freeze frame was recorded, so the issue remains unclear.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2013 the engine is misfiring due to excess fuel.\n2. A strong smell of fuel \u2013 unburned fuel escaping through the exhaust.\n3. Check engine light staying on \u2013 the computer detected the fuel mixture issue.\n4. Poor fuel economy \u2013 the engine is using more fuel than normal.",
+ "if_ignored": "In the short term, the engine may run less smoothly or stall. Long-term, excess fuel could damage the catalytic converter or cause a fire risk from unburned fuel. Repair costs could rise if the issue worsens, and safety risks increase if the fuel system leaks.",
+ "quick_checks": "- Look for visible fuel leaks under the car or around the fuel tank.\n- Inspect the air filter for blockage or damage.\n- Check for any warning lights related to the fuel system.\n- If no tools are available, take the vehicle to a mechanic for a full inspection.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves the fuel system, which requires specialized tools and expertise to diagnose and fix safely. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. The lack of data and the presence of a fuel mixture code suggest a potential risk to the engine or fuel system.",
+ "repair_cost": "Parts: $200 - $800 (depends on the cause, e.g., fuel injectors, sensors).\nLabor: $150 - $400 (varies by shop).\nTotal at independent shop: $350 - $1,200.\nTotal at dealer: $450 - $1,600 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database:\n- Fuel injector failures and persistent rough running (source: NHTSA Complaints Database).\n- Steering gear box and rack and pinion failures (source: NHTSA Complaints Database).\n- Fuel supply pipe recalls for potential leaks (source: NHTSA Recalls Database).\n- EPS system malfunctions with code U0416-68 (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-033",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F11795%2F2017-Honda-CR-V-side_11795_001_2400x1800_WA.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0172",
+   "description": "System Too Rich (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P291F",
+   "description": "Standardized powertrain code, in the transmission or control module group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "transmission or control module",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "fuel_trim_triage",
+   "reason": "Fuel trim readings were not available, so the cause of the fuel mixture code (P0172) could not be narrowed: fuel trim was not captured",
+   "missing": [
+    "fuel trims at idle",
+    "fuel trims under load"
+   ]
+  },
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P291F. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature, fuel trims.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0172, P291F"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 54
+}

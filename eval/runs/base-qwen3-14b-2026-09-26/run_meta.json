@@ -1,0 +1,1030 @@
+{
+ "run_id": "base-qwen3-14b-2026-09-26",
+ "started": "2026-09-26T01:31:25+00:00",
+ "base_url": "http://localhost:8000",
+ "serving": {
+  "model": "cleardrive-qwen",
+  "think": "default"
+ },
+ "health": {
+  "status": "ok",
+  "ai": {
+   "status": "ok",
+   "models": [
+    "cleardrive-qwen:latest",
+    "qwen3:14b-q4_K_M",
+    "gemma4:e4b"
+   ],
+   "host": "localhost"
+  },
+  "serving": {
+   "model": "cleardrive-qwen",
+   "think": "default"
+  }
+ },
+ "backend_commit": "bed0615fe6f9346ef4370d96cd1111c40a2da8f0",
+ "backend_tree_clean": false,
+ "eval_manifest": {
+  "eval/eval_set.json": "1414ce89384d08e3066a52e6e88dec325b26622c6b58b768bde7d7ab9f6e704f",
+  "eval/codeless_set.json": "0aa4fb08704f4cc693016353d80b858269df044b5e8715e850a048a605ea8609",
+  "eval/taxonomy.json": "048edea00e3509f717e22017398140c7cbcd689353b814f94957828883437e7c",
+  "eval/schema.json": "d3df1f35e8959e62704c26bf7849794eba258df72b8fe99991de921d4ebeef87"
+ },
+ "calls": [
+  {
+   "case_id": "warmup",
+   "warmup": true,
+   "status": 200,
+   "error": null,
+   "seconds": 35.96,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-001",
+   "status": 200,
+   "error": null,
+   "seconds": 31.0,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-002",
+   "status": 200,
+   "error": null,
+   "seconds": 43.77,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-003",
+   "status": 200,
+   "error": null,
+   "seconds": 32.56,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-004",
+   "status": 200,
+   "error": null,
+   "seconds": 33.54,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-005",
+   "status": 200,
+   "error": null,
+   "seconds": 36.86,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-006",
+   "status": 200,
+   "error": null,
+   "seconds": 39.39,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-007",
+   "status": 200,
+   "error": null,
+   "seconds": 49.4,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-008",
+   "status": 200,
+   "error": null,
+   "seconds": 30.8,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-009",
+   "status": 200,
+   "error": null,
+   "seconds": 41.59,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-010",
+   "status": 200,
+   "error": null,
+   "seconds": 39.5,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-011",
+   "status": 200,
+   "error": null,
+   "seconds": 30.07,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-012",
+   "status": 200,
+   "error": null,
+   "seconds": 42.37,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-013",
+   "status": 200,
+   "error": null,
+   "seconds": 30.5,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-014",
+   "status": 200,
+   "error": null,
+   "seconds": 28.59,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-015",
+   "status": 200,
+   "error": null,
+   "seconds": 30.08,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-016",
+   "status": 200,
+   "error": null,
+   "seconds": 31.31,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-017",
+   "status": 200,
+   "error": null,
+   "seconds": 37.81,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-018",
+   "status": 200,
+   "error": null,
+   "seconds": 48.22,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-019",
+   "status": 200,
+   "error": null,
+   "seconds": 39.08,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-020",
+   "status": 200,
+   "error": null,
+   "seconds": 29.87,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-021",
+   "status": 200,
+   "error": null,
+   "seconds": 30.66,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-022",
+   "status": 200,
+   "error": null,
+   "seconds": 33.74,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-023",
+   "status": 200,
+   "error": null,
+   "seconds": 40.19,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-024",
+   "status": 200,
+   "error": null,
+   "seconds": 33.37,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-025",
+   "status": 200,
+   "error": null,
+   "seconds": 31.36,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-026",
+   "status": 200,
+   "error": null,
+   "seconds": 36.35,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-027",
+   "status": 200,
+   "error": null,
+   "seconds": 40.21,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-028",
+   "status": 200,
+   "error": null,
+   "seconds": 43.65,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-029",
+   "status": 200,
+   "error": null,
+   "seconds": 39.35,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-030",
+   "status": 200,
+   "error": null,
+   "seconds": 51.54,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-031",
+   "status": 200,
+   "error": null,
+   "seconds": 38.65,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-032",
+   "status": 200,
+   "error": null,
+   "seconds": 31.88,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-033",
+   "status": 200,
+   "error": null,
+   "seconds": 30.56,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-034",
+   "status": 200,
+   "error": null,
+   "seconds": 25.91,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-035",
+   "status": 200,
+   "error": null,
+   "seconds": 42.43,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-036",
+   "status": 200,
+   "error": null,
+   "seconds": 33.39,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-037",
+   "status": 200,
+   "error": null,
+   "seconds": 39.27,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-038",
+   "status": 200,
+   "error": null,
+   "seconds": 37.03,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-039",
+   "status": 200,
+   "error": null,
+   "seconds": 40.29,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-040",
+   "status": 200,
+   "error": null,
+   "seconds": 59.27,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-041",
+   "status": 200,
+   "error": null,
+   "seconds": 34.02,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-042",
+   "status": 200,
+   "error": null,
+   "seconds": 34.63,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-043",
+   "status": 200,
+   "error": null,
+   "seconds": 35.74,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-044",
+   "status": 200,
+   "error": null,
+   "seconds": 35.11,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-045",
+   "status": 200,
+   "error": null,
+   "seconds": 32.6,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-046",
+   "status": 200,
+   "error": null,
+   "seconds": 29.43,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-047",
+   "status": 200,
+   "error": null,
+   "seconds": 30.87,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-048",
+   "status": 200,
+   "error": null,
+   "seconds": 37.04,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-049",
+   "status": 200,
+   "error": null,
+   "seconds": 40.3,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-050",
+   "status": 200,
+   "error": null,
+   "seconds": 37.4,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-051",
+   "status": 200,
+   "error": null,
+   "seconds": 27.9,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-052",
+   "status": 200,
+   "error": null,
+   "seconds": 40.64,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-053",
+   "status": 200,
+   "error": null,
+   "seconds": 33.87,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-054",
+   "status": 200,
+   "error": null,
+   "seconds": 36.32,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-055",
+   "status": 200,
+   "error": null,
+   "seconds": 34.92,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-056",
+   "status": 200,
+   "error": null,
+   "seconds": 33.34,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-057",
+   "status": 200,
+   "error": null,
+   "seconds": 29.62,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-058",
+   "status": 200,
+   "error": null,
+   "seconds": 32.37,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-059",
+   "status": 200,
+   "error": null,
+   "seconds": 29.41,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-060",
+   "status": 200,
+   "error": null,
+   "seconds": 29.98,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-061",
+   "status": 200,
+   "error": null,
+   "seconds": 31.13,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-062",
+   "status": 200,
+   "error": null,
+   "seconds": 35.85,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-063",
+   "status": 200,
+   "error": null,
+   "seconds": 38.79,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-064",
+   "status": 200,
+   "error": null,
+   "seconds": 37.38,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-065",
+   "status": 200,
+   "error": null,
+   "seconds": 39.64,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-066",
+   "status": 200,
+   "error": null,
+   "seconds": 35.02,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-067",
+   "status": 200,
+   "error": null,
+   "seconds": 38.05,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-068",
+   "status": 200,
+   "error": null,
+   "seconds": 30.89,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-069",
+   "status": 200,
+   "error": null,
+   "seconds": 36.75,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-070",
+   "status": 200,
+   "error": null,
+   "seconds": 37.57,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-071",
+   "status": 200,
+   "error": null,
+   "seconds": 36.58,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-072",
+   "status": 200,
+   "error": null,
+   "seconds": 40.64,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-073",
+   "status": 200,
+   "error": null,
+   "seconds": 35.06,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-074",
+   "status": 200,
+   "error": null,
+   "seconds": 34.77,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-075",
+   "status": 200,
+   "error": null,
+   "seconds": 33.68,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-076",
+   "status": 200,
+   "error": null,
+   "seconds": 36.33,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-077",
+   "status": 200,
+   "error": null,
+   "seconds": 37.43,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-078",
+   "status": 200,
+   "error": null,
+   "seconds": 32.85,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-079",
+   "status": 200,
+   "error": null,
+   "seconds": 36.76,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-080",
+   "status": 200,
+   "error": null,
+   "seconds": 33.92,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-081",
+   "status": 200,
+   "error": null,
+   "seconds": 28.38,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-082",
+   "status": 200,
+   "error": null,
+   "seconds": 38.23,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-083",
+   "status": 200,
+   "error": null,
+   "seconds": 45.86,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-084",
+   "status": 200,
+   "error": null,
+   "seconds": 33.55,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-085",
+   "status": 200,
+   "error": null,
+   "seconds": 45.34,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-086",
+   "status": 200,
+   "error": null,
+   "seconds": 37.18,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-087",
+   "status": 200,
+   "error": null,
+   "seconds": 37.02,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-088",
+   "status": 200,
+   "error": null,
+   "seconds": 28.67,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-089",
+   "status": 200,
+   "error": null,
+   "seconds": 37.76,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-090",
+   "status": 200,
+   "error": null,
+   "seconds": 35.82,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-091",
+   "status": 200,
+   "error": null,
+   "seconds": 38.86,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-092",
+   "status": 200,
+   "error": null,
+   "seconds": 30.69,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-093",
+   "status": 200,
+   "error": null,
+   "seconds": 31.06,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-094",
+   "status": 200,
+   "error": null,
+   "seconds": 63.36,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-095",
+   "status": 200,
+   "error": null,
+   "seconds": 36.79,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-096",
+   "status": 200,
+   "error": null,
+   "seconds": 35.78,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-097",
+   "status": 200,
+   "error": null,
+   "seconds": 37.49,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-098",
+   "status": 200,
+   "error": null,
+   "seconds": 44.74,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-099",
+   "status": 200,
+   "error": null,
+   "seconds": 38.51,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-100",
+   "status": 200,
+   "error": null,
+   "seconds": 38.98,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-101",
+   "status": 200,
+   "error": null,
+   "seconds": 38.9,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "EV-102",
+   "status": 200,
+   "error": null,
+   "seconds": 40.37,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-001",
+   "status": 200,
+   "error": null,
+   "seconds": 37.77,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-002",
+   "status": 200,
+   "error": null,
+   "seconds": 93.35,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-003",
+   "status": 200,
+   "error": null,
+   "seconds": 88.2,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-004",
+   "status": 200,
+   "error": null,
+   "seconds": 89.49,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-005",
+   "status": 200,
+   "error": null,
+   "seconds": 88.91,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-006",
+   "status": 200,
+   "error": null,
+   "seconds": 90.22,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-007",
+   "status": 200,
+   "error": null,
+   "seconds": 88.6,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-008",
+   "status": 200,
+   "error": null,
+   "seconds": 94.45,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-009",
+   "status": 200,
+   "error": null,
+   "seconds": 18.32,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-010",
+   "status": 200,
+   "error": null,
+   "seconds": 94.25,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-011",
+   "status": 200,
+   "error": null,
+   "seconds": 94.6,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-012",
+   "status": 200,
+   "error": null,
+   "seconds": 34.97,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-013",
+   "status": 200,
+   "error": null,
+   "seconds": 83.1,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-014",
+   "status": 200,
+   "error": null,
+   "seconds": 92.45,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-015",
+   "status": 200,
+   "error": null,
+   "seconds": 94.92,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-016",
+   "status": 200,
+   "error": null,
+   "seconds": 93.62,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-017",
+   "status": 200,
+   "error": null,
+   "seconds": 17.86,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-018",
+   "status": 200,
+   "error": null,
+   "seconds": 86.23,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-019",
+   "status": 200,
+   "error": null,
+   "seconds": 15.61,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-020",
+   "status": 200,
+   "error": null,
+   "seconds": 14.12,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-021",
+   "status": 200,
+   "error": null,
+   "seconds": 92.02,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-022",
+   "status": 200,
+   "error": null,
+   "seconds": 92.23,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-023",
+   "status": 200,
+   "error": null,
+   "seconds": 31.72,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-024",
+   "status": 200,
+   "error": null,
+   "seconds": 93.93,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-025",
+   "status": 200,
+   "error": null,
+   "seconds": 95.35,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-026",
+   "status": 200,
+   "error": null,
+   "seconds": 37.86,
+   "finish_reason": "stop"
+  },
+  {
+   "case_id": "CL-027",
+   "status": 200,
+   "error": null,
+   "seconds": 92.86,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-028",
+   "status": 200,
+   "error": null,
+   "seconds": 88.11,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-029",
+   "status": 200,
+   "error": null,
+   "seconds": 93.71,
+   "finish_reason": "length"
+  },
+  {
+   "case_id": "CL-030",
+   "status": 200,
+   "error": null,
+   "seconds": 93.36,
+   "finish_reason": "length"
+  }
+ ],
+ "ollama_ps": {
+  "models": [
+   {
+    "name": "cleardrive-qwen:latest",
+    "model": "cleardrive-qwen:latest",
+    "size": 14951414912,
+    "digest": "bb3302d8673b7e39be9f73f0efb073dba94a3983a3cc3d604e04951e8c5b1faf",
+    "details": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "14.8B",
+     "quantization_level": "Q4_K_M"
+    },
+    "expires_at": "2026-09-27T01:11:00.302851126Z",
+    "size_vram": 14951414912,
+    "context_length": 16384
+   }
+  ]
+ },
+ "wall_seconds": 5945.6,
+ "finished": "2026-09-26T03:11:07+00:00",
+ "truncation": {
+  "truncated": 21,
+  "calls": 132,
+  "share": 0.1591,
+  "limit": 0.05,
+  "gate": "FAIL",
+  "case_ids": [
+   "CL-002",
+   "CL-003",
+   "CL-004",
+   "CL-005",
+   "CL-006",
+   "CL-007",
+   "CL-008",
+   "CL-010",
+   "CL-011",
+   "CL-014",
+   "CL-015",
+   "CL-016",
+   "CL-018",
+   "CL-021",
+   "CL-022",
+   "CL-024",
+   "CL-025",
+   "CL-027",
+   "CL-028",
+   "CL-029",
+   "CL-030"
+  ]
+ },
+ "failure": {
+  "failed": 0,
+  "calls": 132,
+  "share": 0.0,
+  "limit": 0.05,
+  "gate": "PASS",
+  "case_ids": []
+ }
+}

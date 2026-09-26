@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P2111"
+ ],
+ "vehicle": "2010 Ford FUSION",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2010 Ford FUSION is showing code P2111. This code is part of the fuel and air metering group, but its exact meaning is not available in our records. The vehicle\u2019s own measurements, like engine speed, coolant temperature, and mileage, are unavailable, so we cannot narrow down the issue. The scan did not provide enough data to diagnose the problem, and no live data or freeze frame information was captured. This means we cannot determine if the issue is urgent or minor.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light may stay on or blink intermittently.\n2. The vehicle might run roughly or hesitate during acceleration.\n3. There could be a noticeable decrease in fuel efficiency.\n4. The engine might stall or have difficulty starting.",
+ "if_ignored": "The issue could worsen over time, leading to more expensive repairs. If the code relates to a critical component like the fuel system or air intake, it might cause engine damage or safety risks. Long-term neglect could also increase repair costs significantly.",
+ "quick_checks": "- Have a professional mechanic use a diagnostic tool to retrieve more data about the code.\n- Inspect the fuel system for leaks, clogs, or damaged components.\n- Check the air intake system for blockages or sensor malfunctions.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and expertise to interpret the code accurately. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today\u2014don\u2019t drive more than necessary. The lack of data means we cannot rule out serious issues, and a professional diagnosis is critical.",
+ "repair_cost": "Without a confirmed cause, costs cannot be estimated. For a standard vehicle, parts might range from $100 to $1,000 depending on the issue, and labor could add $200 to $1,000 at an independent shop or higher at a dealer.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues with the brakes (mushy feel, low fluid), ABS and HCU malfunctions, power steering failures, and sudden loss of steering control (source: NHTSA Complaints Database). These issues are separate from the P2111 code but highlight potential safety concerns in similar models.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-019",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Frgbhalokits.com%2Fcdn%2Fshop%2Ffiles%2FFord-Fusion-Multicolor-Halo-Kit-2010-2012.png%3Fv%3D1753216827%26width%3D2048",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2111",
+   "description": "Standardized powertrain code, in the fuel and air metering group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2111. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2111"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 40
+}

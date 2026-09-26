@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0171",
+  "P0174"
+ ],
+ "vehicle": "2005 Ford F-150",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2005 Ford F-150 is showing code P0171 (System Too Lean, Bank 1) and P0174 (System Too Lean, Bank 2). These codes mean the engine is burning too little fuel compared to air in both banks of cylinders. The vehicle\u2019s own readings (like coolant temperature, fuel trims, or engine speed) were not available, so the exact cause cannot be narrowed down. The codes are generic and could stem from many issues, but no live data or freeze frame was captured to pinpoint the problem.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2014 the engine may not run smoothly.\n2. Increased fuel consumption \u2014 a lean mixture can sometimes use more fuel.\n3. Check engine light staying on \u2014 the codes are already stored in the system.\n4. Possible misfires \u2014 uneven fuel distribution between cylinders.",
+ "if_ignored": "In the short term, the engine may run roughly or lose power. Over time, the lean condition could damage the catalytic converter (a costly part) or cause the engine to misfire repeatedly, leading to further issues. Long-term, this might increase emissions and reduce engine lifespan.",
+ "quick_checks": "- Inspect for vacuum leaks (look for cracked hoses or disconnected components).\n- Check the mass airflow (MAF) sensor for dirt or damage.\n- Test fuel pressure with a gauge (if available).\n- Look for intake manifold leaks (inspect gaskets and seals).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a fuel pressure gauge or scan tool) and expertise to diagnose the root cause. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The issue could worsen if left unaddressed.",
+ "repair_cost": "Parts: $200\u2013$800 (depending on what\u2019s faulty, e.g., MAF sensor, fuel pump, or intake gaskets).\nLabor: $150\u2013$400 (at an independent shop).\nTotal at independent shop: $350\u2013$1,200.\nTotal at dealer: $450\u2013$1,600 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database:\n1. Engine fires due to brake failure and electrical issues.\n2. Frame corrosion with major structural damage at low mileage.\n3. Shifter cable melting, causing gear shift failure.\n4. Airbag recall confusion and unresolved door mechanism failures.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-005",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcarfax-vrs.imgix.net%2F2005-Ford-F-150-EX-100447603-08.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0174",
+   "description": "System Too Lean (Bank 2)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "fuel_trim_triage",
+   "reason": "Fuel trim readings were not available, so the cause of the fuel mixture code (P0171, P0174) could not be narrowed: fuel trim was not captured",
+   "missing": [
+    "fuel trims at idle",
+    "fuel trims under load"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature, fuel trims.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171, P0174"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 26
+}

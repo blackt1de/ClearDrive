@@ -1,0 +1,91 @@
+{
+ "codes": [
+  "P0505"
+ ],
+ "vehicle": "2018 Volkswagen GOLF GTI",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2018 Volkswagen GOLF GTI is showing code P0505. This means the engine\u2019s idle air control system is not working correctly, which helps the engine maintain a steady idle speed. The vehicle is idling at 720 RPM with no vehicle speed, coolant temperature is 195\u00b0F (normal), and engine load is 22% (low). The engine\u2019s two sides are slightly uneven (1% difference), but this is minor. No measurements are missing that would make this urgent. The code is stored but not causing immediate danger.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The engine may idle roughly or feel unstable when stopped. - The IAC system controls airflow to keep idle smooth.\n2. The check engine light is on. - This is standard for stored codes.\n3. The car may hesitate when accelerating from a stop. - Poor idle control can affect throttle response.\n4. The engine may run slightly unevenly. - Small differences in airflow between engine banks can cause this.",
+ "if_ignored": "The engine may continue to idle unevenly, which could worsen over time. Long-term, this might lead to increased wear on engine components. Repair costs could rise if other systems are affected. No immediate safety risk, but ignoring it may delay resolution.",
+ "quick_checks": "No specific checks are listed for this code.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves engine components that require specialized tools and expertise. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check at your convenience.",
+ "repair_cost": "Parts: $200\u2013$500. Labor: $100\u2013$300. Total at independent shop: $300\u2013$800. Total at dealer: $400\u2013$1,200 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "No owner-reported history was retrieved for this vehicle.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-097",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F12601%2F2018-Volkswagen-Golf%2520GTI-front_12601_032_1830x823_K8K8_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0505",
+   "description": "Idle Air Control System Malfunction",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "vehicle_speed_idle",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0505. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0505"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 118
+}

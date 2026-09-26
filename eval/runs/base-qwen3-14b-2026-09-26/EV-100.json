@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0562"
+ ],
+ "vehicle": "2011 Audi Q7",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2011 Audi Q7 is showing code P0562 (System Voltage Low). This means the car\u2019s electrical system is detecting lower-than-normal voltage, which could affect electronics like sensors or the engine control unit. The vehicle is at operating temperature (coolant 195\u00b0F), and engine speed is 720 RPM with no vehicle speed (idle). The computed diagnosis shows a small imbalance in engine air-fuel mixture (bank asymmetry 1.0%), but no urgent issues. No data on mileage or specific components was available to narrow the cause further.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Dashboard lights flickering or dimming \u2013 (electrical system struggling to maintain power)\n2. Engine hesitation or rough idle \u2013 (sensor signals may be inconsistent due to low voltage)\n3. Warning lights unrelated to the engine (e.g., ABS or airbag) \u2013 (electrical issues can affect multiple systems)\n4. Difficulty starting the car \u2013 (low voltage may prevent proper ignition system function)",
+ "if_ignored": "In the short term, the car may continue to run but with reduced reliability. Over time, low voltage could damage sensitive electronics (e.g., sensors, control modules) or cause unexpected stalling. Long-term, this might lead to more expensive repairs if the root cause (e.g., weak battery, failing alternator) worsens. No immediate safety risk is present, but ignoring it could increase repair costs.",
+ "quick_checks": "- Check battery terminals for corrosion or loose connections.\n- Test battery voltage with a multimeter (should read 12.6V when off, 13.7\u201314.7V when running).\n- Inspect the alternator belt for cracks or slippage.\n- Look for blown fuses in the engine bay or under the dashboard.",
+ "diy_fix": "This repair is NOT recommended for DIY because (it requires specialized tools like a multimeter and knowledge of electrical systems; improper testing could mask the real issue or cause further damage). A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 1\u20132 weeks to avoid potential complications.",
+ "repair_cost": "Parts: $100\u2013$300 (battery, alternator, or wiring repairs).\nLabor: $150\u2013$400 (depending on complexity).\nTotal at independent shop: $250\u2013$700.\nTotal at dealer: $350\u2013$1,000 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database:\n1. Sunroof panel explosion (unrelated to P0562).\n2. Fuel pump failures (Bosch CP4 design issue).\n3. Fuel cap leaks causing gasoline smell.\n4. Wiper blade snapping off during normal driving.\nFrom NHTSA Recalls Database:\n- Fuel pump flange cracks (repaired with butyl tape or replacement).\n- Incorrect Gross Axle Weight Rating labels.\n- Fuel rail leaks (replaced with new seals).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-100",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.netcarshow.com%2FAudi-Q7-2011-wallpaper.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0562",
+   "description": "System Voltage Low",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "vehicle_speed_idle",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0562. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0562"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 121
+}

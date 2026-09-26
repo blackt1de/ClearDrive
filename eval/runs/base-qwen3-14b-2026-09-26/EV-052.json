@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P1500"
+ ],
+ "vehicle": "2014 Ford EXPEDITION",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Sudden downshifts while driving (like in a complaint about the transmission) - This could happen if the speed control system fails.\n2. The speedometer dropping to zero while moving - This was reported by another owner and might be linked to the code.\n3. The engine RPMs rising to redline without warning - This could happen if the transmission or speed control system malfunctions.\n4. The service engine light coming on - This is a general indicator of a problem with the vehicle\u2019s systems.",
+ "if_ignored": "The issue could worsen over time, leading to more expensive repairs. If the speed control or transmission fails, it could cause unsafe driving conditions, like sudden loss of power or difficulty shifting gears. Long-term, ignoring this might lead to damage to other parts of the vehicle.",
+ "quick_checks": "- Have a mechanic with Ford-specific diagnostic tools read the code exactly, as the meaning is manufacturer-defined.\n- Check for any recent repairs or recalls related to the transmission or speed control system.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and Ford-specific diagnostic equipment. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. This code needs to be diagnosed with the right tools, and the vehicle\u2019s own data is missing.",
+ "repair_cost": "Parts: $0 - $500 (unknown exact cause). Labor: $100 - $300 (depending on the repair). Total at independent shop: $100 - $800. Total at dealer: $150 - $1200 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, some owners reported transmission issues (like sudden downshifts and gear problems), tire blisters, and speedometer failures. These are not directly linked to code P1500 but show that other systems in similar vehicles have had problems.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-052",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F9155%2F2014-Ford-Expedition-front_9155_032_1861x908_RR_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P1500",
+   "description": "Manufacturer-specific powertrain code, structurally in the vehicle speed control, idle control, and auxiliary inputs group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "vehicle speed control, idle control, and auxiliary inputs",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P1500. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P1500"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 73
+}

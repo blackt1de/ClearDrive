@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0340"
+ ],
+ "vehicle": "2003 Nissan MURANO",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2003 Nissan MURANO is showing code P0340. This code means the car\u2019s computer detected a problem with the camshaft position sensor circuit, which helps time the engine\u2019s valves. The vehicle\u2019s own readings (engine speed, coolant temperature, etc.) are unavailable, so we can\u2019t see how the engine is behaving in real time. The code is not yet fully understood by the system, and no live data was captured to narrow it down.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine stalling or losing power while driving \u2013 The camshaft sensor helps control timing, and a failure could disrupt fuel delivery.\n2. Check engine light and ABS light illuminating \u2013 These are common in electrical or sensor-related issues.\n3. Engine struggling to accelerate \u2013 A faulty sensor might mislead the computer into adjusting fuel or timing incorrectly.\n4. No engine revving when pressing the gas \u2013 This could happen if the computer limits power due to a sensor fault.",
+ "if_ignored": "- In the next few days/weeks: The engine might stall unexpectedly, increasing the risk of accidents.\n- Long-term: The problem could worsen, leading to more expensive repairs or damage to other components like the ignition system.\n- Cost: Fixing it later may require replacing additional parts if the issue is left unaddressed.\n- Safety: If the engine stops while driving, it could cause a collision.",
+ "quick_checks": "- Have a mechanic scan the vehicle with a diagnostic tool to see if the code is active and check for additional codes.\n- Inspect the camshaft position sensor and its wiring for corrosion, damage, or loose connections.\n- Check if the intake air ducts (related to a 2003-2007 Murano recall) are intact and not cracked or separated.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose the sensor circuit and access under the hood components. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. The code could indicate a serious issue affecting engine performance and safety.",
+ "repair_cost": "- Parts: $100\u2013$300 (camshaft sensor, wiring, or related components).\n- Labor: $150\u2013$400 (depending on complexity).\n- Total at independent shop: $250\u2013$700.\n- Total at dealer: $350\u2013$1,000 (higher due to dealership overhead).",
+ "known_issues": "- Intake air ducts may separate due to material aging (recall for 2003\u20132007 Murano).\n- Crankshaft or camshaft position sensors may have improper solder joints (recall for sensor replacements).",
+ "owner_reports": "From NHTSA Complaints Database:\n- Engine stalling and loss of power while driving (multiple reports).\n- Excessive rusting on the subframe and structure.\n- ABS and brake warning lights activating, leading to engine \"fall safe\" mode (speed limited).\n- Fuel tank vulnerability to puncture from road debris.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-027",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Fimages%2F2003-nissan-murano-2-1646149837.jpg%3Fresize%3D980%3A%2A",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0340",
+   "description": "Camshaft Position Sensor 'A' Circuit (Bank 1 or Single Sensor)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0340. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0340"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 48
+}

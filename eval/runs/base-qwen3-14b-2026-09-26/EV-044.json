@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P2445"
+ ],
+ "vehicle": "2018 Toyota TUNDRA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2018 Toyota TUNDRA is showing code P2445. This code is part of the auxiliary emission controls group, but its exact meaning is not defined in our table (it is standardized but not verified). The vehicle\u2019s own readings (engine speed, coolant temperature, etc.) are unavailable, so we cannot link this code to specific measurements. No live data or freeze frame was captured, which limits our ability to diagnose. The code is present, but its impact on safety or performance is unclear without further checks.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light may stay on. - This happens when a trouble code is stored.\n2. No immediate symptoms like stalling or loss of power. - The code may not affect driving directly.\n3. Strange smells or exhaust fumes. - Could indicate an emission system issue.\n4. No noticeable issues. - Some codes may not trigger symptoms until further problems develop.",
+ "if_ignored": "- In the next few days/weeks: The code may remain without causing immediate harm, but it could signal a developing issue.\n- Long-term: If the code relates to emission controls, it might fail emissions tests or cause environmental harm.\n- Cost: Repair costs depend on the actual cause, which is unknown now.\n- Safety: No direct safety risk is confirmed, but unresolved codes can sometimes hide serious issues.",
+ "quick_checks": "- A diagnostic rule for these codes (needed: a diagnostic rule for these codes).\n- Vehicle support (needed: vehicle support).",
+ "diy_fix": "This repair is NOT recommended for DIY because the code\u2019s exact meaning is unclear and requires specialized diagnostic tools. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. The code is present, and without further data, it\u2019s best to get a full diagnostic scan to determine the cause.",
+ "repair_cost": "Cannot be estimated without knowing the cause. Parts and labor costs vary widely depending on the actual issue.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database:\n1. Power steering rack and pinion leaks (not related to P2445).\n2. Front upper grille hood scoop detaching (not related to P2445).\n3. Air bag system issues (not related to P2445).\n4. Upper grille trim failure (not related to P2445).\n5. Engine stalling due to fuel issues (not related to P2445).",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-044",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F12277%2F2018-Toyota-Tundra%2520CrewMax-front_12277_032_1861x822_8T0_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2445",
+   "description": "Standardized powertrain code, in the auxiliary emission controls group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "auxiliary emission controls",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2445. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2445"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 65
+}

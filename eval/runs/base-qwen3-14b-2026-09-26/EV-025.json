@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0975"
+ ],
+ "vehicle": "2010 Ford F-150 EXTENDED CAB",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2010 Ford F-150 EXTENDED CAB is showing code P0975. This code is related to the transmission or control module but its exact meaning is not fully known (manufacturer-defined, not verified). The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we cannot confirm what is happening. No live data or detailed diagnostics were captured, which limits our ability to pinpoint the issue. The code itself does not immediately suggest a serious safety risk, but it could indicate a problem with the transmission or related systems.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The truck may shift into lower gears unexpectedly (as reported by another owner).\n2. Power locks or doors might not work properly (as reported by another owner).\n3. The odometer might show incorrect mileage (as reported by another owner).\n4. A rear power sliding window might shatter without warning (as reported by another owner).",
+ "if_ignored": "- In the short term, the truck might shift gears unpredictably, which could make driving uncomfortable or unsafe.\n- Long-term, ignoring the code could lead to more expensive repairs if the transmission or control module fails.\n- The cost could increase significantly if the issue worsens or requires specialized tools to diagnose.\n- There is no immediate safety risk, but the problem could affect reliability.",
+ "quick_checks": "- No automated analysis exists for P0975 (needed: a diagnostic rule for these codes).\n- No live data, freeze frame, fuel trims, or Mode 06 were captured (needed: vehicle support).",
+ "diy_fix": "This repair is NOT recommended for DIY because the exact meaning of the code is unknown and the issue could involve complex systems like the transmission or control module, which require specialized tools and expertise. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don't drive more than necessary.",
+ "repair_cost": "The repair cost cannot be estimated because the exact cause is unknown. Parts and labor costs depend on what is found during diagnosis.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with door locks (NHTSA), unexpected gear shifts (NHTSA), odometer fraud (NHTSA), and shattered rear windows (NHTSA).",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-025",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fhouse%2F2010%2F2010-Ford-F150%2520Super%2520Cab-FrontSide_FT15E101_640x480.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0975",
+   "description": "Standardized powertrain code, in the transmission or control module group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "transmission or control module",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0975. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0975"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 46
+}

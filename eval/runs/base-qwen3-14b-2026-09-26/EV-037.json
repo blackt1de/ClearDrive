@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P2135"
+ ],
+ "vehicle": "2010 Chevrolet EQUINOX",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2010 Chevrolet EQUINOX is showing code P2135. This code means the car\u2019s computer detected a mismatch between the signals from two throttle/accelerator pedal sensors. The vehicle\u2019s own readings (engine speed, coolant temperature, etc.) are unavailable, so we can\u2019t see how the engine is actually behaving. The code is not fully verified by manufacturer standards, so its exact meaning is not 100% clear. No live data or freeze frame was captured, which limits what we can diagnose.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Hesitation or lag when pressing the accelerator \u2013 the sensors might not be communicating properly.\n2. The check engine light staying on \u2013 the computer detected a problem.\n3. Unpredictable acceleration \u2013 mismatched sensor signals could confuse the engine\u2019s control system.\n4. Stalling or rough idling \u2013 if the sensors are faulty, the engine might not get the right fuel/air mix.",
+ "if_ignored": "In the short term, the car might have trouble accelerating smoothly or could stall unexpectedly, which could be unsafe. Long-term, the issue could worsen, leading to more expensive repairs. The cost to fix could rise if other systems (like the fuel or ignition) are affected.",
+ "quick_checks": "- Have a mechanic test the throttle/accelerator pedal sensors for proper function.\n- Check for damaged wiring or connections between the sensors and the computer.\n- Use a diagnostic tool to see if the code returns after clearing it.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test sensors and diagnose electrical issues. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The issue could affect driving safety if it causes unpredictable acceleration or stalling.",
+ "repair_cost": "Parts: $100\u2013$300 (sensor replacement if needed).\nLabor: $150\u2013$400 (depending on shop).\nTotal at independent shop: $250\u2013$700.\nTotal at dealer: $350\u2013$1,000 (higher labor rates).",
+ "known_issues": "The 2.4L engine (likely in this vehicle) has known issues with timing chain wear and excessive oil consumption. GM issued extended warranties for some vehicles. Check oil frequently \u2013 do not wait for the oil life monitor.",
+ "owner_reports": "From NHTSA complaints:\n1. A 2010 Equinox caught fire after the engine lunged forward (unrelated to P2135).\n2. High-pressure fuel pump issues causing rough idling and stalling.\n3. Powertrain issues causing sudden loss of power.\n4. TCM shift problems.\n5. Windshield wiper mechanism failure.\nFrom NHTSA recalls:\n- A 2010 Equinox had a software issue with the HVAC system.\n- Seat height adjuster bolts falling out (unrelated to P2135).\n- Ignition key removal without transmission in PARK (unrelated to P2135).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database",
+  "ClearDrive Known Issues KB"
+ ],
+ "obd_source": "Synthetic fixture: EV-037",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Famv-prod-cad-assets%2Fimages%2F09q2%2F267376%2F2010-chevrolet-equinox-review-car-and-driver-photo-282228-s-original.jpg%3Ffill%3D1%3A1%26resize%3D1200%3A%2A",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2135",
+   "description": "Throttle/Pedal Position Sensor/Switch 'A'/'B' Voltage Correlation",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2135. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2135"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 58
+}

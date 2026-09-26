@@ -1,0 +1,122 @@
+{
+ "codes": [
+  "P0301",
+  "P0304"
+ ],
+ "vehicle": "2014 Honda ODYSSEY",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2014 Honda ODYSSEY is showing code P0301 (Cylinder 1 Misfire Detected) and P0304 (Cylinder 4 Misfire Detected). These codes mean one or more cylinders are not firing properly, which can cause unburned fuel to reach the catalytic converter. The vehicle\u2019s own readings (engine speed, coolant temperature, etc.) are unavailable, so we cannot confirm exact conditions when the misfires occurred. The misfire could be caused by worn piston rings, as reported by other owners, or issues with the Variable Cylinder Management (VCM) system.",
+ "likely_causes": "1. Worn piston rings allowing oil to foul spark plugs (retrieved from NHTSA complaints).\n2. Carbon buildup or uneven temperatures from VCM (Variable Cylinder Management) operation (retrieved from NHTSA complaints).",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2014 misfires disrupt smooth engine operation.\n2. Increased fuel consumption \u2014 unburned fuel reduces efficiency.\n3. Check engine light staying on \u2014 the vehicle\u2019s computer detects the misfire.\n4. Possible oil consumption \u2014 oil leaking past worn piston rings.",
+ "if_ignored": "- In the next few days/weeks: The catalytic converter could overheat and fail, leading to expensive repairs.\n- Long-term: Continued misfires may damage the engine further, increasing repair costs.\n- Safety risk: Misfires can cause the engine to run unevenly, potentially affecting vehicle control.",
+ "quick_checks": "- Look for oil leaks under the engine (could indicate worn piston rings).\n- Inspect spark plugs for oil fouling (requires a mechanic\u2019s tools).\n- Check for any recall notices related to VCM (Honda\u2019s warranty extension campaign).",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves engine disassembly and requires specialized tools. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. Misfires can worsen quickly, and the catalytic converter may fail if ignored.",
+ "repair_cost": "- Parts: $500\u2013$1,500 (engine rebuild or replacement, depending on damage).\n- Labor: $800\u2013$2,000 (complex engine work).\n- Total at independent shop: $1,300\u2013$3,500.\n- Total at dealer: $1,700\u2013$4,500 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported piston ring wear causing misfires (P0301\u2013P0304), oil consumption, and rough running (source: NHTSA Complaints Database). Some required engine rebuilds or replacements (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-055",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F8990%2F2014-Honda-Odyssey-front_8990_032_1850x827_SX_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0301",
+   "description": "Cylinder 1 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0304",
+   "description": "Cylinder 4 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "misfire_triage",
+   "reason": "No freeze frame was stored for the misfire, so the conditions when it occurred are unknown \u2014 a misfire under load and a misfire at cold idle have different causes and cannot be told apart without it: freeze frame was not captured",
+   "missing": [
+    "freeze frame for the misfire code"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "caution",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0301, P0304) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301, P0304"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "Whether the misfire happened under load could not be assessed: no freeze frame was stored for it.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301, P0304"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 76
+}

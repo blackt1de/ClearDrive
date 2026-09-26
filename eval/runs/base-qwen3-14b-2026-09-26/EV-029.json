@@ -1,0 +1,103 @@
+{
+ "codes": [
+  "P3400"
+ ],
+ "vehicle": "2010 Honda ACCORD",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2010 Honda ACCORD is showing code P3400. This code is part of the auxiliary emission controls group, but its exact meaning is not defined in our database\u2014only the manufacturer knows for sure. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we can\u2019t see what\u2019s happening in real time. No live data or freeze frame was captured, which limits what we can check. This isn\u2019t an immediate safety risk, but it\u2019s not a simple issue either.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The vehicle jerks or fails to accelerate smoothly while driving\u2014this could be linked to engine misfires or transmission issues.\n2. The check engine light is on, and the VSA (Vehicle Stability Assist) warning may also appear\u2014this often happens with engine or sensor problems.\n3. The engine may stall unexpectedly, especially during turns or at traffic lights\u2014this could point to fuel delivery or ignition issues.\n4. Excessive oil consumption or oil on spark plugs\u2014this might indicate worn piston rings or valve seals.",
+ "if_ignored": "- In the short term, the vehicle might continue to misfire, jerk, or stall, making driving unpredictable and potentially dangerous.\n- Long-term, unresolved issues could lead to more severe engine damage, higher repair costs, or even a complete engine failure.\n- If the problem is related to the drive shaft (as reported by other owners), a sudden break could cause a loss of control, especially at high speeds.",
+ "quick_checks": "- Check for visible oil leaks under the engine or on the ground.\n- Inspect the drive shafts for cracks or corrosion (especially if you live in a \"salt belt\" area).\n- Look for signs of oil on spark plugs or ignition coils.\n- Verify if the check engine light is on and if the VSA warning is active.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves complex systems like emission controls, drive shafts, or engine components that require specialized tools, diagnostic equipment, or mechanical expertise. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today\u2014don\u2019t drive more than necessary. The symptoms reported (stalling, jerking, oil issues) could point to serious problems that need immediate attention.",
+ "repair_cost": "- Parts: $200 - $1,000 (varies by repair, e.g., drive shaft replacement, engine repairs).\n- Labor: $300 - $1,500 (dependent on shop and complexity).\n- Total at independent shop: $500 - $2,500.\n- Total at dealer: $700 - $3,500 (dealers charge 30-50% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database:\n1. Drive shaft/axle failures in \"salt belt\" states due to corrosion.\n2. Engine misfires, stalling, and check engine light issues after engine replacement.\n3. Engine stalling at traffic lights or during turns.\n4. Excessive oil consumption and piston ring failures (linked to a 2018 recall).\n5. Jerking and acceleration failure with misfire codes on cylinders 1 and 2.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database",
+  "ClearDrive Known Issues KB"
+ ],
+ "obd_source": "Synthetic fixture: EV-029",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcloud.iimanager.com%2Fvdata%2Fmandsautosales_net%2F4556178_x1600_01.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P3400",
+   "description": "Standardized powertrain code, in the auxiliary emission controls group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "auxiliary emission controls",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P3400. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P3400"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 50
+}

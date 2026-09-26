@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P1604"
+ ],
+ "vehicle": "2020 Subaru CROSSTREK",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2020 Subaru CROSSTREK is showing code P1604. This code is a manufacturer-specific \"Startability Malfunction\" and could relate to issues with the ignition system. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so no live data or freeze frame details were captured. A complaint from the NHTSA mentions a melted ignition coil and a blown fuse, but no diagnostic rules or vehicle support data were available to narrow this down further. The code itself does not confirm a safety risk, but the lack of data means the cause is unclear.",
+ "likely_causes": "1. A faulty ignition coil (as reported in a NHTSA complaint) that caused a thermal event and shorted the system.",
+ "symptoms": "1. Sudden loss of power or stalling (due to ignition failure).\n2. A burning smell (from melted components).\n3. The check engine light illuminating.\n4. A blown fuse in the ignition system.",
+ "if_ignored": "- In the short term, the car could stall unexpectedly, increasing the risk of an accident.\n- Long-term, the melted ignition coil could cause further electrical damage or a fire hazard.\n- Repair costs could rise if the issue worsens (e.g., damaged wiring or control modules).\n- No direct safety risk is confirmed, but the lack of data means the full impact is unknown.",
+ "quick_checks": "- Check the ignition coil for visible damage (but this requires a mechanic\u2019s tools).\n- Inspect the fuse box for a blown fuse related to the ignition system (but this needs professional diagnosis).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose electrical faults and replace ignition components safely. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 don\u2019t drive more than necessary. The melted coil and blown fuse could pose a fire risk, and the lack of data means the issue is urgent but not immediately dangerous.",
+ "repair_cost": "- Parts: $200\u2013$400 (ignition coil, fuse, and related repairs).\n- Labor: $200\u2013$400 (depending on the shop).\n- Total at independent shop: $400\u2013$800.\n- Total at dealer: $500\u2013$1,000 (higher due to dealer markups).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "A NHTSA complaint reported a melted ignition coil and blown fuse linked to code P1604. The recall for this issue (Subaru Safety Recall WRE-21) only covers 2018\u20132019 models, not the 2020 Crosstrek.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-058",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13994%2F2020-Subaru-Crosstrek-front_13994_032_1850x864_J8U_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P1604",
+   "description": "Manufacturer-specific powertrain code, structurally in the computer output circuit or control module group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "computer output circuit or control module",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P1604. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P1604"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 79
+}

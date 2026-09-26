@@ -1,0 +1,109 @@
+{
+ "codes": [
+  "P0171"
+ ],
+ "vehicle": "2010 Ford F-250 SUPERCAB",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2010 Ford F-250 SUPERCAB is showing code P0171. This means the engine is running too lean (too much air, not enough fuel) on bank 1. The vehicle\u2019s readings show the engine is adding 18% extra fuel at idle and 4% extra under load to compensate. The coolant temperature is normal (195\u00b0F), and the engine is operating at 22% load. No mileage data is available, but the issue is not urgent.",
+ "likely_causes": "1. Air is entering the engine after the mass airflow sensor. A fixed-size leak causes more fuel trim adjustment at idle (18% total trim) than under load (4% total trim). This matches the pattern in the vehicle\u2019s data.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2014 the engine is struggling to balance air and fuel.\n2. The check engine light staying on \u2014 the computer detects the lean condition.\n3. Slight decrease in fuel efficiency \u2014 the engine burns more fuel to compensate for the air leak.\n4. No immediate stalling or power loss \u2014 the issue is not severe enough to cause sudden failure.",
+ "if_ignored": "In the next few weeks, the engine may run less smoothly, and fuel economy could drop further. Long-term, the catalytic converter might overheat if the lean condition persists, leading to expensive repairs. No immediate safety risk, but performance will degrade.",
+ "quick_checks": "- Inspect the intake boot between the airflow sensor and the throttle body for cracks or disconnection.\n- Check PCV hoses and the intake manifold gasket for cracks or loose fittings.\n- Ensure the oil filler cap and dipstick seal properly to prevent air leaks.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to locate and fix air leaks under the hood. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic can inspect the intake system and confirm the cause.",
+ "repair_cost": "Parts: $50\u2013$150 (intake boots, gaskets).\nLabor: $100\u2013$300 at an independent shop.\nTotal at independent shop: $150\u2013$450.\nTotal at dealer: $200\u2013$600 (dealers charge 30\u201350% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA Complaints Database reports issues with the high-pressure fuel pump (mileage ~87,500 and 143,000), steering play (mileage ~85,000), and violent front-wheel shaking (\"death wobble\") at highway speeds (mileage ~71,000). These are separate from the P0171 code.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-065",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.nfiempire.com%2Fimagetag%2F197%2Fmain%2Fl%2FUsed-2010-Ford-F250-Super-Duty-Super-Cab-Lariat-Pickup-4D-8-ft-1663274319.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "fuel_trim_triage",
+   "conclusion": "Air is entering the engine after the mass airflow sensor. A fixed-size leak is a large share of the small airflow at idle and a small share of the large airflow under load, which is exactly the pattern here.",
+   "confidence": "high",
+   "basis": "heuristic",
+   "next_checks": [
+    "Inspect the intake boot between the airflow sensor and the throttle body",
+    "Check PCV hoses and the intake manifold gasket for cracks or loose fittings",
+    "Check that the oil filler cap and dipstick seal properly"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +18.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +4.0% on bank 1"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Inspect the intake boot between the airflow sensor and the throttle body",
+  "Check PCV hoses and the intake manifold gasket for cracks or loose fittings",
+  "Check that the oil filler cap and dipstick seal properly"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 86
+}

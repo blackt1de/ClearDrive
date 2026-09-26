@@ -1,0 +1,69 @@
+{
+ "codes": [],
+ "vehicle": "2020 Kia RIO",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "",
+ "likely_causes": "",
+ "symptoms": "",
+ "if_ignored": "",
+ "quick_checks": "",
+ "diy_fix": "",
+ "urgency": "",
+ "repair_cost": "",
+ "known_issues": "",
+ "owner_reports": "",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: CL-022",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Fimages%2F2020-kia-rio-mmp-1-1567615682.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [],
+ "differential": [],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_codes",
+    "statement": "No trouble codes are stored, and no rule found a reason to escalate.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "no trouble codes stored"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "length",
+ "scan_id": 145
+}

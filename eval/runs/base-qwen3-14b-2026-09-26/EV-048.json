@@ -1,0 +1,103 @@
+{
+ "codes": [
+  "P144A"
+ ],
+ "vehicle": "2016 Ford FOCUS",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2016 Ford FOCUS is showing code P144A. This is a manufacturer-specific code related to the auxiliary emission controls, but its exact meaning is not verified. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we cannot pinpoint the issue. No live data or diagnostic rules for this code were captured, which limits our ability to assess it. The code itself does not immediately indicate a safety risk, but it needs to be checked to rule out serious problems.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Transmission shuddering or hesitation when accelerating \u2013 (could relate to clutch or transmission issues mentioned in complaints)\n2. A \"transmission overheating\" warning message \u2013 (reported in NHTSA complaints)\n3. Sudden stalling or loss of power \u2013 (mentioned in owner complaints)\n4. Unusual noises from the engine or transmission \u2013 (could indicate mechanical wear)",
+ "if_ignored": "- In the short term, the vehicle may continue to experience intermittent stalling or transmission issues, making driving unpredictable.\n- Long-term, unresolved transmission or emission system problems could lead to costly repairs or engine damage.\n- If the issue involves the fuel system (like a failed canister purge valve), it could worsen over time, increasing repair costs.\n- Safety risks are possible if the transmission fails while driving, though no direct evidence links this code to immediate danger.",
+ "quick_checks": "- Check for open recalls using your VIN at Ford\u2019s website or a dealership.\n- Inspect the transmission fluid level and condition (look for leaks or burnt smell).\n- Verify if the check engine light is on alongside P144A.\n- Look for signs of a collapsed fuel tank or damaged canister purge valve (as reported in complaints).",
+ "diy_fix": "This repair is NOT recommended for DIY because (it requires specialized diagnostic tools and manufacturer-specific software to interpret P144A, and transmission or emission system repairs often need professional expertise). A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. The code could signal a serious issue that needs immediate attention, especially if you\u2019ve noticed stalling or transmission problems.",
+ "repair_cost": "- Parts: $200 - $800 (depending on what\u2019s faulty, e.g., transmission components, sensors)\n- Labor: $300 - $1,200 (complex repairs may take multiple hours)\n- Total at independent shop: $500 - $2,000\n- Total at dealer: $700 - $3,000 (higher due to dealership markups)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA complaints mention transmission shuddering, \"transmission overheating\" messages, fuel tank collapse, stalling, and clutch failures. These issues are reported from the NHTSA Complaints Database (api.nhtsa.gov).",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database",
+  "ClearDrive Known Issues KB"
+ ],
+ "obd_source": "Synthetic fixture: EV-048",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10798%2F2016-Ford-Focus-front_10798_032_1800x809_J7_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P144A",
+   "description": "Manufacturer-specific powertrain code, structurally in the auxiliary emission controls group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "auxiliary emission controls",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P144A. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P144A"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 69
+}

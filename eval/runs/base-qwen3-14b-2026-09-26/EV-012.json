@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0261",
+  "P0611"
+ ],
+ "vehicle": "2005 Ford F-250 SD",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2005 Ford F-250 SD is showing code P0261 (a fuel injector circuit issue) and P0611 (a computer output circuit issue). These codes are standardized but not fully defined here, so their exact meaning is unclear. The vehicle\u2019s own measurements\u2014like engine speed, coolant temperature, and mileage\u2014are unavailable, which limits what can be diagnosed. No live data or freeze frame was captured, so the scan tool couldn\u2019t pinpoint the problem. The codes may relate to the fuel system or engine control module, but without more data, it\u2019s hard to say.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Sudden engine stalling (as reported in an NHTSA complaint) \u2014 due to fuel delivery or control issues.\n2. Difficulty restarting the engine after stalling \u2014 possibly linked to fuel injector or computer faults.\n3. Unusual engine behavior, like rough idling or hesitation \u2014 could indicate a misfire or sensor problem.\n4. Warning lights on the dashboard \u2014 such as the check engine light, which is common with these codes.",
+ "if_ignored": "- In the next few days/weeks, the engine could stall again, risking being stranded.\n- Long-term, unresolved fuel or computer issues might damage the engine or other components, increasing repair costs.\n- Safety risks could arise if the engine fails while driving.\n- Repairs could become more expensive if the problem worsens or affects other systems.",
+ "quick_checks": "- Get a diagnostic scan with a professional tool to retrieve live data and freeze frame information.\n- Consult a mechanic experienced with Ford F-250 SDs to interpret the codes and check for related issues.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools, access to diagnostic software, and expertise in interpreting engine control module faults. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 don\u2019t drive more than necessary. These codes could indicate a serious issue that needs immediate attention.",
+ "repair_cost": "- Parts: $200\u2013$500 (depending on what\u2019s faulty, like injectors or sensors).\n- Labor: $200\u2013$400 (at an independent shop).\n- Total at independent shop: $400\u2013$900.\n- Total at dealer: $500\u2013$1,200 (dealers charge 30\u201350% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, some 2005 Ford F-250 SD owners reported sudden engine stalling, loose steering, brake caliper dragging, and tire failures. These issues are not directly linked to the codes P0261 or P0611 but highlight potential mechanical and electrical problems in similar vehicles.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-012",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fplatform.cstatic-images.com%2Fxxlarge%2Fin%2Fv2%2Fstock_photos%2Ffd735e1f-9c5e-44fb-98b4-9d947cb9e9fc%2Fa05f59e8-1f95-48b0-8736-fa5debbe11d3.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0261",
+   "description": "Standardized powertrain code, in the fuel and air metering (injector circuit) group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering (injector circuit)",
+   "caveat": "This code is standardized but absent from our definition table."
+  },
+  {
+   "code": "P0611",
+   "description": "Standardized powertrain code, in the computer output circuit or control module group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "computer output circuit or control module",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0261, P0611. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0261, P0611"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 33
+}

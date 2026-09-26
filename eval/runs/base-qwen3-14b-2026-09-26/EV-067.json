@@ -1,0 +1,135 @@
+{
+ "codes": [
+  "P0171"
+ ],
+ "vehicle": "2013 Chevrolet MALIBU ECO EASSIST",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2013 Chevrolet MALIBU ECO EASSIST is showing code P0171. This means the engine is running too lean (not enough fuel) on Bank 1. The engine speed is 720 RPM, coolant temperature is 195\u00b0F, and fuel trim on Bank 1 is +15% at idle and +20% under load, while Bank 2 is nearly normal. The difference between the two banks (13% at idle, 18% under load) suggests the issue is isolated to one side. Mileage data was not available.",
+ "likely_causes": "1. The fault is on one bank only, which rules out shared components (fuel pump, fuel filter, mass airflow sensor). Evidence: Total fuel trim at idle is +15.0% on Bank 1, and bank asymmetry at idle is 13.0%.\n2. The affected bank runs leaner under load than at idle. This points to fuel delivery issues on that bank or air escaping downstream of the sensor once the engine is working hard. Evidence: Fuel trim on Bank 1 increases from +15.0% at idle to +20.0% under load.",
+ "symptoms": "1. Check engine light on \u2014 the vehicle\u2019s computer detected the lean condition.\n2. Reduced engine power \u2014 the engine may feel sluggish when accelerating.\n3. Rough idling \u2014 uneven fuel delivery can cause the engine to vibrate or run unevenly.\n4. Increased fuel consumption \u2014 the engine may use more fuel to compensate for the lean condition.",
+ "if_ignored": "In the next few days/weeks, the engine could misfire, leading to poor performance or stalling. Long-term, this might damage the catalytic converter or cause overheating. Repair costs could rise if the issue worsens. No immediate safety risk, but ignoring it risks more expensive repairs.",
+ "quick_checks": "- Inspect the intake and vacuum lines on the affected bank (Bank 1) for cracks or leaks.\n- Compare the two banks\u2019 oxygen sensor activity using a scan tool.\n- Check fuel pressure and injector delivery on the affected bank using a fuel pressure gauge and mechanic tools.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (fuel pressure gauge, scan tool) and expertise to diagnose vacuum leaks or fuel delivery issues. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 1-2 weeks to avoid potential long-term damage.",
+ "repair_cost": "Parts: $200\u2013$500 (fuel injectors, vacuum lines, sensors).\nLabor: $150\u2013$300 at an independent shop.\nTotal at independent shop: $350\u2013$800.\nTotal at dealer: $450\u2013$1,000 (30\u201350% higher labor costs).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database:\n1. Brake pedal sticking due to a faulty brake pedal assembly (safety issue).\n2. Engine overheating with check engine light, diagnosed as engine failure.\n3. Instrument cluster temporarily shorting out or resetting (safety issue).\n4. Service air bag notification on (safety issue).",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-067",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F8379%2F2013-Chevrolet-Malibu-front_8379_032_1785x743_GAZ_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "fuel_trim_triage",
+   "conclusion": "The fault is on one bank only, which rules out shared components (fuel pump, fuel filter, and the mass airflow sensor all feed both banks).",
+   "confidence": "high",
+   "basis": "heuristic",
+   "next_checks": [
+    "Inspect the intake and vacuum lines on the affected bank",
+    "Compare the two banks' oxygen sensor activity"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +15.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +20.0% on bank 1"
+    },
+    {
+     "pointer": "derived.bank_asymmetry_at_idle_pct",
+     "restatement": "the two banks differ by 13.0% at idle"
+    }
+   ]
+  },
+  {
+   "rule": "fuel_trim_triage_worse_under_load",
+   "conclusion": "The affected bank runs leaner under load than at idle. A vacuum leak does the opposite \u2014 it fades as airflow rises \u2014 so this points at fuel delivery to that bank, or at air escaping downstream of the sensor once the engine is working hard.",
+   "confidence": "moderate",
+   "basis": "heuristic",
+   "next_checks": [
+    "Check fuel pressure and injector delivery on the affected bank"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +15.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +20.0% on bank 1"
+    },
+    {
+     "pointer": "derived.bank_asymmetry_at_idle_pct",
+     "restatement": "the two banks differ by 13.0% at idle"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Inspect the intake and vacuum lines on the affected bank",
+  "Compare the two banks' oxygen sensor activity",
+  "Check fuel pressure and injector delivery on the affected bank"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 88
+}

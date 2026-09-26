@@ -1,0 +1,130 @@
+{
+ "codes": [
+  "P0172",
+  "P0303"
+ ],
+ "vehicle": "2017 Honda CR-V",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2017 Honda CR-V is showing code P0172 (System Too Rich, Bank 1) and P0303 (Cylinder 3 Misfire Detected). These codes mean the engine is running too rich (too much fuel) and one cylinder is misfiring. The vehicle\u2019s own readings (like engine speed, coolant temperature, or fuel trims) were not available, so the exact cause of the rich mixture or misfire cannot be pinpointed. The misfire could damage the catalytic converter over time, but no immediate safety risk is confirmed from the data.",
+ "likely_causes": "1. Fuel trim readings were not captured, so the cause of the rich mixture (P0172) could not be narrowed.\n2. No freeze frame was stored for the misfire, so the conditions when it occurred (e.g., under load or at idle) are unknown.\n3. The vehicle\u2019s data was limited to trouble codes, with no live data or Mode 06 captured.",
+ "symptoms": "1. Rough idle or hesitation during acceleration \u2014 due to the misfire (P0303).\n2. A sulfur smell from the exhaust \u2014 from the rich fuel mixture (P0172).\n3. Warning lights on the dashboard \u2014 common in this model for fuel system or steering issues.\n4. Steering feel changes (heavy or unresponsive) \u2014 unrelated to the codes but reported by other owners.",
+ "if_ignored": "- In the next few days/weeks: The catalytic converter could overheat and fail, leading to expensive repairs.\n- Long-term: The engine may suffer from carbon buildup or internal damage from the misfire.\n- Cost: Repairs could rise significantly if the catalytic converter fails or the misfire worsens.\n- Safety: If the misfire causes sudden loss of power, it could be a risk while driving.",
+ "quick_checks": "- Check for visible fuel leaks or damaged hoses (fuel system issues).\n- Inspect spark plugs and ignition coils for wear or damage.\n- Look for signs of a failing catalytic converter (excessive heat, smell, or reduced power).\n- Have a mechanic scan for additional codes and retrieve a freeze frame for the misfire.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves the engine\u2019s fuel system and ignition components, which require specialized tools and diagnostic equipment. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The misfire and rich mixture could lead to costly damage if ignored.",
+ "repair_cost": "- Parts: $200\u2013$500 (fuel injectors, spark plugs, or catalytic converter).\n- Labor: $300\u2013$700 (dependent on the repair).\n- Total at independent shop: $500\u2013$1,200.\n- Total at dealer: $650\u2013$1,560 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, other 2017 CR-V owners reported:\n1. Steering gear box and rack and pinion failures (source: NHTSA Complaints Database).\n2. Persistent misfires, rough running, and fuel injector failures (source: NHTSA Complaints Database).\n3. Dashboard warning lights activating due to battery or fuel injector issues (source: NHTSA Complaints Database).\n4. Brake actuator and VSA system malfunctions (source: NHTSA Complaints Database).\n5. Electric power steering (EPS) system faults with code U0416-68 (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-050",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F11795%2F2017-Honda-CR-V-side_11795_001_2400x1800_WA.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0172",
+   "description": "System Too Rich (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0303",
+   "description": "Cylinder 3 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "fuel_trim_triage",
+   "reason": "Fuel trim readings were not available, so the cause of the fuel mixture code (P0172) could not be narrowed: fuel trim was not captured",
+   "missing": [
+    "fuel trims at idle",
+    "fuel trims under load"
+   ]
+  },
+  {
+   "rule": "misfire_triage",
+   "reason": "No freeze frame was stored for the misfire, so the conditions when it occurred are unknown \u2014 a misfire under load and a misfire at cold idle have different causes and cannot be told apart without it: freeze frame was not captured",
+   "missing": [
+    "freeze frame for the misfire code"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "caution",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0303) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0172, P0303"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "Whether the misfire happened under load could not be assessed: no freeze frame was stored for it.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0172, P0303"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 71
+}

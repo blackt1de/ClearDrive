@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0420"
+ ],
+ "vehicle": "2004 Toyota MATRIX",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2004 Toyota MATRIX is showing code P0420. This code means the catalytic converter is not working efficiently, which could affect emissions and engine performance. The vehicle\u2019s own readings (like coolant temperature or engine speed) were not available, so we can\u2019t measure how bad the issue is. The code was not verified against official standards, so its exact meaning is not fully confirmed.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Check engine light on - The code triggers the light, but no other symptoms are reported.\n2. Reduced fuel efficiency - A failing converter can make the engine work harder.\n3. Increased emissions - The converter\u2019s job is to reduce harmful gases, so failure could increase them.\n4. No noticeable symptoms - Some converters fail without obvious signs until tested.",
+ "if_ignored": "The catalytic converter could fail completely, leading to higher emissions, potential engine damage, and a failed emissions test. Long-term, a failed converter may require expensive replacement. Costs could rise if other parts (like oxygen sensors) are damaged by the issue.",
+ "quick_checks": "- Get a professional to check the catalytic converter\u2019s efficiency using Mode 06 data (needed: vehicle support).\n- Confirm if the code is active by scanning with a professional tool.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and expertise to diagnose and replace the catalytic converter. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The code indicates a potential issue that could worsen over time.",
+ "repair_cost": "Parts: $500 - $1000\nLabor: $200 - $400\nTotal at independent shop: $700 - $1400\nTotal at dealer: $900 - $1800 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database: Other owners reported issues with power windows (clicking/rattling sounds, loose windows) and unresolved Takata airbag recalls. No reports about the catalytic converter or P0420 code.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-007",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fi.redd.it%2F1zkps6fvm1hc1.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0420",
+   "description": "Catalyst System Efficiency Below Threshold (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "catalyst_assessment",
+   "reason": "On-board monitor results for the catalyst were not available, so how close the converter is to its limit could not be measured \u2014 that is the difference between a marginal reading and a failed converter: mode06 was not captured",
+   "missing": [
+    "Mode 06 catalyst monitor test result"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0420"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 28
+}

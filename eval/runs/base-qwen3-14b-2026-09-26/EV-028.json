@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P2111"
+ ],
+ "vehicle": "2016 Ford ESCAPE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2016 Ford ESCAPE is showing code P2111. This code is part of the fuel and air metering group, but its exact meaning is not available in our records. The vehicle\u2019s own measurements, like engine speed, coolant temperature, and intake air temperature, are unavailable, so we cannot determine what is causing the code. No live data or freeze frame information was captured, which limits our ability to diagnose the issue. The code may relate to a problem with how the engine mixes fuel and air, but without more data, we cannot be certain.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The engine may run roughly or hesitate during acceleration \u2013 This could happen if the fuel and air mixture is incorrect.\n2. The check engine light may stay on \u2013 This is a general indicator of a powertrain issue.\n3. The vehicle may have trouble starting \u2013 A faulty sensor or component could prevent proper ignition.\n4. The engine may idle unevenly \u2013 This can occur if the air-fuel ratio is not balanced.",
+ "if_ignored": "- In the next few days/weeks, the engine may experience reduced performance, such as slower acceleration or increased fuel consumption.\n- Long-term, ignoring the issue could lead to more serious engine damage, such as catalytic converter failure or sensor wear.\n- Repair costs could increase significantly if the problem worsens, as parts and labor may become more expensive.\n- There is no immediate safety risk, but prolonged neglect could affect drivability.",
+ "quick_checks": "- Get a diagnostic scan with live data to identify the code\u2019s context.\n- Inspect the fuel system for leaks or damaged components.\n- Check for loose or disconnected sensors related to fuel and air intake.\n- Consult a mechanic to perform a full inspection if the code persists.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and expertise to diagnose the exact cause of the code. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic can use live data and advanced diagnostics to pinpoint the issue.",
+ "repair_cost": "Parts: $0 - $500 (depends on the exact cause).\nLabor: $100 - $300 (at an independent shop).\nTotal at independent shop: $100 - $800.\nTotal at dealer: $150 - $1,200 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with the backup camera under recall 25V695000 (source: NHTSA Complaints Database). This is unrelated to the P2111 code.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-028",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10501%2F2016-Ford-Escape-front_10501_032_1805x880_G1_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2111",
+   "description": "Standardized powertrain code, in the fuel and air metering group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2111. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2111"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 49
+}

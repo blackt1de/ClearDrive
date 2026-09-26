@@ -1,0 +1,71 @@
+{
+ "codes": [],
+ "vehicle": "2012 Volkswagen JETTA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "No trouble codes were found, so your car's computer isn't reporting any problems. Since this is a naturally aspirated engine, check air filters and spark plugs regularly as part of routine maintenance. Your vehicle\u2019s performance classification means parts are widely available, so staying up-to-date with inspections can help keep it running smoothly.",
+ "likely_causes": "",
+ "symptoms": "",
+ "if_ignored": "",
+ "quick_checks": "",
+ "diy_fix": "",
+ "urgency": "",
+ "repair_cost": "",
+ "known_issues": "- Electrical system complaints (microswitch malfunction, key ignition issues)  \n- Fuel/propulsion system complaints (CP4 high pressure fuel pump failures)  \n- Rear suspension recall (sheet metal inlay installation for 2011\u20132013 Jetta)  \n- Ignition switch recall (additional switch and circuit board installation for 2011\u20132018 Jetta)",
+ "owner_reports": "",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database",
+  "ClearDrive Known Issues KB"
+ ],
+ "obd_source": "Synthetic fixture: CL-026",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana.io%2Fstockimages%2F2012_VOLKSWAGEN_JETTA_2.0T%2520GLI%2520AUTOBAHN%2520SEDAN%25204D_GRAY_stock_desktop_1920x1080.png%3Fv%3D1649250853.387",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [],
+ "differential": [],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_codes",
+    "statement": "No trouble codes are stored, and no rule found a reason to escalate.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "no trouble codes stored"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 149
+}

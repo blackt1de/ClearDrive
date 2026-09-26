@@ -1,0 +1,110 @@
+{
+ "codes": [
+  "P0171"
+ ],
+ "vehicle": "2002 Ford MUSTANG",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2002 Ford MUSTANG is showing code P0171. This means the engine is running too lean (too much air, not enough fuel) on Bank 1. The vehicle\u2019s readings show the engine is at operating temperature (195\u00b0F coolant), idling at 720 RPM with 22% engine load. Fuel trim adjustments are +18% at idle and +4% under load, which matches the pattern of an air leak after the mass airflow sensor. No mileage data was available to confirm long-term trends.",
+ "likely_causes": "1. Air is entering the engine after the mass airflow sensor. A fixed-size leak would cause a larger fuel trim adjustment at idle (when airflow is low) and a smaller one under load (when airflow is higher). This matches the vehicle\u2019s +18% fuel trim at idle and +4% under load.",
+ "symptoms": "1. Rough or uneven idling \u2014 the engine may vibrate or feel unstable when stopped.\n2. Hesitation or stumbling during acceleration \u2014 the engine may not respond smoothly when you press the gas.\n3. The check engine light staying on \u2014 the code P0171 is stored in the computer.\n4. Slightly worse fuel economy \u2014 the engine may use more fuel to compensate for the lean condition.",
+ "if_ignored": "In the short term, the engine may misfire or have trouble starting, especially when cold. Over time, the lean condition could damage the catalytic converter (a costly part) or cause the engine to run less efficiently. The repair cost could increase if the issue worsens, but there is no immediate safety risk.",
+ "quick_checks": "- Inspect the intake boot between the airflow sensor and the throttle body for cracks or disconnection.\n- Check PCV hoses and the intake manifold gasket for cracks or loose fittings.\n- Ensure the oil filler cap and dipstick seal properly (a loose seal can let air in).",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves inspecting internal engine components (like the intake manifold gasket) that require tools or disassembly. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t delay it more than a few weeks. Schedule a check with a mechanic to inspect the intake system.",
+ "repair_cost": "Parts: $50\u2013$200 (depending on the exact fix, like a gasket or hose).\nLabor: $150\u2013$400 (varies by shop).\nTotal at independent shop: $200\u2013$600.\nTotal at dealer: $250\u2013$750 (higher due to dealer markups).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues with the fuel pump (NHTSA Complaints Database), airbags deploying unexpectedly, and seatbelts failing in crashes. These are unrelated to the P0171 code but highlight that some owners have had mechanical or safety-related problems.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-063",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.jonathanmotorcars.com%2Fimagetag%2F1328%2Fmain%2Fl%2FUsed-2002-Ford-Mustang-GT-Deluxe-1624984310.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "fuel_trim_triage",
+   "conclusion": "Air is entering the engine after the mass airflow sensor. A fixed-size leak is a large share of the small airflow at idle and a small share of the large airflow under load, which is exactly the pattern here.",
+   "confidence": "high",
+   "basis": "heuristic",
+   "next_checks": [
+    "Inspect the intake boot between the airflow sensor and the throttle body",
+    "Check PCV hoses and the intake manifold gasket for cracks or loose fittings",
+    "Check that the oil filler cap and dipstick seal properly"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +18.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +4.0% on bank 1"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Inspect the intake boot between the airflow sensor and the throttle body",
+  "Check PCV hoses and the intake manifold gasket for cracks or loose fittings",
+  "Check that the oil filler cap and dipstick seal properly"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 84
+}

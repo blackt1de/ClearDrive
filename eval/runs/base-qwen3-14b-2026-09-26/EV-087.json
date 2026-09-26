@@ -1,0 +1,104 @@
+{
+ "codes": [
+  "P0456"
+ ],
+ "vehicle": "2022 Hyundai TUCSON",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2022 Hyundai TUCSON is showing code P0456. This means the fuel vapor system (which stops fuel fumes from escaping) has a tiny leak, like a hairline crack or loose connection. The car\u2019s computer detected this while the engine was running at idle (720 RPM, 0 mph), with the coolant at normal temperature (195\u00b0F). The leak is small enough that it doesn\u2019t affect how the car drives, but it keeps the check engine light on. No other measurements, like mileage, were available to check for other issues.",
+ "likely_causes": "1. This is an evaporative emissions leak classified as very small. The system that captures fuel vapour is not holding pressure. It does not affect how the car drives and it is not a safety issue, but it will keep the light on.",
+ "symptoms": "1. The check engine light stays on \u2014 this is the only direct sign.\n2. No change in how the car drives or accelerates.\n3. No unusual smells or noises from the fuel system.\n4. No warning lights for engine performance or safety.",
+ "if_ignored": "- In the next few days/weeks: Nothing immediate will happen \u2014 the car will keep running normally.\n- Long-term: The leak could worsen, leading to more frequent check engine light issues or potential fuel system damage if left unaddressed.\n- Cost: Fixing it now (e.g., sealing a small leak) is cheaper than replacing parts later.\n- Safety: No safety risk from this specific issue.",
+ "quick_checks": "- Remove and refit the fuel cap firmly, then drive a few days and rescan.\n- Inspect the fuel cap seal for cracks or hardening.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the evaporative system and locate the leak. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic can check for the leak and confirm if the fuel cap is the cause.",
+ "repair_cost": "- Parts: $100\u2013$300 (depending on the fix, like replacing a hose or seal).\n- Labor: $100\u2013$200 (at an independent shop).\n- Total at independent shop: $200\u2013$500.\n- Total at dealer: $250\u2013$600 (dealers charge 30\u201350% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database: Some owners reported issues like fuel injector problems, sudden stops from collision avoidance systems, engine hesitation, and electrical issues (e.g., turn signals not working). These are separate from the P0456 code and may involve different systems.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-087",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.carpro.com%2Fhubfs%2F2022-hyundai-tucson-calypso-red-1.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0456",
+   "description": "Evaporative Emission Control System Leak Detected (Very Small Leak)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "evap_leak_class",
+   "conclusion": "This is an evaporative emissions leak classified as very small. The system that captures fuel vapour is not holding pressure. It does not affect how the car drives and it is not a safety issue, but it will keep the light on.",
+   "confidence": "high",
+   "basis": "structural",
+   "next_checks": [
+    "Remove and refit the fuel cap firmly, then drive a few days and rescan",
+    "Inspect the fuel cap seal for cracks or hardening"
+   ],
+   "evidence": [
+    {
+     "pointer": "dtc_codes",
+     "restatement": "evaporative code present: P0456"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Remove and refit the fuel cap firmly, then drive a few days and rescan",
+  "Inspect the fuel cap seal for cracks or hardening"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0456"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 108
+}

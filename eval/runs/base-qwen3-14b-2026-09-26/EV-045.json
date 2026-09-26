@@ -1,0 +1,111 @@
+{
+ "codes": [
+  "P0731",
+  "P0732"
+ ],
+ "vehicle": "2022 Ram 3500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2022 Ram 3500 is showing code P0731 (Gear 1 Incorrect Ratio) and P0732 (Gear 2 Incorrect Ratio). These codes mean the transmission is not shifting gears properly, which could affect how the vehicle accelerates or changes speed. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we cannot confirm the exact issue. No live data or diagnostic tests were captured, which limits our ability to pinpoint the cause. This is not an immediate safety risk but needs attention to avoid further problems.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The vehicle may hesitate or jerk when shifting gears. - Transmission is not engaging gears smoothly.\n2. The check engine light may stay on. - The computer detected a transmission issue.\n3. The truck might feel sluggish when accelerating. - Incorrect gear ratios can reduce power delivery.\n4. You might notice a burning smell or unusual noises from the transmission. - Could indicate overheating or internal damage.",
+ "if_ignored": "- In the next few days/weeks: The transmission could slip or fail to shift, making driving difficult.\n- Long-term: Transmission failure could occur, leading to expensive repairs (thousands of dollars).\n- Safety concerns: While not immediately dangerous, a failing transmission could cause loss of control in extreme cases.",
+ "quick_checks": "1. Inspect the transmission fluid level and condition (look for leaks or contamination).\n2. Check for visible damage or leaks under the vehicle.\n3. Have a professional mechanic scan the codes with a diagnostic tool and retrieve freeze frame data.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools, transmission expertise, and access to diagnostic equipment. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. Do not delay, as transmission issues can worsen quickly.",
+ "repair_cost": "- Parts: $1000\u2013$3000 (transmission components, depending on repair).\n- Labor: $500\u2013$1000 (complex repairs may take multiple hours).\n- Total at independent shop: $1500\u2013$4000.\n- Total at dealer: $2000\u2013$5000 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, other owners reported issues like engine fires (related to electrical systems), steering problems, and transmission failures (Aisin K1 Clutch/Input Shaft). These are from different components and not directly linked to the codes in this case.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-045",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F14681%2F2022-Ram-3500%2520Regular%2520Cab-front_14681_032_2400x1800_PL1.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0731",
+   "description": "Gear 1 Incorrect Ratio",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "transmission",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0732",
+   "description": "Gear 2 Incorrect Ratio",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "transmission",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0731, P0732. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0731, P0732"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 66
+}

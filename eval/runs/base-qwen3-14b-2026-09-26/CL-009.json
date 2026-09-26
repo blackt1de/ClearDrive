@@ -1,0 +1,70 @@
+{
+ "codes": [],
+ "vehicle": "2007 Nissan XTERRA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "No trouble codes were found, so your vehicle's computer isn't reporting any problems right now. Since this engine is naturally aspirated (no forced induction), checking air filters regularly can help maintain performance. It\u2019s great that no codes were found\u2014keep up the good work with routine maintenance!",
+ "likely_causes": "",
+ "symptoms": "",
+ "if_ignored": "",
+ "quick_checks": "",
+ "diy_fix": "",
+ "urgency": "",
+ "repair_cost": "",
+ "known_issues": "- Air bag complaints (4 total) with recall service incomplete in one case  \n- Oil leaking into radiator (1 complaint)  \n- Heat gauge fluctuation and overheating (1 complaint)  \n- Rust in door jams and power steering leaks (1 complaint)  \n- Suspension recall for front/rear lower links (2009-2010 models)  \n- Air bag recall for 2005-2009 models in specific states",
+ "owner_reports": "",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: CL-009",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fb%2Fbc%2FNissan_Xterra_%2528N50%2529_IMG_6174.jpg%3Futm_source%3Den.wikipedia.org%26utm_campaign%3Dindex%26utm_content%3Doriginal",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [],
+ "differential": [],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_codes",
+    "statement": "No trouble codes are stored, and no rule found a reason to escalate.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "no trouble codes stored"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 132
+}

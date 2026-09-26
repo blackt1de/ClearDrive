@@ -1,0 +1,70 @@
+{
+ "codes": [],
+ "vehicle": "2019 Ram 2500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "No trouble codes were found, so the vehicle's computer isn't reporting any problems at this time. Since this engine is naturally aspirated (standard atmospheric breathing), regular inspections of the intake system for blockages or leaks can help maintain performance. It\u2019s great that no codes were found\u2014this is a good sign, but staying proactive with maintenance will keep the vehicle running smoothly.",
+ "likely_causes": "",
+ "symptoms": "",
+ "if_ignored": "",
+ "quick_checks": "",
+ "diy_fix": "",
+ "urgency": "",
+ "repair_cost": "",
+ "known_issues": "- AIR BAGS: 1 complaint about a service airbag system warning message and potential deployment issues.  \n- POWER TRAIN: 1 complaint about difficulty shifting gears and needing to restart the truck.  \n- POWER TRAIN,ELECTRICAL SYSTEM,FUEL/PROPULSION SYSTEM: 1 complaint about transmission slipping.  \n- POWER TRAIN,ENGINE: 1 complaint about premature lifter and cam failures on the 6.7 engines.  \n- UNKNOWN OR OTHER: 1 complaint about a discrepancy between advertised and actual mileage history.",
+ "owner_reports": "",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: CL-012",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13549%2F2019-Ram-2500%2520Crew%2520Cab-front_13549_032_1832x846_PAU_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [],
+ "differential": [],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_codes",
+    "statement": "No trouble codes are stored, and no rule found a reason to escalate.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "no trouble codes stored"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 135
+}

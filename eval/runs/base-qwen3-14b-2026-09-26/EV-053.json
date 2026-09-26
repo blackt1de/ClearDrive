@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P219B"
+ ],
+ "vehicle": "2019 Honda PILOT",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2019 Honda PILOT is showing code P219B. This code is part of the fuel and air metering group, but its exact meaning is not available in our database. The vehicle\u2019s own measurements\u2014like engine speed, coolant temperature, and intake air temperature\u2014are unavailable, so we cannot analyze the issue further. No live data or freeze frame information was captured, which limits our ability to diagnose. The code could relate to fuel delivery, air intake, or sensor malfunctions, but without more data, we cannot confirm.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine stalling or hesitation during acceleration - Could indicate a fuel or air intake issue.\n2. Warning lights on the dashboard - May signal a malfunction in the fuel system or sensors.\n3. Reduced engine power - Might occur if the air-fuel mixture is incorrect.\n4. Intermittent issues with driver-assistance systems - Though not directly linked to this code, similar issues have been reported by other owners.",
+ "if_ignored": "- In the next few days/weeks: The vehicle may experience reduced performance, stalling, or warning lights.\n- Long-term: Potential damage to the engine or fuel system if the issue persists.\n- Cost: Repairs could become more expensive if the problem worsens.\n- Safety: Stalling or loss of power could increase the risk of accidents.",
+ "quick_checks": "- Have a mechanic use a diagnostic tool to retrieve more details about P219B.\n- Check for any related issues, such as malfunctioning driver-assistance systems or camera problems.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and expertise to interpret the code. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don't drive more than necessary.",
+ "repair_cost": "Parts: $200 - $500\nLabor: $100 - $300\nTotal at independent shop: $300 - $800\nTotal at dealer: $400 - $1,000",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database:\n1. Issues with Honda Sensing systems failing due to a malfunctioning front windshield camera.\n2. Rearview camera displaying incorrect colors (green and purple).\n3. Auto Idle Stop system failing to restart the engine, causing inoperability.\n4. Engine stalling in traffic due to Auto Idle Stop malfunctions.\n5. Recalls related to rearview camera software, instrument panel control module, and fuel pump failures.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-053",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13030%2F2019-Honda-Pilot-front_13030_032_2400x1800_WA.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P219B",
+   "description": "Standardized powertrain code, in the fuel and air metering group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P219B. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P219B"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 74
+}

@@ -1,0 +1,128 @@
+{
+ "codes": [
+  "P0102",
+  "P0171"
+ ],
+ "vehicle": "2003 Honda PILOT",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2003 Honda PILOT is showing code P0102 (mass airflow sensor reading low) and P0171 (engine running too lean). The engine is compensating by adding extra fuel, as shown by fuel trim adjustments: +15% at idle and +17% under load. The engine is warm (195\u00b0F coolant), running at 720 RPM with no vehicle speed, and the air intake is 82\u00b0F. No mileage data is available. These codes suggest the engine is not getting enough air or fuel, but no immediate danger is detected.",
+ "likely_causes": "1. The fuel system may not be delivering enough fuel, such as a clogged fuel filter or low fuel pressure.\nevidence [fueltrims[idle].bank1]: total fuel trim at idle is +15.0% on bank 1\n2. The mass airflow sensor may be dirty or faulty, causing it to report lower airflow than actual.\nevidence [fueltrims[loaded].bank1]: total fuel trim under load is +17.0% on bank 1",
+ "symptoms": "1. Reduced engine power or hesitation during acceleration \u2014 the engine is compensating for lean fuel.\n2. Rough idling or stalling \u2014 uneven fuel delivery or airflow issues.\n3. Increased fuel consumption \u2014 the engine burning more fuel to compensate.\n4. The check engine light staying on \u2014 the computer detecting the lean condition.",
+ "if_ignored": "The engine may misfire or run less efficiently in the next few days, increasing emissions and fuel costs. Long-term, the lean condition could damage the catalytic converter or cause engine knocking. Costs could rise if the issue worsens, but there is no immediate safety risk.",
+ "quick_checks": "- Check fuel pressure against specification (a mechanic may need a gauge).\n- Inspect the mass airflow sensor for dirt or debris (visible on the sensor).\n- Check the fuel filter service history (look for when it was last replaced).",
+ "diy_fix": "This repair is NOT recommended for DIY because checking fuel pressure requires specialized tools, and inspecting the mass airflow sensor may need disassembly. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 1-2 weeks if you notice rough idling or stalling.",
+ "repair_cost": "Parts: $100\u2013$200 (MAF sensor or fuel filter). Labor: $100\u2013$200 (independent shop). Total at dealer: $200\u2013$400 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, some 2003 Honda Pilots had issues with odometer fraud, door actuators failing, transmission stalling, and engine stalling due to a failing PGM-FI module. These are separate from the current codes.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-072",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Fimages%2F2003-honda-pilot-ex-128-69a9dc1f2cd35.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0102",
+   "description": "Mass or Volume Air Flow Sensor 'A' Circuit Low Input",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "fuel_trim_triage",
+   "conclusion": "The engine is running lean across the whole load range, which points at fuel delivery or an airflow sensor reading low, rather than at a vacuum leak (a leak would fade as load increases).",
+   "confidence": "moderate",
+   "basis": "heuristic",
+   "next_checks": [
+    "Check fuel pressure against specification",
+    "Inspect the mass airflow sensor for contamination",
+    "Check the fuel filter service history"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +15.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +17.0% on bank 1"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0102. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Check fuel pressure against specification",
+  "Inspect the mass airflow sensor for contamination",
+  "Check the fuel filter service history"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0102, P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 93
+}

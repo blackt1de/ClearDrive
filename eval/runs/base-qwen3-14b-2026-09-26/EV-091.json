@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0335"
+ ],
+ "vehicle": "2010 Kia SPORTAGE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2010 Kia SPORTAGE is showing code P0335, which means the engine's crankshaft position sensor (a part that tells the computer where the crankshaft is) is not sending the right signal. The engine is running at 720 RPM with no vehicle speed, and coolant is at 195\u00b0F (normal operating temperature). The engine load is low (22%), and air temperature is 82\u00b0F. The computer calculated that the engine's fuel trim is slightly off (3% and 2% on each bank), but the difference between them is small (1%). No automated analysis exists for this code yet.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light is on - The computer detected a problem with the crankshaft sensor.\n2. Rough idling - The engine might feel shaky when stopped.\n3. Hesitation during acceleration - The engine might not respond smoothly when you press the gas.\n4. Stalling - The engine might shut off unexpectedly, especially when idling.",
+ "if_ignored": "- In the next few days/weeks: The engine might run less efficiently, use more fuel, or misfire.\n- Long-term: The sensor failure could cause timing issues, leading to engine damage or costly repairs.\n- Cost: Fixing it now might cost $100\u2013$300 (estimate), but ignoring it could make repairs more expensive later.\n- Safety: No immediate safety risk, but prolonged issues could affect reliability.",
+ "quick_checks": "- Check the crankshaft position sensor wiring and connections for corrosion or damage.\n- Use an OBD-II scanner to see if the code returns after clearing it.\n- Inspect the sensor itself for cracks or debris.",
+ "diy_fix": "This repair is NOT recommended for DIY because the sensor is located in a tight area near the engine, and it requires specialized tools to access. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic soon.",
+ "repair_cost": "- Parts: $100\u2013$200\n- Labor: $150\u2013$300 (independent shop)\n- Total at independent shop: $250\u2013$500\n- Total at dealer: $300\u2013$600 (higher due to dealer markup)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with recalls for brake systems (NHTSA Campaign 23V652000) and parts not being available for repairs. These reports came from the NHTSA Complaints Database and NHTSA Recalls Database.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-091",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fimages.hgmsites.net%2Flrg%2F2010-kia-sportage-2wd-4-door-i4-auto-lx-angular-front-exterior-view_100313324_l.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0335",
+   "description": "Crankshaft Position Sensor 'A' Circuit",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0335. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0335"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 112
+}

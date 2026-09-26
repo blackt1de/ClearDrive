@@ -1,0 +1,110 @@
+{
+ "codes": [
+  "P0171"
+ ],
+ "vehicle": "2009 Chevrolet HHR",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2009 Chevrolet HHR is showing code P0171. This means the engine is burning too little fuel (running lean) compared to the air it\u2019s taking in, which can affect performance and fuel efficiency. The vehicle\u2019s measurements show the engine is adding 14% extra fuel at idle and 17% under load to compensate, which is higher than normal. The engine is operating at its normal temperature (195\u00b0F), so the issue isn\u2019t related to cold-start conditions. No mileage data was available to check long-term trends.",
+ "likely_causes": "1. The engine is running lean across the whole load range, which points at fuel delivery or an airflow sensor reading low, rather than at a vacuum leak (a leak would fade as load increases). Evidence: total fuel trim at idle is +14.0% on bank 1, and +17.0% under load.",
+ "symptoms": "1. Reduced fuel efficiency (more trips to the gas station).\n2. Hesitation or rough idling when the engine is warm.\n3. The check engine light staying on.\n4. A slight decrease in engine power during acceleration.",
+ "if_ignored": "In the short term, the engine may run less smoothly or use more fuel. Over time, the lean condition could damage the catalytic converter (a costly part) or cause the engine to misfire. Fixing it now is cheaper than waiting for these parts to fail.",
+ "quick_checks": "- Check fuel pressure against specification (a mechanic will need a fuel pressure gauge for this).\n- Inspect the mass airflow sensor for contamination (look for dirt or debris on the sensor).\n- Check the fuel filter service history (if it hasn\u2019t been replaced in years, this could be the issue).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a fuel pressure gauge) and expertise to diagnose the exact cause (fuel pump, fuel filter, or MAF sensor). A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. The issue isn\u2019t urgent, but fixing it sooner rather than later will save money and prevent further damage.",
+ "repair_cost": "Parts: $200\u2013$500 (depending on whether the fuel filter, MAF sensor, or fuel pump is replaced).\nLabor: $150\u2013$300 at an independent shop.\nTotal at independent shop: $350\u2013$800.\nTotal at dealer: $450\u2013$1,000 (dealers charge 30\u201350% more for labor).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported fuel leaks near the rear wheels, fuel odor, and excessive fuel consumption (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-068",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana.io%2Fstockimages%2F2009_CHEVROLET_HHR_LS%2520SPORT%2520WAGON%25204D_BLUE_stock_desktop_1920x1080.png%3Fv%3D1647522397.894",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "fuel_trim_triage",
+   "conclusion": "The engine is running lean across the whole load range, which points at fuel delivery or an airflow sensor reading low, rather than at a vacuum leak (a leak would fade as load increases).",
+   "confidence": "moderate",
+   "basis": "heuristic",
+   "next_checks": [
+    "Check fuel pressure against specification",
+    "Inspect the mass airflow sensor for contamination",
+    "Check the fuel filter service history"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +14.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +17.0% on bank 1"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Check fuel pressure against specification",
+  "Inspect the mass airflow sensor for contamination",
+  "Check the fuel filter service history"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 89
+}

@@ -32,6 +32,11 @@
 
 ## History
 
+- 2026-09-26 `f480d59` — brief2/phase2: second H4 null baseline; re-scoring never overwrites
+  - notes/decisions.md
+  - scripts/eval_score.py
+  - test_eval_scripts.py
+
 - 2026-09-26 `bed0615` — brief2/phase2: eval runner and scorer; backend model timeout 300 s
   - .gitignore
   - notes/decisions.md

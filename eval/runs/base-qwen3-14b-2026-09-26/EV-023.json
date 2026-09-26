@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0752"
+ ],
+ "vehicle": "2008 GMC ACADIA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2008 GMC ACADIA is showing code P0752. This means the transmission\u2019s shift solenoid \u2018A\u2019 is stuck in the \"on\" position, which can prevent the car from shifting gears properly. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we can\u2019t see how the car is behaving in real time. The code is present, but without more data, we can\u2019t confirm if it\u2019s a minor issue or something more serious.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The car may hesitate or jerk when shifting gears \u2014 because the solenoid isn\u2019t working as it should.\n2. The check engine light may stay on \u2014 this is how the car signals a problem.\n3. The car might not shift into higher gears \u2014 stuck solenoids can block normal gear changes.\n4. You might hear unusual noises from the transmission \u2014 like grinding or whining \u2014 if the issue is worsening.",
+ "if_ignored": "In the next few days, the car might become harder to drive, especially in traffic or on hills. Over time, the transmission could suffer more damage, leading to expensive repairs. The cost could rise significantly if the problem worsens, and there\u2019s a risk of the car stalling unexpectedly.",
+ "quick_checks": "- Check the transmission fluid level and condition (low or dirty fluid can cause solenoid issues).\n- Look for any visible damage to the transmission or solenoid wiring.\n- Use a diagnostic scanner to read live data from the transmission (if available).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to access and replace the solenoid, and it involves working with the transmission system, which needs expertise to avoid further damage. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 don\u2019t drive more than necessary. The code could indicate a transmission issue that needs immediate attention to avoid further damage.",
+ "repair_cost": "Parts: $100\u2013$300 (solenoid replacement).\nLabor: $200\u2013$500 (at an independent shop).\nTotal at independent shop: $300\u2013$800.\nTotal at dealer: $400\u2013$1,200 (dealers charge 30\u201350% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues like the car not shifting (NHTSA Complaints Database), lift gate closing unexpectedly, airbag warnings, and electrical problems (NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-023",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcdn.jdpower.com%2FChromeImageGallery%2FExpanded%2FTransparent%2F640%2F2008GMC001a_640%2F2008GMC001a_640_01.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0752",
+   "description": "Shift Solenoid 'A' Stuck On",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "transmission",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0752. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0752"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 44
+}

@@ -1,0 +1,279 @@
+{
+ "h1": {
+  "macro_f1": 0.7401,
+  "top1_accuracy": 0.7549,
+  "per_label": {
+   "vacuum_intake_leak": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "support": 7,
+    "tp": 0,
+    "fp": 0,
+    "fn": 7
+   },
+   "fuel_delivery": {
+    "precision": 0.4118,
+    "recall": 0.7,
+    "f1": 0.5185,
+    "support": 10,
+    "tp": 7,
+    "fp": 10,
+    "fn": 3
+   },
+   "maf_sensor": {
+    "precision": 1.0,
+    "recall": 0.5455,
+    "f1": 0.7059,
+    "support": 11,
+    "tp": 6,
+    "fp": 0,
+    "fn": 5
+   },
+   "ignition_component": {
+    "precision": 0.7778,
+    "recall": 0.875,
+    "f1": 0.8235,
+    "support": 8,
+    "tp": 7,
+    "fp": 2,
+    "fn": 1
+   },
+   "fuel_injector": {
+    "precision": 1.0,
+    "recall": 0.375,
+    "f1": 0.5455,
+    "support": 8,
+    "tp": 3,
+    "fp": 0,
+    "fn": 5
+   },
+   "catalytic_converter": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 7,
+    "tp": 7,
+    "fp": 0,
+    "fn": 0
+   },
+   "oxygen_sensor": {
+    "precision": 1.0,
+    "recall": 0.875,
+    "f1": 0.9333,
+    "support": 8,
+    "tp": 7,
+    "fp": 0,
+    "fn": 1
+   },
+   "evap_system": {
+    "precision": 1.0,
+    "recall": 0.5714,
+    "f1": 0.7273,
+    "support": 7,
+    "tp": 4,
+    "fp": 0,
+    "fn": 3
+   },
+   "valve_timing_air_aux": {
+    "precision": 1.0,
+    "recall": 0.875,
+    "f1": 0.9333,
+    "support": 8,
+    "tp": 7,
+    "fp": 0,
+    "fn": 1
+   },
+   "air_fuel_metering_other": {
+    "precision": 0.8889,
+    "recall": 0.8889,
+    "f1": 0.8889,
+    "support": 9,
+    "tp": 8,
+    "fp": 1,
+    "fn": 1
+   },
+   "ignition_system_sensor": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 8,
+    "tp": 8,
+    "fp": 0,
+    "fn": 0
+   },
+   "emissions_control_other": {
+    "precision": 0.8571,
+    "recall": 1.0,
+    "f1": 0.9231,
+    "support": 6,
+    "tp": 6,
+    "fp": 1,
+    "fn": 0
+   },
+   "idle_speed_auxiliary": {
+    "precision": 0.8333,
+    "recall": 0.8333,
+    "f1": 0.8333,
+    "support": 6,
+    "tp": 5,
+    "fp": 1,
+    "fn": 1
+   },
+   "control_module": {
+    "precision": 0.6,
+    "recall": 0.4286,
+    "f1": 0.5,
+    "support": 7,
+    "tp": 3,
+    "fp": 2,
+    "fn": 4
+   },
+   "transmission": {
+    "precision": 0.8333,
+    "recall": 0.7143,
+    "f1": 0.7692,
+    "support": 7,
+    "tp": 5,
+    "fp": 1,
+    "fn": 2
+   }
+  },
+  "cases": 102
+ },
+ "h4": {
+  "hit_rate": 0.0,
+  "threshold": 0.5,
+  "null_baselines": {
+   "system_level": 0.0,
+   "part_level": 0.3333
+  },
+  "hits": [
+   {
+    "case_id": "CL-001",
+    "hit": false
+   },
+   {
+    "case_id": "CL-002",
+    "hit": false
+   },
+   {
+    "case_id": "CL-003",
+    "hit": false
+   },
+   {
+    "case_id": "CL-004",
+    "hit": false
+   },
+   {
+    "case_id": "CL-005",
+    "hit": false
+   },
+   {
+    "case_id": "CL-006",
+    "hit": false
+   },
+   {
+    "case_id": "CL-007",
+    "hit": false
+   },
+   {
+    "case_id": "CL-008",
+    "hit": false
+   },
+   {
+    "case_id": "CL-009",
+    "hit": false
+   },
+   {
+    "case_id": "CL-010",
+    "hit": false
+   },
+   {
+    "case_id": "CL-011",
+    "hit": false
+   },
+   {
+    "case_id": "CL-012",
+    "hit": false
+   },
+   {
+    "case_id": "CL-013",
+    "hit": false
+   },
+   {
+    "case_id": "CL-014",
+    "hit": false
+   },
+   {
+    "case_id": "CL-015",
+    "hit": false
+   },
+   {
+    "case_id": "CL-016",
+    "hit": false
+   },
+   {
+    "case_id": "CL-017",
+    "hit": false
+   },
+   {
+    "case_id": "CL-018",
+    "hit": false
+   },
+   {
+    "case_id": "CL-019",
+    "hit": false
+   },
+   {
+    "case_id": "CL-020",
+    "hit": false
+   },
+   {
+    "case_id": "CL-021",
+    "hit": false
+   },
+   {
+    "case_id": "CL-022",
+    "hit": false
+   },
+   {
+    "case_id": "CL-023",
+    "hit": false
+   },
+   {
+    "case_id": "CL-024",
+    "hit": false
+   },
+   {
+    "case_id": "CL-025",
+    "hit": false
+   },
+   {
+    "case_id": "CL-026",
+    "hit": false
+   },
+   {
+    "case_id": "CL-027",
+    "hit": false
+   },
+   {
+    "case_id": "CL-028",
+    "hit": false
+   },
+   {
+    "case_id": "CL-029",
+    "hit": false
+   },
+   {
+    "case_id": "CL-030",
+    "hit": false
+   }
+  ]
+ },
+ "run_id": "rulebased-2026-09-26",
+ "arm": "rule-based",
+ "latency": null,
+ "unmapped_predictions": [],
+ "missing_responses": []
+}

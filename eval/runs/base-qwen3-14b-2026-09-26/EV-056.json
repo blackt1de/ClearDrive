@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0700"
+ ],
+ "vehicle": "2017 Chevrolet COLORADO",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2017 Chevrolet COLORADO is showing code P0700. This code means the transmission control system has a problem, but the exact cause isn\u2019t clear yet. The vehicle\u2019s own data like engine speed, coolant temperature, and transmission fluid temperature are missing, so we can\u2019t pinpoint the issue. A past repair for a similar code involved a faulty transmission fluid temperature sensor. No serious safety risk is known from this code alone.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light staying on \u2014 This happens when the computer detects a problem.\n2. Transmission shifting delays or rough shifts \u2014 The transmission control system might not be working properly.\n3. Erratic temperature readings on the dashboard \u2014 A faulty sensor could cause this.\n4. No obvious symptoms \u2014 Some issues might not show signs until the system fails.",
+ "if_ignored": "The transmission might fail suddenly, causing the car to lose power or not shift gears. Long-term, this could lead to expensive repairs. Costs could rise if the problem worsens, and there\u2019s a risk of breakdowns if the transmission fails while driving.",
+ "quick_checks": "- Check the transmission fluid level and condition (look for leaks or contamination).\n- Inspect the transmission wiring harness for damage or loose connections.\n- Verify the transmission fluid temperature sensor is securely connected.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves the transmission system, which requires specialized tools and expertise. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. Don\u2019t drive more than necessary until it\u2019s checked.",
+ "repair_cost": "- Parts: $500 - $1000\n- Labor: $300 - $600\n- Total at independent shop: $800 - $1600\n- Total at dealer: $1040 - $2080 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "A 2017 Chevrolet COLORADO had a similar P0700 code linked to a faulty transmission fluid temperature sensor (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-056",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10553%2F2017-Chevrolet-Colorado%2520Crew%2520Cab-front_10553_032_2400x1800_GAZ.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0700",
+   "description": "Transmission Control System (MIL Request)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "transmission",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0700. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0700"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 77
+}

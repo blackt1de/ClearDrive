@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P245B"
+ ],
+ "vehicle": "2019 Ford F-150 REGULAR CAB",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2019 Ford F-150 REGULAR CAB is showing code P245B. This code is part of the auxiliary emission controls group, but its exact meaning is not defined in our table (it is standardized but not verified). The vehicle\u2019s own readings, like engine speed, coolant temperature, and mileage, are unavailable, so we cannot confirm what is happening. No live data or diagnostic details were captured during the scan. This means we cannot tell if the issue is serious or minor without further checks.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light may be on (common with trouble codes).\n2. Strange smells or smoke from the exhaust (if emission controls are faulty).\n3. The vehicle may fail an emissions test (if the code relates to emissions systems).\n4. No immediate symptoms, but the code indicates a potential issue with auxiliary emission controls.",
+ "if_ignored": "Without knowing the exact cause, it\u2019s hard to predict, but ignoring the code could lead to more serious issues over time. If the problem involves emissions systems, it might cause the vehicle to fail inspections or develop further faults. Costs could rise if the issue worsens, but we cannot estimate how much more expensive it might get.",
+ "quick_checks": "- Get a diagnostic rule for P245B (needed: a diagnostic rule for these codes).\n- Ensure the vehicle supports capturing live data, freeze frame, fuel trims, or Mode 06 (needed: vehicle support).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and expertise to interpret the code and identify the exact cause. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. The code indicates an issue that needs professional diagnosis and repair.",
+ "repair_cost": "Cannot be estimated because the cause is unknown. Parts and labor costs depend on what is found during diagnosis.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with suspension (broken coil spring), engine (rattling sound, faulty cam phasers), transmission (uncontrolled shifting, failure), and emission-related problems. These reports came from the NHTSA Complaints Database (api.nhtsa.gov).",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-032",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F12312%2F2019-Ford-F150%2520Regular%2520Cab-front_12312_032_2400x1800_YZ.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P245B",
+   "description": "Standardized powertrain code, in the auxiliary emission controls group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "auxiliary emission controls",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P245B. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P245B"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 53
+}

@@ -1,0 +1,70 @@
+{
+ "codes": [],
+ "vehicle": "2003 Subaru IMPREZA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "No trouble codes were found, so your car's computer isn't reporting any problems. This engine is naturally aspirated, so checking the air filter regularly can help maintain performance. Since no codes are present, it\u2019s a good time to inspect basic components like filters and fluids. Keep up the good work\u2014regular checks can prevent small issues from becoming bigger ones.",
+ "likely_causes": "",
+ "symptoms": "",
+ "if_ignored": "",
+ "quick_checks": "",
+ "diy_fix": "",
+ "urgency": "",
+ "repair_cost": "",
+ "known_issues": "Complaints include fuel odor, suspension noises, head gasket leaks, airbag failures, and structural issues. Recalls involve front suspension corrosion, tailgate latch failures, fuel line leaks, cruise control cable issues, and seat bolt loosening.",
+ "owner_reports": "",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: CL-023",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=http%3A%2F%2Fawdadventure.com%2Fcdn%2Fshop%2Fcollections%2F02-03-GD.GG-PNG.png%3Fcrop%3Dcenter%26height%3D1200%26v%3D1578675835%26width%3D1200",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [],
+ "differential": [],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_codes",
+    "statement": "No trouble codes are stored, and no rule found a reason to escalate.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "no trouble codes stored"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 146
+}

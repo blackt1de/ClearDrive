@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P0420"
+ ],
+ "vehicle": "2022 Jeep WRANGLER",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2022 Jeep WRANGLER is showing code P0420. This means the catalytic converter (a part that reduces harmful emissions) is not working efficiently. The vehicle\u2019s own readings show the converter is well past its manufacturer limit (measured 0.9 against a limit of 0.5). This is not a temporary issue\u2014it indicates the converter is genuinely worn out. No other measurements were available to confirm other causes. The problem is serious enough to require attention but not an immediate stop.",
+ "likely_causes": "1. The converter is well past its limit, not borderline. This reading does not clear itself and the converter is genuinely worn out. Evidence: the catalyst monitor measured 0.9 against a manufacturer limit of 0.5.",
+ "symptoms": "1. A strong smell of gasoline or burning fuel (due to unburned hydrocarbons).\n2. Reduced fuel efficiency (the engine may run less efficiently).\n3. The check engine light staying on or returning after being cleared.\n4. A rough idle or hesitation when accelerating.",
+ "if_ignored": "- In the next few days/weeks: Increased emissions, potential failure in emissions tests, and possible engine damage from unburned fuel.\n- Long-term: The converter could fail completely, leading to expensive repairs and environmental harm.\n- Cost: Repairing the converter now is cheaper than replacing it later if it fails entirely.\n- Safety: No immediate safety risk, but prolonged use may lead to engine issues.",
+ "quick_checks": "- Get a replacement quote; confirm no upstream fault remains.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools, a lift, and access to diagnostic equipment. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. Driving short trips is fine, but do not delay the repair.",
+ "repair_cost": "- Parts: $500\u2013$1000 (catalytic converter).\n- Labor: $200\u2013$400 (independent shop).\n- Total at independent shop: $700\u2013$1400.\n- Total at dealer: $900\u2013$1900 (dealers charge 30\u201350% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, other owners reported issues with the hybrid high-voltage system failing, \"death wobble\" in the steering, power output changes after recalls, and intermittent acceleration loss in electric mode.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-079",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F50724%2F2022-Jeep-Wrangler-front_50724_032_1959x1052_PDN_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0420",
+   "description": "Catalyst System Efficiency Below Threshold (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "catalyst_assessment",
+   "conclusion": "The converter is well past its limit, not borderline. This reading does not clear itself and the converter is genuinely worn out.",
+   "confidence": "high",
+   "basis": "manufacturer_limit",
+   "next_checks": [
+    "Get a replacement quote; confirm no upstream fault remains"
+   ],
+   "evidence": [
+    {
+     "pointer": "mode06[21]",
+     "restatement": "the catalyst monitor measured 0.9 against a manufacturer limit of 0.5"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Get a replacement quote; confirm no upstream fault remains"
+ ],
+ "safety": {
+  "verdict": "caution",
+  "basis": "manufacturer_limit",
+  "reasons": [
+   {
+    "rule": "manufacturer_limit_exceeded",
+    "statement": "A measurement is past a limit supplied by the vehicle itself, not a rule of thumb: The converter is well past its limit, not borderline. This reading does not clear itself and the converter is genuinely worn out.",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "mode06[21]",
+      "restatement": "the catalyst monitor measured 0.9 against a manufacturer limit of 0.5"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 100
+}

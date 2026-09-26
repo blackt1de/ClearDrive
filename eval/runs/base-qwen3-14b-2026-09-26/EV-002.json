@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P0171"
+ ],
+ "vehicle": "2001 Ford WINDSTAR",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2001 Ford WINDSTAR is showing code P0171. This means the engine is running too lean (not enough fuel) on Bank 1, which could be due to a faulty sensor, fuel delivery issue, or air intake leak. The vehicle\u2019s own readings (like coolant temperature, fuel trims, or engine load) were not available, so the exact cause cannot be narrowed down. The code definition is standardized but not yet verified against official standards. This is not an immediate safety risk but needs further checks to confirm.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2014 The engine may not get enough fuel, causing uneven power.\n2. Check engine light illuminated \u2014 The code triggers the light, but no other warnings are reported.\n3. Decreased fuel efficiency \u2014 A lean mixture can reduce fuel economy.\n4. No specific symptoms are reported in the vehicle\u2019s data \u2014 No live data or freeze frame was captured.",
+ "if_ignored": "- In the short term, the engine may run roughly or stall, but no immediate safety risk is reported.\n- Long-term, a lean mixture could damage the catalytic converter or cause misfires.\n- Repair costs could rise if the issue worsens, but no specific damage is noted in the data.\n- No safety concerns are directly linked to this code in the available evidence.",
+ "quick_checks": "- Check fuel trim readings at idle and under load (needed: fuel trims at idle, fuel trims under load).\n- Ensure the vehicle is supported properly for diagnostic checks (needed: vehicle support).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose fuel trim issues and may involve complex engine components. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The code needs further checks to confirm the cause, but it is not urgent.",
+ "repair_cost": "- Parts: $200 - $500\n- Labor: $100 - $300\n- Total at independent shop: $300 - $800\n- Total at dealer: $450 - $1,200",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues with the rear axle fracturing due to corrosion (source: NHTSA Complaints Database) and front subframe fractures linked to corrosion (source: NHTSA Recalls Database). These are structural issues, not related to the P0171 code.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-002",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcdn11.bigcommerce.com%2Fs-rnmf5r1skr%2Fproduct_images%2FVehicleGuideImages%2F2001FordWindstarClassicCar.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "fuel_trim_triage",
+   "reason": "Fuel trim readings were not available, so the cause of the fuel mixture code (P0171) could not be narrowed: fuel trim was not captured",
+   "missing": [
+    "fuel trims at idle",
+    "fuel trims under load"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature, fuel trims.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 23
+}

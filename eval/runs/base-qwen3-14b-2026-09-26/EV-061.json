@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P129F"
+ ],
+ "vehicle": "2022 GMC SIERRA 1500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2022 GMC SIERRA 1500 is showing code P129F. This code relates to the fuel and air metering system, which controls how much fuel and air mix into the engine. The vehicle\u2019s own readings (like engine speed, coolant temperature, or fuel trims) are unavailable, so we can\u2019t pinpoint the exact issue. The code itself is defined by the manufacturer, but its specific meaning isn\u2019t verified here. No live data or freeze frame was captured, which limits what we can diagnose.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Sudden loss of engine power (as reported in an NHTSA complaint) - This could happen if the fuel or air system fails while driving.\n2. Engine stalling or rough idling - A faulty fuel injector or sensor might disrupt the fuel-air mixture.\n3. Check engine light staying on - The code P129F is stored in the vehicle\u2019s computer, triggering the light.\n4. Difficulty starting the engine - A malfunction in the fuel delivery system could prevent proper ignition.",
+ "if_ignored": "- In the next few days/weeks, the engine might misfire, reducing performance or causing stalling.\n- Long-term, the issue could lead to increased wear on engine components or damage to the catalytic converter.\n- Repair costs could rise if the problem worsens, and there\u2019s a risk of sudden engine failure while driving.",
+ "quick_checks": "- No vehicle-specific checks are available in the retrieved information. A professional mechanic with manufacturer tools is needed to read the code accurately.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and manufacturer-specific software to interpret the code. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic with access to manufacturer diagnostic tools should inspect the vehicle as soon as possible.",
+ "repair_cost": "No specific cost range is available without a diagnosis. Parts and labor depend on the root cause, which is unknown. At a dealer, expect higher costs than an independent shop.",
+ "known_issues": "A recall (N242490120) mentions chrome front grille deflectors detaching, but this is unrelated to the engine. Another recall involves engine components (connecting rods/crankshaft) in similar models, but no direct link to P129F is confirmed here.",
+ "owner_reports": "An NHTSA complaint (source: NHTSA Complaints Database) reports sudden loss of engine power in a 2022 GMC Sierra 1500 with a V8 5.3 engine. No other details about P129F were retrieved.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-061",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F43195%2F2022-GMC-Sierra%25201500%2520Limited%2520Double%2520Cab-front_43195_032_2400x1800_GA0.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P129F",
+   "description": "Manufacturer-specific powertrain code, structurally in the fuel and air metering (injector circuit) group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering (injector circuit)",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P129F. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P129F"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 82
+}

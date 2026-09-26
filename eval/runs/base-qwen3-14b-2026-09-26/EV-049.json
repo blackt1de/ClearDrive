@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0420"
+ ],
+ "vehicle": "2020 Hyundai TUCSON",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2020 Hyundai TUCSON is showing code P0420. This means the catalytic converter (a part that reduces harmful emissions) is not working efficiently enough. The vehicle\u2019s own data, like engine speed or coolant temperature, is missing, so we can\u2019t see how bad the problem is. The code could be caused by something simple, like a loose gas cap, or something more serious, like a damaged converter. No live data or detailed tests were captured, so we can\u2019t be sure.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Check engine light on - The code triggers the light because the emissions system is not working properly.\n2. Unusual exhaust noise - A damaged catalytic converter can cause louder or rougher sounds from the tailpipe.\n3. Sputtering or hesitation - If the emissions system is clogged, the engine might run unevenly.\n4. Smell of burning oil - Oil heating issues (mentioned in complaints) could cause a burning odor.",
+ "if_ignored": "In the short term, the car might run less smoothly or use more fuel. Long-term, a failing catalytic converter could lead to expensive repairs, failed emissions tests, or damage to other parts of the exhaust system. It\u2019s not an immediate safety risk, but ignoring it could make repairs costlier.",
+ "quick_checks": "- Have a mechanic check the catalyst monitor test result (Mode 06) to assess converter health.\n- Ensure the vehicle is properly supported for diagnostic scans (e.g., stable on a lift).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools, expertise, and access to diagnostic equipment. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. Don\u2019t delay too long, but there\u2019s no urgent need to stop driving.",
+ "repair_cost": "- Parts: $500 - $1500 (catalytic converter replacement)\n- Labor: $300 - $800 (depending on complexity)\n- Total at independent shop: $800 - $2300\n- Total at dealer: $1000 - $3000 (30-50% higher than independent shops)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Some owners reported oil heating issues causing exhaust damage and check engine lights (NHTSA Complaints Database). Others noted sputtering and tailpipe noise after an emissions update (NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-049",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13599%2F2020-Hyundai-Tucson-front_13599_032_2400x1800_TW3.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0420",
+   "description": "Catalyst System Efficiency Below Threshold (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "catalyst_assessment",
+   "reason": "On-board monitor results for the catalyst were not available, so how close the converter is to its limit could not be measured \u2014 that is the difference between a marginal reading and a failed converter: mode06 was not captured",
+   "missing": [
+    "Mode 06 catalyst monitor test result"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0420"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 70
+}

@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0171",
+  "P0174"
+ ],
+ "vehicle": "2004 Nissan SENTRA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2004 Nissan SENTRA is showing code P0171 (System Too Lean, Bank 1) and P0174 (System Too Lean, Bank 2). These codes mean the engine is burning too much air and not enough fuel, which can happen if the air-fuel mixture is off. The vehicle\u2019s own data like fuel trim readings, coolant temperature, or engine speed were not available, so we can\u2019t pinpoint the exact cause. This isn\u2019t an immediate safety risk, but it could affect performance and fuel efficiency.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2014 the engine struggles to mix air and fuel properly.\n2. The check engine light staying on \u2014 the computer detects the lean condition.\n3. Possible stalling \u2014 if the lean condition worsens, the engine might misfire.\n4. Increased fuel consumption \u2014 the engine might work harder to compensate for the imbalance.",
+ "if_ignored": "In the short term, the engine might run poorly or stall unexpectedly. Long-term, the lean condition could damage the catalytic converter or cause the engine to misfire repeatedly, leading to more expensive repairs. The cost could rise significantly if the problem worsens, but there\u2019s no immediate safety risk.",
+ "quick_checks": "- Look for vacuum leaks (check hoses and connections under the hood).\n- Inspect the mass air flow (MAF) sensor for dirt or damage.\n- Ensure the fuel filter is not clogged.\n- Check the fuel pressure with a gauge (if you have one; otherwise, a mechanic should do this).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose the exact cause (like a scan tool for fuel trims) and may involve complex systems like the fuel injection or intake manifold. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. It\u2019s not urgent, but addressing it sooner rather than later will help avoid more expensive repairs.",
+ "repair_cost": "Parts: $200\u2013$500 (depending on what\u2019s wrong, like a sensor or fuel pump).\nLabor: $200\u2013$400 at an independent shop.\nTotal at independent shop: $400\u2013$900.\nTotal at dealer: $520\u2013$1,150 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with airbag recalls (from NHTSA Complaints Database) and difficulty getting repairs done due to rebuilt titles or parts shortages. Some dealers refused to honor recalls (NHTSA Recalls Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-001",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fimages.iconfigurators.app%2Fimages%2Fvehicles%2Freference%2FNissan-Sentra-SE-R-Spec-V-2004_2006.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0174",
+   "description": "System Too Lean (Bank 2)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "fuel_trim_triage",
+   "reason": "Fuel trim readings were not available, so the cause of the fuel mixture code (P0171, P0174) could not be narrowed: fuel trim was not captured",
+   "missing": [
+    "fuel trims at idle",
+    "fuel trims under load"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature, fuel trims.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171, P0174"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 22
+}

@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0335"
+ ],
+ "vehicle": "2004 Toyota PRIUS",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2004 Toyota PRIUS is showing code P0335. This code means the car\u2019s computer detected a problem with the crankshaft position sensor, which tells the engine when the crankshaft is moving. The vehicle\u2019s own readings (like engine speed, coolant temperature, and others) are unavailable, so we can\u2019t see what\u2019s happening in real time. The scan tool couldn\u2019t narrow down the cause of the code, and no live data was captured. This means we don\u2019t have enough details to know if it\u2019s a serious issue or something minor.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine misfires or rough idling \u2013 The crankshaft sensor helps time fuel and spark, so a faulty one can disrupt this.\n2. Difficulty starting the engine \u2013 The sensor\u2019s signal might be missing when the engine is cranked.\n3. Check engine light staying on \u2013 The code is already stored, so the light won\u2019t turn off until the issue is resolved.\n4. Stalling \u2013 If the sensor fails completely, the engine might lose synchronization and stall.",
+ "if_ignored": "In the short term, the car might run unevenly or fail to start. Over time, the engine could suffer damage from misfires, and the problem might become more expensive to fix. There\u2019s no immediate safety risk, but ignoring it could lead to more complex repairs later.",
+ "quick_checks": "- Have a mechanic use a diagnostic tool to check for additional codes or live data from the crankshaft sensor.\n- Inspect the sensor\u2019s wiring for damage or corrosion.\n- Verify if the sensor is properly connected to the engine.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose the sensor\u2019s signal and access under the hood. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic can check the sensor and related components to confirm the issue.",
+ "repair_cost": "Parts: $50 - $150 (sensor replacement).\nLabor: $100 - $300 (depending on shop).\nTotal at independent shop: $150 - $450.\nTotal at dealer: $200 - $600 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, other 2004 Prius owners reported issues like odometer failure, steering problems, phantom braking, and engine stalling. These are unrelated to the P0335 code but show that some models had electrical and mechanical challenges.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-015",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Famv-prod-cad-assets%2Fimages%2F03q4%2F267348%2F2004-toyota-prius-road-test-review-car-and-driver-photo-9350-s-original.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0335",
+   "description": "Crankshaft Position Sensor 'A' Circuit",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0335. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0335"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 36
+}

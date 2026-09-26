@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0012",
+  "P0017"
+ ],
+ "vehicle": "2016 Chevrolet EQUINOX",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2016 Chevrolet EQUINOX is showing code P0012 (camshaft timing over-retarded) and P0017 (crankshaft and camshaft position mismatch). These codes suggest a problem with the engine\u2019s timing system, which controls when the engine\u2019s valves open and close. The vehicle\u2019s own measurements (like engine speed, coolant temperature, or oil pressure) are not available, so we can\u2019t confirm the exact issue. The codes are generic and could point to a timing chain, camshaft sensor, or related component. No live data or detailed diagnostics were captured, so we can\u2019t narrow it down further.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine hesitation or rough idling \u2013 the timing system is out of sync.\n2. Check engine light staying on \u2013 the computer detected a fault.\n3. Reduced power when accelerating \u2013 improper valve timing affects performance.\n4. Oil leaks or smoke from the engine \u2013 could indicate worn timing components.",
+ "if_ignored": "- In the next few days/weeks: The engine may misfire, stall, or lose power, making driving unsafe.\n- Long-term: Severe timing chain wear could cause engine damage, leading to costly repairs.\n- Cost: Repairs could be expensive if the issue worsens (e.g., replacing a timing chain or engine components).\n- Safety: A failed timing system could cause the engine to stop unexpectedly, increasing crash risk.",
+ "quick_checks": "- Check engine oil level and look for leaks (oil on the ground or under the car).\n- Inspect the timing chain cover for cracks or signs of wear.\n- Have a mechanic scan for additional codes or check camshaft and crankshaft sensor readings.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves engine components that require specialized tools, lifting the engine, and precise alignment. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. These codes could indicate a serious issue that needs immediate attention.",
+ "repair_cost": "- Parts: $200\u2013$600 (timing chain, sensors, or related components).\n- Labor: $300\u2013$800 (depending on complexity).\n- Total at independent shop: $500\u2013$1,400.\n- Total at dealer: $650\u2013$1,800 (higher labor rates).",
+ "known_issues": "The 2.4L engine has known issues with timing chain wear and excessive oil consumption (source: ClearDrive local KB).",
+ "owner_reports": "- NHTSA Complaints Database: Issues with wipers failing suddenly, rear main oil seal blowing (linked to the 2.4L engine), and oil burning rapidly with no warning (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database",
+  "ClearDrive Known Issues KB"
+ ],
+ "obd_source": "Synthetic fixture: EV-051",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fautoimage.capitalone.com%2Fstock-media%2Fevox%2F2016-Chevrolet-Equinox-LTZ-GAZ-11020_cc2400_014_GAZ.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0012",
+   "description": "'A' Camshaft Position - Timing Over-Retarded (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0017",
+   "description": "Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor B)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0012, P0017. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0012, P0017"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 72
+}

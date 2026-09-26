@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P1450"
+ ],
+ "vehicle": "2018 Ford FOCUS",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2018 Ford FOCUS is showing code P1450. This code is specific to Ford and relates to the auxiliary emission controls, but its exact meaning isn\u2019t confirmed here. The vehicle\u2019s own data (like engine speed, coolant temperature, or mileage) is unavailable, so we can\u2019t pinpoint what\u2019s wrong. No live data or diagnostic tests were captured, which limits what we can say. The code alone doesn\u2019t tell us if it\u2019s a minor issue or something more serious.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Sudden loss of engine power, especially when driving uphill. - This could be due to issues with the fuel system or engine components.\n2. The check engine light illuminating with an \"Engine Fault\" message. - This indicates a problem detected by the vehicle\u2019s computer.\n3. The car jerking or hesitating when accelerating. - This might be related to fuel delivery or transmission issues.\n4. Unintended gear shifts (e.g., moving in reverse when pressing the gas). - This could signal a problem with the transmission or control systems.",
+ "if_ignored": "- In the next few days/weeks, the car could stall unexpectedly, increasing the risk of accidents.\n- Long-term, the issue might cause more expensive repairs, such as engine damage or transmission failure.\n- Costs could rise significantly if the problem worsens, requiring parts like the oil pump, clutch, or fuel system components.\n- Safety is a concern if the car loses power or control while driving.",
+ "quick_checks": "- Check for visible leaks under the car (oil, coolant, or fuel). - If present, this could indicate a serious issue.\n- Inspect the check valve on the vacuum pump (if accessible). - A separated check valve might be a cause, as noted in complaints.\n- Look for warning lights on the dashboard. - Persistent lights like \"Engine Fault\" or \"Check Engine\" need attention.\n- Consult a mechanic with Ford-specific diagnostic tools. - They can read the code accurately and check for recalls.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and Ford-specific diagnostic equipment. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. The code and complaints suggest potential safety risks, and delays could worsen the issue.",
+ "repair_cost": "- Parts: $200 - $800 (varies by component, e.g., Canister Purge Valve, oil pump, or transmission parts).\n- Labor: $300 - $1,200 (depending on complexity and shop rates).\n- Total at independent shop: $500 - $2,000.\n- Total at dealer: $700 - $3,000 (dealers charge more).",
+ "known_issues": "- Recalls for the Canister Purge Valve (may cause vacuum issues).\n- Potential clutch failure in manual transmission models (2016-2018).\n- Oil pump drive belt or tensioner failure (2016-2018).\n- Engine block heater cracks (2013-2018).",
+ "owner_reports": "From NHTSA Complaints Database:\n1. Power loss and stalling, with Ford only covering 2012-2016 models.\n2. Engine failure during uphill driving, with dealers citing \"engine performance as designed.\"\n3. Check valve separation on the vacuum pump, requiring frequent replacement.\n4. Repeated engine issues leading to engine seizure.\n5. Unintended gear shifts and wiper malfunctions.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-039",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10831%2F2018-Ford-Focus-front_10831_032_1788x786_UX_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P1450",
+   "description": "Manufacturer-specific powertrain code, structurally in the auxiliary emission controls group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "auxiliary emission controls",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P1450. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P1450"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 60
+}

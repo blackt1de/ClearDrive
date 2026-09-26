@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P2111",
+  "P2135"
+ ],
+ "vehicle": "2009 Ford ESCAPE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2009 Ford ESCAPE is showing code P2111 (a standardized code with no verified definition) and P2135 (a throttle/accelerator sensor voltage mismatch). The vehicle\u2019s own data (like engine speed, coolant temperature, or mileage) is unavailable, so the scan cannot confirm what\u2019s wrong. These codes are not immediately dangerous but suggest a sensor or system issue. The vehicle\u2019s measured data gaps mean the problem cannot be narrowed down without further checks.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Steering that feels unresponsive or locks up when slowing or stopping \u2014 linked to steering system issues reported by other owners.\n2. Engine hesitation or stalling \u2014 possibly from throttle sensor problems (P2135).\n3. A fuel smell or visible fuel leaks \u2014 mentioned in owner complaints about the fuel system.\n4. Warning lights (like power steering failure) \u2014 reported in steering-related complaints.",
+ "if_ignored": "- In the short term, steering failure could lead to loss of control, and fuel leaks pose a fire risk.\n- Long-term, unresolved sensor issues may cause erratic engine behavior or permanent damage to the powertrain.\n- Repairs could become more expensive if the problem worsens (e.g., a failed sensor leading to additional component failure).",
+ "quick_checks": "1. Check for recall notices (e.g., Ford\u2019s 2008\u20132011 EPS software update for steering issues).\n2. Inspect the steering system for unusual noises or stiffness.\n3. Look for signs of fuel leaks under the vehicle.\n4. Test throttle response for hesitation or uneven acceleration.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves complex systems (throttle sensors, power steering software) that require specialized tools and diagnostic equipment. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 don\u2019t drive more than necessary. Steering and fuel system issues could pose immediate safety risks.",
+ "repair_cost": "- Parts: $200\u2013$500 (sensor replacement, software updates).\n- Labor: $200\u2013$400 (independent shop).\n- Total at independent shop: $400\u2013$900.\n- Total at dealer: $520\u2013$1,175 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints:\n1. Steering failure (bar-yaw angle sensor replacement needed).\n2. Fuel smell and leaks (manufacturer-related issue).\n3. Steering lockup at low speeds.\n4. Power steering failure warning light.\n5. Sudden stalling (electrical system issues).",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-016",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana.io%2Fstockimages%2F2009_FORD_ESCAPE_HYBRID%2520SPORT%2520UTILITY%25204D_WHITE_stock_mobile_640x640.png%3Fv%3D1659526975.971",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2111",
+   "description": "Standardized powertrain code, in the fuel and air metering group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering",
+   "caveat": "This code is standardized but absent from our definition table."
+  },
+  {
+   "code": "P2135",
+   "description": "Throttle/Pedal Position Sensor/Switch 'A'/'B' Voltage Correlation",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2111, P2135. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2111, P2135"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 37
+}

@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0133"
+ ],
+ "vehicle": "2018 GMC YUKON XL 1500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2018 GMC YUKON XL 1500 is showing code P0133. This means the oxygen sensor in the engine is not responding as quickly as it should, which can affect how the engine mixes fuel and air. The vehicle\u2019s readings show the engine is running at 720 RPM with no vehicle speed, coolant at 195\u00b0F, and 22% engine load. These values suggest the engine is idle but warm, which is normal. No other measurements were available to check for more serious issues. The code is not urgent, and driving is safe for now.",
+ "likely_causes": "1. An oxygen sensor is responding more slowly than expected while fuel trims look normal, which is the usual pattern for a sensor that has aged. (evidence [dtccodes]: oxygen sensor codes present: P0133)",
+ "symptoms": "1. The check engine light staying on \u2014 this is how the car alerts you to the code.\n2. Slight changes in fuel efficiency \u2014 a slow oxygen sensor can make the engine burn fuel less efficiently.\n3. The engine running slightly rough \u2014 if the sensor is not working well, the engine might not run as smoothly.\n4. No immediate symptoms \u2014 the code may not cause noticeable problems right now.",
+ "if_ignored": "The sensor could eventually fail completely, which might cause the engine to run poorly or fail emissions tests. Over time, this could lead to more expensive repairs if other parts are stressed by the sensor\u2019s failure. However, there is no immediate safety risk.",
+ "quick_checks": "- Have the sensor's response time measured against specification",
+ "diy_fix": "This repair is NOT recommended for DIY because (special tools or expertise are needed to test the sensor\u2019s response time accurately). A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic can check the sensor and confirm if it needs replacement.",
+ "repair_cost": "Parts: $100 - $300\nLabor: $150 - $300\nTotal at independent shop: $250 - $600\nTotal at dealer: $325 - $750 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database (api.nhtsa.gov):\n1. Engine issues with low oil pressure, valve lifter failure, and metal in the oil filter.\n2. Transmission failures while driving.\n3. Transmission lifter problems.\n4. Engine failure with knocking and smoke.\n5. Transmission jerking in and out of gear, described as a known problem.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-084",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F12423%2F2018-GMC-Yukon-front_12423_032_1871x898_G1E_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0133",
+   "description": "O2 Sensor Circuit Slow Response (Bank 1, Sensor 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "oxygen_sensor_triage",
+   "conclusion": "An oxygen sensor is responding more slowly than expected while fuel trims look normal, which is the usual pattern for a sensor that has aged.",
+   "confidence": "low",
+   "basis": "heuristic",
+   "next_checks": [
+    "Have the sensor's response time measured against specification"
+   ],
+   "evidence": [
+    {
+     "pointer": "dtc_codes",
+     "restatement": "oxygen sensor codes present: P0133"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Have the sensor's response time measured against specification"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0133"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 105
+}

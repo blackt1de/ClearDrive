@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0401"
+ ],
+ "vehicle": "2020 Subaru LEGACY",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2020 Subaru LEGACY is showing code P0401. This means the Exhaust Gas Recirculation (EGR) system is not allowing enough exhaust gas to flow back into the engine, which can affect emissions and engine performance. The vehicle\u2019s coolant temperature is 195\u00b0F, and engine load is 22% at 720 RPM. The computed values show a small imbalance in engine air-fuel mixture (3% and 2% trim adjustments on each bank), but no major issues. No automated analysis exists for this code yet, so the exact cause is not confirmed.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2013 The EGR system helps manage engine temperature and emissions. If it\u2019s not working, the engine may run unevenly.\n2. Check engine light staying on \u2013 The vehicle\u2019s computer detected the EGR issue and stored the code.\n3. Increased fuel consumption \u2013 A faulty EGR system can reduce engine efficiency.\n4. Smell of burnt oil or smoke \u2013 If the EGR valve is clogged, it might cause oil to burn or exhaust to smell stronger.",
+ "if_ignored": "The engine may run hotter over time, which could damage internal components. Fuel efficiency might decrease, and emissions could exceed legal limits. Long-term, this could lead to more expensive repairs if the EGR system fails completely.",
+ "quick_checks": "- Inspect the EGR valve and system for blockages or damage.\n- Check for vacuum leaks in the EGR system.\n- Ensure the EGR sensor is functioning properly.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires special tools and expertise to diagnose and replace EGR components. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic to confirm the cause and address it before it worsens.",
+ "repair_cost": "Parts: $200 - $500 (EGR valve or related components)\nLabor: $150 - $300 (depending on shop)\nTotal at independent shop: $350 - $800\nTotal at dealer: $450 - $1,000 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues like battery failure, unstable seats, power window malfunctions, and electrical system failures. These are from the NHTSA Complaints Database.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-094",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13715%2F2020-Subaru-Legacy-front_13715_032_2400x1800_K1X.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0401",
+   "description": "Exhaust Gas Recirculation Flow Insufficient Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0401. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0401"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 115
+}

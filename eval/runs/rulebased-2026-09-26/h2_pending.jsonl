@@ -1,0 +1,132 @@
+{"case_id": "EV-001", "response_text": "P0171: System Too Lean (Bank 1)\nP0174: System Too Lean (Bank 2)", "h2_expected_specificity": ["2004 Nissan SENTRA"]}
+{"case_id": "EV-002", "response_text": "P0171: System Too Lean (Bank 1)", "h2_expected_specificity": ["2001 Ford WINDSTAR"]}
+{"case_id": "EV-003", "response_text": "P0A7A: Standardized powertrain code; definition not in our table.", "h2_expected_specificity": ["2004 Toyota PRIUS"]}
+{"case_id": "EV-004", "response_text": "P0174: System Too Lean (Bank 2)", "h2_expected_specificity": ["2002 Ford F-150"]}
+{"case_id": "EV-005", "response_text": "P0171: System Too Lean (Bank 1)\nP0174: System Too Lean (Bank 2)", "h2_expected_specificity": ["2005 Ford F-150"]}
+{"case_id": "EV-006", "response_text": "P0422: Main Catalyst Efficiency Below Threshold (Bank 1)", "h2_expected_specificity": ["2003 Nissan ALTIMA"]}
+{"case_id": "EV-007", "response_text": "P0420: Catalyst System Efficiency Below Threshold (Bank 1)", "h2_expected_specificity": ["2004 Toyota MATRIX"]}
+{"case_id": "EV-008", "response_text": "P2716: Standardized powertrain code, in the transmission group; definition not in our table.", "h2_expected_specificity": ["2006 Toyota COROLLA"]}
+{"case_id": "EV-009", "response_text": "P0607: Control Module Performance", "h2_expected_specificity": ["2006 Toyota MATRIX"]}
+{"case_id": "EV-010", "response_text": "P0194: Fuel Rail Pressure Sensor Circuit Intermittent", "h2_expected_specificity": ["2004 Volvo S60", "NHTSA recall 09V483000 (FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP)"]}
+{"case_id": "EV-011", "response_text": "P2716: Standardized powertrain code, in the transmission group; definition not in our table.", "h2_expected_specificity": ["2006 Toyota COROLLA"]}
+{"case_id": "EV-012", "response_text": "P0261: Standardized powertrain code, in the fuel and air metering (injector circuit) group; definition not in our table.\nP0611: Standardized powertrain code, in the computer output circuit or control module group; definition not in our table.", "h2_expected_specificity": ["2005 Ford F-250 SD", "NHTSA recall 05V266000 (FUEL SYSTEM, GASOLINE:DELIVERY:HOSES, LINES/PIPING, AND FITTINGS)"]}
+{"case_id": "EV-013", "response_text": "P2195: O2 Sensor Signal Stuck Lean (Bank 1, Sensor 1)", "h2_expected_specificity": ["2007 Ford RANGER"]}
+{"case_id": "EV-014", "response_text": "P0121: Throttle/Pedal Position Sensor/Switch 'A' Circuit Range/Performance", "h2_expected_specificity": ["2009 Toyota COROLLA"]}
+{"case_id": "EV-015", "response_text": "P0335: Crankshaft Position Sensor 'A' Circuit", "h2_expected_specificity": ["2004 Toyota PRIUS"]}
+{"case_id": "EV-016", "response_text": "P2111: Standardized powertrain code, in the fuel and air metering group; definition not in our table.\nP2135: Throttle/Pedal Position Sensor/Switch 'A'/'B' Voltage Correlation", "h2_expected_specificity": ["2009 Ford ESCAPE"]}
+{"case_id": "EV-017", "response_text": "P2101: Throttle Actuator Control Motor Circuit Range/Performance\nP2111: Standardized powertrain code, in the fuel and air metering group; definition not in our table.\nP2135: Throttle/Pedal Position Sensor/Switch 'A'/'B' Voltage Correlation", "h2_expected_specificity": ["2012 Ford TRANSIT CONNECT"]}
+{"case_id": "EV-018", "response_text": "P0420: Catalyst System Efficiency Below Threshold (Bank 1)", "h2_expected_specificity": ["2014 Chevrolet SILVERADO 1500"]}
+{"case_id": "EV-019", "response_text": "P2111: Standardized powertrain code, in the fuel and air metering group; definition not in our table.", "h2_expected_specificity": ["2010 Ford FUSION"]}
+{"case_id": "EV-020", "response_text": "P2135: Throttle/Pedal Position Sensor/Switch 'A'/'B' Voltage Correlation", "h2_expected_specificity": ["2010 Chevrolet MALIBU"]}
+{"case_id": "EV-021", "response_text": "P0335: Crankshaft Position Sensor 'A' Circuit", "h2_expected_specificity": ["2012 Jeep PATRIOT"]}
+{"case_id": "EV-022", "response_text": "P2A00: Standardized powertrain code; definition not in our table.", "h2_expected_specificity": ["2011 Nissan ALTIMA"]}
+{"case_id": "EV-023", "response_text": "P0752: Shift Solenoid 'A' Stuck On", "h2_expected_specificity": ["2008 GMC ACADIA"]}
+{"case_id": "EV-024", "response_text": "P2196: O2 Sensor Signal Stuck Rich (Bank 1, Sensor 1)", "h2_expected_specificity": ["2013 Volkswagen PASSAT"]}
+{"case_id": "EV-025", "response_text": "P0975: Standardized powertrain code, in the transmission or control module group; definition not in our table.", "h2_expected_specificity": ["2010 Ford F-150 EXTENDED CAB"]}
+{"case_id": "EV-026", "response_text": "P0191: Fuel Rail Pressure Sensor Circuit Range/Performance", "h2_expected_specificity": ["2008 Ford E-350 12 PASSENGER"]}
+{"case_id": "EV-027", "response_text": "P0340: Camshaft Position Sensor 'A' Circuit (Bank 1 or Single Sensor)", "h2_expected_specificity": ["2003 Nissan MURANO"]}
+{"case_id": "EV-028", "response_text": "P2111: Standardized powertrain code, in the fuel and air metering group; definition not in our table.", "h2_expected_specificity": ["2016 Ford ESCAPE"]}
+{"case_id": "EV-029", "response_text": "P3400: Standardized powertrain code, in the auxiliary emission controls group; definition not in our table.", "h2_expected_specificity": ["2010 Honda ACCORD"]}
+{"case_id": "EV-030", "response_text": "P144A: Manufacturer-specific powertrain code, structurally in the auxiliary emission controls group.", "h2_expected_specificity": ["2013 Ford FOCUS", "NHTSA recall 18V735000 (FUEL SYSTEM, GASOLINE:STORAGE)", "NHTSA recall 19V515000 (FUEL SYSTEM, GASOLINE:STORAGE)"]}
+{"case_id": "EV-031", "response_text": "P0016: Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor A)\nP0017: Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor B)", "h2_expected_specificity": ["2012 Chevrolet TRAVERSE"]}
+{"case_id": "EV-032", "response_text": "P245B: Standardized powertrain code, in the auxiliary emission controls group; definition not in our table.", "h2_expected_specificity": ["2019 Ford F-150 REGULAR CAB"]}
+{"case_id": "EV-033", "response_text": "P0172: System Too Rich (Bank 1)\nP291F: Standardized powertrain code, in the transmission or control module group; definition not in our table.", "h2_expected_specificity": ["2017 Honda CR-V", "NHTSA recall 17V442000 (FUEL SYSTEM, GASOLINE:DELIVERY:HOSES, LINES/PIPING, AND FITTINGS)"]}
+{"case_id": "EV-034", "response_text": "P0335: Crankshaft Position Sensor 'A' Circuit", "h2_expected_specificity": ["2015 Jeep COMPASS"]}
+{"case_id": "EV-035", "response_text": "P050D: Standardized powertrain code, in the vehicle speed control, idle control, and auxiliary inputs group; definition not in our table.", "h2_expected_specificity": ["2016 Chevrolet SILVERADO 1500"]}
+{"case_id": "EV-036", "response_text": "P17F0: Manufacturer-specific powertrain code, structurally in the transmission group.", "h2_expected_specificity": ["2015 Nissan ROGUE"]}
+{"case_id": "EV-037", "response_text": "P2135: Throttle/Pedal Position Sensor/Switch 'A'/'B' Voltage Correlation", "h2_expected_specificity": ["2010 Chevrolet EQUINOX"]}
+{"case_id": "EV-038", "response_text": "P0236: Turbocharger/Supercharger Boost Sensor 'A' Circuit Range/Performance", "h2_expected_specificity": ["2015 Ford ESCAPE"]}
+{"case_id": "EV-039", "response_text": "P1450: Manufacturer-specific powertrain code, structurally in the auxiliary emission controls group.", "h2_expected_specificity": ["2018 Ford FOCUS", "NHTSA recall 18V735000 (FUEL SYSTEM, GASOLINE:STORAGE)"]}
+{"case_id": "EV-040", "response_text": "P0520: Engine Oil Pressure Sensor/Switch Circuit", "h2_expected_specificity": ["2014 Jeep CHEROKEE"]}
+{"case_id": "EV-041", "response_text": "P0175: System Too Rich (Bank 2)\nP0301: Cylinder 1 Misfire Detected", "h2_expected_specificity": ["2012 Honda PILOT"]}
+{"case_id": "EV-042", "response_text": "P0301: Cylinder 1 Misfire Detected", "h2_expected_specificity": ["2017 Hyundai ELANTRA"]}
+{"case_id": "EV-043", "response_text": "P0401: Exhaust Gas Recirculation Flow Insufficient Detected", "h2_expected_specificity": ["2017 Chevrolet VOLT"]}
+{"case_id": "EV-044", "response_text": "P2445: Standardized powertrain code, in the auxiliary emission controls group; definition not in our table.", "h2_expected_specificity": ["2018 Toyota TUNDRA"]}
+{"case_id": "EV-045", "response_text": "P0731: Gear 1 Incorrect Ratio\nP0732: Gear 2 Incorrect Ratio", "h2_expected_specificity": ["2022 Ram 3500"]}
+{"case_id": "EV-046", "response_text": "P0016: Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor A)\nP0017: Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor B)\nP0335: Crankshaft Position Sensor 'A' Circuit", "h2_expected_specificity": ["2016 Chevrolet EQUINOX"]}
+{"case_id": "EV-047", "response_text": "P0441: Evaporative Emission Control System Incorrect Purge Flow\nP04F1: Standardized powertrain code, in the auxiliary emission controls group; definition not in our table.", "h2_expected_specificity": ["2019 Honda PILOT", "NHTSA recall 21V215000 (FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP)"]}
+{"case_id": "EV-048", "response_text": "P144A: Manufacturer-specific powertrain code, structurally in the auxiliary emission controls group.", "h2_expected_specificity": ["2016 Ford FOCUS", "NHTSA recall 18V735000 (FUEL SYSTEM, GASOLINE:STORAGE)"]}
+{"case_id": "EV-049", "response_text": "P0420: Catalyst System Efficiency Below Threshold (Bank 1)", "h2_expected_specificity": ["2020 Hyundai TUCSON"]}
+{"case_id": "EV-050", "response_text": "P0172: System Too Rich (Bank 1)\nP0303: Cylinder 3 Misfire Detected", "h2_expected_specificity": ["2017 Honda CR-V", "NHTSA recall 17V442000 (FUEL SYSTEM, GASOLINE:DELIVERY:HOSES, LINES/PIPING, AND FITTINGS)"]}
+{"case_id": "EV-051", "response_text": "P0012: 'A' Camshaft Position - Timing Over-Retarded (Bank 1)\nP0017: Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor B)", "h2_expected_specificity": ["2016 Chevrolet EQUINOX"]}
+{"case_id": "EV-052", "response_text": "P1500: Manufacturer-specific powertrain code, structurally in the vehicle speed control, idle control, and auxiliary inputs group.", "h2_expected_specificity": ["2014 Ford EXPEDITION"]}
+{"case_id": "EV-053", "response_text": "P219B: Standardized powertrain code, in the fuel and air metering group; definition not in our table.", "h2_expected_specificity": ["2019 Honda PILOT", "NHTSA recall 21V215000 (FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP)"]}
+{"case_id": "EV-054", "response_text": "P0627: Standardized powertrain code, in the computer output circuit or control module group; definition not in our table.", "h2_expected_specificity": ["2021 Ford EXPEDITION"]}
+{"case_id": "EV-055", "response_text": "P0301: Cylinder 1 Misfire Detected\nP0304: Cylinder 4 Misfire Detected", "h2_expected_specificity": ["2014 Honda ODYSSEY"]}
+{"case_id": "EV-056", "response_text": "P0700: Transmission Control System (MIL Request)", "h2_expected_specificity": ["2017 Chevrolet COLORADO"]}
+{"case_id": "EV-057", "response_text": "P0301: Cylinder 1 Misfire Detected", "h2_expected_specificity": ["2016 Honda ODYSSEY"]}
+{"case_id": "EV-058", "response_text": "P1604: Manufacturer-specific powertrain code, structurally in the computer output circuit or control module group.", "h2_expected_specificity": ["2020 Subaru CROSSTREK"]}
+{"case_id": "EV-059", "response_text": "P0128: Coolant Thermostat (Coolant Temperature Below Thermostat Regulating Temperature)", "h2_expected_specificity": ["2020 Chevrolet BLAZER"]}
+{"case_id": "EV-060", "response_text": "P0457: Evaporative Emission Control System Leak Detected (Fuel Cap Loose/Off)", "h2_expected_specificity": ["2017 Ford FIESTA"]}
+{"case_id": "EV-061", "response_text": "P129F: Manufacturer-specific powertrain code, structurally in the fuel and air metering (injector circuit) group.", "h2_expected_specificity": ["2022 GMC SIERRA 1500"]}
+{"case_id": "EV-062", "response_text": "P0302: Cylinder 2 Misfire Detected", "h2_expected_specificity": ["2021 Kia K5"]}
+{"case_id": "EV-063", "response_text": "P0171: System Too Lean (Bank 1)", "h2_expected_specificity": ["2002 Ford MUSTANG"]}
+{"case_id": "EV-064", "response_text": "P0171: System Too Lean (Bank 1)", "h2_expected_specificity": ["2014 Ford F-150 SUPERCAB"]}
+{"case_id": "EV-065", "response_text": "P0171: System Too Lean (Bank 1)", "h2_expected_specificity": ["2010 Ford F-250 SUPERCAB"]}
+{"case_id": "EV-066", "response_text": "P0171: System Too Lean (Bank 1)", "h2_expected_specificity": ["2003 Chevrolet CAVALIER"]}
+{"case_id": "EV-067", "response_text": "P0171: System Too Lean (Bank 1)", "h2_expected_specificity": ["2013 Chevrolet MALIBU ECO EASSIST"]}
+{"case_id": "EV-068", "response_text": "P0171: System Too Lean (Bank 1)", "h2_expected_specificity": ["2009 Chevrolet HHR"]}
+{"case_id": "EV-069", "response_text": "P0102: Mass or Volume Air Flow Sensor 'A' Circuit Low Input\nP0171: System Too Lean (Bank 1)", "h2_expected_specificity": ["2002 Toyota AVALON"]}
+{"case_id": "EV-070", "response_text": "P0101: Mass or Volume Air Flow Sensor 'A' Circuit Range/Performance", "h2_expected_specificity": ["2012 Toyota FJ CRUISER"]}
+{"case_id": "EV-071", "response_text": "P0102: Mass or Volume Air Flow Sensor 'A' Circuit Low Input", "h2_expected_specificity": ["2009 Toyota YARIS"]}
+{"case_id": "EV-072", "response_text": "P0102: Mass or Volume Air Flow Sensor 'A' Circuit Low Input\nP0171: System Too Lean (Bank 1)", "h2_expected_specificity": ["2003 Honda PILOT"]}
+{"case_id": "EV-073", "response_text": "P0101: Mass or Volume Air Flow Sensor 'A' Circuit Range/Performance", "h2_expected_specificity": ["2022 Honda ACCORD"]}
+{"case_id": "EV-074", "response_text": "P0102: Mass or Volume Air Flow Sensor 'A' Circuit Low Input", "h2_expected_specificity": ["2008 Honda RIDGELINE"]}
+{"case_id": "EV-075", "response_text": "P0302: Cylinder 2 Misfire Detected", "h2_expected_specificity": ["2005 Nissan TITAN"]}
+{"case_id": "EV-076", "response_text": "P0304: Cylinder 4 Misfire Detected\nP0351: Ignition Coil 'A' Primary/Secondary Circuit Malfunction", "h2_expected_specificity": ["2019 Nissan ALTIMA"]}
+{"case_id": "EV-077", "response_text": "P0202: Injector Circuit/Open - Cylinder 2\nP0302: Cylinder 2 Misfire Detected", "h2_expected_specificity": ["2017 Nissan MAXIMA"]}
+{"case_id": "EV-078", "response_text": "P0202: Injector Circuit/Open - Cylinder 2", "h2_expected_specificity": ["2003 Jeep LAREDO"]}
+{"case_id": "EV-079", "response_text": "P0420: Catalyst System Efficiency Below Threshold (Bank 1)", "h2_expected_specificity": ["2022 Jeep WRANGLER"]}
+{"case_id": "EV-080", "response_text": "P0420: Catalyst System Efficiency Below Threshold (Bank 1)", "h2_expected_specificity": ["2021 Jeep WRANGLER UNLIMITED"]}
+{"case_id": "EV-081", "response_text": "P0420: Catalyst System Efficiency Below Threshold (Bank 1)", "h2_expected_specificity": ["2022 Ram 3500"]}
+{"case_id": "EV-082", "response_text": "P0135: O2 Sensor Heater Circuit Malfunction (Bank 1, Sensor 1)", "h2_expected_specificity": ["2011 Ram 1500 CREW"]}
+{"case_id": "EV-083", "response_text": "P0155: O2 Sensor Heater Circuit Malfunction (Bank 2, Sensor 1)", "h2_expected_specificity": ["2003 GMC YUKON"]}
+{"case_id": "EV-084", "response_text": "P0133: O2 Sensor Circuit Slow Response (Bank 1, Sensor 1)", "h2_expected_specificity": ["2018 GMC YUKON XL 1500"]}
+{"case_id": "EV-085", "response_text": "P0135: O2 Sensor Heater Circuit Malfunction (Bank 1, Sensor 1)", "h2_expected_specificity": ["2021 GMC SIERRA 3500"]}
+{"case_id": "EV-086", "response_text": "P0455: Evaporative Emission Control System Leak Detected (Large Leak)", "h2_expected_specificity": ["2007 Hyundai TUCSON"]}
+{"case_id": "EV-087", "response_text": "P0456: Evaporative Emission Control System Leak Detected (Very Small Leak)", "h2_expected_specificity": ["2022 Hyundai TUCSON"]}
+{"case_id": "EV-088", "response_text": "P0011: 'A' Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)", "h2_expected_specificity": ["2017 Hyundai SONATA"]}
+{"case_id": "EV-089", "response_text": "P0016: Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor A)", "h2_expected_specificity": ["2004 Kia AMANTI"]}
+{"case_id": "EV-090", "response_text": "P0011: 'A' Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)", "h2_expected_specificity": ["2022 Kia K5"]}
+{"case_id": "EV-091", "response_text": "P0335: Crankshaft Position Sensor 'A' Circuit", "h2_expected_specificity": ["2010 Kia SPORTAGE"]}
+{"case_id": "EV-092", "response_text": "P0340: Camshaft Position Sensor 'A' Circuit (Bank 1 or Single Sensor)", "h2_expected_specificity": ["2007 Subaru OUTBACK"]}
+{"case_id": "EV-093", "response_text": "P0335: Crankshaft Position Sensor 'A' Circuit", "h2_expected_specificity": ["2019 Subaru FORESTER"]}
+{"case_id": "EV-094", "response_text": "P0401: Exhaust Gas Recirculation Flow Insufficient Detected", "h2_expected_specificity": ["2020 Subaru LEGACY"]}
+{"case_id": "EV-095", "response_text": "P0410: Secondary Air Injection System", "h2_expected_specificity": ["2002 Volkswagen GOLF/GTI"]}
+{"case_id": "EV-096", "response_text": "P0401: Exhaust Gas Recirculation Flow Insufficient Detected", "h2_expected_specificity": ["2009 Volkswagen ROUTAN"]}
+{"case_id": "EV-097", "response_text": "P0505: Idle Air Control System Malfunction", "h2_expected_specificity": ["2018 Volkswagen GOLF GTI"]}
+{"case_id": "EV-098", "response_text": "P0562: System Voltage Low", "h2_expected_specificity": ["2002 Audi S4"]}
+{"case_id": "EV-099", "response_text": "P0505: Idle Air Control System Malfunction", "h2_expected_specificity": ["2015 Audi A8"]}
+{"case_id": "EV-100", "response_text": "P0562: System Voltage Low", "h2_expected_specificity": ["2011 Audi Q7"]}
+{"case_id": "EV-101", "response_text": "P0606: ECM/PCM Processor", "h2_expected_specificity": ["2001 Volvo S60"]}
+{"case_id": "EV-102", "response_text": "P0601: Internal Control Module Memory Check Sum Error", "h2_expected_specificity": ["2016 Volvo XC90 T6"]}
+{"case_id": "CL-001", "response_text": "", "h2_expected_specificity": ["2001 Ford F-350", "NHTSA recall 06V286000", "NHTSA recall 07E066000", "NHTSA recall 01V258000", "NHTSA recall 01V227001", "NHTSA recall 01V106000"]}
+{"case_id": "CL-002", "response_text": "", "h2_expected_specificity": ["2001 Chevrolet MALIBU", "NHTSA recall 14V400000", "NHTSA recall 09E012000", "NHTSA recall 07E021000", "NHTSA recall 03V327000"]}
+{"case_id": "CL-003", "response_text": "", "h2_expected_specificity": ["2014 Chevrolet SS", "NHTSA recall 20V638000", "NHTSA recall 19V801000", "NHTSA recall 16V651000", "NHTSA recall 16V518000", "NHTSA recall 17V382000"]}
+{"case_id": "CL-004", "response_text": "", "h2_expected_specificity": ["2005 Toyota CAMRY", "NHTSA recall 16V396000", "NHTSA recall 11V539000", "NHTSA recall 10V035000", "NHTSA recall 10V036000", "NHTSA recall 04V595000"]}
+{"case_id": "CL-005", "response_text": "", "h2_expected_specificity": ["2011 Toyota TUNDRA", "NHTSA recall 14V743000", "NHTSA recall 15V689000", "NHTSA recall 11V588000", "NHTSA recall 13V014000", "NHTSA recall 11V148000"]}
+{"case_id": "CL-006", "response_text": "", "h2_expected_specificity": ["2021 Toyota TUNDRA", "NHTSA recall 21V688000", "NHTSA recall 21V920000", "NHTSA recall 21E103000"]}
+{"case_id": "CL-007", "response_text": "", "h2_expected_specificity": ["2018 Honda PILOT", "NHTSA recall 21V932000", "NHTSA recall 19V298000", "NHTSA recall 18V221000", "NHTSA recall 23V751000", "NHTSA recall 23V858000"]}
+{"case_id": "CL-008", "response_text": "", "h2_expected_specificity": ["2021 Honda RIDGELINE", "NHTSA recall 21V900000", "NHTSA recall 23V174000", "NHTSA recall 23V458000", "NHTSA recall 24V064000", "NHTSA recall 24V321000"]}
+{"case_id": "CL-009", "response_text": "", "h2_expected_specificity": ["2007 Nissan XTERRA", "NHTSA recall 10E019000", "NHTSA recall 08V690000"]}
+{"case_id": "CL-010", "response_text": "", "h2_expected_specificity": ["2015 Nissan MURANO", "NHTSA recall 18V601000", "NHTSA recall 16V636000", "NHTSA recall 15V364000", "NHTSA recall 16V244000", "NHTSA recall 19V807000"]}
+{"case_id": "CL-011", "response_text": "", "h2_expected_specificity": ["2011 Jeep GRAND CHEROKEE", "NHTSA recall 19V813000", "NHTSA recall 17V572000", "NHTSA recall 14V154000", "NHTSA recall 14V391000", "NHTSA recall 15V879000"]}
+{"case_id": "CL-012", "response_text": "", "h2_expected_specificity": ["2019 Ram 2500", "NHTSA recall 22V035000", "NHTSA recall 20V580000", "NHTSA recall 20V191000", "NHTSA recall 20V043000", "NHTSA recall 19V498000"]}
+{"case_id": "CL-013", "response_text": "", "h2_expected_specificity": ["2018 Ram 1500", "NHTSA recall 20V475000", "NHTSA recall 19V347000", "NHTSA recall 18V398000", "NHTSA recall 18V280000", "NHTSA recall 18V332000"]}
+{"case_id": "CL-014", "response_text": "", "h2_expected_specificity": ["2004 GMC ENVOY XL", "NHTSA recall 04V527000"]}
+{"case_id": "CL-015", "response_text": "", "h2_expected_specificity": ["2018 GMC TERRAIN", "NHTSA recall 18V340000", "NHTSA recall 18V576000", "NHTSA recall 18V358000", "NHTSA recall 20V668000", "NHTSA recall 17V516000"]}
+{"case_id": "CL-016", "response_text": "", "h2_expected_specificity": ["2011 GMC SIERRA 2500", "NHTSA recall 21V054000", "NHTSA recall 21V050000", "NHTSA recall 18V267000", "NHTSA recall 14V407000"]}
+{"case_id": "CL-017", "response_text": "", "h2_expected_specificity": ["2005 Hyundai ELANTRA", "NHTSA recall 09V280000", "NHTSA recall 05V479000", "NHTSA recall 05V395000", "NHTSA recall 05V187000"]}
+{"case_id": "CL-018", "response_text": "", "h2_expected_specificity": ["2018 Hyundai SONATA", "NHTSA recall 21V619000"]}
+{"case_id": "CL-019", "response_text": "", "h2_expected_specificity": ["2012 Hyundai SONATA", "NHTSA recall 18V934000", "NHTSA recall 17V617000", "NHTSA recall 18V137000", "NHTSA recall 17V152000", "NHTSA recall 15V759000"]}
+{"case_id": "CL-020", "response_text": "", "h2_expected_specificity": ["2007 Kia RIO", "NHTSA recall 12V244000"]}
+{"case_id": "CL-021", "response_text": "", "h2_expected_specificity": ["2019 Kia SORENTO", "NHTSA recall 22V703000", "NHTSA recall 23V639000"]}
+{"case_id": "CL-022", "response_text": "", "h2_expected_specificity": ["2020 Kia RIO", "NHTSA recall 21V936000"]}
+{"case_id": "CL-023", "response_text": "", "h2_expected_specificity": ["2003 Subaru IMPREZA", "NHTSA recall 11V464000", "NHTSA recall 08V135000", "NHTSA recall 09V468000", "NHTSA recall 04V128000", "NHTSA recall 04V342000"]}
+{"case_id": "CL-024", "response_text": "", "h2_expected_specificity": ["2018 Subaru CROSSTREK", "NHTSA recall 19V744000", "NHTSA recall 21V263000", "NHTSA recall 21V264000", "NHTSA recall 19V743000", "NHTSA recall 17V701000"]}
+{"case_id": "CL-025", "response_text": "", "h2_expected_specificity": ["2008 Subaru IMPREZA", "NHTSA recall 19V149000", "NHTSA recall 20V001000", "NHTSA recall 20V002000", "NHTSA recall 20V003000", "NHTSA recall 19V297000"]}
+{"case_id": "CL-026", "response_text": "", "h2_expected_specificity": ["2012 Volkswagen JETTA", "NHTSA recall 19V679000", "NHTSA recall 19V615000", "NHTSA recall 14E007000", "NHTSA recall 15V483000", "NHTSA recall 14V656000"]}
+{"case_id": "CL-027", "response_text": "", "h2_expected_specificity": ["2002 Audi A6", "NHTSA recall 11V267000", "NHTSA recall 08V157000", "NHTSA recall 06V198000", "NHTSA recall 04V133000"]}
+{"case_id": "CL-028", "response_text": "", "h2_expected_specificity": ["2014 Audi A6", "NHTSA recall 18V370000", "NHTSA recall 17V002000", "NHTSA recall 18V229000", "NHTSA recall 17V781000"]}
+{"case_id": "CL-029", "response_text": "", "h2_expected_specificity": ["2003 Volvo S60", "NHTSA recall 21V766000", "NHTSA recall 20V681000", "NHTSA recall 10V566000", "NHTSA recall 09V483000", "NHTSA recall 07E023000"]}
+{"case_id": "CL-030", "response_text": "", "h2_expected_specificity": ["2008 Volvo XC90", "NHTSA recall 10V566000", "NHTSA recall 08V206000", "NHTSA recall 07V563000"]}

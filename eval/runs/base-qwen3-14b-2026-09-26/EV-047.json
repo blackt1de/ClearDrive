@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0441",
+  "P04F1"
+ ],
+ "vehicle": "2019 Honda PILOT",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2019 Honda PILOT is showing code P0441. This code means the evaporative emission control system (which stops fuel vapors from escaping into the air) is not working properly, specifically the purge flow (how vapors are drawn from the gas tank). The vehicle\u2019s own readings like engine speed, coolant temperature, and mileage are unavailable, so we can\u2019t see if the issue is urgent. The code is generic and doesn\u2019t point to a specific part yet. It\u2019s not immediately dangerous but needs checking.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light is on \u2013 this is the main indicator.\n2. A smell of fuel (if there\u2019s a leak in the system).\n3. The car might not start if the issue is severe (unlikely with this code).\n4. No immediate performance issues, but the system could fail emissions tests.",
+ "if_ignored": "- In the next few days/weeks: The check engine light may stay on, and the car could fail an emissions test.\n- Long-term: A faulty evaporative system could lead to fuel leaks, which are a fire hazard.\n- Cost: Repairs could become more expensive if the issue worsens (e.g., damaged hoses or valves).\n- Safety: Fuel leaks pose a risk, especially if the car is parked near heat sources.",
+ "quick_checks": "- Check if the gas cap is loose or damaged.\n- Inspect the evaporative system hoses for cracks or leaks.\n- Look for fuel odors near the gas tank area.\n- Take the vehicle to a mechanic for a smoke test (specialized tool to detect leaks).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a smoke machine) and access to the evaporative system, which is hidden under the car. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. This is a safety concern if there\u2019s a fuel leak.",
+ "repair_cost": "Parts: $100\u2013$500 (depending on what\u2019s faulty, like hoses, valves, or the gas cap).\nLabor: $150\u2013$400 (at an independent shop).\nTotal at independent shop: $250\u2013$900.\nTotal at dealer: $300\u2013$1,200 (dealers charge 30\u201350% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, other 2019 Honda PILOT owners reported issues with the rearview camera (green/purple screen), Honda Sensing systems failing due to a faulty camera, and problems with the Auto Idle Stop system (engine not restarting). These are separate from the P0441 code but show other common issues in this model.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-047",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13030%2F2019-Honda-Pilot-front_13030_032_2400x1800_WA.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0441",
+   "description": "Evaporative Emission Control System Incorrect Purge Flow",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P04F1",
+   "description": "Standardized powertrain code, in the auxiliary emission controls group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "auxiliary emission controls",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0441, P04F1. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0441, P04F1"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 68
+}

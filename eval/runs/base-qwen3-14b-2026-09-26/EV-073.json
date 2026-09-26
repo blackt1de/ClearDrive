@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0101"
+ ],
+ "vehicle": "2022 Honda ACCORD",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2022 Honda ACCORD is showing code P0101. This means the car\u2019s computer thinks the mass airflow sensor (which measures how much air enters the engine) is not working correctly. The engine is running at 720 RPM with no vehicle speed, coolant at 195\u00b0F, and 22% engine load. The car is at operating temperature, but the code\u2019s exact meaning isn\u2019t fully verified. No measurements could narrow down the cause further. This is not an immediate safety risk.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light is on \u2013 This happens when the computer detects a problem.\n2. Rough idling or hesitation \u2013 The engine may not run smoothly if the airflow sensor is faulty.\n3. Poor fuel economy \u2013 A bad sensor can cause the engine to use more fuel.\n4. Stalling \u2013 The engine might stall if it can\u2019t get the right air-fuel mixture.",
+ "if_ignored": "The engine may run less efficiently in the next few weeks, leading to higher fuel costs. Long-term, it could cause engine wear or damage. Repair costs could rise if other parts are affected. No immediate safety risk, but ignoring it may worsen the issue.",
+ "quick_checks": "- Check the air filter for dirt or blockage.\n- Inspect the mass airflow sensor for dirt, damage, or loose connections.\n- Look for vacuum leaks near the intake manifold.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the sensor and access under the hood. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 1-2 weeks if you notice rough idling or stalling.",
+ "repair_cost": "Parts: $100\u2013$300\nLabor: $100\u2013$200 (independent shop)\nTotal at independent shop: $200\u2013$500\nTotal at dealer: $250\u2013$600",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with the infotainment touchscreen, including \u201cghost touch\u201d (random button presses) and flickering, from the NHTSA Complaints Database. These are separate from the P0101 code.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-073",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fmystrongad.com%2FHEH_HendrickHondaCharlotte%2FInteractive%2FAccord%2F2022%2F22-Honda-Accord-White-better.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0101",
+   "description": "Mass or Volume Air Flow Sensor 'A' Circuit Range/Performance",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0101. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0101"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 94
+}

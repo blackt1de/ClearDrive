@@ -1,0 +1,130 @@
+{
+ "codes": [
+  "P0175",
+  "P0301"
+ ],
+ "vehicle": "2012 Honda PILOT",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2012 Honda PILOT is showing code P0175 (System Too Rich, Bank 2) and P0301 (Cylinder 1 Misfire Detected). These codes mean the engine is burning too much fuel (P0175) and one cylinder is misfiring (P0301). The vehicle\u2019s own data (engine speed, coolant temperature, etc.) was not captured, so we cannot confirm the exact conditions when these codes occurred. The misfire could be caused by a faulty spark plug, fuel injector, or ignition coil, but without freeze frame data, we cannot tell if it happened under load or at idle.",
+ "likely_causes": "1. Faulty spark plug in Cylinder 1 (needed: freeze frame for misfire code)\n2. Malfunctioning fuel injector in Bank 2 (needed: fuel trim readings)\n3. Issues with the engine\u2019s air-fuel mixture control (needed: fuel trim readings)",
+ "symptoms": "1. The check engine light staying on \u2014 the codes are stored in the vehicle\u2019s computer.\n2. Rough idling or hesitation when accelerating \u2014 caused by the misfire.\n3. Increased fuel consumption \u2014 the engine is burning extra fuel (P0175).\n4. A smell of unburned fuel \u2014 from the misfire or rich mixture.",
+ "if_ignored": "- In the next few days/weeks: The catalytic converter could overheat and fail due to unburned fuel from the misfire, leading to expensive repairs.\n- Long-term: The engine may suffer internal damage from the misfire, and fuel efficiency will worsen.\n- Cost: Replacing the catalytic converter could cost $2,000\u2013$4,000.\n- Safety: A misfire could cause the engine to stall unexpectedly, though this is less likely on a standard engine.",
+ "quick_checks": "- Check if fuel trim readings (idle and under load) are available from a mechanic.\n- Request the freeze frame data for the misfire code from a technician.\n- Confirm the vehicle\u2019s ability to capture live data for diagnostics.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a scan tool to read fuel trims and freeze frame data) and expertise to diagnose the exact cause of the misfire or rich mixture. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The misfire and rich mixture could lead to costly damage if left unresolved.",
+ "repair_cost": "- Parts: $200\u2013$500 (spark plugs, fuel injectors, or ignition coils)\n- Labor: $300\u2013$600 (at an independent shop)\n- Total at independent shop: $500\u2013$1,100\n- Total at dealer: $650\u2013$1,400 (30\u201350% higher than independent shops)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database:\n1. Navigation system clock malfunction (electronic/software issue).\n2. Loud pop and smoke under the hood (possible engine or fuel system issue).\n3. Passenger airbag sensor failure (no replacement parts available).\n4. Transmission light issues with torque converter codes.\n5. Odometer fraud (mileage discrepancy).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-041",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana.io%2Fstockimages%2F2012_HONDA_PILOT_EX-L%2520SPORT%2520UTILITY%25204D_BURGUNDY_stock_desktop_1920x1080.png%3Fv%3D1645501161.099",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0175",
+   "description": "System Too Rich (Bank 2)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0301",
+   "description": "Cylinder 1 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "fuel_trim_triage",
+   "reason": "Fuel trim readings were not available, so the cause of the fuel mixture code (P0175) could not be narrowed: fuel trim was not captured",
+   "missing": [
+    "fuel trims at idle",
+    "fuel trims under load"
+   ]
+  },
+  {
+   "rule": "misfire_triage",
+   "reason": "No freeze frame was stored for the misfire, so the conditions when it occurred are unknown \u2014 a misfire under load and a misfire at cold idle have different causes and cannot be told apart without it: freeze frame was not captured",
+   "missing": [
+    "freeze frame for the misfire code"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "caution",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0301) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0175, P0301"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "Whether the misfire happened under load could not be assessed: no freeze frame was stored for it.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0175, P0301"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 62
+}

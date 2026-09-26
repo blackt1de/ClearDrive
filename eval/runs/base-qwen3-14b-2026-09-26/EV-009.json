@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0607"
+ ],
+ "vehicle": "2006 Toyota MATRIX",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2006 Toyota MATRIX is showing code P0607. This code means the car\u2019s control module (a computer that manages engine functions) is not working properly. The vehicle\u2019s own readings, like engine speed, coolant temperature, and others, are unavailable, so we can\u2019t see what\u2019s happening in real time. The code is not fully understood yet because its definition hasn\u2019t been verified against official standards. This means we don\u2019t know for sure what\u2019s wrong, but the issue is related to the control module\u2019s performance.",
+ "likely_causes": "1. No automated analysis exists yet for P0607. These codes are reported but were not narrowed down by this scan. (rule noruleforcode; needed: a diagnostic rule for these codes)\n2. Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured. (rule capturelimitation; needed: vehicle support)",
+ "symptoms": "1. The check engine light staying on or flashing. - This happens when the control module detects a problem.\n2. The car stalling or not starting. - A faulty control module can disrupt engine operation.\n3. Electrical systems acting unpredictably. - The control module manages many systems, so failures can cause erratic behavior.\n4. No obvious symptoms. - Some control module issues may not trigger immediate problems but could lead to long-term failures.",
+ "if_ignored": "- In the next few days/weeks: The car might run unevenly, stall, or fail to start.\n- Long-term: The control module could fail completely, leading to major engine or electrical system issues.\n- Cost: Repairs could become more expensive if the problem worsens or causes secondary damage.\n- Safety concerns: If the control module fails while driving, it could lead to sudden loss of power or braking system issues.",
+ "quick_checks": "- Have a mechanic perform a full diagnostic scan with live data and freeze frame information.\n- Check for any visible damage to the control module or wiring harness near the engine.\n- Verify if the vehicle has any outstanding recalls related to the control module (see KNOWN ISSUES).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose and replace the control module, which involves complex electrical systems and programming. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. The control module is critical to the car\u2019s operation, and without proper diagnosis, it\u2019s unclear how serious the issue is.",
+ "repair_cost": "Parts: $Unknown - $Unknown\nLabor: $Unknown - $Unknown\nTotal at independent shop: $Unknown - $Unknown\nTotal at dealer: $Unknown - $Unknown",
+ "known_issues": "Toyota issued a recall for 2005-2008 Corolla and Corolla Matrix vehicles with the 1ZZ-FE engine. The engine control module (ECM) may have improperly manufactured solder points or varistors, which could crack over time. (Source: NHTSA Recalls Database)",
+ "owner_reports": "Other owners reported issues with airbags, suspension (rusted rear strut), electrical systems (clock malfunction), and problems with recall notifications. These complaints came from the NHTSA Complaints Database.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-009",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fstatic.tcimg.net%2Fvehicles%2Fprimary%2F02f8adba9c6ad70c%2F2006-Toyota-Matrix-silver-full_color-driver_side_profile.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0607",
+   "description": "Control Module Performance",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "computer_output",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0607. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0607"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 30
+}

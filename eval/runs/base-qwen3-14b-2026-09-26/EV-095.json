@@ -1,0 +1,91 @@
+{
+ "codes": [
+  "P0410"
+ ],
+ "vehicle": "2002 Volkswagen GOLF/GTI",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2002 Volkswagen GOLF/GTI is showing code P0410. This code means the vehicle\u2019s secondary air injection system (which helps reduce emissions by sending extra air into the exhaust) is not working properly. The engine is running at 720 RPM with no vehicle speed, coolant at 195\u00b0F, and 22% engine load. The vehicle\u2019s sensors show a small imbalance between the engine\u2019s two banks (1.0% asymmetry), but the engine is operating at normal temperature. No specific cause for P0410 was measured, so further checks are needed.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. A check engine light on the dashboard - The vehicle\u2019s computer detected a problem with the air injection system.\n2. A smell of burning rubber or oil - Could indicate leaks or overheating in the air injection system or other components.\n3. Rough idling or hesitation - If the air injection system is malfunctioning, it might affect engine performance.\n4. Failed emissions tests - The secondary air injection system is critical for passing emissions checks.",
+ "if_ignored": "- In the next few days/weeks: The engine might run less efficiently, increasing fuel use or causing rough idling.\n- Long-term: The air injection system could fail completely, leading to higher emissions or engine damage.\n- Cost: Repairs could become more expensive if other components (like the catalytic converter) are affected.\n- Safety: No immediate safety risk, but ignoring the code could lead to unexpected engine issues.",
+ "quick_checks": "No specific checks are available for this code. A mechanic should use specialized tools to diagnose the secondary air injection system.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and expertise to diagnose and fix the secondary air injection system. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic to diagnose the air injection system.",
+ "repair_cost": "Parts: $100 - $300 (air pump, valves, or hoses).\nLabor: $150 - $400 (depending on complexity).\nTotal at independent shop: $250 - $700.\nTotal at dealer: $350 - $1,000 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database: Some owners reported smells of burned rubber, unexpected airbag deployments, and throttle issues (gas pedal unresponsiveness). These are unrelated to the P0410 code but show varied problems in this model.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-095",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fimages.postwarclassic.com%2Fpics%2Fr2w-1200x800-caradverts%2F330063%2Fr-ref-121-2002volkswagen-golf-gti-1.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0410",
+   "description": "Secondary Air Injection System",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0410. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0410"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 116
+}

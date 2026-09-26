@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0505"
+ ],
+ "vehicle": "2015 Audi A8",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2015 Audi A8 is showing code P0505. This code means the engine\u2019s idle air control system is not working properly, which helps the engine maintain a steady idle speed when stopped. The vehicle\u2019s engine is running at 720 RPM (normal for idle), coolant is at 195\u00b0F (normal operating temperature), and the engine load is 22% (light). The computed values show the engine\u2019s air-fuel mixture is slightly adjusted (3% and 2% trim on each bank), but no major imbalance. However, no automated analysis exists yet for this code, so the exact cause is not confirmed.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The engine may idle roughly or feel unstable when stopped.\n2. The check engine light may stay on.\n3. The engine might hesitate or stall when idling.\n4. The throttle may feel unresponsive when trying to accelerate from a stop.",
+ "if_ignored": "In the short term, the engine may run less smoothly, but it should still operate. Long-term, the issue could worsen, leading to higher emissions, reduced fuel efficiency, or potential damage to the engine\u2019s sensors or components. Repair costs could increase if the problem spreads to other systems. No immediate safety risk is present.",
+ "quick_checks": "- Inspect the idle air control (IAC) valve for dirt or blockage (a mechanic can do this).\n- Check vacuum hoses connected to the IAC valve for cracks or leaks.\n- Ensure the throttle body is clean (a mechanic can clean it if needed).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose the exact cause and access parts like the IAC valve, which may be hidden under the engine. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic soon to prevent potential long-term issues.",
+ "repair_cost": "Parts: $100\u2013$300 (IAC valve or related components).\nLabor: $200\u2013$500 (at an independent shop).\nTotal at independent shop: $300\u2013$800.\nTotal at dealer: $400\u2013$1,200 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, some 2015 Audi A8 owners reported engine failures (including a case where the engine needed replacement at 110,000 miles), fuel leaks from recalled parts, and issues with the suspension and windshield. These are from the NHTSA Complaints Database.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-099",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fautoimage.capitalone.com%2Fstock-media%2Fevox%2F2015-Audi-A8-3.0_TFSI-W1W1-9763_cc2400_032_W1W1.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0505",
+   "description": "Idle Air Control System Malfunction",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "vehicle_speed_idle",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0505. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0505"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 120
+}

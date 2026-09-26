@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0236"
+ ],
+ "vehicle": "2015 Ford ESCAPE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2015 Ford ESCAPE is showing code P0236. This code means the car\u2019s computer detected a problem with the boost sensor (which measures air pressure in the intake system) on the turbocharger or supercharger. However, your engine is naturally aspirated (no turbocharger or supercharger), so this code might be a false positive or related to a wiring issue. The vehicle\u2019s own readings (like engine speed, coolant temperature, or intake air temperature) were not available to confirm the issue. No live data or freeze frame was captured, so the exact cause is unclear.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light is on \u2013 This happens when the car\u2019s computer detects a fault.\n2. Reduced engine power \u2013 If the sensor is faulty, the engine might not perform as well.\n3. Strange noises from the engine \u2013 A damaged sensor or wiring could cause unusual sounds.\n4. The car stalling or hesitating \u2013 Faulty sensor data might disrupt fuel delivery.",
+ "if_ignored": "- In the next few days/weeks: The engine might run less efficiently, increasing fuel costs.\n- Long-term: The car\u2019s computer could store more errors, making future repairs harder and more expensive.\n- Safety concerns: If the sensor issue affects engine performance, it could lead to unexpected stalling, though this is unlikely with a naturally aspirated engine.",
+ "quick_checks": "- Check for loose or damaged wiring near the boost sensor (if present).\n- Inspect the sensor itself for cracks or corrosion.\n- Test the sensor\u2019s electrical connections with a multimeter (ask a mechanic if you don\u2019t have one).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the sensor and wiring, and it may involve accessing parts of the engine that are hard to reach without experience. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. The code could indicate a wiring issue or a false positive, but it\u2019s best to have it checked to avoid potential complications.",
+ "repair_cost": "- Parts: $200\u2013$500 (if a sensor is needed).\n- Labor: $100\u2013$300 (depending on the shop).\n- Total at independent shop: $300\u2013$800.\n- Total at dealer: $400\u2013$1,000 (higher due to dealership overhead).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues with recalls for seat belts (NHTSA Campaign 25V695000) and back-over prevention systems (NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-038",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10228%2F2015-Ford-Escape-front_10228_032_2400x1800_UG.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0236",
+   "description": "Turbocharger/Supercharger Boost Sensor 'A' Circuit Range/Performance",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0236. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0236"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 59
+}

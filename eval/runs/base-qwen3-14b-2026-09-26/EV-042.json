@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0301"
+ ],
+ "vehicle": "2017 Hyundai ELANTRA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2017 Hyundai ELANTRA is showing code P0301. This means cylinder 1 is misfiring \u2014 the spark plug or ignition coil in that cylinder isn\u2019t working properly, causing unburned fuel to enter the exhaust system. The vehicle\u2019s own readings (like engine speed, coolant temperature, or fuel trims) were not captured, so we can\u2019t confirm when or why the misfire happened. The code is stored, but without freeze frame data, we don\u2019t know if it occurred under load or at idle. This needs attention to avoid damaging the catalytic converter.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idle or hesitation when accelerating \u2014 unburned fuel disrupts engine timing.\n2. Stalling \u2014 especially if the misfire worsens.\n3. Check engine light on \u2014 the code is stored.\n4. Increased fuel consumption \u2014 incomplete combustion uses more fuel.",
+ "if_ignored": "In the next few days/weeks, the catalytic converter could overheat and fail (costing $1,000\u2013$3,000 to replace). Long-term, repeated misfires might damage the engine or transmission. Ignoring this could also cause sudden stalling while driving, which is unsafe.",
+ "quick_checks": "- Check for loose or damaged ignition coils (mechanic needed).\n- Inspect spark plugs for wear or oil contamination (mechanic needed).\n- Look for fuel leaks or damaged fuel injectors (mechanic needed).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose the exact cause (like a scan tool or scope) and access to the engine compartment. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 don\u2019t drive more than necessary. The misfire could worsen quickly, and the catalytic converter risk is urgent.",
+ "repair_cost": "Parts: $200\u2013$400 (ignition coils, spark plugs).\nLabor: $150\u2013$300 (at independent shop).\nTotal at independent shop: $350\u2013$700.\nTotal at dealer: $450\u2013$1,000 (30\u201350% higher labor).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database: Other 2017 Elantra owners reported repeated ignition coil failures, sudden oil consumption without leaks, and engine stalls despite proper maintenance.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-042",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F11080%2F2017-Hyundai-Elantra-front_11080_032_2400x1800_W8.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0301",
+   "description": "Cylinder 1 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "misfire_triage",
+   "reason": "No freeze frame was stored for the misfire, so the conditions when it occurred are unknown \u2014 a misfire under load and a misfire at cold idle have different causes and cannot be told apart without it: freeze frame was not captured",
+   "missing": [
+    "freeze frame for the misfire code"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "caution",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0301) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "Whether the misfire happened under load could not be assessed: no freeze frame was stored for it.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 63
+}

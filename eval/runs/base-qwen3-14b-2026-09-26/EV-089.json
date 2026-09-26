@@ -1,0 +1,91 @@
+{
+ "codes": [
+  "P0016"
+ ],
+ "vehicle": "2004 Kia AMANTI",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2004 Kia AMANTI is showing code P0016. This code means the engine\u2019s crankshaft and camshaft positions are not matching as expected, which can affect timing. The vehicle is idling at 720 RPM with coolant at 195\u00b0F, and the engine load is 22%. The computed diagnosis shows a small difference (1.0%) between the two engine banks at idle, but no measurement could confirm the exact cause of the code. This is not an immediate safety risk, but it needs attention.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Sudden acceleration or hesitation when driving \u2013 due to timing misalignment.\n2. Check engine light flickering on and off \u2013 related to the code being stored.\n3. Rough idling or stalling \u2013 from inconsistent engine timing.\n4. Difficulty starting the engine \u2013 if the timing issue worsens.",
+ "if_ignored": "- In the next few days/weeks, the engine may misfire or lose power, making driving less smooth.\n- Long-term, the timing issue could cause engine damage, increasing repair costs.\n- Electrical issues reported by other owners (like fires or stalling) are not directly linked to this code but suggest broader electrical risks in this model.",
+ "quick_checks": "No specific checks are recommended based on the evidence.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves engine timing components that require specialized tools and expertise. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic soon to avoid potential engine damage.",
+ "repair_cost": "Cost information is not available in the evidence. Parts and labor costs depend on the exact repair needed.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, other 2004 Kia Amanti owners reported issues like sudden acceleration, stalling, electrical fires, and difficulty restarting the engine. Some mentioned replacing the throttle body or dealing with electrical failures.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-089",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fplatform.cstatic-images.com%2Fin%2Fv2%2Fstock_photos%2F22a0825c-d1d3-4bd1-bc06-0bed5e7111d0%2Ff7befa2b-496b-4475-83cc-388d7fbd4cb5.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0016",
+   "description": "Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor A)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0016. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0016"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 110
+}

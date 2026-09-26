@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0011"
+ ],
+ "vehicle": "2022 Kia K5",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2022 Kia K5 is showing code P0011, which means the engine's camshaft timing is too advanced (the camshaft is opening valves too early in the engine cycle). This vehicle's engine is running at 720 RPM with no vehicle speed, coolant at 195\u00b0F, and 22% engine load. The computed values show 3% fuel trim adjustment on bank 1 and 2% on bank 2, with a 1% difference between the two banks. The engine is at operating temperature. No automated analysis exists for this code yet, so the exact cause isn\u2019t confirmed.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Hesitation or rough idling when accelerating \u2013 (the engine\u2019s timing is off, causing uneven power delivery)\n2. Check engine light staying on \u2013 (the code is stored in the vehicle\u2019s computer)\n3. Slight loss of power \u2013 (improper valve timing reduces engine efficiency)\n4. Unusual engine noise \u2013 (timing components may be misaligned or worn)",
+ "if_ignored": "In the next few days/weeks, the engine may run less smoothly or lose power. Long-term, improper timing could damage the engine or increase repair costs. No immediate safety risk, but delaying repairs may lead to more expensive fixes.",
+ "quick_checks": "- Inspect the timing belt/chain for looseness or damage (a mechanic should do this)\n- Check camshaft position sensors for dirt or damage (a mechanic should do this)\n- Confirm the engine is at operating temperature when testing (this vehicle\u2019s coolant is already at 195\u00b0F)",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves engine timing components, which require specialized tools and expertise. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check-up soon to avoid potential long-term issues.",
+ "repair_cost": "Parts: $200\u2013$500 (timing belt, sensors, etc.)\nLabor: $300\u2013$800 (depending on complexity)\nTotal at independent shop: $500\u2013$1,300\nTotal at dealer: $650\u2013$1,690 (30\u201350% higher than independent shops)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA complaints and recalls mention fuel system issues, sudden loss of power, and electrical problems (sources: NHTSA Complaints Database and NHTSA Recalls Database). These are not directly linked to code P0011 but highlight general concerns for this model.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-090",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fstatic.overfuel.com%2Fphotos%2F794%2F707484%2F5fd20fe9b9e94e778721ce61b52282b5.webp",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0011",
+   "description": "'A' Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0011. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0011"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 111
+}

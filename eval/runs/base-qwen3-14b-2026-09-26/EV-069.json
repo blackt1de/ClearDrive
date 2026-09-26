@@ -1,0 +1,128 @@
+{
+ "codes": [
+  "P0102",
+  "P0171"
+ ],
+ "vehicle": "2002 Toyota AVALON",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2002 Toyota AVALON is showing code P0102 (Mass Airflow Sensor circuit low input) and P0171 (engine running too lean on Bank 1). The engine is running lean across all driving conditions, which means it\u2019s getting too little fuel compared to air. The vehicle\u2019s readings show the engine is compensating by adding 15% more fuel at idle and 17% more under load, which suggests the fuel system or airflow sensor might be malfunctioning. Coolant temperature is 195\u00b0F (normal operating range), and the engine speed is 720 RPM (idle). No mileage data is available to confirm long-term trends.",
+ "likely_causes": "1. The engine running lean points to fuel delivery issues (like low fuel pressure) or a faulty mass airflow sensor (MAF) that\u2019s underreporting air intake.\nevidence [fueltrims[idle].bank1]: total fuel trim at idle is +15.0% on bank 1\nevidence [fueltrims[loaded].bank1]: total fuel trim under load is +17.0% on bank 1",
+ "symptoms": "1. Hesitation or rough idling when the engine is cold or under load (due to improper air-fuel mixture).\n2. The check engine light staying on (codes P0102 and P0171 are stored).\n3. A decrease in fuel efficiency (engine compensating for lean conditions).\n4. Possible stalling if the issue worsens (fuel delivery or sensor failure).",
+ "if_ignored": "- In the short term, the engine may misfire or run unevenly, especially under acceleration.\n- Long-term, the catalytic converter could overheat and fail (from prolonged lean conditions), leading to expensive repairs.\n- Fuel system components (like the fuel pump or injectors) might wear out faster.\n- No immediate safety risk, but ignoring this could lead to more costly repairs later.",
+ "quick_checks": "- Check fuel pressure against the manufacturer\u2019s specifications (use a fuel pressure gauge; if unavailable, take to a mechanic).\n- Inspect the mass airflow sensor for dirt or debris (located near the air filter; clean with electronics cleaner if dirty).\n- Check the fuel filter service history (if it\u2019s old or clogged, it could restrict fuel flow).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a fuel pressure gauge) and expertise to diagnose between fuel delivery and sensor issues. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t delay it more than a few weeks. Schedule a check with a mechanic to confirm the cause and prevent long-term damage.",
+ "repair_cost": "- Parts: $100\u2013$300 (MAF sensor, fuel filter, or fuel pump depending on cause).\n- Labor: $150\u2013$400 (varies by shop; dealers charge 30\u201350% more).\n- Total at independent shop: $250\u2013$700.\n- Total at dealer: $350\u2013$1,000.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA complaints mention airbag issues (2002 models not covered by recalls), brake system failures (Bosch ABS module unavailability), and electrical problems (headlights not functioning as expected). These are unrelated to the current codes but highlight potential concerns for this model year.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-069",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fhouse%2F2002%2F2002-Toyota-Avalon-FrontSide_TOAVL021_505x375.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0102",
+   "description": "Mass or Volume Air Flow Sensor 'A' Circuit Low Input",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "fuel_trim_triage",
+   "conclusion": "The engine is running lean across the whole load range, which points at fuel delivery or an airflow sensor reading low, rather than at a vacuum leak (a leak would fade as load increases).",
+   "confidence": "moderate",
+   "basis": "heuristic",
+   "next_checks": [
+    "Check fuel pressure against specification",
+    "Inspect the mass airflow sensor for contamination",
+    "Check the fuel filter service history"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +15.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +17.0% on bank 1"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0102. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Check fuel pressure against specification",
+  "Inspect the mass airflow sensor for contamination",
+  "Check the fuel filter service history"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0102, P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 90
+}

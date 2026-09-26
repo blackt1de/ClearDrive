@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0102"
+ ],
+ "vehicle": "2009 Toyota YARIS",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2009 Toyota YARIS is showing code P0102. This means the car\u2019s computer detected a problem with the air flow sensor, which measures how much air is entering the engine. The engine is running at 720 RPM with no vehicle speed, coolant is at 195\u00b0F, and the engine load is 22%. The computed values show small adjustments in fuel delivery (3% and 2% trim on each engine bank), but no major imbalance. The vehicle is at operating temperature, so the issue isn\u2019t related to cold-start behavior. No automated analysis exists for this code yet, so we can\u2019t pinpoint the exact cause from the scan alone.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2013 The air flow sensor might not be sending accurate data, causing the engine to run unevenly.\n2. The check engine light staying on \u2013 The car\u2019s computer stored the code, so the light will remain until the issue is resolved.\n3. Decreased fuel efficiency \u2013 A faulty air flow sensor can cause the engine to use more fuel than normal.\n4. Stalling at stops \u2013 If the sensor is severely damaged, the engine might struggle to maintain idle.",
+ "if_ignored": "- In the next few days/weeks: The engine might run less smoothly, and fuel costs could rise slightly.\n- Long-term: The engine could accumulate carbon buildup or experience wear from improper air-fuel mixing.\n- Cost: Repairs could become more expensive if the issue worsens, such as needing a new sensor or engine diagnostics.\n- Safety: No immediate safety risk, but prolonged neglect might lead to more complex repairs.",
+ "quick_checks": "- Inspect the air flow sensor for dirt, debris, or physical damage.\n- Check the wiring and connections to the sensor for looseness or corrosion.\n- Ensure the sensor is securely mounted and not vibrating excessively.\n- If these steps don\u2019t resolve the issue, consult a mechanic for further testing.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the sensor\u2019s electrical signals and access to diagnostic equipment. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within the next 1-2 weeks to avoid potential long-term issues.",
+ "repair_cost": "- Parts: $100 - $200 (air flow sensor replacement)\n- Labor: $100 - $150 (at an independent shop)\n- Total at independent shop: $200 - $350\n- Total at dealer: $250 - $450 (dealers charge 30-50% more for labor)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with airbags, suspension noise, and a non-deploying airbag after an accident (source: NHTSA Complaints Database). No specific reports about the P0102 code were found.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-071",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Famv-prod-cad-assets%2Fimages%2F09q3%2F267589%2F2009-toyota-yaris-5-door-hatchback-photo-291577-s-original.jpg%3Ffill%3D1%3A1%26resize%3D1200%3A%2A",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0102",
+   "description": "Mass or Volume Air Flow Sensor 'A' Circuit Low Input",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0102. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0102"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 92
+}

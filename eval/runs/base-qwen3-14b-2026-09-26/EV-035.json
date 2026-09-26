@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P050D"
+ ],
+ "vehicle": "2016 Chevrolet SILVERADO 1500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2016 Chevrolet SILVERADO 1500 is showing code P050D. This code is related to vehicle speed control, idle control, or auxiliary inputs, but its exact meaning is not defined in our records. The vehicle\u2019s own measurements\u2014like engine speed, coolant temperature, and mileage\u2014are unavailable, so we cannot determine the severity. No live data or freeze frame information was captured, which limits our ability to diagnose the issue. The code itself does not indicate an immediate safety risk, but it needs to be checked to rule out deeper problems.",
+ "likely_causes": "- No automated analysis exists yet for P050D. These codes are reported but were not narrowed down by this scan.\n- Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+ "symptoms": "1. The check engine light may come on intermittently. - This happens when the vehicle\u2019s computer detects an issue.\n2. The vehicle may hesitate or stall during acceleration. - This could be due to a problem with the idle control system.\n3. The engine may run roughly or have difficulty starting. - This might indicate an issue with the vehicle speed sensor or auxiliary components.\n4. The accelerator pedal may feel unresponsive. - This could be related to a malfunction in the throttle system or related sensors.",
+ "if_ignored": "- In the next few days/weeks, the vehicle may experience intermittent stalling or difficulty starting, which could lead to being stranded.\n- Long-term, the issue could worsen, causing more expensive repairs or damage to other systems.\n- The cost could increase significantly if the problem affects critical systems like the engine or transmission.\n- There is a potential safety risk if the vehicle\u2019s speed control or idle systems fail unexpectedly.",
+ "quick_checks": "- Check for any visible damage or loose connections under the hood.\n- Ensure all fluid levels (oil, coolant, brake fluid) are at the correct levels.\n- Test the battery voltage with a multimeter (if available) to rule out electrical issues.\n- If tools are unavailable, take the vehicle to a mechanic for a full diagnostic scan.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and expertise to interpret the code accurately. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. The lack of live data and the presence of a generic code mean the issue could be serious and needs immediate attention.",
+ "repair_cost": "- Parts: $200 - $500 (depending on the specific repair needed).\n- Labor: $100 - $300 (varies by shop).\n- Total at independent shop: $300 - $800.\n- Total at dealer: $400 - $1,000 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database:\n1. Airbags failed to deploy during a crash.\n2. Powertrain issues caused the vehicle to lose motive power.\n3. AC condenser replacement was needed at high cost.\n4. Suspension bushings were loose, leading to tire damage.\n5. Power steering issues persisted despite multiple repairs.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-035",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10953%2F2016-Chevrolet-Silverado%25201500%2520Crew%2520Cab-front_10953_032_1854x822_GAN_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P050D",
+   "description": "Standardized powertrain code, in the vehicle speed control, idle control, and auxiliary inputs group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "vehicle speed control, idle control, and auxiliary inputs",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P050D. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P050D"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 56
+}

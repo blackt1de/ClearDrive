@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0520"
+ ],
+ "vehicle": "2014 Jeep CHEROKEE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2014 Jeep CHEROKEE is showing code P0520. This code means the engine oil pressure sensor or its wiring may not be working correctly, which could affect the engine\u2019s ability to monitor oil pressure. The vehicle\u2019s own readings (like engine speed, coolant temperature, or oil pressure) are unavailable, so we can\u2019t confirm if the oil pressure is actually low or if the sensor is faulty. No live data or freeze frame was captured, which limits our ability to diagnose the issue further.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light may stay on or come on intermittently. - This happens when the sensor detects an issue with oil pressure.\n2. The vehicle may feel sluggish or lose power while driving. - This could occur if low oil pressure affects engine performance.\n3. The \"Service 4WD\" light may appear. - This is reported by other owners but is not directly related to the P0520 code.\n4. Unusual noises from the engine, like knocking or grinding. - These could indicate low oil pressure or internal engine wear.",
+ "if_ignored": "- In the next few days/weeks, the engine could suffer damage from low oil pressure, leading to expensive repairs.\n- Long-term, ignoring this could result in severe engine failure, requiring a complete engine rebuild or replacement.\n- Repair costs could increase significantly if the issue worsens.\n- There are safety concerns if the engine fails while driving, potentially causing a crash.",
+ "quick_checks": "- Check the oil level and condition using the dipstick. If it\u2019s low or dirty, top it up or change it.\n- Inspect the oil pressure sensor and its wiring for visible damage or corrosion.\n- Look for any leaks under the vehicle that could indicate low oil pressure.\n- If the oil level is normal, consult a mechanic to test the sensor and wiring with specialized tools.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the oil pressure sensor circuit and may involve complex electrical diagnostics. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. The oil pressure sensor issue could indicate a serious problem that needs immediate attention to prevent engine damage.",
+ "repair_cost": "- Parts: $100 - $300 (oil pressure sensor, wiring, or related components)\n- Labor: $200 - $500 (depending on the complexity of the repair)\n- Total at independent shop: $300 - $800\n- Total at dealer: $400 - $1,000 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues with the powertrain, including the transmission shifting into neutral, the \"Service 4WD\" light appearing, and PTU (Power Transfer Unit) failures. These reports came from the NHTSA Complaints Database.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-040",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F9434%2F2014-Jeep-Cherokee-front_9434_032_2400x1800_PW7.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0520",
+   "description": "Engine Oil Pressure Sensor/Switch Circuit",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "vehicle_speed_idle",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0520. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0520"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 61
+}

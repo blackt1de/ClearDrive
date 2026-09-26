@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P0A7A"
+ ],
+ "vehicle": "2004 Toyota PRIUS",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2004 Toyota PRIUS is showing code P0A7A. This code is a standardized powertrain code, but its exact meaning is not available in our database (we only know its structure, not what it means for your car). The vehicle\u2019s own readings\u2014like engine speed, coolant temperature, and mileage\u2014are unavailable, so we cannot confirm what is wrong. The scan did not narrow down the code\u2019s cause, and no live data or freeze frame was captured. This means we cannot tell if the issue is urgent or minor.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Unusual brake behavior (e.g., low pressure warnings or leaks) \u2014 reported by other owners.\n2. Electrical issues like the odometer stopping or the dashboard going dark \u2014 a known problem in 2004-2005 models.\n3. Drive selector not staying in \"Drive\" unless held manually \u2014 reported during hot weather.\n4. Phantom braking, loss of power steering, or engine overheating \u2014 linked to electrical or sensor failures.",
+ "if_ignored": "Without knowing the exact cause, it\u2019s hard to predict, but unresolved electrical or sensor issues could lead to sudden malfunctions (like braking or steering failures), higher repair costs if ignored, or safety risks if the vehicle\u2019s systems fail unexpectedly.",
+ "quick_checks": "- A diagnostic rule for P0A7A (needed to interpret the code).\n- Vehicle support (e.g., live data, freeze frame, or Mode 06) to confirm the issue.",
+ "diy_fix": "This repair is NOT recommended for DIY because the code\u2019s meaning is unclear, and it may involve complex systems (like electrical or powertrain components) that require specialized tools or expertise. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The code\u2019s meaning is unknown, and missing data (like coolant temperature) makes it hard to assess urgency.",
+ "repair_cost": "Parts: $200 - $800 (depending on what is faulty).\nLabor: $100 - $300 (at an independent shop).\nTotal at independent shop: $300 - $1,100.\nTotal at dealer: $400 - $1,500 (dealers charge more).",
+ "known_issues": "- Steering intermediate shaft recall (metal splines may be too soft).\n- Electric water pump corrosion risk.\n- Accelerator pedal entrapment due to floor mats.\n- Airbag inflator issues (insufficient heating agents).\n- Brake light switch failure from silicon oxide buildup.",
+ "owner_reports": "From NHTSA Complaints Database:\n1. Brake system issues (codes C1256, C1391) and odometer failure (known in 2004-2005 models).\n2. Drive selector malfunction during hot weather.\n3. Phantom braking, loss of power steering, and engine overheating.\n4. Stalling with no restart, instrument panel failure.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-003",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Famv-prod-cad-assets%2Fimages%2F03q4%2F267348%2F2004-toyota-prius-road-test-review-car-and-driver-photo-9350-s-original.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0A7A",
+   "description": "Standardized powertrain code; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": null,
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0A7A. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0A7A"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 24
+}

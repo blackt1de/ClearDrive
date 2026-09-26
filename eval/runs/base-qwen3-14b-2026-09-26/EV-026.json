@@ -1,0 +1,100 @@
+{
+ "codes": [
+  "P0191"
+ ],
+ "vehicle": "2008 Ford E-350 12 PASSENGER",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2008 Ford E-350 12 PASSENGER is showing code P0191. This code means the fuel rail pressure sensor is not working correctly, which could affect how much fuel reaches the engine. The vehicle\u2019s own readings (like engine speed, coolant temperature, or fuel trims) are not available, so we can\u2019t see if the engine is running poorly or if fuel pressure is too high or low. The scan tool didn\u2019t capture enough data to narrow down the cause, and no live measurements were recorded. This means we can\u2019t tell if the issue is serious or minor.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine misfires or rough idling \u2013 (the engine may run unevenly if fuel pressure is incorrect)\n2. Difficulty starting the engine \u2013 (incorrect fuel pressure can prevent proper ignition)\n3. Check engine light staying on \u2013 (the code is already triggered, but the light may stay on if the issue persists)\n4. Poor fuel economy \u2013 (improper fuel pressure can cause the engine to burn fuel inefficiently)",
+ "if_ignored": "In the short term, the engine might run roughly or fail to start. Long-term, incorrect fuel pressure could damage the engine or fuel system. Repair costs could rise if the issue worsens, and there may be safety risks if the engine fails while driving.",
+ "quick_checks": "- Get a diagnostic scan with a professional tool to check for fuel system leaks or sensor faults.\n- Inspect the fuel rail pressure sensor wiring for damage or corrosion.\n- Check the fuel filter and fuel pump for signs of failure.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose the fuel system and access the fuel rail pressure sensor, which is located in a hard-to-reach area. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. Don\u2019t drive the vehicle long distances until the issue is diagnosed.",
+ "repair_cost": "Parts: $100 - $300 (fuel rail pressure sensor, fuel pump, or related components)\nLabor: $200 - $500 (depending on the complexity of the repair)\nTotal at independent shop: $300 - $800\nTotal at dealer: $400 - $1,000 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues with the odometer, brakes, suspension, and fuel/propulsion system (source: NHTSA Complaints Database). These issues are unrelated to the P0191 code.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-026",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fplatform.cstatic-images.com%2Fin%2Fv2%2Fstock_photos%2F873a0939-ac89-4f97-be6c-712ef624ba3b%2F83d30071-0b06-4d75-8ec6-0716feca3460.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0191",
+   "description": "Fuel Rail Pressure Sensor Circuit Range/Performance",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0191. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0191"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 47
+}

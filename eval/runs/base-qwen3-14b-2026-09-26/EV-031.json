@@ -1,0 +1,111 @@
+{
+ "codes": [
+  "P0016",
+  "P0017"
+ ],
+ "vehicle": "2012 Chevrolet TRAVERSE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2012 Chevrolet TRAVERSE is showing code P0016 (Crankshaft Position - Camshaft Position Correlation, Bank 1 Sensor A) and P0017 (same issue for Bank 1 Sensor B). These codes mean the engine\u2019s timing system (camshaft and crankshaft) is not working together properly, which can affect how the engine runs. The vehicle\u2019s own measurements like engine speed, coolant temperature, and mileage are unavailable, so we can\u2019t see how the engine is performing in real time. No live data or freeze frame information was captured, which limits what we can diagnose.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine misfires or rough idling - The timing mismatch can cause incomplete combustion.\n2. Difficulty starting the engine - Improper timing may prevent the engine from firing correctly.\n3. Reduced power or acceleration - The engine may not perform as expected under load.\n4. Illuminated check engine light - This is the primary indicator of the issue.",
+ "if_ignored": "- In the next few days/weeks: The engine may run poorly, stall, or fail to start.\n- Long-term: Continued misalignment could damage the timing chain, camshaft, or crankshaft, leading to expensive repairs.\n- Cost: Repairs could escalate if components fail, potentially exceeding $1,000 for parts and labor.\n- Safety concerns: Engine failure while driving could cause a sudden loss of power or stalling.",
+ "quick_checks": "- Check for loose or damaged timing belt/chain (needs a mechanic).\n- Inspect for oil leaks near the timing system (needs a mechanic).\n- Verify if the engine runs smoothly when idling (driver can check).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools, engine disassembly, and expertise to realign or replace timing components. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. The timing issue could worsen quickly and cause serious engine damage.",
+ "repair_cost": "- Parts: $500 - $1,000 (timing belt, chain, or related components).\n- Labor: $300 - $600 (at an independent shop).\n- Total at independent shop: $800 - $1,600.\n- Total at dealer: $1,000 - $2,000 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, other owners reported issues like excessive swaying, loud rattling noises, electrical fires, shift interlock malfunctions, and sudden engine stalling. These are separate from the P0016/P0017 codes but highlight potential reliability concerns in this model year.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-031",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fimages.hgmsites.net%2Flrg%2F2012-chevrolet-traverse-fwd-4-door-lt-w-1lt-angular-front-exterior-view_100366361_l.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0016",
+   "description": "Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor A)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0017",
+   "description": "Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor B)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0016, P0017. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0016, P0017"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 52
+}

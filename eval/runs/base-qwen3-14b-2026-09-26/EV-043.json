@@ -1,0 +1,100 @@
+{
+ "codes": [
+  "P0401"
+ ],
+ "vehicle": "2017 Chevrolet VOLT",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2017 Chevrolet VOLT is showing code P0401. This means the exhaust gas recirculation (EGR) system is not allowing enough exhaust gas to flow back into the engine, which can affect performance and emissions. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we cannot confirm the exact condition of the EGR system. The retrieved information shows this vehicle had a third failure of the EGR valve, which was replaced under warranty once but later required a third-party part. This suggests the EGR system may be prone to repeated issues.",
+ "likely_causes": "1. Faulty or worn EGR valve (replaced multiple times on this vehicle, per NHTSA complaint).",
+ "symptoms": "1. Check Engine Light illuminated \u2014 the vehicle\u2019s computer detects a problem.\n2. Loss of power or hesitation during acceleration \u2014 reduced EGR flow can disrupt engine performance.\n3. Rough idling or stalling \u2014 improper exhaust gas recirculation can cause uneven combustion.\n4. \"Loss of Propulsion\" message on the dashboard \u2014 a known symptom from prior EGR failures.",
+ "if_ignored": "- In the next few days/weeks, the EGR valve could fail again, causing the Check Engine Light to return and potentially reducing engine power.\n- Long-term, repeated EGR failures may lead to more expensive repairs or damage to other engine components (like the catalytic converter).\n- Repair costs could increase if the EGR system is ignored, as parts may become harder to source or require specialized labor.\n- No immediate safety risk, but prolonged neglect could affect emissions and engine efficiency.",
+ "quick_checks": "- Inspect the EGR valve for blockages or carbon buildup (look for visible debris or cracks).\n- Check the EGR tube for cracks or leaks (inspect visually under the hood).\n- Verify if the EGR valve moves freely when manually actuated (requires a mechanic\u2019s tools).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the EGR system and access under the hood components that are hard to reach without experience. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The EGR valve has failed multiple times on this vehicle, so delaying repairs could lead to repeated issues.",
+ "repair_cost": "- Parts: $200 - $500 (EGR valve and related components).\n- Labor: $150 - $300 (at an independent shop).\n- Total at independent shop: $350 - $800.\n- Total at dealer: $455 - $1,050 (30-50% higher labor costs).",
+ "known_issues": "The EGR valve has failed multiple times on this vehicle (per NHTSA complaint).",
+ "owner_reports": "Other owners of this vehicle reported a third failure of the EGR valve (GM part 12691147, later replaced with a third-party part) on the NHTSA Complaints Database (api.nhtsa.gov).",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-043",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10780%2F2017-Chevrolet-Volt-front_10780_032_2400x1800_G1W.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0401",
+   "description": "Exhaust Gas Recirculation Flow Insufficient Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0401. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0401"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 64
+}

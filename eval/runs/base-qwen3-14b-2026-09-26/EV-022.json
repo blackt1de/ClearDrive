@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P2A00"
+ ],
+ "vehicle": "2011 Nissan ALTIMA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2011 Nissan ALTIMA is showing code P2A00. This code is standardized but its exact meaning is not defined in our table, so we cannot say for sure what it means. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we cannot check how the car is performing right now. No live data or freeze frame information was captured, which would help diagnose the issue. The code may be related to a problem with the engine control system, but we need more information to be certain.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light staying on \u2014 This happens when the engine control module (ECM) detects a problem.\n2. Unusual noises from the drivetrain \u2014 This could happen if the drive axle or tensioner pulley is failing.\n3. Water pooling on the floor \u2014 This might occur if the sunroof drainage system is blocked.\n4. No response from the vehicle speed control \u2014 This could happen if the ECM is malfunctioning.",
+ "if_ignored": "- In the next few days/weeks, the car might develop more serious issues, like the drive axle failing while driving (which could cause a crash) or the ECM malfunctioning further.\n- Long-term, ignoring the problem could lead to expensive repairs, especially if the ECM needs reprogramming or replacement.\n- There is a risk to safety if the drive axle or tensioner pulley fails while driving.",
+ "quick_checks": "- Check if the Engine Control Module (ECM) is functioning properly (needs a mechanic).\n- Inspect the Mass Air Flow (MAF) sensor for damage (needs a mechanic).\n- Look up recalls for your vehicle (NHTSA database shows a 2011-2012 suspension recall).",
+ "diy_fix": "This repair is NOT recommended for DIY because the code\u2019s exact cause is unknown and may require specialized tools or computer programming. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 don\u2019t drive more than necessary, especially if you notice unusual noises or the check engine light staying on.",
+ "repair_cost": "- Parts: $0 - $1,000 (depending on what is wrong).\n- Labor: $200 - $500 (depending on the repair).\n- Total at independent shop: $200 - $1,500.\n- Total at dealer: $300 - $2,000 (dealers charge more).",
+ "known_issues": "- A 2011-2012 suspension recall (transverse link bolt torque issue).\n- ECM malfunction causing P0101 codes (addressed in Nissan Technical Service Bulletin DE97AA).",
+ "owner_reports": "From NHTSA complaints:\n1. ECM malfunction causing P0101 codes (source: NHTSA Complaints Database).\n2. Drive axle failure causing dangerous stopping conditions (source: NHTSA Complaints Database).\n3. Idler tensioner pulley and bolt issues (source: NHTSA Complaints Database).\n4. Sunroof drainage problems causing water leaks (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-022",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.nissanusa.com%2Fcontent%2Fdam%2FNissan%2Fus%2Fvehicles%2Faltima%2Fl33%2F1_minor_change%2Faltimaarchive%2F2011%2F2011-white-altima-sedan.jpg.ximg.l_full_m.smart.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2A00",
+   "description": "Standardized powertrain code; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": null,
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2A00. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2A00"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 43
+}

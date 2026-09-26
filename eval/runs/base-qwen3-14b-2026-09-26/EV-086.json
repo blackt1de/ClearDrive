@@ -1,0 +1,104 @@
+{
+ "codes": [
+  "P0455"
+ ],
+ "vehicle": "2007 Hyundai TUCSON",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2007 Hyundai TUCSON is showing code P0455. This means there is a large leak in the fuel vapor system, which stores fuel vapors to prevent them from escaping into the air. The vehicle\u2019s engine is running at normal operating temperature (195\u00b0F coolant), and the engine is idling at 720 RPM with 22% load. The system is not holding pressure, which triggers the check engine light. No mileage data is available to confirm how long the issue has existed.",
+ "likely_causes": "1. This is an evaporative emissions leak classified as large. The system that captures fuel vapour is not holding pressure. It does not affect how the car drives and it is not a safety issue, but it will keep the light on.",
+ "symptoms": "1. The check engine light stays on \u2014 because the leak is detected by the car\u2019s computer.\n2. A fuel smell near the car \u2014 if the leak is from a fuel tank or hose.\n3. The car may fail an emissions test \u2014 due to the leak.\n4. No immediate driving issues \u2014 the leak does not affect engine performance.",
+ "if_ignored": "The check engine light will remain on, but there is no immediate risk to driving. Long-term, the leak could worsen, leading to more expensive repairs if it involves damaged hoses or the fuel tank. It will not affect safety but may cause the car to fail emissions tests.",
+ "quick_checks": "- Remove and refit the fuel cap firmly, then drive a few days and rescan.\n- Inspect the fuel cap seal for cracks or hardening.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the evaporative system and locate the leak. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. If the fuel cap check does not resolve the issue, schedule a mechanic visit.",
+ "repair_cost": "Parts: $20 - $100 (fuel cap or hose replacement).\nLabor: $100 - $300 (depending on complexity).\nTotal at independent shop: $120 - $400.\nTotal at dealer: $150 - $500 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA Complaints Database (api.nhtsa.gov) reports a 2007 Hyundai TUCSON with a transmission main seal leak and heater failure.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-086",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fimages.ctfassets.net%2Fc9t6u0qhbv9e%2F2007HyundaiTucsonPreviewsummary%2F70c0982f5c4185215376c022bb8e02c9%2F2007_Hyundai_Tucson_Preview_summaryImage.jpeg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0455",
+   "description": "Evaporative Emission Control System Leak Detected (Large Leak)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "evap_leak_class",
+   "conclusion": "This is an evaporative emissions leak classified as large. The system that captures fuel vapour is not holding pressure. It does not affect how the car drives and it is not a safety issue, but it will keep the light on.",
+   "confidence": "high",
+   "basis": "structural",
+   "next_checks": [
+    "Remove and refit the fuel cap firmly, then drive a few days and rescan",
+    "Inspect the fuel cap seal for cracks or hardening"
+   ],
+   "evidence": [
+    {
+     "pointer": "dtc_codes",
+     "restatement": "evaporative code present: P0455"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Remove and refit the fuel cap firmly, then drive a few days and rescan",
+  "Inspect the fuel cap seal for cracks or hardening"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0455"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 107
+}

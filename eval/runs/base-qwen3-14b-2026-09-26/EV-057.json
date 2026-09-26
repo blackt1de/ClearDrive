@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0301"
+ ],
+ "vehicle": "2016 Honda ODYSSEY",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2016 Honda ODYSSEY is showing code P0301, which means the engine\u2019s first cylinder is misfiring (not burning fuel properly). This happens when the spark plug, fuel injector, or other parts in that cylinder fail to ignite the fuel-air mixture. The vehicle\u2019s own data (like engine speed or coolant temperature) is unavailable, so we can\u2019t see when or why the misfire happened. However, the code is active, which could mean unburned fuel is reaching the catalytic converter and needs attention before it causes more damage.",
+ "likely_causes": "1. Worn or damaged piston rings in cylinders 1-3 (retrievedcontext: NHTSA Complaints Database, issue 3).\n2. Faulty spark plugs or ignition coils in cylinder 1 (retrievedcontext: NHTSA Complaints Database, issue 2).\n3. Oil leakage into the combustion chamber of cylinder 1 (retrievedcontext: NHTSA Complaints Database, issue 2).",
+ "symptoms": "1. Engine sputtering or jerking, especially under load (like accelerating).\n2. The check engine light or VSA warning light staying on.\n3. Reduced engine power or rough idling.\n4. A smell of burning oil or gasoline from unburned fuel.",
+ "if_ignored": "- In the next few days/weeks: The catalytic converter could overheat and fail, leading to expensive repairs.\n- Long-term: Severe engine damage from unburned fuel (like piston ring failure or internal corrosion).\n- Cost: Repairs could rise from $1,859.90 (as reported in retrievedcontext) to $4,598.10 or more if the engine fails completely.\n- Safety: Misfires can cause sudden loss of power, increasing the risk of accidents.",
+ "quick_checks": "- Inspect spark plugs for oil contamination or wear (look for black soot or oil deposits).\n- Check for oil leaks around cylinder 1 (look under the engine for wetness or stains).\n- Look for signs of catalytic converter damage (unusual exhaust smell or loud noises).",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves disassembling the engine, replacing piston rings, and requires specialized tools and expertise. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today if the misfire is severe or if you notice smoke from the exhaust. Otherwise, schedule service within 1-2 weeks.",
+ "repair_cost": "- Parts: $500 - $1,500 (spark plugs, piston rings, etc.).\n- Labor: $800 - $2,000 (depending on shop).\n- Total at independent shop: $1,300 - $3,500.\n- Total at dealer: $1,700 - $4,500 (higher labor rates).",
+ "known_issues": "- Worn piston rings in cylinders 1-3 (retrievedcontext: NHTSA Complaints Database, issue 3).\n- Spark plug misfires due to oil flooding in cylinder 3 (retrievedcontext: NHTSA Complaints Database, issue 2).",
+ "owner_reports": "Other owners reported misfires linked to piston ring failure (retrievedcontext: NHTSA Complaints Database, issue 3) and oil flooding spark plugs in cylinder 3 (retrievedcontext: NHTSA Complaints Database, issue 2). Honda issued a recall for piston ring issues (retrievedcontext: NHTSA Recalls Database, issue 3).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-057",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fdi-uploads-pod5.s3.amazonaws.com%2Fcheckeredflaghonda%2Fuploads%2F2016%2F03%2F2-HondaOdyssey.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0301",
+   "description": "Cylinder 1 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "misfire_triage",
+   "reason": "No freeze frame was stored for the misfire, so the conditions when it occurred are unknown \u2014 a misfire under load and a misfire at cold idle have different causes and cannot be told apart without it: freeze frame was not captured",
+   "missing": [
+    "freeze frame for the misfire code"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "caution",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0301) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "Whether the misfire happened under load could not be assessed: no freeze frame was stored for it.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 78
+}

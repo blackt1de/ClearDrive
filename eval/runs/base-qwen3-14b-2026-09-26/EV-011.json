@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P2716"
+ ],
+ "vehicle": "2006 Toyota COROLLA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2006 Toyota COROLLA is showing code P2716. This code is related to the transmission but its exact meaning is not available in our records. The vehicle\u2019s own readings, like engine speed, coolant temperature, and mileage, are unavailable. No live data or freeze frame information was captured, which limits what can be diagnosed. The scan tool could not narrow down the issue further.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Transmission hesitation or slipping during acceleration - The transmission may not shift smoothly.\n2. Check engine light staying on - The code is stored in the vehicle\u2019s system.\n3. No immediate symptoms - The issue may not be noticeable until further driving.\n4. No warning lights other than the check engine light - The code does not trigger other systems.",
+ "if_ignored": "- In the next few days/weeks: The transmission may develop more serious issues, like failure to shift gears.\n- Long-term: Transmission damage could lead to expensive repairs or complete failure.\n- Cost: Repairs could become significantly more expensive if the issue worsens.\n- Safety concerns: Transmission problems may affect vehicle control, increasing the risk of accidents.",
+ "quick_checks": "- Get a professional scan to retrieve live data and freeze frame information.\n- Check transmission fluid level and condition for leaks or contamination.\n- Test drive the vehicle to observe if shifting is smooth or delayed.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and expertise to interpret the code. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary.",
+ "repair_cost": "- Parts: $200 - $500\n- Labor: $200 - $400\n- Total at independent shop: $400 - $900\n- Total at dealer: $520 - $1,150 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with airbags failing to deploy, seat belts malfunctioning, and brake failures. These complaints came from the NHTSA Complaints Database.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-011",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcdn05.carsforsale.com%2F59b72b3185fdc183f9a0a76b8e31e37e%2F2006-toyota-corolla-ce.jpg%3Fwidth%3D960%26height%3D720%26format%3D%26sig%3D9774a8d822babfff",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2716",
+   "description": "Standardized powertrain code, in the transmission group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "transmission",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2716. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2716"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 32
+}

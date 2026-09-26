@@ -1,0 +1,110 @@
+{
+ "codes": [
+  "P0171"
+ ],
+ "vehicle": "2003 Chevrolet CAVALIER",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2003 Chevrolet CAVALIER is showing code P0171. This means the engine is running too lean (not enough fuel) across all driving conditions. The vehicle\u2019s readings show the engine is adding 14% more fuel at idle and 17% more under load to compensate, which suggests a problem with fuel delivery or airflow measurement. The coolant temperature is normal at 195\u00b0F, and the engine speed is 720 RPM with no vehicle speed. Mileage data was not available. This is not an immediate safety risk but needs attention.",
+ "likely_causes": "1. The engine is running lean across the whole load range, which points at fuel delivery or an airflow sensor reading low, rather than at a vacuum leak (a leak would fade as load increases).\nevidence [fueltrims[idle].bank1]: total fuel trim at idle is +14.0% on bank 1\nevidence [fueltrims[loaded].bank1]: total fuel trim under load is +17.0% on bank 1",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2013 the engine is struggling to balance air and fuel.\n2. Decreased fuel efficiency \u2013 the engine is working harder to compensate for the lean condition.\n3. The check engine light staying on \u2013 the computer detects the imbalance continuously.\n4. Potential misfires under heavy load \u2013 the lean condition could cause incomplete combustion.",
+ "if_ignored": "In the short term, the engine may run less smoothly, and fuel economy could drop. Over time, the lean condition could damage the catalytic converter or cause the engine to misfire repeatedly, leading to more expensive repairs. The issue is not urgent but should be addressed to avoid long-term damage.",
+ "quick_checks": "- Check fuel pressure against specification (a mechanic will need a fuel pressure gauge for this).\n- Inspect the mass airflow sensor for contamination (look for dirt or debris on the sensor).\n- Check the fuel filter service history (if it hasn\u2019t been replaced in years, it may be clogged).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a fuel pressure gauge) and expertise to diagnose fuel delivery or airflow sensor issues. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within the next 1-2 weeks to avoid potential long-term damage.",
+ "repair_cost": "Parts: $100 - $300 (depending on whether the fuel filter, MAF sensor, or fuel pump is replaced).\nLabor: $150 - $400 (varies by shop).\nTotal at independent shop: $250 - $700.\nTotal at dealer: $350 - $1,000 (dealers charge 30-50% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with the steering system (loose steering wheel, missing pins), instrument cluster failures (gauges not working), fuel pump problems (stalling, bad fuel pump at 60,000 miles), and recurring check engine light issues despite replacing sensors and wiring. These reports came from the NHTSA Complaints Database.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-066",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcf-img.autorevo.com%2F2003-chevrolet-cavalier-santa-clarita-ca-7094544%2F640x640%2F2850609-3-revo.jpg%3F_%3D1744203776",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "fuel_trim_triage",
+   "conclusion": "The engine is running lean across the whole load range, which points at fuel delivery or an airflow sensor reading low, rather than at a vacuum leak (a leak would fade as load increases).",
+   "confidence": "moderate",
+   "basis": "heuristic",
+   "next_checks": [
+    "Check fuel pressure against specification",
+    "Inspect the mass airflow sensor for contamination",
+    "Check the fuel filter service history"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +14.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +17.0% on bank 1"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Check fuel pressure against specification",
+  "Inspect the mass airflow sensor for contamination",
+  "Check the fuel filter service history"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 87
+}

@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0335"
+ ],
+ "vehicle": "2019 Subaru FORESTER",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2019 Subaru FORESTER is showing code P0335. This code means the car\u2019s computer detected a problem with the crankshaft position sensor, which tells the engine when the crankshaft is moving. The vehicle is running at 720 RPM with no speed, 195\u00b0F coolant temperature, and 22% engine load. The engine is at operating temperature, and the fuel trim asymmetry is low (1.0%). No automated analysis exists for this code, so the exact cause isn\u2019t clear from this scan.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine hesitation or rough idling \u2013 The sensor might not be sending accurate timing signals.\n2. Check engine light on \u2013 The car\u2019s computer stored the code.\n3. Stalling when idling \u2013 Poor sensor data could disrupt fuel delivery.\n4. Reduced fuel efficiency \u2013 The engine might be compensating for incorrect timing.",
+ "if_ignored": "The issue might worsen over time, causing the engine to run less efficiently or fail to start. Long-term, it could damage the engine or increase repair costs. No immediate safety risk is present, but delaying repairs may lead to more expensive fixes later.",
+ "quick_checks": "- Inspect the crankshaft position sensor wiring for damage or corrosion.\n- Check if the sensor is securely connected to the engine.\n- Look for signs of oil or debris near the sensor.\n- If unsure, have a mechanic test the sensor\u2019s signal with a diagnostic tool.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the sensor\u2019s signal and access under the engine. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic to diagnose the sensor and confirm no other issues are present.",
+ "repair_cost": "Parts: $50\u2013$150 (sensor replacement).\nLabor: $100\u2013$200 (depending on shop).\nTotal at independent shop: $150\u2013$350.\nTotal at dealer: $200\u2013$450 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with airbags not deploying, sudden acceleration, swerving during braking, EPS failures, and battery drain (source: NHTSA Complaints Database). These are unrelated to the P0335 code but highlight other potential concerns for this model.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-093",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcontent-images.carmax.com%2Fstockimages%2F2019%2Fsubaru%2Fforester%2Fst2400-089-evoxwebmedium.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0335",
+   "description": "Crankshaft Position Sensor 'A' Circuit",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0335. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0335"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 114
+}

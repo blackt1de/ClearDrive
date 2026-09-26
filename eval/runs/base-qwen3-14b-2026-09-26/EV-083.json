@@ -1,0 +1,104 @@
+{
+ "codes": [
+  "P0155"
+ ],
+ "vehicle": "2003 GMC YUKON",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2003 GMC YUKON is showing code P0155. This means the oxygen sensor\u2019s heater circuit is not working properly, which could affect how the engine mixes fuel and air. The vehicle\u2019s engine is running at 720 RPM with no speed, coolant is at 195\u00b0F, and engine load is 22%. The scan shows the oxygen sensor is likely faulty, not the engine itself. No mileage data was available to check for long-term wear.",
+ "likely_causes": "1. The oxygen sensor or its heater is damaged, or the wiring to it is corroded or broken. This is supported by the presence of code P0155.",
+ "symptoms": "1. The check engine light is on \u2014 this is the main indicator.\n2. Slight decrease in fuel efficiency over time \u2014 the sensor helps optimize fuel use.\n3. The engine might run slightly rough or hesitate under load \u2014 though not severe.\n4. No immediate stalling or shaking \u2014 the vehicle is currently running normally.",
+ "if_ignored": "The sensor could fail completely, leading to higher emissions and reduced fuel economy. Over time, the engine might run less efficiently, and the catalytic converter could be damaged, increasing repair costs. However, there is no immediate safety risk.",
+ "quick_checks": "- Inspect the sensor connector and wiring for damage or corrosion (look for rust, cracks, or loose connections).\n- Have the sensor heater circuit tested by a mechanic before replacing the sensor.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the heater circuit and access the sensor, which is often located in the exhaust system. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic can test the circuit and confirm if the sensor needs replacement.",
+ "repair_cost": "Parts: $50 - $200\nLabor: $100 - $300\nTotal at independent shop: $150 - $500\nTotal at dealer: $200 - $650 (30-50% higher than independent shops)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues like odometer fraud, stalling, shaking, and electrical problems (source: NHTSA Complaints Database). However, these are not directly related to the P0155 code in your vehicle.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-083",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fhouse%2F2003%2F2003-GMC-Yukon-FrontSide_GMYUD031_505x375.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0155",
+   "description": "O2 Sensor Heater Circuit Malfunction (Bank 2, Sensor 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "oxygen_sensor_triage",
+   "conclusion": "An oxygen sensor is reporting an electrical fault (P0155) rather than an unusual reading. That points at the sensor, its heater, or its wiring, rather than at how the engine is running.",
+   "confidence": "moderate",
+   "basis": "heuristic",
+   "next_checks": [
+    "Inspect the sensor connector and wiring for damage or corrosion",
+    "Have the sensor heater circuit tested before replacing anything"
+   ],
+   "evidence": [
+    {
+     "pointer": "dtc_codes",
+     "restatement": "oxygen sensor codes present: P0155"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Inspect the sensor connector and wiring for damage or corrosion",
+  "Have the sensor heater circuit tested before replacing anything"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0155"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 104
+}
