@@ -1,0 +1,25 @@
+{
+  "version": "eval-v1",
+  "scope": "Powertrain (P) codes only. Ruled 2026-09-25: B/C/U families are out of scope, so no label covers them.",
+  "merges": [
+    "fuel_injector: the misfire_triage injector component and dtc_family:P02 (injector circuit) are the same fault class, so they are one label.",
+    "transmission: dtc_family:P07 and P08 merged. The J2012 table and dtc_definitions.P_SUBSYSTEMS map second digits 7 and 8 to transmission. P09 is 'transmission or control module' and is routed by repair text, not by family."
+  ],
+  "labels": [
+    {"label": "vacuum_intake_leak", "source": "diagnostics.py:rule_fuel_trim_triage", "description": "Unmetered air entering after the mass airflow sensor: intake boot, vacuum or PCV hoses, intake manifold gasket."},
+    {"label": "fuel_delivery", "source": "diagnostics.py:rule_fuel_trim_triage", "description": "Fuel supply short of demand: fuel pump, filter, pressure regulator or rail pressure."},
+    {"label": "maf_sensor", "source": "diagnostics.py:rule_fuel_trim_triage", "description": "Mass airflow sensor under-reading or contaminated."},
+    {"label": "ignition_component", "source": "diagnostics.py:rule_misfire_triage", "description": "Cylinder ignition parts: ignition coil, coil pack, spark plug or plug wire."},
+    {"label": "fuel_injector", "source": "diagnostics.py:rule_misfire_triage", "description": "Fuel injector or its circuit (merged with dtc_family:P02)."},
+    {"label": "catalytic_converter", "source": "diagnostics.py:rule_catalyst_assessment", "description": "Catalytic converter below efficiency threshold."},
+    {"label": "oxygen_sensor", "source": "diagnostics.py:rule_oxygen_sensor", "description": "Oxygen or air-fuel ratio sensor, its heater or wiring."},
+    {"label": "evap_system", "source": "diagnostics.py:rule_evap", "description": "Evaporative emissions leak or valve: purge or vent valve, canister, filler cap."},
+    {"label": "valve_timing_air_aux", "source": "dtc_family:P00", "description": "P00xx: variable valve timing and camshaft phasing, turbo or boost control, auxiliary fuel/air metering."},
+    {"label": "air_fuel_metering_other", "source": "dtc_family:P01", "description": "P01xx not covered by a rule: MAP, IAT, ECT and throttle position sensors, thermostat, throttle body."},
+    {"label": "ignition_system_sensor", "source": "dtc_family:P03", "description": "P03xx other than misfire: crankshaft and camshaft position sensors, knock sensors."},
+    {"label": "emissions_control_other", "source": "dtc_family:P04", "description": "P04xx not covered by a rule: EGR, secondary air injection."},
+    {"label": "idle_speed_auxiliary", "source": "dtc_family:P05", "description": "P05xx: idle control, vehicle speed sensor, charging system voltage, oil pressure sensor."},
+    {"label": "control_module", "source": "dtc_family:P06", "description": "P06xx: engine or powertrain control module and its outputs, including reflash or replacement."},
+    {"label": "transmission", "source": "dtc_family:P07", "description": "P07xx and P08xx (merged): transmission, torque converter, shift solenoids, TCM."}
+  ]
+}

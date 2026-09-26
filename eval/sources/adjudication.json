@@ -1,0 +1,3460 @@
+{
+ "source": "NHTSA ODI complaints API (api.nhtsa.gov/complaints/complaintsByVehicle), swept 2026-09-25/26: the 14 ruled makes for MY2000-2022, plus the known_issues.json vehicles outside that range",
+ "method": "Regex shortlist (P code present, completed-repair verb near a component, recurrence cues excluded), in deterministic seeded order; the executor then read every shortlisted narrative in full. A case is accepted only when the narrative states a P code and a repair actually performed, and nothing says the repair failed to resolve the fault. The label comes from the component repaired, not from the DTC. The quote is the evidence; no label comes from model recall.",
+ "adjudicated_by": "Claude Code (Opus 5.5), brief-2-weekend Phase 2, 2026-09-26",
+ "verified_by": "pending: human spot-check by Austin",
+ "reviewed": 251,
+ "accepted": 62,
+ "decisions": [
+  {
+   "odi_number": 10335753,
+   "year": 2005,
+   "make": "Ford",
+   "model": "FREESTYLE",
+   "codes": [
+    "P061B",
+    "P2106"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FREESTYLE&modelYear=2005#odiNumber=10335753",
+   "accept": false,
+   "reject_reason": "repair recommended by dealer, not performed"
+  },
+  {
+   "odi_number": 11664115,
+   "year": 2012,
+   "make": "GMC",
+   "model": "ACADIA",
+   "codes": [
+    "P2138"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=ACADIA&modelYear=2012#odiNumber=11664115",
+   "accept": false,
+   "reject_reason": "error still present after repair"
+  },
+  {
+   "odi_number": 10564644,
+   "year": 2012,
+   "make": "Ford",
+   "model": "TRANSIT CONNECT",
+   "codes": [
+    "P2101",
+    "P2111",
+    "P2135"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=TRANSIT+CONNECT&modelYear=2012#odiNumber=10564644",
+   "accept": true,
+   "primary_label": "air_fuel_metering_other",
+   "fault_labels": [
+    "air_fuel_metering_other"
+   ],
+   "repair_quote": "REPLACED WITH NEW FORD THROTTLE BODY ASSEMBLY ... FIXED PROBLEM AND VEHICLE WAS RUNNING FINE.",
+   "note": "same codes recurred ~6,000 miles later; the replaced part failed again, the diagnosis did not change"
+  },
+  {
+   "odi_number": 11181976,
+   "year": 2015,
+   "make": "Nissan",
+   "model": "SENTRA",
+   "codes": [
+    "P0101"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=SENTRA&modelYear=2015#odiNumber=11181976",
+   "accept": false,
+   "reject_reason": "ECU reprogram and throttle cleaning; problems persist; cause unresolved"
+  },
+  {
+   "odi_number": 10552753,
+   "year": 2010,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P2111",
+    "P2112"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2010#odiNumber=10552753",
+   "accept": false,
+   "reject_reason": "multiple repairs across incidents; cause of P2111/P2112 ambiguous"
+  },
+  {
+   "odi_number": 10426542,
+   "year": 2008,
+   "make": "Toyota",
+   "model": "YARIS",
+   "codes": [
+    "P0121"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=YARIS&modelYear=2008#odiNumber=10426542",
+   "accept": false,
+   "reject_reason": "throttle body replaced with no improvement; harness repair only quoted"
+  },
+  {
+   "odi_number": 10460912,
+   "year": 2012,
+   "make": "Chevrolet",
+   "model": "SILVERADO 1500",
+   "codes": [
+    "P2127",
+    "P2138"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=SILVERADO+1500&modelYear=2012#odiNumber=10460912",
+   "accept": false,
+   "reject_reason": "many parts replaced, unresolved"
+  },
+  {
+   "odi_number": 10449313,
+   "year": 2009,
+   "make": "Toyota",
+   "model": "COROLLA",
+   "codes": [
+    "P0121"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=COROLLA&modelYear=2009#odiNumber=10449313",
+   "accept": true,
+   "primary_label": "air_fuel_metering_other",
+   "fault_labels": [
+    "air_fuel_metering_other"
+   ],
+   "repair_quote": "FOUND CODE P0121 ... REPLACED THROTTLE BODY, RETESTED WORKING NORMAL AT THIS TIME",
+   "note": ""
+  },
+  {
+   "odi_number": 11300499,
+   "year": 2010,
+   "make": "Chevrolet",
+   "model": "EQUINOX",
+   "codes": [
+    "P2135"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=EQUINOX&modelYear=2010#odiNumber=11300499",
+   "accept": true,
+   "primary_label": "air_fuel_metering_other",
+   "fault_labels": [
+    "air_fuel_metering_other"
+   ],
+   "repair_quote": "DEALER REPORTED CODE P2135 AND REPLACED THROTTLE BODY",
+   "note": "resolution not stated; no recurrence reported"
+  },
+  {
+   "odi_number": 11014944,
+   "year": 2015,
+   "make": "Chevrolet",
+   "model": "TRAVERSE",
+   "codes": [
+    "P0700"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=TRAVERSE&modelYear=2015#odiNumber=11014944",
+   "accept": false,
+   "reject_reason": "parts cleaned, nothing fixed"
+  },
+  {
+   "odi_number": 11608382,
+   "year": 2020,
+   "make": "Hyundai",
+   "model": "TUCSON",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=TUCSON&modelYear=2020#odiNumber=11608382",
+   "accept": true,
+   "primary_label": "catalytic_converter",
+   "fault_labels": [
+    "catalytic_converter",
+    "oxygen_sensor"
+   ],
+   "repair_quote": "code P0420 ... manifold, catalytic converter, and O2 sensor were replaced",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 10358798,
+   "year": 2006,
+   "make": "Jeep",
+   "model": "WRANGLER",
+   "codes": [
+    "P0431"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=WRANGLER&modelYear=2006#odiNumber=10358798",
+   "accept": false,
+   "reject_reason": "still getting code after O2 sensors"
+  },
+  {
+   "odi_number": 11458162,
+   "year": 2013,
+   "make": "Kia",
+   "model": "SOUL",
+   "codes": [
+    "P0240"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SOUL&modelYear=2013#odiNumber=11458162",
+   "accept": false,
+   "reject_reason": "converter not replaced"
+  },
+  {
+   "odi_number": 11537442,
+   "year": 2015,
+   "make": "Kia",
+   "model": "SOUL",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SOUL&modelYear=2015#odiNumber=11537442",
+   "accept": false,
+   "reject_reason": "repeated failure after two replacements"
+  },
+  {
+   "odi_number": 10587499,
+   "year": 2014,
+   "make": "Chevrolet",
+   "model": "SILVERADO 1500",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=SILVERADO+1500&modelYear=2014#odiNumber=10587499",
+   "accept": true,
+   "primary_label": "catalytic_converter",
+   "fault_labels": [
+    "catalytic_converter"
+   ],
+   "repair_quote": "HARD CODE P0420 BANK 1 ... THE CATALYTIC CONVERTER WAS REPLACED AND THE CODES CLEARED OUT.",
+   "note": ""
+  },
+  {
+   "odi_number": 11421510,
+   "year": 2016,
+   "make": "Honda",
+   "model": "HR-V",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=HR-V&modelYear=2016#odiNumber=11421510",
+   "accept": false,
+   "reject_reason": "order of repair and P0420 unclear; other faults mixed in"
+  },
+  {
+   "odi_number": 11725242,
+   "year": 2015,
+   "make": "Chevrolet",
+   "model": "EQUINOX",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=EQUINOX&modelYear=2015#odiNumber=11725242",
+   "accept": false,
+   "reject_reason": "P0420 appeared after an unrelated repair; no fix for it"
+  },
+  {
+   "odi_number": 11645694,
+   "year": 2019,
+   "make": "Kia",
+   "model": "SOUL",
+   "codes": [
+    "P0020"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SOUL&modelYear=2019#odiNumber=11645694",
+   "accept": false,
+   "reject_reason": "replacement did not fix"
+  },
+  {
+   "odi_number": 11486846,
+   "year": 2015,
+   "make": "Chevrolet",
+   "model": "CRUZE",
+   "codes": [
+    "P0240"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=CRUZE&modelYear=2015#odiNumber=11486846",
+   "accept": false,
+   "reject_reason": "code persists after repair"
+  },
+  {
+   "odi_number": 10251467,
+   "year": 2004,
+   "make": "Toyota",
+   "model": "MATRIX",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=MATRIX&modelYear=2004#odiNumber=10251467",
+   "accept": true,
+   "primary_label": "catalytic_converter",
+   "fault_labels": [
+    "catalytic_converter"
+   ],
+   "repair_quote": "P0420 WAS THE CODE ... A NEW TOYOTA REPLACEMENT CATALYTIC CONVERTER IS BEING INSTALLED TODAY.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11578725,
+   "year": 2016,
+   "make": "Ford",
+   "model": "F-150 REGULAR CAB",
+   "codes": [
+    "P0720",
+    "P0722"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150+REGULAR+CAB&modelYear=2016#odiNumber=11578725",
+   "accept": false,
+   "reject_reason": "PCM reprogram as a trial; outcome unknown"
+  },
+  {
+   "odi_number": 10543049,
+   "year": 2002,
+   "make": "Toyota",
+   "model": "RAV4",
+   "codes": [
+    "P0755"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=RAV4&modelYear=2002#odiNumber=10543049",
+   "accept": false,
+   "reject_reason": "no repair performed"
+  },
+  {
+   "odi_number": 11353469,
+   "year": 2011,
+   "make": "Ford",
+   "model": "FIESTA",
+   "codes": [
+    "P06B8",
+    "P0884"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FIESTA&modelYear=2011#odiNumber=11353469",
+   "accept": false,
+   "reject_reason": "reprogramming did not fix; recurred"
+  },
+  {
+   "odi_number": 10234439,
+   "year": 2001,
+   "make": "Toyota",
+   "model": "RAV4",
+   "codes": [
+    "P0750",
+    "P0753",
+    "P0755",
+    "P0758",
+    "P1760"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=RAV4&modelYear=2001#odiNumber=10234439",
+   "accept": false,
+   "reject_reason": "replacement only recommended"
+  },
+  {
+   "odi_number": 11527606,
+   "year": 2020,
+   "make": "Ram",
+   "model": "1500",
+   "codes": [
+    "P00AF",
+    "P0299"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ram&model=1500&modelYear=2020#odiNumber=11527606",
+   "accept": false,
+   "reject_reason": "multiple repairs, unresolved"
+  },
+  {
+   "odi_number": 11317523,
+   "year": 2013,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P26B7"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2013#odiNumber=11317523",
+   "accept": false,
+   "reject_reason": "repeated repairs, unresolved"
+  },
+  {
+   "odi_number": 10116069,
+   "year": 2004,
+   "make": "Toyota",
+   "model": "PRIUS",
+   "codes": [
+    "P3791"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=PRIUS&modelYear=2004#odiNumber=10116069",
+   "accept": false,
+   "reject_reason": "ECU reprogram; owner reports fix unconfirmed"
+  },
+  {
+   "odi_number": 10082487,
+   "year": 2004,
+   "make": "Nissan",
+   "model": "SENTRA",
+   "codes": [
+    "P0171",
+    "P0174"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=SENTRA&modelYear=2004#odiNumber=10082487",
+   "accept": true,
+   "primary_label": "maf_sensor",
+   "fault_labels": [
+    "maf_sensor"
+   ],
+   "repair_quote": "ERROR CODE P0171/P0174, AIR FLOW METER REPLACED WITH NO FURTHER FAILURES.",
+   "note": "extractor proposed control_module from an earlier ECM reprogram that did not fix it; the label comes from the repair that resolved these codes"
+  },
+  {
+   "odi_number": 10369175,
+   "year": 2002,
+   "make": "Nissan",
+   "model": "SENTRA",
+   "codes": [
+    "P0122",
+    "P0455",
+    "P0605",
+    "P1229",
+    "P1456",
+    "P2128"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=SENTRA&modelYear=2002#odiNumber=10369175",
+   "accept": false,
+   "reject_reason": "many codes and repairs across 15 visits; no single confirmed fix"
+  },
+  {
+   "odi_number": 11624420,
+   "year": 2009,
+   "make": "Chevrolet",
+   "model": "TAHOE",
+   "codes": [
+    "P2138"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=TAHOE&modelYear=2009#odiNumber=11624420",
+   "accept": false,
+   "reject_reason": "still not working after ECM"
+  },
+  {
+   "odi_number": 10860910,
+   "year": 2004,
+   "make": "GMC",
+   "model": "ENVOY",
+   "codes": [
+    "P0410"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=ENVOY&modelYear=2004#odiNumber=10860910",
+   "accept": false,
+   "reject_reason": "replaced twice, recurring"
+  },
+  {
+   "odi_number": 10702303,
+   "year": 2003,
+   "make": "Ford",
+   "model": "WINDSTAR",
+   "codes": [
+    "P0302",
+    "P0305",
+    "P0316"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=WINDSTAR&modelYear=2003#odiNumber=10702303",
+   "accept": false,
+   "reject_reason": "many parts, recurring"
+  },
+  {
+   "odi_number": 11451867,
+   "year": 2017,
+   "make": "Chevrolet",
+   "model": "VOLT",
+   "codes": [
+    "P0401"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=VOLT&modelYear=2017#odiNumber=11451867",
+   "accept": true,
+   "primary_label": "emissions_control_other",
+   "fault_labels": [
+    "emissions_control_other"
+   ],
+   "repair_quote": "P0401 ... No such problems with new EGR installed",
+   "note": ""
+  },
+  {
+   "odi_number": 11469298,
+   "year": 2018,
+   "make": "Toyota",
+   "model": "TUNDRA",
+   "codes": [
+    "P2445"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=TUNDRA&modelYear=2018#odiNumber=11469298",
+   "accept": true,
+   "primary_label": "emissions_control_other",
+   "fault_labels": [
+    "emissions_control_other"
+   ],
+   "repair_quote": "Code P2445 'Secondary Air Injection Pump Stuck Off' ... Dealer replaced the Secondary Air Injection Pump",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11229568,
+   "year": 2019,
+   "make": "Ford",
+   "model": "F-150 REGULAR CAB",
+   "codes": [
+    "P245B"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150+REGULAR+CAB&modelYear=2019#odiNumber=11229568",
+   "accept": true,
+   "primary_label": "emissions_control_other",
+   "fault_labels": [
+    "emissions_control_other"
+   ],
+   "repair_quote": "THE EGR ASSEMBLY NEEDED TO BE REPLACED ... THE VEHICLE WAS REPAIRED ... CODE: P245B",
+   "note": ""
+  },
+  {
+   "odi_number": 11546078,
+   "year": 2015,
+   "make": "Ram",
+   "model": "1500",
+   "codes": [
+    "P0299",
+    "P2D2F"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ram&model=1500&modelYear=2015#odiNumber=11546078",
+   "accept": false,
+   "reject_reason": "codes returned after EGR replacement"
+  },
+  {
+   "odi_number": 11618259,
+   "year": 2014,
+   "make": "Toyota",
+   "model": "TACOMA",
+   "codes": [
+    "P2443"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=TACOMA&modelYear=2014#odiNumber=11618259",
+   "accept": false,
+   "reject_reason": "recurring after two replacements"
+  },
+  {
+   "odi_number": 10785809,
+   "year": 2004,
+   "make": "Hyundai",
+   "model": "SONATA",
+   "codes": [
+    "P0401"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=SONATA&modelYear=2004#odiNumber=10785809",
+   "accept": false,
+   "reject_reason": "light still on after two replacements"
+  },
+  {
+   "odi_number": 10864298,
+   "year": 2011,
+   "make": "Ford",
+   "model": "FUSION HYBRID",
+   "codes": [
+    "P0A0A",
+    "P1A0A",
+    "P1A10",
+    "P1A14"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FUSION+HYBRID&modelYear=2011#odiNumber=10864298",
+   "accept": false,
+   "reject_reason": "EGR repair did not fix; later codes unrelated"
+  },
+  {
+   "odi_number": 10058112,
+   "year": 2001,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P1404"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2001#odiNumber=10058112",
+   "accept": false,
+   "reject_reason": "light returned after EGR replacement"
+  },
+  {
+   "odi_number": 10735936,
+   "year": 2007,
+   "make": "Volkswagen",
+   "model": "PASSAT",
+   "codes": [
+    "P0442",
+    "P0445",
+    "P0456"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=PASSAT&modelYear=2007#odiNumber=10735936",
+   "accept": false,
+   "reject_reason": "recurring after repairs"
+  },
+  {
+   "odi_number": 11564943,
+   "year": 2009,
+   "make": "Chevrolet",
+   "model": "CORVETTE",
+   "codes": [
+    "P0442"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=CORVETTE&modelYear=2009#odiNumber=11564943",
+   "accept": false,
+   "reject_reason": "unresolved; repair only quoted"
+  },
+  {
+   "odi_number": 11343783,
+   "year": 2018,
+   "make": "Ford",
+   "model": "FOCUS",
+   "codes": [
+    "P1450"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FOCUS&modelYear=2018#odiNumber=11343783",
+   "accept": true,
+   "primary_label": "evap_system",
+   "fault_labels": [
+    "evap_system"
+   ],
+   "repair_quote": "P1450 ... I PURCHASED AND REPLACED THE CANISTER PURGE VALVE",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11744373,
+   "year": 2020,
+   "make": "Chevrolet",
+   "model": "IMPALA",
+   "codes": [
+    "P0442",
+    "P0496"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=IMPALA&modelYear=2020#odiNumber=11744373",
+   "accept": false,
+   "reject_reason": "no repair described"
+  },
+  {
+   "odi_number": 11762109,
+   "year": 2017,
+   "make": "Ford",
+   "model": "FIESTA",
+   "codes": [
+    "P0457"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FIESTA&modelYear=2017#odiNumber=11762109",
+   "accept": true,
+   "primary_label": "evap_system",
+   "fault_labels": [
+    "evap_system"
+   ],
+   "repair_quote": "DTC P0457 ... Purge valve was replaced ... EVAP leak verification passed and DTC was resolved.",
+   "note": ""
+  },
+  {
+   "odi_number": 11110239,
+   "year": 2012,
+   "make": "Volkswagen",
+   "model": "EOS",
+   "codes": [
+    "P025C"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=EOS&modelYear=2012#odiNumber=11110239",
+   "accept": false,
+   "reject_reason": "no repair performed"
+  },
+  {
+   "odi_number": 11511799,
+   "year": 2015,
+   "make": "Ford",
+   "model": "FUSION",
+   "codes": [
+    "P1450"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FUSION&modelYear=2015#odiNumber=11511799",
+   "accept": false,
+   "reject_reason": "current P1450 is a recurrence with no repair yet"
+  },
+  {
+   "odi_number": 11311534,
+   "year": 2004,
+   "make": "GMC",
+   "model": "ENVOY",
+   "codes": [
+    "P0455"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=ENVOY&modelYear=2004#odiNumber=11311534",
+   "accept": false,
+   "reject_reason": "many parts, still getting codes"
+  },
+  {
+   "odi_number": 11750700,
+   "year": 2019,
+   "make": "Subaru",
+   "model": "CROSSTREK",
+   "codes": [
+    "P0452"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Subaru&model=CROSSTREK&modelYear=2019#odiNumber=11750700",
+   "accept": false,
+   "reject_reason": "no cause found"
+  },
+  {
+   "odi_number": 11171743,
+   "year": 2003,
+   "make": "Toyota",
+   "model": "COROLLA",
+   "codes": [
+    "P0440",
+    "P0446"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=COROLLA&modelYear=2003#odiNumber=11171743",
+   "accept": false,
+   "reject_reason": "symptoms returned after each repair"
+  },
+  {
+   "odi_number": 10334559,
+   "year": 2004,
+   "make": "Volvo",
+   "model": "S60",
+   "codes": [
+    "P0194"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volvo&model=S60&modelYear=2004#odiNumber=10334559",
+   "accept": true,
+   "primary_label": "fuel_delivery",
+   "fault_labels": [
+    "fuel_delivery"
+   ],
+   "repair_quote": "DEALER REPLACED FUEL PRESSURE SENSOR. ERROR CODE ON CAR P0194.",
+   "note": "rail pressure sensor filed under fuel_delivery (taxonomy: 'pressure regulator or rail pressure'); resolution not stated"
+  },
+  {
+   "odi_number": 11506304,
+   "year": 2019,
+   "make": "Honda",
+   "model": "RIDGELINE",
+   "codes": [
+    "P219A"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=RIDGELINE&modelYear=2019#odiNumber=11506304",
+   "accept": false,
+   "reject_reason": "fault ongoing; injectors not yet repaired"
+  },
+  {
+   "odi_number": 10550793,
+   "year": 2003,
+   "make": "Ford",
+   "model": "EXPEDITION",
+   "codes": [
+    "P0231"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=EXPEDITION&modelYear=2003#odiNumber=10550793",
+   "accept": false,
+   "reject_reason": "fuel parts replaced without effect; suspected water intrusion"
+  },
+  {
+   "odi_number": 11553239,
+   "year": 2019,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P0087"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2019#odiNumber=11553239",
+   "accept": false,
+   "reject_reason": "no repair performed"
+  },
+  {
+   "odi_number": 11065556,
+   "year": 2015,
+   "make": "Ram",
+   "model": "1500",
+   "codes": [
+    "P2681",
+    "P26A7",
+    "P26AB"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ram&model=1500&modelYear=2015#odiNumber=11065556",
+   "accept": false,
+   "reject_reason": "coded fault not repaired in narrative"
+  },
+  {
+   "odi_number": 11609255,
+   "year": 2019,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P0172",
+    "P0300",
+    "P0301",
+    "P0302",
+    "P0304"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2019#odiNumber=11609255",
+   "accept": false,
+   "reject_reason": "recurred after fuel pump; later repair not stated"
+  },
+  {
+   "odi_number": 11762264,
+   "year": 2014,
+   "make": "Ford",
+   "model": "TAURUS",
+   "codes": [
+    "P0461"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=TAURUS&modelYear=2014#odiNumber=11762264",
+   "accept": false,
+   "reject_reason": "code appeared after repairs; no fix"
+  },
+  {
+   "odi_number": 11737648,
+   "year": 2021,
+   "make": "Ford",
+   "model": "F-150 REGULAR CAB",
+   "codes": [
+    "P0627"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150+REGULAR+CAB&modelYear=2021#odiNumber=11737648",
+   "accept": false,
+   "reject_reason": "repair did not resolve"
+  },
+  {
+   "odi_number": 11763825,
+   "year": 2022,
+   "make": "GMC",
+   "model": "SIERRA 1500",
+   "codes": [
+    "P129F"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=SIERRA+1500&modelYear=2022#odiNumber=11763825",
+   "accept": true,
+   "primary_label": "fuel_delivery",
+   "fault_labels": [
+    "fuel_delivery"
+   ],
+   "repair_quote": "diagnostic trouble code P129F ... The dealership diagnosed the problem and replaced the fuel pump power control module to repair the vehicle.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11486054,
+   "year": 2012,
+   "make": "Hyundai",
+   "model": "SONATA",
+   "codes": [
+    "P0087"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=SONATA&modelYear=2012#odiNumber=11486054",
+   "accept": false,
+   "reject_reason": "recurring after repair"
+  },
+  {
+   "odi_number": 11611127,
+   "year": 2017,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P0172",
+    "P0303"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2017#odiNumber=11611127",
+   "accept": true,
+   "primary_label": "fuel_injector",
+   "fault_labels": [
+    "fuel_injector"
+   ],
+   "repair_quote": "The dealership replaced the fuel injectors, documenting the issue as 'DTC P0303 No3 Cylinder Misfire, P0172 Fuel System (B1) Too Rich.'",
+   "note": ""
+  },
+  {
+   "odi_number": 10320360,
+   "year": 2005,
+   "make": "Kia",
+   "model": "SPORTAGE",
+   "codes": [
+    "P0170",
+    "P0273",
+    "P0300",
+    "P0303",
+    "P0305",
+    "P0420",
+    "P0430"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SPORTAGE&modelYear=2005#odiNumber=10320360",
+   "accept": false,
+   "reject_reason": "many parts over five visits; no single confirmed fix"
+  },
+  {
+   "odi_number": 11673259,
+   "year": 2017,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P0087"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2017#odiNumber=11673259",
+   "accept": false,
+   "reject_reason": "not repaired"
+  },
+  {
+   "odi_number": 11457881,
+   "year": 2018,
+   "make": "Volkswagen",
+   "model": "TIGUAN",
+   "codes": [
+    "P0204"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=TIGUAN&modelYear=2018#odiNumber=11457881",
+   "accept": false,
+   "reject_reason": "repair not visible in text"
+  },
+  {
+   "odi_number": 10723855,
+   "year": 2011,
+   "make": "Volkswagen",
+   "model": "TIGUAN",
+   "codes": [
+    "P0300",
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=TIGUAN&modelYear=2011#odiNumber=10723855",
+   "accept": false,
+   "reject_reason": "coded misfire not tied to a repair"
+  },
+  {
+   "odi_number": 11753645,
+   "year": 2018,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P0172"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2018#odiNumber=11753645",
+   "accept": false,
+   "reject_reason": "recurring after repairs"
+  },
+  {
+   "odi_number": 11299037,
+   "year": 2013,
+   "make": "Chevrolet",
+   "model": "SILVERADO 2500",
+   "codes": [
+    "P11DB"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=SILVERADO+2500&modelYear=2013#odiNumber=11299037",
+   "accept": false,
+   "reject_reason": "code not repaired"
+  },
+  {
+   "odi_number": 11659736,
+   "year": 2019,
+   "make": "Toyota",
+   "model": "CAMRY",
+   "codes": [
+    "P0171"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=CAMRY&modelYear=2019#odiNumber=11659736",
+   "accept": false,
+   "reject_reason": "two repairs; which one resolved P0171 is ambiguous"
+  },
+  {
+   "odi_number": 11740403,
+   "year": 2022,
+   "make": "GMC",
+   "model": "SIERRA 1500",
+   "codes": [
+    "P0700",
+    "P0747"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=SIERRA+1500&modelYear=2022#odiNumber=11740403",
+   "accept": false,
+   "reject_reason": "not repaired"
+  },
+  {
+   "odi_number": 11617255,
+   "year": 2015,
+   "make": "Jeep",
+   "model": "WRANGLER",
+   "codes": [
+    "P0304"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=WRANGLER&modelYear=2015#odiNumber=11617255",
+   "accept": false,
+   "reject_reason": "misfire still present"
+  },
+  {
+   "odi_number": 11400207,
+   "year": 2014,
+   "make": "Jeep",
+   "model": "CHEROKEE",
+   "codes": [
+    "P0520"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=CHEROKEE&modelYear=2014#odiNumber=11400207",
+   "accept": true,
+   "primary_label": "idle_speed_auxiliary",
+   "fault_labels": [
+    "idle_speed_auxiliary"
+   ],
+   "repair_quote": "CHECK ENGINE LIGHT GAVE A CODE P0520 SO AN OIL PRESSURE SWITCH WAS INSTALLED",
+   "note": "later oil leak is a separate fault; resolution of P0520 not stated"
+  },
+  {
+   "odi_number": 11359961,
+   "year": 2006,
+   "make": "Jeep",
+   "model": "GRAND CHEROKEE",
+   "codes": [
+    "P1603"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=GRAND+CHEROKEE&modelYear=2006#odiNumber=11359961",
+   "accept": false,
+   "reject_reason": "ECM not replaced; unresolved"
+  },
+  {
+   "odi_number": 11525706,
+   "year": 2015,
+   "make": "Jeep",
+   "model": "GRAND CHEROKEE",
+   "codes": [
+    "P0440",
+    "P0523",
+    "P06DE"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=GRAND+CHEROKEE&modelYear=2015#odiNumber=11525706",
+   "accept": false,
+   "reject_reason": "recurring after repeated repairs"
+  },
+  {
+   "odi_number": 11538384,
+   "year": 2005,
+   "make": "Chevrolet",
+   "model": "CORVETTE",
+   "codes": [
+    "P0101"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=CORVETTE&modelYear=2005#odiNumber=11538384",
+   "accept": false,
+   "reject_reason": "P0101 not repaired"
+  },
+  {
+   "odi_number": 11606943,
+   "year": 2018,
+   "make": "Chevrolet",
+   "model": "TRAVERSE",
+   "codes": [
+    "P0496"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=TRAVERSE&modelYear=2018#odiNumber=11606943",
+   "accept": false,
+   "reject_reason": "not fully fixed; recurring"
+  },
+  {
+   "odi_number": 11056116,
+   "year": 2010,
+   "make": "Honda",
+   "model": "PILOT",
+   "codes": [
+    "P3400"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=PILOT&modelYear=2010#odiNumber=11056116",
+   "accept": false,
+   "reject_reason": "several concurrent faults; no confirmed fix"
+  },
+  {
+   "odi_number": 11164121,
+   "year": 2013,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P0300"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2013#odiNumber=11164121",
+   "accept": false,
+   "reject_reason": "stalling persists after repairs"
+  },
+  {
+   "odi_number": 10211258,
+   "year": 2004,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P2646"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2004#odiNumber=10211258",
+   "accept": false,
+   "reject_reason": "code keeps coming back"
+  },
+  {
+   "odi_number": 10185642,
+   "year": 2001,
+   "make": "Nissan",
+   "model": "MAXIMA",
+   "codes": [
+    "P0420",
+    "P0505"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=MAXIMA&modelYear=2001#odiNumber=10185642",
+   "accept": false,
+   "reject_reason": "IAC failure reportedly damaged the ECM; outcome ambiguous"
+  },
+  {
+   "odi_number": 11011329,
+   "year": 2010,
+   "make": "Honda",
+   "model": "ACCORD",
+   "codes": [
+    "P3400"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=ACCORD&modelYear=2010#odiNumber=11011329",
+   "accept": true,
+   "primary_label": "idle_speed_auxiliary",
+   "fault_labels": [
+    "idle_speed_auxiliary"
+   ],
+   "repair_quote": "DEALER RECEIPT SHOWS CODE P3400 FOUND AND DEALER REPLACED REAR OIL PRESSURE SENSOR.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11427314,
+   "year": 2014,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0012",
+    "P0234",
+    "P0299",
+    "P0365",
+    "P0369",
+    "P1594"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2014#odiNumber=11427314",
+   "accept": false,
+   "reject_reason": "engine damage; unresolved"
+  },
+  {
+   "odi_number": 11291732,
+   "year": 2007,
+   "make": "Chevrolet",
+   "model": "TAHOE",
+   "codes": [
+    "P0300",
+    "P0301"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=TAHOE&modelYear=2007#odiNumber=11291732",
+   "accept": false,
+   "reject_reason": "unresolved"
+  },
+  {
+   "odi_number": 11764353,
+   "year": 2016,
+   "make": "Ford",
+   "model": "EDGE",
+   "codes": [
+    "P0301"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=EDGE&modelYear=2016#odiNumber=11764353",
+   "accept": false,
+   "reject_reason": "code never cleared; coolant intrusion"
+  },
+  {
+   "odi_number": 11584815,
+   "year": 2019,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0012",
+    "P04BD"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2019#odiNumber=11584815",
+   "accept": false,
+   "reject_reason": "not resolved"
+  },
+  {
+   "odi_number": 11627682,
+   "year": 2020,
+   "make": "Hyundai",
+   "model": "SANTA FE",
+   "codes": [
+    "P2565"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=SANTA+FE&modelYear=2020#odiNumber=11627682",
+   "accept": false,
+   "reject_reason": "not repaired"
+  },
+  {
+   "odi_number": 11587166,
+   "year": 2016,
+   "make": "Kia",
+   "model": "SORENTO",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SORENTO&modelYear=2016#odiNumber=11587166",
+   "accept": false,
+   "reject_reason": "coded fault not tied to a repair"
+  },
+  {
+   "odi_number": 10218998,
+   "year": 2002,
+   "make": "Toyota",
+   "model": "COROLLA",
+   "codes": [
+    "P1346"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=COROLLA&modelYear=2002#odiNumber=10218998",
+   "accept": false,
+   "reject_reason": "repair only advised"
+  },
+  {
+   "odi_number": 11733937,
+   "year": 2017,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P0303"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2017#odiNumber=11733937",
+   "accept": false,
+   "reject_reason": "plugs did not fix"
+  },
+  {
+   "odi_number": 11727615,
+   "year": 2015,
+   "make": "Honda",
+   "model": "ODYSSEY",
+   "codes": [
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=ODYSSEY&modelYear=2015#odiNumber=11727615",
+   "accept": false,
+   "reject_reason": "misfire returned; root cause elsewhere"
+  },
+  {
+   "odi_number": 11424526,
+   "year": 2012,
+   "make": "Honda",
+   "model": "PILOT",
+   "codes": [
+    "P0175",
+    "P0301"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=PILOT&modelYear=2012#odiNumber=11424526",
+   "accept": true,
+   "primary_label": "ignition_component",
+   "fault_labels": [
+    "ignition_component"
+   ],
+   "repair_quote": "a P0301 and P0175 code. They removed the spark plugs which showed excessive fouling and they replaced them.",
+   "note": "owner attributes fouling to oil consumption; outcome not stated"
+  },
+  {
+   "odi_number": 11254195,
+   "year": 2008,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P0365"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2008#odiNumber=11254195",
+   "accept": false,
+   "reject_reason": "code continues after replacements"
+  },
+  {
+   "odi_number": 11615712,
+   "year": 2019,
+   "make": "Chevrolet",
+   "model": "EQUINOX",
+   "codes": [
+    "P0017"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=EQUINOX&modelYear=2019#odiNumber=11615712",
+   "accept": false,
+   "reject_reason": "sensors replaced, then mechanical failure found; unresolved"
+  },
+  {
+   "odi_number": 10167510,
+   "year": 2001,
+   "make": "Toyota",
+   "model": "PRIUS",
+   "codes": [
+    "P1120"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=PRIUS&modelYear=2001#odiNumber=10167510",
+   "accept": false,
+   "reject_reason": "problem continues after recall repair"
+  },
+  {
+   "odi_number": 11697284,
+   "year": 2012,
+   "make": "Kia",
+   "model": "FORTE",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=FORTE&modelYear=2012#odiNumber=11697284",
+   "accept": false,
+   "reject_reason": "recurred after knock sensor"
+  },
+  {
+   "odi_number": 10861601,
+   "year": 2002,
+   "make": "Nissan",
+   "model": "SENTRA",
+   "codes": [
+    "P0335"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=SENTRA&modelYear=2002#odiNumber=10861601",
+   "accept": false,
+   "reject_reason": "failure recurred"
+  },
+  {
+   "odi_number": 11763290,
+   "year": 2019,
+   "make": "Hyundai",
+   "model": "SONATA",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=SONATA&modelYear=2019#odiNumber=11763290",
+   "accept": false,
+   "reject_reason": "code after an earlier replacement; not repaired"
+  },
+  {
+   "odi_number": 11254405,
+   "year": 2015,
+   "make": "Jeep",
+   "model": "COMPASS",
+   "codes": [
+    "P0335"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=COMPASS&modelYear=2015#odiNumber=11254405",
+   "accept": true,
+   "primary_label": "ignition_system_sensor",
+   "fault_labels": [
+    "ignition_system_sensor"
+   ],
+   "repair_quote": "DIAGNOSTIC SHOWED P0335 CRANK SHAFT SENSOR FAILED PINS WORN OUTS DEALERSHIP REPLACED CRANKSHAFT SENSOR, CONNECTOR, WIRING",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11636376,
+   "year": 2016,
+   "make": "Kia",
+   "model": "SOUL",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SOUL&modelYear=2016#odiNumber=11636376",
+   "accept": false,
+   "reject_reason": "engine damage; knock sensor replacement not the fix"
+  },
+  {
+   "odi_number": 10691361,
+   "year": 2012,
+   "make": "Jeep",
+   "model": "PATRIOT",
+   "codes": [
+    "P0335"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=PATRIOT&modelYear=2012#odiNumber=10691361",
+   "accept": true,
+   "primary_label": "ignition_system_sensor",
+   "fault_labels": [
+    "ignition_system_sensor"
+   ],
+   "repair_quote": "REPORTED AN ERROR P0335 CRANK SHAFT POSITION SENSOR ... THE CRANKSHAFT POSITION SENSOR WAS REPLACED AFTER THE SECOND INCIDENT.",
+   "note": "no recurrence reported"
+  },
+  {
+   "odi_number": 11480074,
+   "year": 2016,
+   "make": "Jeep",
+   "model": "COMPASS",
+   "codes": [
+    "P2173"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=COMPASS&modelYear=2016#odiNumber=11480074",
+   "accept": false,
+   "reject_reason": "code and repair not linked; unofficial recall work"
+  },
+  {
+   "odi_number": 11716621,
+   "year": 2018,
+   "make": "Nissan",
+   "model": "KICKS",
+   "codes": [
+    "P0101"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=KICKS&modelYear=2018#odiNumber=11716621",
+   "accept": false,
+   "reject_reason": "code returns after each replacement"
+  },
+  {
+   "odi_number": 11676333,
+   "year": 2019,
+   "make": "Nissan",
+   "model": "KICKS",
+   "codes": [
+    "P0101"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=KICKS&modelYear=2019#odiNumber=11676333",
+   "accept": false,
+   "reject_reason": "light back on after one day"
+  },
+  {
+   "odi_number": 10370201,
+   "year": 2000,
+   "make": "Ford",
+   "model": "WINDSTAR",
+   "codes": [
+    "P0171",
+    "P0174"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=WINDSTAR&modelYear=2000#odiNumber=10370201",
+   "accept": false,
+   "reject_reason": "light still on after repairs"
+  },
+  {
+   "odi_number": 11377543,
+   "year": 2014,
+   "make": "Subaru",
+   "model": "IMPREZA",
+   "codes": [
+    "P0410"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Subaru&model=IMPREZA&modelYear=2014#odiNumber=11377543",
+   "accept": false,
+   "reject_reason": "coded fault not repaired"
+  },
+  {
+   "odi_number": 10683602,
+   "year": 2011,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P2135"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2011#odiNumber=10683602",
+   "accept": false,
+   "reject_reason": "MAF cleaned, not replaced; recurred"
+  },
+  {
+   "odi_number": 11389616,
+   "year": 2014,
+   "make": "Nissan",
+   "model": "SENTRA",
+   "codes": [
+    "P0101"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=SENTRA&modelYear=2014#odiNumber=11389616",
+   "accept": false,
+   "reject_reason": "light still on after MAF"
+  },
+  {
+   "odi_number": 11750044,
+   "year": 2022,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P0299",
+    "P1101",
+    "P2227"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2022#odiNumber=11750044",
+   "accept": false,
+   "reject_reason": "sensors replaced only to eliminate causes; fault unresolved"
+  },
+  {
+   "odi_number": 10764972,
+   "year": 2011,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P0113",
+    "P1668"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2011#odiNumber=10764972",
+   "accept": false,
+   "reject_reason": "codes not tied to a repair"
+  },
+  {
+   "odi_number": 11417750,
+   "year": 2013,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0106"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2013#odiNumber=11417750",
+   "accept": false,
+   "reject_reason": "replaced twice, recurring"
+  },
+  {
+   "odi_number": 10767286,
+   "year": 2013,
+   "make": "Volkswagen",
+   "model": "PASSAT",
+   "codes": [
+    "P2196"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=PASSAT&modelYear=2013#odiNumber=10767286",
+   "accept": true,
+   "primary_label": "oxygen_sensor",
+   "fault_labels": [
+    "oxygen_sensor"
+   ],
+   "repair_quote": "ENGINE WARNING LIGHT CAME ON CODE P2196 ... OXYGEN SENSOR (FRONT) REPLACED WAS REPLACED BY VW",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 10151176,
+   "year": 2005,
+   "make": "GMC",
+   "model": "CANYON",
+   "codes": [
+    "P0106",
+    "P0300",
+    "P0506"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=CANYON&modelYear=2005#odiNumber=10151176",
+   "accept": false,
+   "reject_reason": "recurred after repair"
+  },
+  {
+   "odi_number": 10447194,
+   "year": 2007,
+   "make": "Ford",
+   "model": "RANGER",
+   "codes": [
+    "P2195"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=RANGER&modelYear=2007#odiNumber=10447194",
+   "accept": true,
+   "primary_label": "oxygen_sensor",
+   "fault_labels": [
+    "oxygen_sensor",
+    "maf_sensor"
+   ],
+   "repair_quote": "FOUND CODES PO171 AND P2195 FOR O2 SENSOR STUCK LEAN AND BANK 1 LEAN. REPLACED B1S1 O2 SENSOR ALSO MASS AIR SENSOR.",
+   "note": "two parts replaced together; primary follows the DTC-named sensor; outcome not stated"
+  },
+  {
+   "odi_number": 11056284,
+   "year": 2011,
+   "make": "Ram",
+   "model": "2500",
+   "codes": [
+    "P2196",
+    "P241A"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ram&model=2500&modelYear=2011#odiNumber=11056284",
+   "accept": false,
+   "reject_reason": "replaced three times"
+  },
+  {
+   "odi_number": 11639124,
+   "year": 2013,
+   "make": "GMC",
+   "model": "TERRAIN",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=TERRAIN&modelYear=2013#odiNumber=11639124",
+   "accept": false,
+   "reject_reason": "wrong repair per owner; unresolved"
+  },
+  {
+   "odi_number": 11473292,
+   "year": 2018,
+   "make": "Ford",
+   "model": "EDGE",
+   "codes": [
+    "P0301"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=EDGE&modelYear=2018#odiNumber=11473292",
+   "accept": false,
+   "reject_reason": "recurring; repair does not match code"
+  },
+  {
+   "odi_number": 11611536,
+   "year": 2017,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2017#odiNumber=11611536",
+   "accept": false,
+   "reject_reason": "failure persisted"
+  },
+  {
+   "odi_number": 11343042,
+   "year": 2001,
+   "make": "Toyota",
+   "model": "AVALON",
+   "codes": [
+    "P1135",
+    "P1155"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=AVALON&modelYear=2001#odiNumber=11343042",
+   "accept": false,
+   "reject_reason": "light still on"
+  },
+  {
+   "odi_number": 10250930,
+   "year": 2003,
+   "make": "Kia",
+   "model": "SEDONA",
+   "codes": [
+    "P0102"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SEDONA&modelYear=2003#odiNumber=10250930",
+   "accept": false,
+   "reject_reason": "coded fault not tied to a repair"
+  },
+  {
+   "odi_number": 11182554,
+   "year": 2013,
+   "make": "Ram",
+   "model": "1500",
+   "codes": [
+    "P219A"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ram&model=1500&modelYear=2013#odiNumber=11182554",
+   "accept": false,
+   "reject_reason": "recurring after each repair"
+  },
+  {
+   "odi_number": 11708918,
+   "year": 2016,
+   "make": "Honda",
+   "model": "ACCORD",
+   "codes": [
+    "P0741"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=ACCORD&modelYear=2016#odiNumber=11708918",
+   "accept": false,
+   "reject_reason": "not repaired"
+  },
+  {
+   "odi_number": 10926749,
+   "year": 2011,
+   "make": "Chevrolet",
+   "model": "AVEO",
+   "codes": [
+    "P0597",
+    "P0700",
+    "P0722"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=AVEO&modelYear=2011#odiNumber=10926749",
+   "accept": false,
+   "reject_reason": "code persisted after sensor"
+  },
+  {
+   "odi_number": 11621560,
+   "year": 2014,
+   "make": "Ford",
+   "model": "EXPEDITION",
+   "codes": [
+    "P1500"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=EXPEDITION&modelYear=2014#odiNumber=11621560",
+   "accept": true,
+   "primary_label": "transmission",
+   "fault_labels": [
+    "transmission"
+   ],
+   "repair_quote": "DTC code: P1500 ... The contact determined that the TCM needed to be replaced ... and replaced the TCM. The vehicle was repaired.",
+   "note": ""
+  },
+  {
+   "odi_number": 10409281,
+   "year": 2000,
+   "make": "Honda",
+   "model": "CIVIC",
+   "codes": [
+    "P0240"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CIVIC&modelYear=2000#odiNumber=10409281",
+   "accept": false,
+   "reject_reason": "not repaired"
+  },
+  {
+   "odi_number": 11609912,
+   "year": 2015,
+   "make": "Ford",
+   "model": "FOCUS",
+   "codes": [
+    "P07A5",
+    "P287A"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FOCUS&modelYear=2015#odiNumber=11609912",
+   "accept": false,
+   "reject_reason": "codes not tied to a completed repair"
+  },
+  {
+   "odi_number": 11704738,
+   "year": 2016,
+   "make": "Chevrolet",
+   "model": "CAMARO",
+   "codes": [
+    "P0128"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=CAMARO&modelYear=2016#odiNumber=11704738",
+   "accept": false,
+   "reject_reason": "not repaired"
+  },
+  {
+   "odi_number": 11255947,
+   "year": 2016,
+   "make": "Kia",
+   "model": "OPTIMA",
+   "codes": [
+    "P0C17"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=OPTIMA&modelYear=2016#odiNumber=11255947",
+   "accept": false,
+   "reject_reason": "recalibration only; code not tied to a completed fix"
+  },
+  {
+   "odi_number": 10713481,
+   "year": 2002,
+   "make": "Honda",
+   "model": "ACCORD",
+   "codes": [
+    "P0730",
+    "P0740"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=ACCORD&modelYear=2002#odiNumber=10713481",
+   "accept": false,
+   "reject_reason": "recurring after replacement"
+  },
+  {
+   "odi_number": 11507321,
+   "year": 2011,
+   "make": "Chevrolet",
+   "model": "CAMARO",
+   "codes": [
+    "P2138"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=CAMARO&modelYear=2011#odiNumber=11507321",
+   "accept": false,
+   "reject_reason": "still doing the same thing"
+  },
+  {
+   "odi_number": 11573158,
+   "year": 2019,
+   "make": "Ford",
+   "model": "EXPLORER",
+   "codes": [
+    "P0767",
+    "P2704"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=EXPLORER&modelYear=2019#odiNumber=11573158",
+   "accept": false,
+   "reject_reason": "no repair for coded fault"
+  },
+  {
+   "odi_number": 10178978,
+   "year": 2001,
+   "make": "Ford",
+   "model": "WINDSTAR",
+   "codes": [
+    "P0171"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=WINDSTAR&modelYear=2001#odiNumber=10178978",
+   "accept": true,
+   "primary_label": "vacuum_intake_leak",
+   "fault_labels": [
+    "vacuum_intake_leak"
+   ],
+   "repair_quote": "CODES READ P0171 (LEAN BANK 1). FOLLOWED REPAIR PROCEDURE PER FORD TSB 03-16-1 (REPLACE ISOLATOR BOLTS AND PORT SEALS UNDER UPPER INTAKE MANIFOLD). ALSO REPLACED VACUUM LINE",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 10190784,
+   "year": 2002,
+   "make": "Ford",
+   "model": "F-150",
+   "codes": [
+    "P0174"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150&modelYear=2002#odiNumber=10190784",
+   "accept": true,
+   "primary_label": "vacuum_intake_leak",
+   "fault_labels": [
+    "vacuum_intake_leak",
+    "maf_sensor"
+   ],
+   "repair_quote": "P0174 CODE REPLACED INTAKE MANIFOLD GASKET ,MAF SENSOR. $750 DOLLARS LATER TRUCK RUNS FINE",
+   "note": ""
+  },
+  {
+   "odi_number": 11764825,
+   "year": 2021,
+   "make": "Kia",
+   "model": "K5",
+   "codes": [
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=K5&modelYear=2021#odiNumber=11764825",
+   "accept": true,
+   "primary_label": "vacuum_intake_leak",
+   "fault_labels": [
+    "vacuum_intake_leak",
+    "ignition_component"
+   ],
+   "repair_quote": "severe engine misfire (P0302) ... Dealership confirmed the Purge Control / PCV valve failed ... charged out-of-pocket for the Cylinder 2 ignition coil that failed as a direct result of the PCV valve failure.",
+   "note": "dealer names the PCV failure as the cause and the coil as a consequence; both replaced"
+  },
+  {
+   "odi_number": 11670114,
+   "year": 2021,
+   "make": "Honda",
+   "model": "CIVIC",
+   "codes": [
+    "P0172"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CIVIC&modelYear=2021#odiNumber=11670114",
+   "accept": false,
+   "reject_reason": "not fixed"
+  },
+  {
+   "odi_number": 10219019,
+   "year": 2001,
+   "make": "Ford",
+   "model": "WINDSTAR",
+   "codes": [
+    "P0131",
+    "P0171",
+    "P0174"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=WINDSTAR&modelYear=2001#odiNumber=10219019",
+   "accept": false,
+   "reject_reason": "P0131 and misfire remain"
+  },
+  {
+   "odi_number": 11412801,
+   "year": 2014,
+   "make": "Volkswagen",
+   "model": "JETTA",
+   "codes": [
+    "P0301",
+    "P03AF"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=JETTA&modelYear=2014#odiNumber=11412801",
+   "accept": false,
+   "reject_reason": "codes appeared after repair"
+  },
+  {
+   "odi_number": 11622352,
+   "year": 2016,
+   "make": "Hyundai",
+   "model": "SONATA",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=SONATA&modelYear=2016#odiNumber=11622352",
+   "accept": false,
+   "reject_reason": "not resolved"
+  },
+  {
+   "odi_number": 11581909,
+   "year": 2014,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P0131",
+    "P0171",
+    "P2097"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2014#odiNumber=11581909",
+   "accept": false,
+   "reject_reason": "still would not run right"
+  },
+  {
+   "odi_number": 11561976,
+   "year": 2013,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0234",
+    "P0299"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2013#odiNumber=11561976",
+   "accept": false,
+   "reject_reason": "code returned"
+  },
+  {
+   "odi_number": 10851875,
+   "year": 2010,
+   "make": "Chevrolet",
+   "model": "CAMARO",
+   "codes": [
+    "P0008"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=CAMARO&modelYear=2010#odiNumber=10851875",
+   "accept": false,
+   "reject_reason": "no repair performed"
+  },
+  {
+   "odi_number": 11398431,
+   "year": 2013,
+   "make": "Chevrolet",
+   "model": "EQUINOX",
+   "codes": [
+    "P0014"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=EQUINOX&modelYear=2013#odiNumber=11398431",
+   "accept": false,
+   "reject_reason": "stalled after VVT replacement; outcome ambiguous"
+  },
+  {
+   "odi_number": 10095928,
+   "year": 2004,
+   "make": "Ford",
+   "model": "F-350",
+   "codes": [
+    "P0299"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-350&modelYear=2004#odiNumber=10095928",
+   "accept": false,
+   "reject_reason": "repeated repairs, no definite fix"
+  },
+  {
+   "odi_number": 11555995,
+   "year": 2016,
+   "make": "Hyundai",
+   "model": "ELANTRA",
+   "codes": [
+    "P0017"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=ELANTRA&modelYear=2016#odiNumber=11555995",
+   "accept": false,
+   "reject_reason": "failure recurred"
+  },
+  {
+   "odi_number": 11433177,
+   "year": 2010,
+   "make": "Toyota",
+   "model": "VENZA",
+   "codes": [
+    "P0138"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=VENZA&modelYear=2010#odiNumber=11433177",
+   "accept": false,
+   "reject_reason": "several parts at two dates; code-to-repair link unclear"
+  },
+  {
+   "odi_number": 10927619,
+   "year": 2015,
+   "make": "Ford",
+   "model": "EXPLORER",
+   "codes": [
+    "P0022",
+    "P052D",
+    "P193E"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=EXPLORER&modelYear=2015#odiNumber=10927619",
+   "accept": false,
+   "reject_reason": "codes not tied to a repair"
+  },
+  {
+   "odi_number": 11550660,
+   "year": 2014,
+   "make": "Kia",
+   "model": "OPTIMA",
+   "codes": [
+    "P2562",
+    "P2565"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=OPTIMA&modelYear=2014#odiNumber=11550660",
+   "accept": false,
+   "reject_reason": "codes continue"
+  },
+  {
+   "odi_number": 11510305,
+   "year": 2016,
+   "make": "Chevrolet",
+   "model": "EQUINOX",
+   "codes": [
+    "P0016",
+    "P0017",
+    "P0335"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=EQUINOX&modelYear=2016#odiNumber=11510305",
+   "accept": true,
+   "primary_label": "valve_timing_air_aux",
+   "fault_labels": [
+    "valve_timing_air_aux",
+    "ignition_system_sensor"
+   ],
+   "repair_quote": "P0335, P0016 and P0017. We then replaced both the camshaft, crankshaft and vvt solenoids. The codes were then cleared, and no further issues or engine lights were on.",
+   "note": "later engine failure from a frozen PCV is a separate event; primary follows P0016/P0017 (P00 family)"
+  },
+  {
+   "odi_number": 11675206,
+   "year": 2004,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P1349"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2004#odiNumber=11675206",
+   "accept": false,
+   "reject_reason": "recurring"
+  },
+  {
+   "odi_number": 10537825,
+   "year": 2009,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P2111",
+    "P2135"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2009#odiNumber=10537825",
+   "accept": true,
+   "primary_label": "air_fuel_metering_other",
+   "fault_labels": [
+    "air_fuel_metering_other"
+   ],
+   "repair_quote": "CODES RETRIEVED WERE P2111 AND P2135, AND PINPOINT TESTS SHOWED THAT 'THE THROTTLE ACTUATOR CONTROL MOTOR IS FAILING'. THROTTLE BODY ASSEMBLY WAS REPLACED.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11617071,
+   "year": 2015,
+   "make": "Hyundai",
+   "model": "SONATA",
+   "codes": [
+    "P0234",
+    "P0236"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=SONATA&modelYear=2015#odiNumber=11617071",
+   "accept": false,
+   "reject_reason": "engine replacement dispute; coded fault not tied to a repair"
+  },
+  {
+   "odi_number": 10638257,
+   "year": 2010,
+   "make": "Ford",
+   "model": "FUSION",
+   "codes": [
+    "P2111"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FUSION&modelYear=2010#odiNumber=10638257",
+   "accept": true,
+   "primary_label": "air_fuel_metering_other",
+   "fault_labels": [
+    "air_fuel_metering_other"
+   ],
+   "repair_quote": "FORD OBD CODE P2111, THROTTLE ACTUATOR STUCK OPEN. REPLACED FAULTY THROTTLE BODY WITH NEW TO REMEDY SITUATION. ERASED OBD CODES. NO FURTHER PROBLEMS.",
+   "note": ""
+  },
+  {
+   "odi_number": 10663993,
+   "year": 2010,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P2135"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2010#odiNumber=10663993",
+   "accept": true,
+   "primary_label": "air_fuel_metering_other",
+   "fault_labels": [
+    "air_fuel_metering_other"
+   ],
+   "repair_quote": "DEALER FOUND DTC OF 'P2135' AND REPLACED THE THROTTLE BODY.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11733997,
+   "year": 2021,
+   "make": "Volkswagen",
+   "model": "GOLF",
+   "codes": [
+    "P0111"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=GOLF&modelYear=2021#odiNumber=11733997",
+   "accept": false,
+   "reject_reason": "repair only proposed"
+  },
+  {
+   "odi_number": 10917672,
+   "year": 2016,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P2111"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2016#odiNumber=10917672",
+   "accept": true,
+   "primary_label": "air_fuel_metering_other",
+   "fault_labels": [
+    "air_fuel_metering_other"
+   ],
+   "repair_quote": "DIAG CODE: P2111. REPLACED THROTTLE BODY. RUNS FINE NOW.",
+   "note": ""
+  },
+  {
+   "odi_number": 10322207,
+   "year": 2006,
+   "make": "Toyota",
+   "model": "MATRIX",
+   "codes": [
+    "P0607"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=MATRIX&modelYear=2006#odiNumber=10322207",
+   "accept": true,
+   "primary_label": "control_module",
+   "fault_labels": [
+    "control_module"
+   ],
+   "repair_quote": "ERROR CODE P0607 IN THE SYSTEM WHICH MEANS THE ECM IS DEFECTIVE. I HAD THE ECM REPLACED",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11398064,
+   "year": 2018,
+   "make": "Jeep",
+   "model": "COMPASS",
+   "codes": [
+    "P2504",
+    "P2AF5"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=COMPASS&modelYear=2018#odiNumber=11398064",
+   "accept": false,
+   "reject_reason": "unresolved"
+  },
+  {
+   "odi_number": 11738607,
+   "year": 2020,
+   "make": "Chevrolet",
+   "model": "BLAZER",
+   "codes": [
+    "P0128"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=BLAZER&modelYear=2020#odiNumber=11738607",
+   "accept": true,
+   "primary_label": "air_fuel_metering_other",
+   "fault_labels": [
+    "air_fuel_metering_other",
+    "control_module"
+   ],
+   "repair_quote": "P0128 code produced when scanned ... Had to replace the thermostat. ECM also replaced",
+   "note": "primary follows the P0128 repair (thermostat)"
+  },
+  {
+   "odi_number": 10349684,
+   "year": 2006,
+   "make": "Toyota",
+   "model": "COROLLA",
+   "codes": [
+    "P2716"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=COROLLA&modelYear=2006#odiNumber=10349684",
+   "accept": true,
+   "primary_label": "control_module",
+   "fault_labels": [
+    "control_module",
+    "transmission"
+   ],
+   "repair_quote": "MALFUNCTIONING OF THE ENGINE CONTROL MODULE ... A TOYOTA DEALERSHIP ULTIMATELY REPLACED THE ECM ... A TRANSMISSION SOLENOID WHICH HAD GONE BAD DUE TO THE FAILING ECM",
+   "note": "code P2716 appears later in the narrative; the final fix is the ECM"
+  },
+  {
+   "odi_number": 11563010,
+   "year": 2019,
+   "make": "Honda",
+   "model": "PILOT",
+   "codes": [
+    "P0441",
+    "P04F1"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=PILOT&modelYear=2019#odiNumber=11563010",
+   "accept": true,
+   "primary_label": "evap_system",
+   "fault_labels": [
+    "evap_system"
+   ],
+   "repair_quote": "DTCs P0441 ... P04F1 ... I replaced the purge flow valve and joint purge valve which resolved the issue.",
+   "note": ""
+  },
+  {
+   "odi_number": 11639406,
+   "year": 2018,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P219E"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2018#odiNumber=11639406",
+   "accept": false,
+   "reject_reason": "repair only quoted"
+  },
+  {
+   "odi_number": 10780588,
+   "year": 2008,
+   "make": "Ford",
+   "model": "E-350 12 PASSENGER",
+   "codes": [
+    "P0191"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=E-350+12+PASSENGER&modelYear=2008#odiNumber=10780588",
+   "accept": true,
+   "primary_label": "fuel_delivery",
+   "fault_labels": [
+    "fuel_delivery"
+   ],
+   "repair_quote": "CODE P0191 ... FOUND BOLTS BROKEN OFF HOLDING INTERNAL FUEL PUMP, HAD TO REPLACE FUEL TANK AND PUMPS ... VEHICLE IS RUNNING FINE.",
+   "note": ""
+  },
+  {
+   "odi_number": 11433100,
+   "year": 2012,
+   "make": "Ford",
+   "model": "FOCUS",
+   "codes": [
+    "P1450"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FOCUS&modelYear=2012#odiNumber=11433100",
+   "accept": false,
+   "reject_reason": "two unrelated parts replaced for one manufacturer code; label ambiguous"
+  },
+  {
+   "odi_number": 10808655,
+   "year": 2009,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P0013",
+    "P0014"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2009#odiNumber=10808655",
+   "accept": false,
+   "reject_reason": "coded fault not tied to a repair in the text"
+  },
+  {
+   "odi_number": 11651692,
+   "year": 2019,
+   "make": "Honda",
+   "model": "PILOT",
+   "codes": [
+    "P219B"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=PILOT&modelYear=2019#odiNumber=11651692",
+   "accept": true,
+   "primary_label": "fuel_injector",
+   "fault_labels": [
+    "fuel_injector",
+    "fuel_delivery"
+   ],
+   "repair_quote": "DTC: P219B; which indicated a failure with the fuel injectors ... The dealer replaced the high-pressure fuel feed pipe and the injectors. The vehicle was repaired.",
+   "note": "fuel pump also replaced under recall"
+  },
+  {
+   "odi_number": 11750110,
+   "year": 2017,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2017#odiNumber=11750110",
+   "accept": false,
+   "reject_reason": "repeated misfire; no confirmed fix"
+  },
+  {
+   "odi_number": 11638404,
+   "year": 2022,
+   "make": "Honda",
+   "model": "HR-V",
+   "codes": [
+    "P2DE1"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=HR-V&modelYear=2022#odiNumber=11638404",
+   "accept": false,
+   "reject_reason": "no repair of the coded fault"
+  },
+  {
+   "odi_number": 11538762,
+   "year": 2016,
+   "make": "Honda",
+   "model": "PILOT",
+   "codes": [
+    "P0087"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=PILOT&modelYear=2016#odiNumber=11538762",
+   "accept": false,
+   "reject_reason": "sequence of faults; outcome of the coded repair unclear"
+  },
+  {
+   "odi_number": 11088522,
+   "year": 2012,
+   "make": "Chevrolet",
+   "model": "TRAVERSE",
+   "codes": [
+    "P0300",
+    "P0496"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=TRAVERSE&modelYear=2012#odiNumber=11088522",
+   "accept": false,
+   "reject_reason": "many ongoing issues"
+  },
+  {
+   "odi_number": 11661020,
+   "year": 2017,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2017#odiNumber=11661020",
+   "accept": false,
+   "reject_reason": "light remained on"
+  },
+  {
+   "odi_number": 11631251,
+   "year": 2017,
+   "make": "Hyundai",
+   "model": "SONATA",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=SONATA&modelYear=2017#odiNumber=11631251",
+   "accept": false,
+   "reject_reason": "failure recurred after repairs"
+  },
+  {
+   "odi_number": 11459163,
+   "year": 2020,
+   "make": "Ford",
+   "model": "TRANSIT",
+   "codes": [
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=TRANSIT&modelYear=2020#odiNumber=11459163",
+   "accept": false,
+   "reject_reason": "outcome of the P0302 repair not stated; later unrelated failure"
+  },
+  {
+   "odi_number": 11614121,
+   "year": 2016,
+   "make": "Ford",
+   "model": "F-150 REGULAR CAB",
+   "codes": [
+    "P0304"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150+REGULAR+CAB&modelYear=2016#odiNumber=11614121",
+   "accept": false,
+   "reject_reason": "coil did not fix; injector only suspected"
+  },
+  {
+   "odi_number": 11678822,
+   "year": 2014,
+   "make": "Honda",
+   "model": "ODYSSEY",
+   "codes": [
+    "P0301",
+    "P0304"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=ODYSSEY&modelYear=2014#odiNumber=11678822",
+   "accept": true,
+   "primary_label": "ignition_component",
+   "fault_labels": [
+    "ignition_component"
+   ],
+   "repair_quote": "'P0301 - Cylinder 1 misfire' DTC ... I inspected the spark plugs and found multiple fouled plugs ... I replaced all six spark plugs, and the issue went away",
+   "note": "owner cites oil fouling from the engine design as the root cause"
+  },
+  {
+   "odi_number": 11733024,
+   "year": 2017,
+   "make": "Chevrolet",
+   "model": "TRAX",
+   "codes": [
+    "P0171",
+    "P0300",
+    "P0301"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=TRAX&modelYear=2017#odiNumber=11733024",
+   "accept": false,
+   "reject_reason": "sequence of recurring faults; the misfire fix cannot be isolated"
+  },
+  {
+   "odi_number": 11720425,
+   "year": 2016,
+   "make": "Honda",
+   "model": "ODYSSEY",
+   "codes": [
+    "P0301"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=ODYSSEY&modelYear=2016#odiNumber=11720425",
+   "accept": true,
+   "primary_label": "ignition_component",
+   "fault_labels": [
+    "ignition_component"
+   ],
+   "repair_quote": "DTC: P0301 (Cylinder #1 misfire) ... diagnosed with spark plug failures due to an oil leak. The six spark plugs were replaced. The vehicle was repaired.",
+   "note": ""
+  },
+  {
+   "odi_number": 11682852,
+   "year": 2017,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P0172",
+    "P0303"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2017#odiNumber=11682852",
+   "accept": false,
+   "reject_reason": "multiple parts replaced; injectors only recommended"
+  },
+  {
+   "odi_number": 11485891,
+   "year": 2018,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P0365"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2018#odiNumber=11485891",
+   "accept": false,
+   "reject_reason": "mechanical damage; not resolved"
+  },
+  {
+   "odi_number": 11121621,
+   "year": 2013,
+   "make": "Hyundai",
+   "model": "ACCENT",
+   "codes": [
+    "P0326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=ACCENT&modelYear=2013#odiNumber=11121621",
+   "accept": false,
+   "reject_reason": "replacement did not fix"
+  },
+  {
+   "odi_number": 10882163,
+   "year": 2003,
+   "make": "Nissan",
+   "model": "MURANO",
+   "codes": [
+    "P0340"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=MURANO&modelYear=2003#odiNumber=10882163",
+   "accept": true,
+   "primary_label": "ignition_system_sensor",
+   "fault_labels": [
+    "ignition_system_sensor"
+   ],
+   "repair_quote": "THEY SCANNED IT POSITIVE FOR CODE P0340 (CAMSHAFT POSITION SENSOR CIRCUIT FAILURE) AND THEY REPLACED THE TWO SENSORS.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11667742,
+   "year": 2019,
+   "make": "Nissan",
+   "model": "ROGUE",
+   "codes": [
+    "P0101",
+    "P17F2"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=ROGUE&modelYear=2019#odiNumber=11667742",
+   "accept": false,
+   "reject_reason": "symptoms continued after MAF; transmission code followed"
+  },
+  {
+   "odi_number": 11234744,
+   "year": 2011,
+   "make": "GMC",
+   "model": "TERRAIN",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=TERRAIN&modelYear=2011#odiNumber=11234744",
+   "accept": false,
+   "reject_reason": "code will not clear"
+  },
+  {
+   "odi_number": 11097725,
+   "year": 2003,
+   "make": "Toyota",
+   "model": "TACOMA",
+   "codes": [
+    "P2112"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=TACOMA&modelYear=2003#odiNumber=11097725",
+   "accept": false,
+   "reject_reason": "not corrected"
+  },
+  {
+   "odi_number": 11717982,
+   "year": 2017,
+   "make": "Chevrolet",
+   "model": "COLORADO",
+   "codes": [
+    "P0700"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=COLORADO&modelYear=2017#odiNumber=11717982",
+   "accept": true,
+   "primary_label": "transmission",
+   "fault_labels": [
+    "transmission"
+   ],
+   "repair_quote": "diagnosed as Code P0700, PO711 - transmission fluid temp performance failure ... Fluid temp sensor failure ... repaired by Chevrolet Dealership",
+   "note": "narrative also names the transmission wiring harness; resolution implied by 'repaired before complete failure'"
+  },
+  {
+   "odi_number": 11171588,
+   "year": 2013,
+   "make": "Ford",
+   "model": "F-150 REGULAR CAB",
+   "codes": [
+    "P0720"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150+REGULAR+CAB&modelYear=2013#odiNumber=11171588",
+   "accept": false,
+   "reject_reason": "repair not visible in text"
+  },
+  {
+   "odi_number": 10778154,
+   "year": 2010,
+   "make": "Ford",
+   "model": "F-150 EXTENDED CAB",
+   "codes": [
+    "P0975"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150+EXTENDED+CAB&modelYear=2010#odiNumber=10778154",
+   "accept": true,
+   "primary_label": "transmission",
+   "fault_labels": [
+    "transmission"
+   ],
+   "repair_quote": "THE FORD DEALERSHIP WHICH FIXED IT FOUND A COMPUTER ERROR CODE P0975, AND THEREFORE REPLACED FORD PART NUMBER 9L3Z7A100C:CONTROL ASSEMBLY-TRANSMISSION.",
+   "note": ""
+  },
+  {
+   "odi_number": 11675540,
+   "year": 2011,
+   "make": "Ford",
+   "model": "FIESTA",
+   "codes": [
+    "P286F"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FIESTA&modelYear=2011#odiNumber=11675540",
+   "accept": false,
+   "reject_reason": "no repair of the coded fault"
+  },
+  {
+   "odi_number": 11292294,
+   "year": 2015,
+   "make": "Nissan",
+   "model": "ROGUE",
+   "codes": [
+    "P17F0"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=ROGUE&modelYear=2015#odiNumber=11292294",
+   "accept": true,
+   "primary_label": "transmission",
+   "fault_labels": [
+    "transmission"
+   ],
+   "repair_quote": "THE VEHICLE CODE WAS: P17F0 CUT JUDDER. THE VEHICLE WAS REPAIRED ON 01/16/20 AT TERRY'S TRANSMISSION",
+   "note": "repair performed by a transmission shop; the exact part is not stated"
+  },
+  {
+   "odi_number": 11504661,
+   "year": 2022,
+   "make": "Ram",
+   "model": "3500",
+   "codes": [
+    "P0731",
+    "P0732"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ram&model=3500&modelYear=2022#odiNumber=11504661",
+   "accept": true,
+   "primary_label": "transmission",
+   "fault_labels": [
+    "transmission"
+   ],
+   "repair_quote": "codes P0731 (Gear 1 incorrect ratio) and P0732 (Gear 2 incorrect ratio) ... It turned out to require a complete new Aisin transmission. The repair took a month to complete",
+   "note": ""
+  },
+  {
+   "odi_number": 10199477,
+   "year": 2005,
+   "make": "Ford",
+   "model": "F-150",
+   "codes": [
+    "P0171",
+    "P0174"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150&modelYear=2005#odiNumber=10199477",
+   "accept": true,
+   "primary_label": "vacuum_intake_leak",
+   "fault_labels": [
+    "vacuum_intake_leak"
+   ],
+   "repair_quote": "CODES P0171 AND P0174. DEALER FOUND VACUUM HOSE FROM INTAKE MANIFOLD TO EBRAKE BOOSTER BROKEN. DEALER REMOVED INTAKE MANIFOLD, REPLACED VACUUM HOSE AND INTAKE GASKETS",
+   "note": ""
+  },
+  {
+   "odi_number": 11615506,
+   "year": 2016,
+   "make": "Chevrolet",
+   "model": "EQUINOX",
+   "codes": [
+    "P0012",
+    "P0017"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=EQUINOX&modelYear=2016#odiNumber=11615506",
+   "accept": true,
+   "primary_label": "valve_timing_air_aux",
+   "fault_labels": [
+    "valve_timing_air_aux"
+   ],
+   "repair_quote": "Repaired 9/13/24 ... The timing chain kit and oil pump were replaced ... Warning sign code P0017 and P0012.",
+   "note": ""
+  },
+  {
+   "odi_number": 11763847,
+   "year": 2015,
+   "make": "Ford",
+   "model": "EDGE",
+   "codes": [
+    "P050B",
+    "P061B"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=EDGE&modelYear=2015#odiNumber=11763847",
+   "accept": false,
+   "reject_reason": "engine failure; not repaired"
+  },
+  {
+   "odi_number": 10242902,
+   "year": 2003,
+   "make": "Nissan",
+   "model": "ALTIMA",
+   "codes": [
+    "P0422"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=ALTIMA&modelYear=2003#odiNumber=10242902",
+   "accept": true,
+   "primary_label": "catalytic_converter",
+   "fault_labels": [
+    "catalytic_converter"
+   ],
+   "repair_quote": "CODE P0422 - REPLACED CATALYTIC CONVERTER AND PRE-CAT.",
+   "note": "resolution not stated; separate oil consumption complaint"
+  },
+  {
+   "odi_number": 10695205,
+   "year": 2011,
+   "make": "Nissan",
+   "model": "ALTIMA",
+   "codes": [
+    "P2A00"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=ALTIMA&modelYear=2011#odiNumber=10695205",
+   "accept": true,
+   "primary_label": "oxygen_sensor",
+   "fault_labels": [
+    "oxygen_sensor"
+   ],
+   "repair_quote": "THE ASSOCIATED ENGINE CODE WAS P2A00 AND BOTH THE UPSTREAM (AIR/FUEL RATIO) AND DOWNSTREAM (OXYGEN) AIR SENSORS HAD TO BE REPLACED.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11440749,
+   "year": 2010,
+   "make": "GMC",
+   "model": "TERRAIN",
+   "codes": [
+    "P0014",
+    "P0016",
+    "P0017",
+    "P0325",
+    "P0326",
+    "P0327",
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=TERRAIN&modelYear=2010#odiNumber=11440749",
+   "accept": false,
+   "reject_reason": "not fixed; new codes"
+  },
+  {
+   "odi_number": 11360374,
+   "year": 2014,
+   "make": "Chevrolet",
+   "model": "CAPTIVA",
+   "codes": [
+    "P0430"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=CAPTIVA&modelYear=2014#odiNumber=11360374",
+   "accept": false,
+   "reject_reason": "car 'not right since' the repair"
+  },
+  {
+   "odi_number": 11493793,
+   "year": 2016,
+   "make": "Kia",
+   "model": "SOUL",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SOUL&modelYear=2016#odiNumber=11493793",
+   "accept": false,
+   "reject_reason": "no repair"
+  },
+  {
+   "odi_number": 11595834,
+   "year": 2018,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2018#odiNumber=11595834",
+   "accept": false,
+   "reject_reason": "engine mechanical failure (short block); outside the taxonomy"
+  },
+  {
+   "odi_number": 10180771,
+   "year": 2004,
+   "make": "Toyota",
+   "model": "PRIUS",
+   "codes": [
+    "P0A7A"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=PRIUS&modelYear=2004#odiNumber=10180771",
+   "accept": true,
+   "primary_label": "control_module",
+   "fault_labels": [
+    "control_module"
+   ],
+   "repair_quote": "STORED ERROR CODE P0A7A WAS IDENTIFIED - BULLETIN EG029-05. 'FALSE M.I.L. ON' CONDITION. AN UPDATED CONTROL ECU WAS INSTALLED",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11758001,
+   "year": 2016,
+   "make": "Ford",
+   "model": "F-150",
+   "codes": [
+    "P0717"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-150&modelYear=2016#odiNumber=11758001",
+   "accept": false,
+   "reject_reason": "outcome not stated; failure after update"
+  },
+  {
+   "odi_number": 11732037,
+   "year": 2017,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2017#odiNumber=11732037",
+   "accept": false,
+   "reject_reason": "no change after repair; compression loss"
+  },
+  {
+   "odi_number": 10064333,
+   "year": 2001,
+   "make": "Volkswagen",
+   "model": "JETTA",
+   "codes": [
+    "P0411"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=JETTA&modelYear=2001#odiNumber=10064333",
+   "accept": false,
+   "reject_reason": "code present after ECM replacement"
+  },
+  {
+   "odi_number": 10258630,
+   "year": 2001,
+   "make": "Nissan",
+   "model": "SENTRA",
+   "codes": [
+    "P0137",
+    "P0140",
+    "P0460",
+    "P0505"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=SENTRA&modelYear=2001#odiNumber=10258630",
+   "accept": false,
+   "reject_reason": "failure after repair"
+  },
+  {
+   "odi_number": 11742139,
+   "year": 2013,
+   "make": "Ford",
+   "model": "FOCUS",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FOCUS&modelYear=2013#odiNumber=11742139",
+   "accept": false,
+   "reject_reason": "P0420 not repaired"
+  },
+  {
+   "odi_number": 11434618,
+   "year": 2015,
+   "make": "Chevrolet",
+   "model": "TRAX",
+   "codes": [
+    "P0299"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=TRAX&modelYear=2015#odiNumber=11434618",
+   "accept": false,
+   "reject_reason": "coded fault not diagnosed"
+  },
+  {
+   "odi_number": 11582083,
+   "year": 2016,
+   "make": "Ford",
+   "model": "FOCUS",
+   "codes": [
+    "P144A"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FOCUS&modelYear=2016#odiNumber=11582083",
+   "accept": true,
+   "primary_label": "evap_system",
+   "fault_labels": [
+    "evap_system"
+   ],
+   "repair_quote": "Primary Code P144A (EVAP Emission System Purge Vapor Line Restricted/Blocked). I paid $671.39 to have the canister purge valve replaced",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11156432,
+   "year": 2013,
+   "make": "Ford",
+   "model": "FOCUS",
+   "codes": [
+    "P144A"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FOCUS&modelYear=2013#odiNumber=11156432",
+   "accept": true,
+   "primary_label": "evap_system",
+   "fault_labels": [
+    "evap_system"
+   ],
+   "repair_quote": "CHECK ENGINE LIGHT WAS ON WITH CODE P144A. I TOOK IT TO A FORD DEALERSHIP AND THEY REPLACED THE PURGE VALVE.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 10735783,
+   "year": 2002,
+   "make": "Toyota",
+   "model": "CAMRY",
+   "codes": [
+    "P0420",
+    "P0440",
+    "P0441",
+    "P0442",
+    "P0446"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=CAMRY&modelYear=2002#odiNumber=10735783",
+   "accept": false,
+   "reject_reason": "several code/repair pairs over years; confounded as one case"
+  },
+  {
+   "odi_number": 11706889,
+   "year": 2019,
+   "make": "Honda",
+   "model": "PILOT",
+   "codes": [
+    "P0430"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=PILOT&modelYear=2019#odiNumber=11706889",
+   "accept": false,
+   "reject_reason": "repair ambiguous ('fuel injection'); unclear which part"
+  },
+  {
+   "odi_number": 10366505,
+   "year": 2008,
+   "make": "Volkswagen",
+   "model": "PASSAT",
+   "codes": [
+    "P0087",
+    "P0420",
+    "P129F",
+    "P310B"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=PASSAT&modelYear=2008#odiNumber=10366505",
+   "accept": false,
+   "reject_reason": "multiple codes; repair not visible"
+  },
+  {
+   "odi_number": 11675577,
+   "year": 2021,
+   "make": "Ford",
+   "model": "EXPEDITION",
+   "codes": [
+    "P0627"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=EXPEDITION&modelYear=2021#odiNumber=11675577",
+   "accept": true,
+   "primary_label": "fuel_delivery",
+   "fault_labels": [
+    "fuel_delivery"
+   ],
+   "repair_quote": "DTC: P0627; and informed the contact that the fuel pump had failed. The control unit and fuel pump were replaced.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11482555,
+   "year": 2020,
+   "make": "Honda",
+   "model": "ACCORD",
+   "codes": [
+    "P0172"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=ACCORD&modelYear=2020#odiNumber=11482555",
+   "accept": false,
+   "reject_reason": "second failure after pump replacement"
+  },
+  {
+   "odi_number": 11601462,
+   "year": 2019,
+   "make": "Chevrolet",
+   "model": "TAHOE",
+   "codes": [
+    "P2535",
+    "P2635"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=TAHOE&modelYear=2019#odiNumber=11601462",
+   "accept": false,
+   "reject_reason": "repeated pump replacements on the same unit"
+  },
+  {
+   "odi_number": 11523779,
+   "year": 2015,
+   "make": "Jeep",
+   "model": "GRAND CHEROKEE",
+   "codes": [
+    "P0336"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=GRAND+CHEROKEE&modelYear=2015#odiNumber=11523779",
+   "accept": false,
+   "reject_reason": "not running; unrepaired"
+  },
+  {
+   "odi_number": 11306832,
+   "year": 2016,
+   "make": "Honda",
+   "model": "PILOT",
+   "codes": [
+    "P0301"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=PILOT&modelYear=2016#odiNumber=11306832",
+   "accept": false,
+   "reject_reason": "repair only needed"
+  },
+  {
+   "odi_number": 11290127,
+   "year": 2016,
+   "make": "Chevrolet",
+   "model": "SILVERADO 1500",
+   "codes": [
+    "P050D"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=SILVERADO+1500&modelYear=2016#odiNumber=11290127",
+   "accept": true,
+   "primary_label": "fuel_injector",
+   "fault_labels": [
+    "fuel_injector"
+   ],
+   "repair_quote": "CHECK ENGINE LIGHT CAME ON ... WITH A P050D CODE ... WAS TOLD TWO FUEL INJECTORS WERE THE CAUSE ... GM AGREED TO PAY HALF THE COST OF REPAIR.",
+   "note": "repair performed on cost-share; resolution not stated"
+  },
+  {
+   "odi_number": 11689752,
+   "year": 2018,
+   "make": "Honda",
+   "model": "FIT",
+   "codes": [
+    "P0172",
+    "P0300",
+    "P0304"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=FIT&modelYear=2018#odiNumber=11689752",
+   "accept": false,
+   "reject_reason": "ongoing after repairs"
+  },
+  {
+   "odi_number": 11253223,
+   "year": 2017,
+   "make": "Honda",
+   "model": "CR-V",
+   "codes": [
+    "P0172",
+    "P291F"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=CR-V&modelYear=2017#odiNumber=11253223",
+   "accept": true,
+   "primary_label": "fuel_injector",
+   "fault_labels": [
+    "fuel_injector"
+   ],
+   "repair_quote": "ERROR CODES DIAGNOSED AS P0172 AND P291F. REPLACED FUEL INJECTORS AND HIGH PRESSURE PIPE UNDER SERVICE BULLETINS",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 10362322,
+   "year": 2005,
+   "make": "Ford",
+   "model": "F-250 SD",
+   "codes": [
+    "P0261",
+    "P0611"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=F-250+SD&modelYear=2005#odiNumber=10362322",
+   "accept": true,
+   "primary_label": "fuel_injector",
+   "fault_labels": [
+    "fuel_injector"
+   ],
+   "repair_quote": "ENGINE DIAGNOSTICS CODES: P0261/264/.../282 AND P0611 ... DEALER FOUND SAME DIAGNOSTICS AND REPLACED FUEL INJECTOR CONTROL MODULE (FICM).",
+   "note": "FICM filed under fuel_injector (injector circuit); resolution not stated"
+  },
+  {
+   "odi_number": 11669452,
+   "year": 2018,
+   "make": "Hyundai",
+   "model": "SANTA FE",
+   "codes": [
+    "P0300"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=SANTA+FE&modelYear=2018#odiNumber=11669452",
+   "accept": false,
+   "reject_reason": "injectors not replaced"
+  },
+  {
+   "odi_number": 11407603,
+   "year": 2006,
+   "make": "Nissan",
+   "model": "XTERRA",
+   "codes": [
+    "P0181"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=XTERRA&modelYear=2006#odiNumber=11407603",
+   "accept": false,
+   "reject_reason": "no repair for coded fault"
+  },
+  {
+   "odi_number": 11407153,
+   "year": 2017,
+   "make": "Ford",
+   "model": "EDGE",
+   "codes": [
+    "P0305"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=EDGE&modelYear=2017#odiNumber=11407153",
+   "accept": false,
+   "reject_reason": "coolant intrusion; coils did not fix"
+  },
+  {
+   "odi_number": 11449986,
+   "year": 2017,
+   "make": "Hyundai",
+   "model": "ELANTRA",
+   "codes": [
+    "P0301"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=ELANTRA&modelYear=2017#odiNumber=11449986",
+   "accept": true,
+   "primary_label": "ignition_component",
+   "fault_labels": [
+    "ignition_component"
+   ],
+   "repair_quote": "One of the four ignition coils failed ... (P0301 - Cylinder 1 Misfire Detected) ... Ignition coil was replaced by owner",
+   "note": "owner repair; resolution implied, not stated"
+  },
+  {
+   "odi_number": 10151179,
+   "year": 2000,
+   "make": "Nissan",
+   "model": "MAXIMA",
+   "codes": [
+    "P1320"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=MAXIMA&modelYear=2000#odiNumber=10151179",
+   "accept": false,
+   "reject_reason": "repair only quoted"
+  },
+  {
+   "odi_number": 11525628,
+   "year": 2014,
+   "make": "Kia",
+   "model": "SOUL",
+   "codes": [
+    "P0300",
+    "P0303"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SOUL&modelYear=2014#odiNumber=11525628",
+   "accept": false,
+   "reject_reason": "oil consumption; no repair of coded fault"
+  },
+  {
+   "odi_number": 11042149,
+   "year": 2013,
+   "make": "Honda",
+   "model": "ODYSSEY",
+   "codes": [
+    "P0302"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=ODYSSEY&modelYear=2013#odiNumber=11042149",
+   "accept": false,
+   "reject_reason": "engine mechanical repair (piston rings); outside the taxonomy"
+  },
+  {
+   "odi_number": 10158616,
+   "year": 2002,
+   "make": "Nissan",
+   "model": "ALTIMA",
+   "codes": [
+    "P0335"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=ALTIMA&modelYear=2002#odiNumber=10158616",
+   "accept": false,
+   "reject_reason": "current code not repaired; only a prior replacement mentioned"
+  },
+  {
+   "odi_number": 11533111,
+   "year": 2015,
+   "make": "Hyundai",
+   "model": "SONATA",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=SONATA&modelYear=2015#odiNumber=11533111",
+   "accept": false,
+   "reject_reason": "knock sensor was not the problem"
+  },
+  {
+   "odi_number": 11660151,
+   "year": 2015,
+   "make": "Kia",
+   "model": "FORTE",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=FORTE&modelYear=2015#odiNumber=11660151",
+   "accept": false,
+   "reject_reason": "engine failure; not repaired"
+  },
+  {
+   "odi_number": 11586678,
+   "year": 2016,
+   "make": "Kia",
+   "model": "OPTIMA",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=OPTIMA&modelYear=2016#odiNumber=11586678",
+   "accept": false,
+   "reject_reason": "engine failure; dispute"
+  },
+  {
+   "odi_number": 11629970,
+   "year": 2015,
+   "make": "Kia",
+   "model": "SOUL",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SOUL&modelYear=2015#odiNumber=11629970",
+   "accept": false,
+   "reject_reason": "suspected internal damage; unresolved"
+  },
+  {
+   "odi_number": 11204704,
+   "year": 2015,
+   "make": "Honda",
+   "model": "ACCORD",
+   "codes": [
+    "P0328"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Honda&model=ACCORD&modelYear=2015#odiNumber=11204704",
+   "accept": false,
+   "reject_reason": "no repair"
+  },
+  {
+   "odi_number": 11692541,
+   "year": 2019,
+   "make": "Nissan",
+   "model": "KICKS",
+   "codes": [
+    "P0101"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=KICKS&modelYear=2019#odiNumber=11692541",
+   "accept": false,
+   "reject_reason": "same lights after MAF"
+  },
+  {
+   "odi_number": 10405094,
+   "year": 2005,
+   "make": "Hyundai",
+   "model": "TUCSON",
+   "codes": [
+    "P0150"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=TUCSON&modelYear=2005#odiNumber=10405094",
+   "accept": false,
+   "reject_reason": "coded fault not tied to a repair"
+  },
+  {
+   "odi_number": 11255738,
+   "year": 2011,
+   "make": "Nissan",
+   "model": "QX56",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=QX56&modelYear=2011#odiNumber=11255738",
+   "accept": false,
+   "reject_reason": "P0420 not repaired"
+  },
+  {
+   "odi_number": 11675960,
+   "year": 2017,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0012"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2017#odiNumber=11675960",
+   "accept": false,
+   "reject_reason": "recurred"
+  },
+  {
+   "odi_number": 11338375,
+   "year": 2015,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0236"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2015#odiNumber=11338375",
+   "accept": true,
+   "primary_label": "valve_timing_air_aux",
+   "fault_labels": [
+    "valve_timing_air_aux",
+    "air_fuel_metering_other"
+   ],
+   "repair_quote": "DTC NUMBER: P0236 AND REPLACED THE TURBO SENSOR WIRING HARNESS. THE MAP SENSOR WAS ALSO REPLACED.",
+   "note": "turbo boost sensor circuit filed under valve_timing_air_aux (turbo/boost); resolution not stated"
+  },
+  {
+   "odi_number": 10761992,
+   "year": 2008,
+   "make": "GMC",
+   "model": "ACADIA",
+   "codes": [
+    "P0752"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=ACADIA&modelYear=2008#odiNumber=10761992",
+   "accept": true,
+   "primary_label": "transmission",
+   "fault_labels": [
+    "transmission",
+    "valve_timing_air_aux"
+   ],
+   "repair_quote": "THE TRANSMISSION CONTROL MODULE NEEDED REPLACED (CODE P0752) AS DID THE SHIFT SOLENOID ... STRETCHED TIMING CHAINS WHICH WERE REPLACED",
+   "note": "timing chains fixed a separate CEL whose codes are not stated"
+  },
+  {
+   "odi_number": 11184580,
+   "year": 2012,
+   "make": "Chevrolet",
+   "model": "TRAVERSE",
+   "codes": [
+    "P0016",
+    "P0017"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=TRAVERSE&modelYear=2012#odiNumber=11184580",
+   "accept": true,
+   "primary_label": "valve_timing_air_aux",
+   "fault_labels": [
+    "valve_timing_air_aux"
+   ],
+   "repair_quote": "OBD SHOWED CODES OF P0016 AND P0017. VEHICLE HAD A BAD TIMING CHAIN WHICH WAS REPLACED AT A COST OF $3200.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11706422,
+   "year": 2022,
+   "make": "Chevrolet",
+   "model": "MALIBU",
+   "codes": [
+    "P0299"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2022#odiNumber=11706422",
+   "accept": false,
+   "reject_reason": "not repaired"
+  },
+  {
+   "odi_number": 11628174,
+   "year": 2022,
+   "make": "Ram",
+   "model": "1500 CLASSIC CREW CAB",
+   "codes": [
+    "P00AF"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ram&model=1500+CLASSIC+CREW+CAB&modelYear=2022#odiNumber=11628174",
+   "accept": false,
+   "reject_reason": "repair in progress, not completed"
+  },
+  {
+   "odi_number": 10253056,
+   "year": 2006,
+   "make": "Toyota",
+   "model": "COROLLA",
+   "codes": [
+    "P2716"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=COROLLA&modelYear=2006#odiNumber=10253056",
+   "accept": true,
+   "primary_label": "control_module",
+   "fault_labels": [
+    "control_module"
+   ],
+   "repair_quote": "DIAGNOSTIC CODE P2716. TOYOTA SERVICE REPLACED ENGINE CONTROL MODULE - TECHNICAL SERVICE BULLETIN 9/20/2007 TC015-07.",
+   "note": "resolution not stated"
+  },
+  {
+   "odi_number": 11735976,
+   "year": 2020,
+   "make": "Subaru",
+   "model": "CROSSTREK",
+   "codes": [
+    "P1604"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Subaru&model=CROSSTREK&modelYear=2020#odiNumber=11735976",
+   "accept": true,
+   "primary_label": "ignition_component",
+   "fault_labels": [
+    "ignition_component"
+   ],
+   "repair_quote": "Diagnostic code P1604 (Startability Malfunction) was stored. Inspection ... confirmed the Cylinder 3 ignition coil had shorted and physically melted ... The dealer replaced only the melted coil",
+   "note": "owner worries about recurrence without an ECM update; none reported"
+  },
+  {
+   "odi_number": 11730041,
+   "year": 2016,
+   "make": "Kia",
+   "model": "SOUL",
+   "codes": [
+    "P0420"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SOUL&modelYear=2016#odiNumber=11730041",
+   "accept": false,
+   "reject_reason": "repair not stated"
+  },
+  {
+   "odi_number": 10490131,
+   "year": 2012,
+   "make": "Jeep",
+   "model": "WRANGLER",
+   "codes": [
+    "P0306"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Jeep&model=WRANGLER&modelYear=2012#odiNumber=10490131",
+   "accept": false,
+   "reject_reason": "engine mechanical repair in progress"
+  },
+  {
+   "odi_number": 11609462,
+   "year": 2017,
+   "make": "Ford",
+   "model": "FUSION",
+   "codes": [
+    "P0301"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=FUSION&modelYear=2017#odiNumber=11609462",
+   "accept": false,
+   "reject_reason": "coolant intrusion; engine failure"
+  },
+  {
+   "odi_number": 10000295,
+   "year": 2002,
+   "make": "Volkswagen",
+   "model": "PASSAT",
+   "codes": [
+    "P0300",
+    "P0304"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Volkswagen&model=PASSAT&modelYear=2002#odiNumber=10000295",
+   "accept": false,
+   "reject_reason": "problem continues after coil"
+  },
+  {
+   "odi_number": 10633743,
+   "year": 2009,
+   "make": "GMC",
+   "model": "ACADIA",
+   "codes": [
+    "P0300",
+    "P0303"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=GMC&model=ACADIA&modelYear=2009#odiNumber=10633743",
+   "accept": false,
+   "reject_reason": "outcome after coil replacement not confirmed ('SINCE ...')"
+  },
+  {
+   "odi_number": 11544839,
+   "year": 2018,
+   "make": "Ford",
+   "model": "ESCAPE",
+   "codes": [
+    "P0303"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Ford&model=ESCAPE&modelYear=2018#odiNumber=11544839",
+   "accept": false,
+   "reject_reason": "coolant intrusion suspected after repair"
+  },
+  {
+   "odi_number": 11193232,
+   "year": 2006,
+   "make": "Nissan",
+   "model": "TITAN",
+   "codes": [
+    "P0335"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Nissan&model=TITAN&modelYear=2006#odiNumber=11193232",
+   "accept": false,
+   "reject_reason": "still running rough after sensor"
+  },
+  {
+   "odi_number": 10482058,
+   "year": 2004,
+   "make": "Toyota",
+   "model": "PRIUS",
+   "codes": [
+    "P0335"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Toyota&model=PRIUS&modelYear=2004#odiNumber=10482058",
+   "accept": true,
+   "primary_label": "ignition_system_sensor",
+   "fault_labels": [
+    "ignition_system_sensor"
+   ],
+   "repair_quote": "THEY DISCOVERED CODE P0335 PRESENT AND VERIFIED A FAULTY CRANKSHAFT POSITION SENSOR, REPLACED IT, AND CLEANED THROTTLE BODY. THE CAR WORKS NOW.",
+   "note": ""
+  },
+  {
+   "odi_number": 11662642,
+   "year": 2015,
+   "make": "Kia",
+   "model": "SOUL",
+   "codes": [
+    "P1326"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Kia&model=SOUL&modelYear=2015#odiNumber=11662642",
+   "accept": false,
+   "reject_reason": "engine failure"
+  },
+  {
+   "odi_number": 11727112,
+   "year": 2020,
+   "make": "Hyundai",
+   "model": "KONA",
+   "codes": [
+    "P1327"
+   ],
+   "source_url": "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=Hyundai&model=KONA&modelYear=2020#odiNumber=11727112",
+   "accept": false,
+   "reject_reason": "engine failure; dispute"
+  }
+ ]
+}

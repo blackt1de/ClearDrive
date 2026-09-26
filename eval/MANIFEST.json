@@ -1,0 +1,19 @@
+{
+ "tag": "eval-v1-frozen",
+ "frozen": "2026-09-26",
+ "sha256": {
+  "eval/eval_set.json": "1414ce89384d08e3066a52e6e88dec325b26622c6b58b768bde7d7ab9f6e704f",
+  "eval/codeless_set.json": "0aa4fb08704f4cc693016353d80b858269df044b5e8715e850a048a605ea8609",
+  "eval/taxonomy.json": "048edea00e3509f717e22017398140c7cbcd689353b814f94957828883437e7c",
+  "eval/schema.json": "d3df1f35e8959e62704c26bf7849794eba258df72b8fe99991de921d4ebeef87"
+ },
+ "counts": {
+  "eval_cases": 102,
+  "reconstructed": 62,
+  "synthetic": 40,
+  "codeless_profiles": 30,
+  "taxonomy_labels": 15
+ },
+ "touch_rule": "Two-touch rule, as amended 2026-09-25 (notes/decisions.md): it guards against iterating a fine-tune against this set, so it counts fine-tuned runs only. Base-model runs (thinking on, thinking off) and the rule-based arm are fixed-model conditions, not touches.",
+ "builder": "scripts/eval_build.py (from eval/sources/*), validated by scripts/eval_validate.py"
+}

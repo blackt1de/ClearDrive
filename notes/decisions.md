@@ -2,6 +2,50 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Eval set eval-v1 frozen — 2026-09-26
+Context: Brief 2a (weekend Phase 2). H1, H2 and H4 compare conditions, so they need one
+locked test.
+Decision: the set is frozen at tag **`eval-v1-frozen`**. Hashes, counts and the touch rule are
+in `eval/MANIFEST.json`. The builder is `scripts/eval_build.py`, which builds from
+`eval/sources/*`; `scripts/eval_validate.py` reported 0 errors.
+- **Eval set: 102 cases.**
+  - 62 reconstructed from NHTSA complaints with a confirmed repair; the label comes from
+    the component repaired, not the DTC.
+  - 40 synthetic, built from `diagnostics.py` rules and each checked against the real rule
+    engine at build time. Synthetic share is 39.2%.
+  - 15 labels, each with at least 6 cases; 14 makes.
+- **Codeless set (H4): 30 profiles**, 119 documented issues, all NHTSA recalls, across 14
+  makes. The H4 rule and the 50% threshold are pinned in the file header.
+- **Composition:** `eval/composition.md`.
+
+Rulings that shaped the set (Austin, 2026-09-25/26):
+- **Scope.** P codes only; B/C/U families are out of scope.
+- **Eras.** OBD era is set by model year (pre-CAN before 2008, CAN from 2008). OBDonUDS is
+  unrepresented because no sourced vehicle list exists, so 2a acceptance criterion 3 is
+  only partly met.
+- **Reconstructed payloads.** They carry the vehicle and the stated DTCs only. Every
+  measurement is null, which follows CLAUDE.md Never #2 and keeps any value built from the
+  label out of the input.
+- **Nameplates.** The fixed make list replaces the BTS nameplate list.
+- **Transport.** Cases reach `/interpret` through `eval_case` (entry below).
+
+Other decisions:
+- **`known_issues.json`** was not used for labels or H4. Its entries have no `source`, so
+  they meet neither qualifying condition.
+- **Adjudication.** The executor read 251 NHTSA narratives in full and accepted 62. Each
+  accepted case records the repair sentence quoted from the narrative, and each rejection
+  records its reason (`eval/sources/adjudication.json`). `verified_by` is pending Austin's
+  spot-check. The set is frozen before that check. Any label the spot-check corrects ships as
+  a new version, `eval-v1.1`, with its own tag and manifest; `eval-v1-frozen` never moves.
+- **Replay pilot.** Real-vehicle captures are validated separately, through the
+  replay-validity pilot (2026-08-25 entry). They are not part of the frozen set.
+
+Touch rule, as amended by the fine-tune rulings below: it counts fine-tuned runs only.
+Base-model runs (thinking on, thinking off) and the rule-based arm are fixed-model
+conditions, not touches.
+Evidence: `test_eval_scripts.py` passes 43 tests. `eval_validate.py` reported "102 cases, 30
+codeless profiles, 0 errors". Run log: `notes/reports/logs/2026-09-25-phase-2.log`.
+
 ## [DECIDED] Eval transport (`eval_case`) and the served-thinking switch — 2026-09-26
 Context: Brief 2a says to POST eval payloads to `/interpret` "in scenario mode". Scenario
 mode only accepts a fixture *name* from `fixtures.py`, and 2a prohibition 4 keeps eval

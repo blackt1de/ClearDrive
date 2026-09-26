@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cleardrive/eval/schema.json",
+  "title": "ClearDrive eval-v1 case and codeless profile",
+  "description": "payload is exactly the eval_case body /interpret accepts, minus case_id: {vehicle, trim, snapshot}. eval_run.py sends {\"eval_case\": {\"case_id\": ..., **payload}}. snapshot is an OBDSnapshot (schemas.py).",
+  "$ref": "#/$defs/eval_case",
+  "$defs": {
+    "vehicle": {
+      "type": "object",
+      "required": ["year", "make", "model", "full_name", "engine", "obd_era"],
+      "properties": {
+        "year": {"type": "integer", "minimum": 1996},
+        "make": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "full_name": {"type": "string", "minLength": 1},
+        "engine": {"type": ["string", "null"]},
+        "obd_era": {"enum": ["pre-CAN", "CAN", "OBDonUDS"]}
+      }
+    },
+    "payload": {
+      "type": "object",
+      "required": ["vehicle", "trim", "snapshot"],
+      "additionalProperties": false,
+      "properties": {
+        "vehicle": {"type": "object", "required": ["year", "make", "model"]},
+        "trim": {"type": "string"},
+        "snapshot": {
+          "type": "object",
+          "required": ["dtc_codes", "capability"],
+          "properties": {
+            "dtc_codes": {"type": "array", "items": {"type": "object", "required": ["code", "description"]}},
+            "capability": {"type": "object"}
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["created", "created_by", "notes"],
+      "properties": {
+        "created": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "created_by": {"const": "brief-2a"},
+        "notes": {"type": "string"}
+      }
+    },
+    "eval_case": {
+      "type": "object",
+      "required": ["case_id", "case_type", "vehicle", "payload", "ground_truth", "h2_expected_specificity", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^EV-\\d{3}$"},
+        "case_type": {"enum": ["reconstructed", "synthetic"]},
+        "vehicle": {"$ref": "#/$defs/vehicle"},
+        "payload": {"$ref": "#/$defs/payload"},
+        "ground_truth": {
+          "type": "object",
+          "required": ["fault_labels", "primary_label", "confirmed_repair", "source_url", "source_type"],
+          "additionalProperties": false,
+          "properties": {
+            "fault_labels": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+            "primary_label": {"type": "string"},
+            "confirmed_repair": {"type": "string", "minLength": 1},
+            "source_url": {"type": "string", "minLength": 1},
+            "source_type": {"type": "string", "pattern": "^(nhtsa_complaint|nhtsa_recall|known_issues\\.json|synthetic_from:[a-z_]+)$"}
+          }
+        },
+        "h2_expected_specificity": {"type": "array", "items": {"type": "string"}},
+        "provenance": {"$ref": "#/$defs/provenance"}
+      }
+    },
+    "codeless_profile": {
+      "type": "object",
+      "required": ["case_id", "case_type", "vehicle", "payload", "ground_truth", "h2_expected_specificity", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^CL-\\d{3}$"},
+        "case_type": {"const": "codeless"},
+        "vehicle": {"$ref": "#/$defs/vehicle"},
+        "payload": {
+          "allOf": [
+            {"$ref": "#/$defs/payload"},
+            {"properties": {"snapshot": {"properties": {"dtc_codes": {"maxItems": 0}}}}}
+          ]
+        },
+        "ground_truth": {
+          "type": "object",
+          "required": ["documented_issues"],
+          "additionalProperties": false,
+          "properties": {
+            "documented_issues": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["issue", "source_url", "source_type"],
+                "properties": {
+                  "issue": {"type": "string", "minLength": 1},
+                  "campaign": {"type": "string"},
+                  "component": {"type": "string"},
+                  "source_url": {"type": "string", "minLength": 1},
+                  "source_type": {"enum": ["nhtsa_complaint", "nhtsa_recall", "known_issues.json"]}
+                }
+              }
+            }
+          }
+        },
+        "h2_expected_specificity": {"type": "array", "items": {"type": "string"}},
+        "provenance": {"$ref": "#/$defs/provenance"}
+      }
+    }
+  }
+}

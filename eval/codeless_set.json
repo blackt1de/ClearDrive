@@ -1,0 +1,3390 @@
+{
+ "version": "eval-v1",
+ "created": "2026-09-26",
+ "h4_rule": "A hit is when the model's output names at least one documented issue for the profile: its NHTSA campaign number, or at least two distinctive words of its recall component (scripts/eval_score.py:h4_hit). Threshold: 50% of profiles. Pinned; do not change.",
+ "h4_threshold": 0.5,
+ "profiles": [
+  {
+   "case_id": "CL-001",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2001,
+    "make": "Ford",
+    "model": "F-350",
+    "full_name": "2001 Ford F-350",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2001",
+     "make": "Ford",
+     "model": "F-350",
+     "full_name": "2001 Ford F-350",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "VEHICLE SPEED CONTROL: ON CERTAIN TRUCKS EQUIPPED WITH SPEED CONTROL, GASOLINE OR NATURAL GAS ENGINES, THE SPEED CONTROL DEACTIVATION SWITCH MAY OVERHEAT.",
+      "campaign": "06V286000",
+      "component": "VEHICLE SPEED CONTROL",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ford&model=F-350&modelYear=2001#campaign=06V286000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "EQUIPMENT:ELECTRICAL: CERTAIN CEQUENT 90 DEGREE 7-WAY RIGHT ANGLE ADAPTORS SOLD BY DISTRIBUTORS IN TOW PACKAGES FOR AFTERMARKET SALES TO TOW 5TH WHEEL RV TRAVEL TRAILERS. DUE TO INCORRECT WIRING OF THE HARNESS, THE TRAILER LIGHTS MAY NOT OPERATE PROPERLY.",
+      "campaign": "07E066000",
+      "component": "EQUIPMENT:ELECTRICAL",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ford&model=F-350&modelYear=2001#campaign=07E066000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "VISIBILITY:WINDSHIELD WIPER/WASHER:MOTOR: VEHICLE DESCRIPTION: PASSENGER CARS, SPORT UTILITY VEHICLES, AND LIGHT AND MEDIUM DUTY PICKUP TRUCKS. A SWITCH LOCATED IN THE PLASTIC COVER OF THE WIPER MOTOR GEAR CASE COULD MALFUNCTION AND OVERHEAT, POTENTIALLY RESULTING IN LOSS OF INTERMITTENT WIPER FUNCTION, LOSS OF WIPER PARK FUNCTION, COMPLETE LOSS OF WIPER FUNCTION, OR IGNITION OF THE PLASTIC COVER MATERIAL. SWITCH MALFUNCTION IS MOST LIKELY TO OCCUR WHEN THE INTERMITTENT SETTING OF THE WIPERS IS BEING USED, OR WHEN SNOW OR ICE OBSTRUCTS THE BLADES FROM RETURNING TO THE \"PARKED\" POSITION AT THE BOTTOM OF THE WINDSHIELD. THESE VEHICLES WERE BUILT AT THE FOLLOWING ASSEMBLY PLANTS: ATLANTA PLANT FROM 2/11/00 THROUGH 7/31/00; CHICAGO PLANT FROM 2/14/00 THROUGH 8/4/00; KANSAS CITY PLANT FROM 2/26/00 TO 9/4/00; KENTUCKY TRUCK PLANT FROM 2/18/00 TO 8/31/00; MICHIGAN TRUCK PLANT FROM 2/23/00 THROUGH 8/3/00; NORFOLK PLANT FROM 2/21/00 THROUGH 7/27/00; WAYNE STAMPING AND ASSEMBLY PLANT FROM 2/25/00 THROUGH 8/15/00; AND WIXOM PLANT FROM 2/15/00 THROUGH 8/8/00.",
+      "campaign": "01V258000",
+      "component": "VISIBILITY:WINDSHIELD WIPER/WASHER:MOTOR",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ford&model=F-350&modelYear=2001#campaign=01V258000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SEAT BELTS:FRONT:BUCKLE ASSEMBLY: VEHICLE DESCRIPTION: PASSENGER AND SPORT UTILITY VEHICLES, PICKUP TRUCKS, AND MINIVANS. EQUIPPED WITH SEAT BELTS SUPPLIED BY TRW. IT IS POSSIBLE THAT THE DRIVER'S AND/OR FRONT PASSENGER'S OUTBOARD SEAT BELT BUCKLE MAY NOT FULLY LATCH. FORD CROWN VICTORIA BUILT AT ST. THOMAS ASSEMBLY PLANT FROM 4/17/00 - 5/29/01 MERCURY GRAND MARQUIS BUILT AT ST. THOMAS ASSEMBLY PLANT FROM 4/17/00 - 5/29/01. LINCOLN TOWN CARS BUILT AT WIXOM ASSEMBLY PLANT FROM 3/27/00 - 5/30/01. LINCOLN NAVIGATORS BUILT AT MICHIGAN TRUCK PLANT FROM 4/11/00 - 5/31/01. FORD WINDSTARS BUILT AT OAKVILLE ASSEMBLY PLANT FROM 3/23/00 - 5/30/01. FORD RANGERS BUILT AT TWIN CITIES PLANT FROM 3/28/00 - 5/30/01, AND ALSO AT THE EDISON PLANT FROM 3/13/00 - 5/25/01. FORD F-150 TRUCK BUILT AT NORFOLK PLANT FROM 4/18/00 - 5/25/00; AT ONTARIO PLANT FROM 5/10/00 - 5/28/01; AT KANSAS CITY PLANT FROM 9/11/99 - 5/25/01; AND AT CUAUTITLAN PLANT FROM 5/16/00 - 6/9/01. FORD SUPER DUTY F-250, F-350, F-450, AND F-550 TRUCKS BUILT AT KENTUCKY PLANT FROM 4/17/00 - 5/27/01; AND AT CUAUTITLAN PLANT FROM 5/16/00 - 6/19/01. FORD EXCURSIONS BUILT AT KENTUCKY PLANT FROM 4/17/00 - 10/2/00. FORD EXPEDITIONS BUILT AT MICHIGAN TRUCK PLANT FROM 4/11/00 - 5/31/01.",
+      "campaign": "01V227001",
+      "component": "SEAT BELTS:FRONT:BUCKLE ASSEMBLY",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ford&model=F-350&modelYear=2001#campaign=01V227001",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "FUEL SYSTEM, GASOLINE:STORAGE:TANK ASSEMBLY:FILLER PIPE AND CAP: VEHICLE DESCRIPTION: F-SUPER DUTY CREW CAB PICKUP TRUCKS (F-350 SHORT WHEELBASE TRUCKS EQUIPPED WITH A 6 3/4' PICKUP BOX AND DUAL REAR WHEELS) WERE BUILT AFTER A CHANGE WAS IMPLEMENTED TO DELETE A CLAMP, AND LATER A BRACKET THAT PROVIDED A GROUND FOR THE FUEL FILLER PIPE. THE PICKUP BOX MAY NOT HAVE BEEN PROPERLY GROUNDED.",
+      "campaign": "01V106000",
+      "component": "FUEL SYSTEM, GASOLINE:STORAGE:TANK ASSEMBLY:FILLER PIPE AND CAP",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ford&model=F-350&modelYear=2001#campaign=01V106000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2001 Ford F-350",
+    "NHTSA recall 06V286000",
+    "NHTSA recall 07E066000",
+    "NHTSA recall 01V258000",
+    "NHTSA recall 01V227001",
+    "NHTSA recall 01V106000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-002",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2001,
+    "make": "Chevrolet",
+    "model": "MALIBU",
+    "full_name": "2001 Chevrolet MALIBU",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2001",
+     "make": "Chevrolet",
+     "model": "MALIBU",
+     "full_name": "2001 Chevrolet MALIBU",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "ELECTRICAL SYSTEM:IGNITION: This defect can affect the safe operation of the airbag system. Until this recall is performed, customers should remove all items from their key rings, leaving only the ignition key. The key fob (if applicable), should also be removed from the key ring. General Motors LLC (GM) notified the agency on July 3, 2014, that they are recalling 5,877,718 model year 2000-2005 Chevrolet Impala and Monte Carlo, 1997-2003 Chevrolet Malibu, 2004-2005 Malibu Classic, 1999-2004 Oldsmobile Alero, 1998-2002 Oldsmobile Intrigue, 1999-2005 Pontiac Grand Am and 2004-2008 Pontiac Grand Prix vehicles. In these models, the weight on the key ring and/or road conditions or some other jarring event may cause the ignition switch to move out of the run position, turning off the engine.",
+      "campaign": "14V400000",
+      "component": "ELECTRICAL SYSTEM:IGNITION",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2001#campaign=14V400000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "EXTERIOR LIGHTING: SABERSPORT IS RECALLING 16,270 COMBINATION CORNER AND BUMPER LAMP ASSEMBLIES OF VARIOUS PART NUMBERS SOLD FOR USE AS AFTERMARKET EQUIPMENT FOR VARIOUS PASSENGER VEHICLES. THESE HEADLAMPS FAIL TO CONFORM TO THE REQUIREMENTS OF FEDERAL MOTOR VEHICLE SAFETY STANDARD NO. 108, \"LAMPS, REFLECTIVE DEVICES, AND ASSOCIATED EQUIPMENT.\" THESE LAMPS DO NOT CONTAIN THE REQUIRED AMBER SIDE REFLECTORS.",
+      "campaign": "09E012000",
+      "component": "EXTERIOR LIGHTING",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2001#campaign=09E012000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "FUEL SYSTEM, OTHER:STORAGE:TANK ASSEMBLY:PRESSURE RELIEF DEVICES: CERTAIN DELPHI FUEL PRESSURE REGULATORS, P/NOS. FP10020-11B1, FP10026-11B1, AND FP10027-11B1, SOLD AFTER JANUARY 9, 2007, AS AFTERMARKET EQUIPMENT FOR VARIOUS PASSENGER VEHICLES LISTED ABOVE. THE UNIVERSAL PRESSURE REGULATORS (UPR) WERE PRODUCED WITHOUT AN O'RING AND RETAINER.",
+      "campaign": "07E021000",
+      "component": "FUEL SYSTEM, OTHER:STORAGE:TANK ASSEMBLY:PRESSURE RELIEF DEVICES",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2001#campaign=07E021000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "EXTERIOR LIGHTING:HAZARD FLASHING WARNING LIGHTS:SWITCH: CERTAIN PASSENGER VEHICLES HAVE HAZARD WARNING SWITCHES THAT MAY EXPERIENCE SOLDER JOINT CRACKING CAUSED BY RAPID TEMPERATURE TRANSITIONS AND THE SOLDERING PROCESS. IF SOLDER JOINT CRACKING OCCURS AND RESULTS IN AN OPEN CIRCUIT, THE TURN SIGNALS/HAZARD LAMPS BECOME INTERMITTENT OR INOPERATIVE.",
+      "campaign": "03V327000",
+      "component": "EXTERIOR LIGHTING:HAZARD FLASHING WARNING LIGHTS:SWITCH",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Chevrolet&model=MALIBU&modelYear=2001#campaign=03V327000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2001 Chevrolet MALIBU",
+    "NHTSA recall 14V400000",
+    "NHTSA recall 09E012000",
+    "NHTSA recall 07E021000",
+    "NHTSA recall 03V327000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-003",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2014,
+    "make": "Chevrolet",
+    "model": "SS",
+    "full_name": "2014 Chevrolet SS",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2014",
+     "make": "Chevrolet",
+     "model": "SS",
+     "full_name": "2014 Chevrolet SS",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "SEAT BELTS:FRONT: General Motors LLC (GM) is recalling certain 2014-2016 Chevrolet SS and Caprice Police Pursuit Vehicles (PPV) that were previously repaired under NHTSA recall number 16V-518. The repair may not have been performed properly. The driver's seat belt tensioner cable may be repeatedly bent over the seat side shield as the driver enters and exits the vehicle causing the cable to fatigue and separate.",
+      "campaign": "20V638000",
+      "component": "SEAT BELTS:FRONT",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Chevrolet&model=SS&modelYear=2014#campaign=20V638000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "STEERING:ELECTRIC POWER ASSIST SYSTEM: General Motors LLC (GM) is recalling certain 2014-2016 Chevrolet SS vehicles that previously received an inspect-only remedy under recall 17V-382. Corrosion of the connector between the electric power steering module and the torque sensor connector may cause a loss of electric power steering assist.",
+      "campaign": "19V801000",
+      "component": "STEERING:ELECTRIC POWER ASSIST SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Chevrolet&model=SS&modelYear=2014#campaign=19V801000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:FRONTAL: General Motors LLC (GM) is recalling certain model year 2015-2017 Chevrolet Silverado 2500 HD, 3500 HD, Tahoe, Suburban, GMC Sierra 2500 HD and 3500 HD, GMC Yukon, GMC Yukon XL, Cadillac Escalade and Cadillac Escalade ESV vehicles and 2014-2017 Chevrolet Corvette, Silverado 1500, Trax, Caprice Police Pursuit Vehicle, GMC Sierra 1500, Buick Encore, and 2014-2016 Buick Lacrosse, Chevrolet Spark EV and SS vehicles. In the affected vehicles, certain driving conditions may cause the air bag sensing and diagnostic module (SDM) software to activate a diagnostic test. During this test, deployment of the frontal air bags and the seat belt pretensioners would not occur in the event of a crash.",
+      "campaign": "16V651000",
+      "component": "AIR BAGS:FRONTAL",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Chevrolet&model=SS&modelYear=2014#campaign=16V651000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SEAT BELTS:FRONT: General Motors LLC (GM) is recalling certain model year 2014-2016 Chevrolet Caprice Police Pursuit vehicles manufactured May 14, 2013 through June 14, 2016, and Chevrolet SS vehicles manufactured May 15, 2013 through April 27, 2016. The driver's seat belt tensioner cable may be repeatedly bent over the seat side shield as the driver enters and exits the vehicle causing the cable to fatigue and separate.",
+      "campaign": "16V518000",
+      "component": "SEAT BELTS:FRONT",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Chevrolet&model=SS&modelYear=2014#campaign=16V518000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "STEERING:ELECTRIC POWER ASSIST SYSTEM: General Motors LLC (GM) is recalling certain 2014-2016 Chevrolet SS vehicles. Corrosion of the connector between the electric power steering module and the torque sensor connector may cause a loss of electric power steering assist.",
+      "campaign": "17V382000",
+      "component": "STEERING:ELECTRIC POWER ASSIST SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Chevrolet&model=SS&modelYear=2014#campaign=17V382000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2014 Chevrolet SS",
+    "NHTSA recall 20V638000",
+    "NHTSA recall 19V801000",
+    "NHTSA recall 16V651000",
+    "NHTSA recall 16V518000",
+    "NHTSA recall 17V382000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-004",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2005,
+    "make": "Toyota",
+    "model": "CAMRY",
+    "full_name": "2005 Toyota CAMRY",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2005",
+     "make": "Toyota",
+     "model": "CAMRY",
+     "full_name": "2005 Toyota CAMRY",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "SEATS:FRONT ASSEMBLY:SEAT HEATER/COOLER: Southeast Toyota Distributors, LLC (SET) is recalling certain 2005-2011 4Runner, Highlander, Sequoia, and Sienna, 2005-2010 Avalon and Tundra, 2006-2008 Camry Solara, 2006-2010 Highlander hybrid, 2006-2011 Rav4 and Tacoma, 2007-2010 FJ Cruiser, 2007-2011 Camry hybrid, 2009-2010 Venza, 2010-2012 Prius, 1988-1990 and 2005-2010 Camry, and 1989 and 2009-2010 Corolla vehicles equipped with aftermarket accessory seat heaters with a copper strand heating element. The electrical wiring in the seat heaters may be damaged when the seat cushion is compressed.",
+      "campaign": "16V396000",
+      "component": "SEATS:FRONT ASSEMBLY:SEAT HEATER/COOLER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=CAMRY&modelYear=2005#campaign=16V396000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ENGINE AND ENGINE COOLING: TOYOTA IS RECALLING CERTAIN MODEL YEAR 2004 AVALON VEHICLES; 2004 AND 2005 CAMRY, CAMRY SOLARA, HIGHLANDER, AND SIENNA VEHICLES, 2006 HIGHLANDER HYBRID; 2004 AND 2005 LEXUS ES330 AND RX330; AND 2006 LEXUS RX400H VEHICLES MANUFACTURED FROM JUNE 1, 2004 THROUGH MARCH 31, 2005, EQUIPPED WITH THE 1MZ-FE OR 3MZ-FE ENGINE. THE AMOUNT OF ADHESIVE AGENT APPLIED BETWEEN THE OUTER RING AND THE TORSIONAL RUBBER DAMPER (INNER RING) IN THE CRANKSHAFT PULLEY MAY BE INADEQUATE. IF THE ADHESIVE IS INSUFFICIENT, THERE IS A POSSIBILITY THAT THE OUTER RING MAY BECOME MISALIGNED AND IT MAY NOT PROPERLY ROTATE WITH THE INNER RING, CAUSING NOISE AND/OR ILLUMINATION OF THE BATTERY DISCHARGE INDICATOR LIGHT.",
+      "campaign": "11V539000",
+      "component": "ENGINE AND ENGINE COOLING",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=CAMRY&modelYear=2005#campaign=11V539000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "EQUIPMENT:OTHER:LABELS: GULF STATES TOYOTA IS RECALLING CERTAIN MODEL YEAR 2005-2010 VEHICLES FOR FAILING TO COMPLY WITH THE REQUIREMENTS OF FEDERAL MOTOR VEHICLE SAFETY STANDARD NO. 110, \"TIRE SELECTION AND RIMS.\" THESE VEHICLES WERE SOLD BETWEEN SEPTEMBER 1, 2005 AND JUNE 2, 2008 WITHOUT THE REQUISITE LOAD CARRYING CAPACITY MODIFICATION LABELS.",
+      "campaign": "10V035000",
+      "component": "EQUIPMENT:OTHER:LABELS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=CAMRY&modelYear=2005#campaign=10V035000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "EQUIPMENT:OTHER:LABELS: SOUTHEAST TOYOTA IS RECALLING CERTAIN MODEL YEAR 2005-2011 PASSENGER VEHICLES FOR FAILING TO COMPLY WITH THE REQUIREMENTS OF FEDERAL MOTOR VEHICLE SAFETY STANDARD NO. 110, \"TIRE SELECTION AND RIMS.\" THESE VEHICLES WERE SOLD WITHOUT THE REQUISITE LOAD CARRYING CAPACITY MODIFICATION LABELS.",
+      "campaign": "10V036000",
+      "component": "EQUIPMENT:OTHER:LABELS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=CAMRY&modelYear=2005#campaign=10V036000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SEAT BELTS:FRONT:BUCKLE ASSEMBLY: ON CERTAIN PASSENGER VEHICLES EQUIPPED WITH A FRONT PASSENGER POWER SEAT, WHEN INSTALLING CERTAIN REAR-FACING INFANT CHILD SEAT BASES ONTO THE SEAT WITH AN EXCESSIVELY HIGH SEATBELT TENSION, IT MAY BE POSSIBLE TO UNSEAT A COMPONENT CALLED THE BUCKLE STATUS SWITCH FROM THE SEAT BELT BUCKLE.",
+      "campaign": "04V595000",
+      "component": "SEAT BELTS:FRONT:BUCKLE ASSEMBLY",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=CAMRY&modelYear=2005#campaign=04V595000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2005 Toyota CAMRY",
+    "NHTSA recall 16V396000",
+    "NHTSA recall 11V539000",
+    "NHTSA recall 10V035000",
+    "NHTSA recall 10V036000",
+    "NHTSA recall 04V595000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-005",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2011,
+    "make": "Toyota",
+    "model": "TUNDRA",
+    "full_name": "2011 Toyota TUNDRA",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2011",
+     "make": "Toyota",
+     "model": "TUNDRA",
+     "full_name": "2011 Toyota TUNDRA",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "SEATS:FRONT ASSEMBLY:SEAT HEATER/COOLER: Southeast Toyota Distributors, LLC (SET) is recalling certain model year 2010-2011 Prius and Corolla, 2009-2011 Venza, 2006-2010 Avalon, 2007-2010 FJ Cruiser, 2005-2011 Sienna and Sequoia, 2006-2011 Tacoma 4x2 and 4x4, Camry, Highlander, Tundra 4x2 and 4x4, and 2007-2011 Rav4 and 4Runner. The affected vehicles may experience compression of the seat cushion which may damage the seat heater wiring.",
+      "campaign": "14V743000",
+      "component": "SEATS:FRONT ASSEMBLY:SEAT HEATER/COOLER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=TUNDRA&modelYear=2011#campaign=14V743000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "VISIBILITY:POWER WINDOW DEVICES AND CONTROLS: Toyota Motor Company (Toyota) is recalling certain model year 2009-2011 Tundra, Sequoia, Corolla, Corolla Matrix and Scion xB, 2008-2011 Highlander and Highlander Hybrid, 2007 Camry and Camry Hybrid, 2009 Camry and Camry Hybrid, 2006-2011 RAV4, 2006-2010 Yaris, and 2009-2010 Scion xD and Pontiac Vibe vehicles. During the manufacturing of the Power Window Master Switch (PWMS), grease lubricant may have been inconsistently applied to the sliding electrical contacts.",
+      "campaign": "15V689000",
+      "component": "VISIBILITY:POWER WINDOW DEVICES AND CONTROLS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=TUNDRA&modelYear=2011#campaign=15V689000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "EQUIPMENT:OTHER:LABELS: GULF STATES TOYOTA IS RECALLING CERTAIN MODEL YEAR 2011 TUNDRA VEHICLES THAT HAVE AN INACCURATE LOAD CARRYING CAPACITY LABEL. THESE VEHICLES FAIL TO COMPLY WITH THE REQUIREMENTS OF FEDERAL MOTOR VEHICLE SAFETY STANDARD NO. 110, \u0093TIRE SELECTION AND RIMS.\u0094",
+      "campaign": "11V588000",
+      "component": "EQUIPMENT:OTHER:LABELS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=TUNDRA&modelYear=2011#campaign=11V588000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:FRONTAL:SENSOR/CONTROL MODULE-INACTIVE: Southeast Toyota Distributors, LLC (SET) is recalling certain models interspersed through model years 2009 through 2013 as follows: model year 2009-2012 Tacoma, 4Runner, Camry, Camry Hybrid, Prius, and RAV4; model year 2009-2010 Avalon, FJ Cruiser, and Highlander Hybrid; model year 2010-2013 model year Corolla, Sienna and Tundra; model year 2009-2013 Highlander and Venza; model year 2012 Prius V; and model year 2010-2012 Sequoia. During modification by SET to include accessories such as leather seat covers, seat heaters or headrest DVD systems, these vehicles may not have had the passenger seat occupant sensing system calibration tested. Without passing the calibration test, the occupant sensing system may not operate as designed.",
+      "campaign": "13V014000",
+      "component": "AIR BAGS:FRONTAL:SENSOR/CONTROL MODULE-INACTIVE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=TUNDRA&modelYear=2011#campaign=13V014000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "TIRES:PRESSURE MONITORING AND REGULATING SYSTEMS: TOYOTA IS RECALLING CERTAIN MODEL YEAR 2008 THROUGH 2011 FJ CRUISER, LAND CRUISER, TACOMA, SEQUOIA AND TUNDRA VEHICLES FOR FAILING TO COMPLY WITH THE REQUIREMENTS OF FEDERAL MOTOR VEHICLE SAFETY STANDARD NO. 138, \"TIRE PRESSURE MONITORING SYSTEM (TPMS).\" WHEN FACTORY-INSTALLED WHEELS AND TIRES WERE REPLACED WITH TOYOTA AUTHORIZED ACCESSORY WHEELS AND LT TIRES PRIOR TO FIRST SALE, THE TIRE PRESSURE MONITORING SYSTEMS WERE NOT RE-CALIBRATED CORRECTLY AND THEREFORE DO NOT START ILLUMINATING THE LOW TIRE PRESSURE WARNING TELLTALE AT THE REQUIRED MINIMUM ACTIVATION PRESSURE.",
+      "campaign": "11V148000",
+      "component": "TIRES:PRESSURE MONITORING AND REGULATING SYSTEMS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=TUNDRA&modelYear=2011#campaign=11V148000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2011 Toyota TUNDRA",
+    "NHTSA recall 14V743000",
+    "NHTSA recall 15V689000",
+    "NHTSA recall 11V588000",
+    "NHTSA recall 13V014000",
+    "NHTSA recall 11V148000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-006",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2021,
+    "make": "Toyota",
+    "model": "TUNDRA",
+    "full_name": "2021 Toyota TUNDRA",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2021",
+     "make": "Toyota",
+     "model": "TUNDRA",
+     "full_name": "2021 Toyota TUNDRA",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "EXTERIOR LIGHTING:HEADLIGHTS: Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2018-2021 Tundra vehicles. The headlight electrical circuits may power the high and low beams simultaneously, which could overheat the electrical connector.",
+      "campaign": "21V688000",
+      "component": "EXTERIOR LIGHTING:HEADLIGHTS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=TUNDRA&modelYear=2021#campaign=21V688000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "STEERING:HYDRAULIC POWER ASSIST SYSTEM: Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain 2008-2022 Sequoia and 2007-2021 Tundra vehicles. The power steering gear assembly may have been manufactured incorrectly, which can result in an oil leak.",
+      "campaign": "21V920000",
+      "component": "STEERING:HYDRAULIC POWER ASSIST SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=TUNDRA&modelYear=2021#campaign=21V920000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "STEERING:HYDRAULIC POWER ASSIST SYSTEM: Toyota Motor Engineering & Manufacturing (Toyota) is recalling certain JTEKT power steering gear assembly service parts for 2007-2021 Tundra and 2008-2022 Sequoia, part numbers 44250-0C160, 44250-0C131, 44250-0C170, and 11250-0C121. The power steering gear assembly may have been manufactured incorrectly, which can result in an oil leak.",
+      "campaign": "21E103000",
+      "component": "STEERING:HYDRAULIC POWER ASSIST SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Toyota&model=TUNDRA&modelYear=2021#campaign=21E103000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2021 Toyota TUNDRA",
+    "NHTSA recall 21V688000",
+    "NHTSA recall 21V920000",
+    "NHTSA recall 21E103000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-007",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2018,
+    "make": "Honda",
+    "model": "PILOT",
+    "full_name": "2018 Honda PILOT",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2018",
+     "make": "Honda",
+     "model": "PILOT",
+     "full_name": "2018 Honda PILOT",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "STRUCTURE:BODY:HOOD: Honda (American Honda Motor Co.) is recalling certain 2019 Passport, 2016-2019 Pilot, and 2017-2020 Ridgeline vehicles. The hood latch striker may become damaged and separate from the hood, which can result in the hood opening while driving.",
+      "campaign": "21V932000",
+      "component": "STRUCTURE:BODY:HOOD",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=PILOT&modelYear=2018#campaign=21V932000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ENGINE AND ENGINE COOLING:ENGINE:GASOLINE:BELTS AND ASSOCIATED PULLEYS: Honda (American Honda Motor Co.) is recalling certain 2018-2019 Acura MDX and Honda Pilot vehicles and 2019 Acura RLX, RLX Sport Hybrid, TLX and Honda Odyssey and Ridgeline vehicles. The timing belt teeth may separate from the belt.",
+      "campaign": "19V298000",
+      "component": "ENGINE AND ENGINE COOLING:ENGINE:GASOLINE:BELTS AND ASSOCIATED PULLEYS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=PILOT&modelYear=2018#campaign=19V298000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SEATS: Honda (American Honda Motor Co.) is recalling certain 2018 Honda Pilot and Ridgeline vehicles and 2018 Acura MDX vehicles. The front driver and passenger powered seats in the Honda vehicles and the driver powered seats in the Acura vehicles may have been assembled with improperly manufactured rivets. In the event of a crash, the rivets can break causing the seats not to be secured to the floor. As such, these vehicles may fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 207, \"Seating Systems,\" and 210, \"Seat Belt Assembly Anchorages.\"",
+      "campaign": "18V221000",
+      "component": "SEATS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=PILOT&modelYear=2018#campaign=18V221000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ENGINE AND ENGINE COOLING:ENGINE:HARD PARTS INTERNAL/MECHANICAL: Honda (American Honda Motor Co.) is recalling certain 2015-2020 Acura TLX, 2016-2020 Acura MDX, 2016 and 2018-2019 Pilot, 2017 and 2019 Ridgeline, and 2018-2019 Odyssey vehicles. Due to a manufacturing error, the connecting rod bearing in the engine may wear and seize, damaging the engine.",
+      "campaign": "23V751000",
+      "component": "ENGINE AND ENGINE COOLING:ENGINE:HARD PARTS INTERNAL/MECHANICAL",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=PILOT&modelYear=2018#campaign=23V751000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP: Honda (American Honda Motor Co.) is recalling certain 2013-2023 Honda Accord, Civic Coupe, Civic Sedan, Civic Hatchback, Civic Type R, CR-V, HR-V, Ridgeline, Odyssey, Acura ILX, MDX, MDX Hybrid, RDX, RLX, TLX, 2019-2022 Honda Insight, Passport, 2020 Honda CR-V Hybrid, 2018-2019 Honda Clarity PHEV, Fit, and 2015-2020 Honda Accord Hybrid, Pilot, Acura NSX vehicles. The fuel pump inside the fuel tank may fail.",
+      "campaign": "23V858000",
+      "component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=PILOT&modelYear=2018#campaign=23V858000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2018 Honda PILOT",
+    "NHTSA recall 21V932000",
+    "NHTSA recall 19V298000",
+    "NHTSA recall 18V221000",
+    "NHTSA recall 23V751000",
+    "NHTSA recall 23V858000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-008",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2021,
+    "make": "Honda",
+    "model": "RIDGELINE",
+    "full_name": "2021 Honda RIDGELINE",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2021",
+     "make": "Honda",
+     "model": "RIDGELINE",
+     "full_name": "2021 Honda RIDGELINE",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "SEAT BELTS:REAR/OTHER:RETRACTOR: Honda (American Honda Motor Co.) is recalling certain 2021 Accord Sedan, Accord Hybrid, CR-V, Ridgeline, 2022 Insight and CR-V Hybrid vehicles. The automatic locking retractor on the second-row center seat belt assembly may deactivate improperly, which can result in an unsecured child restraint system. As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard number 208, \"Occupant Crash Protection.\"",
+      "campaign": "21V900000",
+      "component": "SEAT BELTS:REAR/OTHER:RETRACTOR",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=RIDGELINE&modelYear=2021#campaign=21V900000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "VISIBILITY:REARVIEW MIRRORS/DEVICES:EXTERIOR: Honda (American Honda Motor Co) is recalling certain 2020-2021 Pilot and Ridgeline, and 2020-2022 Passport and Odyssey vehicles. The heating pads behind both side-view mirrors may not be bonded properly, allowing the mirror glass to detach. As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard number 111, \"Rear Visibility.\"",
+      "campaign": "23V174000",
+      "component": "VISIBILITY:REARVIEW MIRRORS/DEVICES:EXTERIOR",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=RIDGELINE&modelYear=2021#campaign=23V174000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SERVICE BRAKES, HYDRAULIC:FOUNDATION COMPONENTS:MASTER CYLINDER: Honda (American Honda Motor Co.) is recalling certain 2020-2021 Civic, 2020-2023 Ridgeline, 2021-2023 Passport, 2021-2022 Pilot, and 2020 Acura MDX vehicles. The tie rod fastener that connects the brake booster and the brake master cylinder may have been improperly assembled during manufacturing, which can cause the brake master cylinder to separate from the booster assembly.",
+      "campaign": "23V458000",
+      "component": "SERVICE BRAKES, HYDRAULIC:FOUNDATION COMPONENTS:MASTER CYLINDER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=RIDGELINE&modelYear=2021#campaign=23V458000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION:FRONT PASSENGER: Honda (American Honda Motor Co.) is recalling certain 2020-2022 Pilot, Accord, Civic sedan, HR-V, Odyssey, 2020 Civic coupe, Fit, 2021-2022 Civic hatchback, 2021 Civic Type R, Insight, 2020-2021 CR-V, CR-V Hybrid, Passport, Ridgeline, Accord Hybrid, 2020 Acura MDX, 2022 Acura MDX, 2020-2022 Acura RDX, and 2020-2021 Acura TLX vehicles. The front passenger seat weight sensor may crack and short circuit, failing to suppress the air bag as intended.",
+      "campaign": "24V064000",
+      "component": "AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION:FRONT PASSENGER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=RIDGELINE&modelYear=2021#campaign=24V064000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "BACK OVER PREVENTION: SENSING SYSTEM: CAMERA: Honda (America Honda Motor Co) is recalling certain 2020-2024 Ridgeline vehicles. The rearview camera (RVC) tailgate wire harness may fatigue and break, which can prevent the rearview camera image from displaying.",
+      "campaign": "24V321000",
+      "component": "BACK OVER PREVENTION: SENSING SYSTEM: CAMERA",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Honda&model=RIDGELINE&modelYear=2021#campaign=24V321000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2021 Honda RIDGELINE",
+    "NHTSA recall 21V900000",
+    "NHTSA recall 23V174000",
+    "NHTSA recall 23V458000",
+    "NHTSA recall 24V064000",
+    "NHTSA recall 24V321000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-009",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2007,
+    "make": "Nissan",
+    "model": "XTERRA",
+    "full_name": "2007 Nissan XTERRA",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2007",
+     "make": "Nissan",
+     "model": "XTERRA",
+     "full_name": "2007 Nissan XTERRA",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "SUSPENSION:FRONT:CONTROL ARM:LOWER ARM: NISSAN IS RECALLING CERTAIN FRONT AND REAR LOWER LINKS, P/NOS. 54501ZQ00A, 54500ZQ00A, 551A1ZQ00A, 551A0ZQ00A , 54501EA00A, 54500EA00A, 551A1EA500, 551A0EA500, 54501ZR00A, AND 54500ZR00A, SOLD BETWEEN NOVEMBER 25, 2009 AND MAY 14, 2010 AS REPLACEMENT PARTS FOR MODEL YEAR 2004 THROUGH 2010 TITAN, ARMADA, AND QX56, AND MODEL YEARS 2005 THROUGH 2010 FRONTIER, XTERRA, AND PATHFINDER VEHICLES. THE LOWER CONTROL LINK ASSEMBLY HAS TWO CYLINDRICAL COLLARS FORMING THE INBOARD ATTACHMENT POINTS TO THE CHASSIS. DUE TO AN IMPROPER WELDING PROCESS SOME COLLARS MAY CONTAIN WELDS THAT DO NOT MEET STRENGTH SPECIFICATIONS.",
+      "campaign": "10E019000",
+      "component": "SUSPENSION:FRONT:CONTROL ARM:LOWER ARM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Nissan&model=XTERRA&modelYear=2007#campaign=10E019000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:FRONTAL: NISSAN IS RECALLING 242,720 MY 2005-2009 PATHFINDER, FRONTIER AND XTERRA VEHICLES ORIGINALLY SOLD IN OR CURRENTLY REGISTERED IN THE STATES OF CONNECTICUT, DELAWARE, ILLINOIS, INDIANA, IOWA, MAINE, MARYLAND, MASSACHUSETTS, MICHIGAN, MINNESOTA, MISSOURI, NEW HAMPSHIRE, NEW JERSEY, NEW YORK, OHIO, PENNSYLVANIA, RHODE ISLAND, VERMONT, WEST VIRGINIA, WISCONSIN, AND THE DISTRICT OF COLUMBIA. IN THOSE AREAS OF THE COUNTRY WHICH USE HEAVY CONCENTRATIONS OF ROAD SALT IN THE WINTER, A MIXTURE OF SNOW/WATER AND SALT CAN ENTER INTO THE FRONT CRASH ZONE SENSOR (CZS) HOUSING. IF THIS OCCURS, THE CZS MAY INTERNALLY RUST RESULTING IN A SIGNAL INTERRUPTION. IF THIS HAPPENS, THE RED AIR BAG WARNING LIGHT WILL ILLUMINATE TO ALERT THE VEHICLE OPERATOR.",
+      "campaign": "08V690000",
+      "component": "AIR BAGS:FRONTAL",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Nissan&model=XTERRA&modelYear=2007#campaign=08V690000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2007 Nissan XTERRA",
+    "NHTSA recall 10E019000",
+    "NHTSA recall 08V690000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-010",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2015,
+    "make": "Nissan",
+    "model": "MURANO",
+    "full_name": "2015 Nissan MURANO",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2015",
+     "make": "Nissan",
+     "model": "MURANO",
+     "full_name": "2015 Nissan MURANO",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "SERVICE BRAKES, HYDRAULIC:ANTILOCK/TRACTION CONTROL/ELECTRONIC LIMITED SLIP: Nissan North America, Inc. (Nissan) is recalling certain 2015-2017 Nissan Murano, 2016-2017 Nissan Maxima, 2017-2018 Nissan Pathfinder, and 2017 Infiniti QX60 vehicles. The Anti-Lock Brake (ABS) actuator pumps may allow brake fluid to leak onto an internal circuit board.",
+      "campaign": "18V601000",
+      "component": "SERVICE BRAKES, HYDRAULIC:ANTILOCK/TRACTION CONTROL/ELECTRONIC LIMITED SLIP",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Nissan&model=MURANO&modelYear=2015#campaign=18V601000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SERVICE BRAKES, HYDRAULIC:ANTILOCK/TRACTION CONTROL/ELECTRONIC LIMITED SLIP: Nissan North America, Inc. (Nissan) is recalling certain model year 2016-2017 Nissan Maxima vehicles manufactured February 10, 2015, to August 19, 2016 and equipped with Intelligent Cruise Control, 2015-2017 Murano vehicles manufactured August 22, 2014, to August 19, 2016 and equipped with Intelligent Cruise Control, and 2015-2016 Murano Hybrid vehicles manufactured August 22, 2014, to July 19, 2016. The affected vehicles have Anti-Lock Brake (ABS) actuator pumps that may allow brake fluid to leak onto an internal electrical circuit board.",
+      "campaign": "16V636000",
+      "component": "SERVICE BRAKES, HYDRAULIC:ANTILOCK/TRACTION CONTROL/ELECTRONIC LIMITED SLIP",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Nissan&model=MURANO&modelYear=2015#campaign=16V636000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SERVICE BRAKES, HYDRAULIC:ANTILOCK/TRACTION CONTROL/ELECTRONIC LIMITED SLIP:CONTROL UNIT/MODULE: Nissan North America, Inc. (Nissan) is recalling certain model year 2015 Murano vehicles manufactured December 4, 2014, to March 17, 2015. These vehicles are equipped with Anti-Lock Braking System (ABS) actuators which may have contamination in the solenoid valves, potentially affecting the valves' ability to completely close and allow a build up of hydraulic brake pressure, or fully open and allow the hydraulic brake pressure to completely drop.",
+      "campaign": "15V364000",
+      "component": "SERVICE BRAKES, HYDRAULIC:ANTILOCK/TRACTION CONTROL/ELECTRONIC LIMITED SLIP:CONTROL UNIT/MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Nissan&model=MURANO&modelYear=2015#campaign=15V364000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION: Nissan North America, Inc. (Nissan) is recalling certain model year 2016-2017 Nissan Maxima, 2013-2016 Nissan Altima, NV200, LEAF, Sentra, and Pathfinder, 2014-2016 Nissan NV200 Taxi, Infiniti QX60, QX60 Hybrid, and Q50 Hybrid, 2014-2017 Nissan Rogue and Infiniti Q50, 2015-2016 Nissan Murano, Murano Hybrid, and Chevrolet City Express, 2014-2015 Nissan Pathfinder Hybrid, and 2013 Infiniti JX35 vehicles. In these vehicles, the front seat passenger Occupant Classification System (OCS) may incorrectly classify an adult passenger as a child or classify the seat as empty despite it being occupied. As a result, the passenger frontal air bag may be turned off and not deploy in the event of a crash.",
+      "campaign": "16V244000",
+      "component": "AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Nissan&model=MURANO&modelYear=2015#campaign=16V244000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SERVICE BRAKES, HYDRAULIC:ANTILOCK/TRACTION CONTROL/ELECTRONIC LIMITED SLIP: Nissan North America, Inc. (Nissan) is recalling certain 2015-2018 Nissan Murano, 2016-2018 Nissan Maxima, and 2017-2019 Nissan Pathfinder and Infiniti QX60 vehicles. These vehicles were previously recalled and unrepaired, or inspected and determined to not need a repair, under recall number 18V-601. In addition, this recall expands the previous population. The Anti-lock Brake System (ABS) actuator pumps may allow brake fluid to leak onto an internal circuit board.",
+      "campaign": "19V807000",
+      "component": "SERVICE BRAKES, HYDRAULIC:ANTILOCK/TRACTION CONTROL/ELECTRONIC LIMITED SLIP",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Nissan&model=MURANO&modelYear=2015#campaign=19V807000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2015 Nissan MURANO",
+    "NHTSA recall 18V601000",
+    "NHTSA recall 16V636000",
+    "NHTSA recall 15V364000",
+    "NHTSA recall 16V244000",
+    "NHTSA recall 19V807000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-011",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2011,
+    "make": "Jeep",
+    "model": "GRAND CHEROKEE",
+    "full_name": "2011 Jeep GRAND CHEROKEE",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2011",
+     "make": "Jeep",
+     "model": "GRAND CHEROKEE",
+     "full_name": "2011 Jeep GRAND CHEROKEE",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "ELECTRICAL SYSTEM: Chrysler (FCA US LLC) is recalling certain 2011-2013 Dodge Durango and Jeep Grand Cherokee vehicles equipped with a 3.6, 5.7, or 6.4 liter engine and previously recalled under NHTSA Recall 14V530 or 15V115. The fuel pump relay inside the Totally Integrated Power Module (TIPM-7) may fail, causing the vehicle to stall without warning.",
+      "campaign": "19V813000",
+      "component": "ELECTRICAL SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Jeep&model=GRAND CHEROKEE&modelYear=2011#campaign=19V813000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SERVICE BRAKES: Chrysler (FCA US LLC) is recalling certain 2011-2014 Dodge Durango and Jeep Grand Cherokee vehicles. The affected vehicles had brake booster shields installed under a previous campaign to prevent water from entering the brake booster and limiting braking ability. This recall is to verify that the brake booster shield installation was performed properly.",
+      "campaign": "17V572000",
+      "component": "SERVICE BRAKES",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Jeep&model=GRAND CHEROKEE&modelYear=2011#campaign=17V572000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SERVICE BRAKES: Chrysler Group LLC (Chrysler) is recalling certain model year 2011-2014 Jeep Grand Cherokee and Dodge Durango vehicles manufactured from January 5, 2010, through September 8, 2013. The subject vehicles have a brake booster with a center shell that may corrode and allow water to get inside.",
+      "campaign": "14V154000",
+      "component": "SERVICE BRAKES",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Jeep&model=GRAND CHEROKEE&modelYear=2011#campaign=14V154000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM:WIRING: Chrysler Group LLC (Chrysler) is recalling certain model year 2011-2014 Dodge Durango and Jeep Grand Cherokee vehicles manufactured January 5, 2010, through December 11, 2013. In the affected vehicles, the wiring for the vanity lamp in the sun visor may short circuit, after a service repair is performed.",
+      "campaign": "14V391000",
+      "component": "ELECTRICAL SYSTEM:WIRING",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Jeep&model=GRAND CHEROKEE&modelYear=2011#campaign=14V391000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM:WIRING: Chrysler (FCA US LLC) is recalling certain model year 2011-2013 Dodge Durango and Jeep Grand Cherokee vehicles manufactured December 3, 2009, to September 1, 2012. In the affected vehicles, the wiring for the vanity lamp in the sun visor may short circuit, after having been remedied for a prior recall for the vanity lamp wiring. This recall is also addressing certain vehicles that have not been remedied under that prior recall.",
+      "campaign": "15V879000",
+      "component": "ELECTRICAL SYSTEM:WIRING",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Jeep&model=GRAND CHEROKEE&modelYear=2011#campaign=15V879000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2011 Jeep GRAND CHEROKEE",
+    "NHTSA recall 19V813000",
+    "NHTSA recall 17V572000",
+    "NHTSA recall 14V154000",
+    "NHTSA recall 14V391000",
+    "NHTSA recall 15V879000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-012",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2019,
+    "make": "Ram",
+    "model": "2500",
+    "full_name": "2019 Ram 2500",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2019",
+     "make": "Ram",
+     "model": "2500",
+     "full_name": "2019 Ram 2500",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "VISIBILITY:WINDSHIELD WIPER/WASHER:LINKAGES: Chrysler (FCA US, LLC) is recalling certain 2019-2020 Ram 2500 and Ram 3500 vehicles, Ram 3500 Cab Chassis, 4500 Cab Chassis, 5500 Cab Chassis and 3500 Cab Chassis with a gross vehicle weight rating (GVWR) of less than 10,000 lbs. The windshield wiper arms may loosen, possibly causing the wipers to function improperly and reduce the driver's visibility in certain weather conditions.",
+      "campaign": "22V035000",
+      "component": "VISIBILITY:WINDSHIELD WIPER/WASHER:LINKAGES",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=2500&modelYear=2019#campaign=22V035000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SEAT BELTS: Chrysler (FCA US LLC) is recalling certain 2019 Jeep Wrangler and Ram 2500, 2019-2020 Ram 1500 and 2020 Jeep Gladiator vehicles. In the event of a crash, a front seat belt retractor may not properly slow the occupant's forward movement after locking.",
+      "campaign": "20V580000",
+      "component": "SEAT BELTS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=2500&modelYear=2019#campaign=20V580000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "BACK OVER PREVENTION: SENSING SYSTEM: CAMERA: Chrysler (FCA US LLC) is recalling certain 2020 Jeep Gladiator and Jeep Cherokee, 2019-2020 Ram 1500 Pickup, Ram 2500 Pickup, Ram 3500 Pickup, Chrysler Pacifica, Dodge Durango, Jeep Grand Cherokee, Jeep Wrangler, and Jeep Renegade and 2019 Dodge Challenger vehicles equipped with 8.4\" or 12\" radio displays. A software error can cause the rearview camera image to remain displayed after the vehicle has been shifted out of reverse. As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 111, \"Rearview Mirrors.\"",
+      "campaign": "20V191000",
+      "component": "BACK OVER PREVENTION: SENSING SYSTEM: CAMERA",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=2500&modelYear=2019#campaign=20V191000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "POWER TRAIN:AUTOMATIC TRANSMISSION: Chrysler (FCA US LLC) is recalling certain 2019-2020 Ram 2500 and 3500 Pickup vehicles equipped with six-speed automatic (68RFE) transmissions. A build up of pressure and heat inside the transmission may result in a transmission fluid leak from the dipstick tube.",
+      "campaign": "20V043000",
+      "component": "POWER TRAIN:AUTOMATIC TRANSMISSION",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=2500&modelYear=2019#campaign=20V043000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "FUEL SYSTEM, DIESEL: Chrysler (FCA US LLC) is recalling certain 2019 Ram 2500 and 3500 trucks, and 3500, 4500, and 5500 Cab Chassis vehicles equipped with diesel engines. The fuel lines may leak fuel into the engine compartment.",
+      "campaign": "19V498000",
+      "component": "FUEL SYSTEM, DIESEL",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=2500&modelYear=2019#campaign=19V498000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2019 Ram 2500",
+    "NHTSA recall 22V035000",
+    "NHTSA recall 20V580000",
+    "NHTSA recall 20V191000",
+    "NHTSA recall 20V043000",
+    "NHTSA recall 19V498000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-013",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2018,
+    "make": "Ram",
+    "model": "1500",
+    "full_name": "2018 Ram 1500",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2018",
+     "make": "Ram",
+     "model": "1500",
+     "full_name": "2018 Ram 1500",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "ENGINE AND ENGINE COOLING:ENGINE:DIESEL: Chrysler (FCA US LLC) is recalling certain 2014-2018 Ram 1500 and 2014-2016 Jeep Grand Cherokee vehicles equipped with 3.0L diesel engines. The crankshaft position sensor tone wheel may delaminate causing the engine to lose its ability to synchronize the fuel injector pulses and cam shaft timing, possibly resulting in an engine stall.",
+      "campaign": "20V475000",
+      "component": "ENGINE AND ENGINE COOLING:ENGINE:DIESEL",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=1500&modelYear=2018#campaign=20V475000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "LATCHES/LOCKS/LINKAGES:TAILGATE:LATCH: Chrysler (FCA US LLC) is recalling certain 2015-2017 Ram 1500, 2500 and 3500 pickup trucks equipped with an 8 foot bed and a power locking tailgate. Chrysler is also recalling all 2013-2014 and 2018 Ram 1500, 2500 and 3500 pickup trucks built before April 1, 2018 with a 6 or 8 foot bed and a power locking tailgate. On August 29, 2019 Chrysler expanded the recall to include an additional 693,128 model year 2013-2014 Ram 1500, 2500 and 3500 pickup trucks. The tailgate actuator limiter tab may fracture and cause the tailgate to unlatch and open while driving.",
+      "campaign": "19V347000",
+      "component": "LATCHES/LOCKS/LINKAGES:TAILGATE:LATCH",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=1500&modelYear=2018#campaign=19V347000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "BACK OVER PREVENTION: SENSING SYSTEM: CAMERA: Chrysler (FCA US LLC) is recalling certain 2018 Dodge Journey and RAM 1500, 2500, and 3500 vehicles. The backup camera may experience a loss of image display while backing up. As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard (FMVSS) number 111, \"Rearview Mirrors.\"",
+      "campaign": "18V398000",
+      "component": "BACK OVER PREVENTION: SENSING SYSTEM: CAMERA",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=1500&modelYear=2018#campaign=18V398000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "POWER TRAIN:AUTOMATIC TRANSMISSION: Chrysler (FCA US LLC) is recalling certain 2018 Dodge Charger, Durango and Challenger, Jeep Grand Cherokee and Wrangler, Chrysler 300, and RAM 1500 vehicles. An incorrect transmission park lock rod may have been installed in the transmission.",
+      "campaign": "18V280000",
+      "component": "POWER TRAIN:AUTOMATIC TRANSMISSION",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=1500&modelYear=2018#campaign=18V280000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM:WIRING: Chrysler (FCA US LLC) is recalling certain 2014-2018 Dodge Journey, Charger and Durango, RAM 2500, 3500, 3500 Cab Chassis (more than 10,000lb), 4500 Cab Chassis and 5500 Cab Chassis, Jeep Cherokee and Grand Cherokee and Chrysler 300, 2014-2019 RAM 1500, 2015-2018 Dodge Challenger, 2015-2017 Chrysler 200, 2016-2018 RAM 3500 Cab Chassis (less than 10,000 lb), 2017-2018 Chrysler Pacifica and 2018 Jeep Wrangler vehicles. These vehicles are being recalled to address a defect that could prevent the cruise control system from disengaging. If, when using cruise control, there is a short circuit within the vehicle's wiring, the driver may not be able to shut off the cruise control either by depressing the brake pedal or manually turning the system off once it has been engaged, resulting in either the vehicle maintaining its current speed or possibly accelerating.",
+      "campaign": "18V332000",
+      "component": "ELECTRICAL SYSTEM:WIRING",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Ram&model=1500&modelYear=2018#campaign=18V332000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2018 Ram 1500",
+    "NHTSA recall 20V475000",
+    "NHTSA recall 19V347000",
+    "NHTSA recall 18V398000",
+    "NHTSA recall 18V280000",
+    "NHTSA recall 18V332000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-014",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2004,
+    "make": "GMC",
+    "model": "ENVOY XL",
+    "full_name": "2004 GMC ENVOY XL",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2004",
+     "make": "GMC",
+     "model": "ENVOY XL",
+     "full_name": "2004 GMC ENVOY XL",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "EXTERIOR LIGHTING:BRAKE LIGHTS: ON CERTAIN SPORT UTILITY VEHICLES, VIBRATION AND HEAT MAY CAUSE THE TAIL LAMP/STOP LAMP BULB TO LOOSEN IN ITS SOCKET. IF THIS OCCURS, THE BULB MAY FLICKER AND EVENTUALLY BECOME INOPERATIVE.",
+      "campaign": "04V527000",
+      "component": "EXTERIOR LIGHTING:BRAKE LIGHTS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=ENVOY XL&modelYear=2004#campaign=04V527000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2004 GMC ENVOY XL",
+    "NHTSA recall 04V527000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-015",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2018,
+    "make": "GMC",
+    "model": "TERRAIN",
+    "full_name": "2018 GMC TERRAIN",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2018",
+     "make": "GMC",
+     "model": "TERRAIN",
+     "full_name": "2018 GMC TERRAIN",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "AIR BAGS: AIR BAG/RESTRAINT CONTROL MODULE: General Motors LLC (GM) is recalling certain 2018 GMC Terrain vehicles. The sensing diagnostic module (SDM) that senses a crash and deploys the necessary air bags may not power down correctly when the vehicle is shut off, causing it to be inoperative when the vehicle is restarted.",
+      "campaign": "18V340000",
+      "component": "AIR BAGS: AIR BAG/RESTRAINT CONTROL MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=TERRAIN&modelYear=2018#campaign=18V340000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SERVICE BRAKES, HYDRAULIC:FOUNDATION COMPONENTS:DISC:CALIPER: General Motors LLC (GM) is recalling certain 2018-2019 Chevrolet Equinox, Impala, Cruze, Volt and Bolt EV vehicles, GMC Terrain vehicles, Buick Lacrosse and Regal vehicles, Cadillac XTS and XTS Professional vehicles and 2018 Chevrolet Malibu vehicles. The rear brake caliper pistons may have an insufficient coating causing gas pockets to form, potentially reducing rear brake performance.",
+      "campaign": "18V576000",
+      "component": "SERVICE BRAKES, HYDRAULIC:FOUNDATION COMPONENTS:DISC:CALIPER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=TERRAIN&modelYear=2018#campaign=18V576000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP: General Motors LLC (GM) is recalling certain 2015-2018 GMC Canyon, 2016-2017 Buick Envision, 2016-2018 Chevrolet Colorado and Malibu, 2017-2018 GMC Acadia, 2018 Buick LaCrosse, Cadillac ATS, Chevrolet Equinox, and GMC Terrain vehicles. The high pressure fuel pump may detach from its mounting flange, possibly resulting in the pump damaging the high pressure fuel line.",
+      "campaign": "18V358000",
+      "component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=TERRAIN&modelYear=2018#campaign=18V358000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "POWER TRAIN:AUTOMATIC TRANSMISSION: General Motors LLC (GM) is recalling certain 2018-2019 Chevrolet Cruze and Buick LaCrosse, 2018-2020 Chevrolet Equinox, Chevrolet Traverse and GMC Terrain, 2018 Chevrolet Malibu, 2019-2020 Buick Encore, Buick Enclave, Cadillac XT4, Chevrolet Blazer and GMC Acadia, and 2020 Cadillac XT6 vehicles. The start/stop accumulator endcap may have missing bolts.",
+      "campaign": "20V668000",
+      "component": "POWER TRAIN:AUTOMATIC TRANSMISSION",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=TERRAIN&modelYear=2018#campaign=20V668000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "POWER TRAIN:DRIVELINE:DRIVESHAFT: General Motors LLC (GM) is recalling certain 2018 Chevrolet Equinox and GMC Terrain vehicles and 2017-2018 GMC Acadia vehicles. The right front intermediate driveshaft may fracture and separate while driving.",
+      "campaign": "17V516000",
+      "component": "POWER TRAIN:DRIVELINE:DRIVESHAFT",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=TERRAIN&modelYear=2018#campaign=17V516000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2018 GMC TERRAIN",
+    "NHTSA recall 18V340000",
+    "NHTSA recall 18V576000",
+    "NHTSA recall 18V358000",
+    "NHTSA recall 20V668000",
+    "NHTSA recall 17V516000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-016",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2011,
+    "make": "GMC",
+    "model": "SIERRA 2500",
+    "full_name": "2011 GMC SIERRA 2500",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2011",
+     "make": "GMC",
+     "model": "SIERRA 2500",
+     "full_name": "2011 GMC SIERRA 2500",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE: General Motors, LLC (GM) is recalling certain 2014 Cadillac Escalade, Escalade ESV, Chevrolet Silverado 2500, Silverado 3500, Suburban, Tahoe, GMC Sierra 2500, Sierra 3500, Yukon, and Yukon XL vehicles originally sold, or ever registered, in the states of AL, CA, FL, GA, HI, LA, MS, SC, TX, PR, AS, GU, the MP, and VI or \"Zone A.\" Additionally GM is recalling certain 2011-2014 Cadillac Escalade, Escalade ESV, Chevrolet Silverado 2500, Silverado 3500, Suburban, Tahoe, GMC Sierra 2500, Sierra 3500, Yukon, Yukon XL and 2011-2013 Cadillac Escalade EXT, Chevrolet Avalanche, Silverado 1500, and GMC Sierra 1500 vehicles originally sold, or ever registered, in the states of AZ, AR, DE, DC, IL, IN, KS, KY, MD, MO, NE, NV, NJ, NM, NC, OH, OK, PA, TN, VA, and WV or \"Zone B.\" Additionally, GM is recalling certain 2010-2014 Cadillac Escalade, Escalade ESV, Chevrolet Silverado 2500, Silverado 3500, Suburban, Tahoe, GMC Sierra 2500, Sierra 3500, Yukon, and Yukon XL and 2010-2013 Cadillac Escalade EXT, Chevrolet Avalanche, Silverado 1500, and GMC Sierra 1500 vehicles originally sold, or ever registered, in the states of AK, CO, CT, ID, IA, ME, MA, MI, MN, MT, NH, NY, ND, OR, RI, SD, UT, VT, WA, WI, and WY or \"Zone C.\" These vehicles are equipped with non-desiccated passenger frontal inflators containing phase-stabilized ammonium nitrate (PSAN) propellant. These inflators may explode due to propellant degradation occurring after long-term exposure to high absolute humidity, high temperatures, and high temperature cycling.",
+      "campaign": "21V054000",
+      "component": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=SIERRA 2500&modelYear=2011#campaign=21V054000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE: General Motors, LLC (GM) is recalling certain 2007-2011 Cadillac Escalade, Escalade ESV, Escalade EXT, Chevrolet Avalanche, Silverado 1500, Suburban, Tahoe, GMC Sierra 1500, Yukon, Yukon XL, and 2009-2011 Chevrolet Silverado 2500, Silverado 3500, GMC Sierra 2500 and Sierra 3500 vehicles originally sold, or ever registered, in the states of Alabama, California, Florida, Georgia, Hawaii, Louisiana, Mississippi, South Carolina, Texas, Puerto Rico, American Samoa, Guam, the Northern Mariana Islands (Saipan), and the U.S. Virgin Islands or \"Zone A.\" Additionally, GM is recalling certain 2007-2008 Cadillac Escalade, Escalade ESV, Escalade EXT, Chevrolet Avalanche, Silverado 1500, Suburban, Tahoe, GMC Sierra 1500, Yukon, Yukon XL vehicles originally sold, or ever registered, in the states of Arizona, Arkansas, Delaware, District of Columbia, Illinois, Indiana, Kansas, Kentucky, Maryland, Missouri, Nebraska, Nevada, New Jersey, New Mexico, North Carolina, Ohio, Oklahoma, Pennsylvania, Tennessee, Virginia, and West Virginia or \"Zone B.\" These vehicles are equipped with non-desiccated passenger frontal inflators containing phase-stabilized ammonium nitrate (PSAN) propellant. These inflators may explode due to propellant degradation occurring after long-term exposure to high absolute humidity, high temperatures, and high temperature cycling.",
+      "campaign": "21V050000",
+      "component": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=SIERRA 2500&modelYear=2011#campaign=21V050000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "EQUIPMENT: General Motors LLC (GM) is recalling certain 2009-2014 Chevrolet Silverado HD and GMC Sierra HD, 2009 GMC Topkick 5000, 6000, 7000 and 8000 Series and Isuzu F Series, and 2009-2018 Chevrolet Express, and GMC Savana vehicles, equipped with certain Plastic-Handle Fire Extinguishers or Push Button 'Pindicator' Fire Extinguishers. These extinguishers may become clogged, preventing the extinguisher from discharging as expected or requiring excessive force to activate the extinguisher. Additionally, in certain models, the nozzle may detach from the valve assembly with enough force that it could cause injury and also render the product inoperable. For a full list of the affected fire extinguisher models visit: https://static.nhtsa.gov/odi/rcl/2017/RMISC-17E062-5427.pdf",
+      "campaign": "18V267000",
+      "component": "EQUIPMENT",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=SIERRA 2500&modelYear=2011#campaign=18V267000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM: General Motors LLC (GM) is recalling certain model year 2007-2011 Chevrolet Silverado HD 2500/3500 trucks manufactured January 18, 2007, to June 22, 2011, and GMC Sierra HD 2500/3500 trucks manufactured January 22, 2007, to June 21, 2011, and equipped with an auxiliary battery. Owners may unknowingly draw too much current through the vehicle's trailer harness resulting in the melting of fusible link for the auxiliary battery.",
+      "campaign": "14V407000",
+      "component": "ELECTRICAL SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=GMC&model=SIERRA 2500&modelYear=2011#campaign=14V407000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2011 GMC SIERRA 2500",
+    "NHTSA recall 21V054000",
+    "NHTSA recall 21V050000",
+    "NHTSA recall 18V267000",
+    "NHTSA recall 14V407000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-017",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2005,
+    "make": "Hyundai",
+    "model": "ELANTRA",
+    "full_name": "2005 Hyundai ELANTRA",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2005",
+     "make": "Hyundai",
+     "model": "ELANTRA",
+     "full_name": "2005 Hyundai ELANTRA",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "EXTERIOR LIGHTING: HYUNDAI IS RECALLING 3,011 MODEL YEAR 2005-2007 ELANTRA, TUCSON, SONATA, AZERA AND ACCENT VEHICLES. A MALFUNCTIONING STOP LAMP SWITCH MAY CAUSE THE BRAKE LIGHTS TO FAIL TO ILLUMINATE WHEN THE BRAKE PEDAL IS DEPRESSED OR MAY CAUSE THE BRAKE LIGHTS TO REMAIN ILLUMINATED WHEN THE BRAKE PEDAL IS RELEASED. A DEFECTIVE STOP LAMP SWITCH MAY ALSO AFFECT THE OPERATION OF THE BRAKE-TRANSMISSION SHIFT INTERLOCK FEATURE SO THE TRANSMISSION WOULD NOT BE ABLE TO BE SHIFT OUT OF THE \"PARK\" POSITION. IT MAY ALSO CAUSE THE ELECTRONIC STABILITY CONTROL (ESC) MALFUNCTION LIGHT TO ILLUMINATE, AND IT MAY NOT DEACTIVATE THE CRUISE CONTROL WHEN THE BRAKE PEDAL IS DEPRESSED.",
+      "campaign": "09V280000",
+      "component": "EXTERIOR LIGHTING",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=ELANTRA&modelYear=2005#campaign=09V280000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS: CERTAIN VEHICLES EQUIPPED WITH AN ADVANCED AIR BAG SYSTEM. THE OCCUPANT CLASSIFICATION SYSTEM (OCS) INSTALLED IN THE RIGHT FRONT SEAT OF THE VEHICLE MAY MISCLASSIFY A CHILD RESTRAINT SEAT (CRS) AS AN ADULT. THIS MAY OCCUR IF THE CRS IS INSTALLED AFTER AN ADULT HAS BEEN SEATED IN THE RIGHT FRONT SEAT. IF THERE HAS NOT BEEN A 'KEY ON' ' KEY OFF' CYCLE WITH THE RIGHT FRONT PASSENGER SEAT EMPTY PRIOR TO INSTALLATION OF THE CRS.",
+      "campaign": "05V479000",
+      "component": "AIR BAGS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=ELANTRA&modelYear=2005#campaign=05V479000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS: CERTAIN VEHICLES EQUIPPED WITH AN ADVANCED AIR BAG SYSTEM. THE OCCUPANT CLASSIFICATION SYSTEM (OCS) INSTALLED IN THE RIGHT FRONT SEAT OF THE VEHICLE MAY MISCLASSIFY A CHILD RESTRAINT SEAT (CRS) AS AN ADULT. THIS MAY OCCUR IF THE CRS IS INSTALLED AFTER AN ADULT HAS BEEN SEATED IN THE RIGHT FRONT SEAT. IF THERE HAS NOT BEEN A 'KEY ON' ' KEY OFF' CYCLE WITH THE RIGHT FRONT PASSENGER SEAT EMPTY PRIOR TO INSTALLATION OF THE CRS.",
+      "campaign": "05V395000",
+      "component": "AIR BAGS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=ELANTRA&modelYear=2005#campaign=05V395000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "STEERING:LINKAGES:TIE ROD ASSEMBLY: CERTAIN PASSENGER VEHICLES MAY HAVE BEEN BUILT WITH THREADED PORTIONS OF THE STEERING GEARBOX ASSEMBLY'S LEFT AND RIGHT INNER BALL JOINT ASSEMBLIES THAT CONTAIN INTERNAL CRACKS IN THE MATERIAL STRUCTURE.",
+      "campaign": "05V187000",
+      "component": "STEERING:LINKAGES:TIE ROD ASSEMBLY",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=ELANTRA&modelYear=2005#campaign=05V187000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2005 Hyundai ELANTRA",
+    "NHTSA recall 09V280000",
+    "NHTSA recall 05V479000",
+    "NHTSA recall 05V395000",
+    "NHTSA recall 05V187000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-018",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2018,
+    "make": "Hyundai",
+    "model": "SONATA",
+    "full_name": "2018 Hyundai SONATA",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2018",
+     "make": "Hyundai",
+     "model": "SONATA",
+     "full_name": "2018 Hyundai SONATA",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "LATCHES/LOCKS/LINKAGES:TRUNK LID:LATCH: Hyundai Motor America (Hyundai) is recalling certain 2017-2018 Sonata, 2016-2018 Sonata Hybrid, 2018-2020 Accent, and 2016-2017 Azera vehicles. The trunk latch may become damaged, preventing the opening of the trunk from the inside. As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard number 401, \"Internal Trunk Release.\"",
+      "campaign": "21V619000",
+      "component": "LATCHES/LOCKS/LINKAGES:TRUNK LID:LATCH",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=SONATA&modelYear=2018#campaign=21V619000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2018 Hyundai SONATA",
+    "NHTSA recall 21V619000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-019",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2012,
+    "make": "Hyundai",
+    "model": "SONATA",
+    "full_name": "2012 Hyundai SONATA",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2012",
+     "make": "Hyundai",
+     "model": "SONATA",
+     "full_name": "2012 Hyundai SONATA",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "ENGINE: Hyundai Motor America (Hyundai) is recalling certain 2011-2014 Sonata and 2013-2014 Santa Fe Sport vehicles previously repaired under recall numbers 15V-568 and 17V-226. The high pressure fuel pipe that connects to the fuel pump outlet may have been damaged, misaligned, or improperly torqued during the engine replacement procedure, allowing fuel to leak from the pipe.",
+      "campaign": "18V934000",
+      "component": "ENGINE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=SONATA&modelYear=2012#campaign=18V934000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SEAT BELTS:PRETENSIONER: Hyundai Motor America (Hyundai) is recalling certain 2011-2014 Sonata and 2011-2015 Sonata Hybrid vehicles previously repaired under recall campaign 17V-152. The seat belt linkages for both front seat belts may detach from the seat belt anchor pretensioners.",
+      "campaign": "17V617000",
+      "component": "SEAT BELTS:PRETENSIONER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=SONATA&modelYear=2012#campaign=17V617000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SEAT BELTS:PRETENSIONER: Hyundai Motor America (Hyundai) is recalling certain 2011-2013 Sonata and 2011-2012 Sonata Hybrid vehicles. On February 27, 2018, Hyundai Motor Company (Hyundai) notified NHTSA that they were recalling 154,753 model year 2011 Sonata vehicles. On April 18, 2018, Hyundai expanded the recall to include an additional 425,305 model year 2012-2013 Sonata and 2011-2012 Sonata Hybrid vehicles. In the event of a crash, the air bag control unit (ACU) may short circuit, preventing the frontal air bags, seat belt pretensioners, and side air bags from deploying.",
+      "campaign": "18V137000",
+      "component": "SEAT BELTS:PRETENSIONER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=SONATA&modelYear=2012#campaign=18V137000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SEAT BELTS:FRONT:ANCHORAGE: Hyundai Motor America (Hyundai) is recalling certain 2011-2014 Sonata and 2011-2015 Sonata Hybrid vehicles. In the affected vehicles, the seat belt linkages for both front seat belts may detach from the seat belt anchor pretensioners.",
+      "campaign": "17V152000",
+      "component": "SEAT BELTS:FRONT:ANCHORAGE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=SONATA&modelYear=2012#campaign=17V152000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "EXTERIOR LIGHTING:BRAKE LIGHTS:SWITCH: Hyundai Motor America (Hyundai) is recalling certain model 2011-2012 Sonata vehicles. The brake pedal stopper pad can deteriorate allowing the brake light switch plunger to remain extended when the brake pedal is released.",
+      "campaign": "15V759000",
+      "component": "EXTERIOR LIGHTING:BRAKE LIGHTS:SWITCH",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Hyundai&model=SONATA&modelYear=2012#campaign=15V759000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2012 Hyundai SONATA",
+    "NHTSA recall 18V934000",
+    "NHTSA recall 17V617000",
+    "NHTSA recall 18V137000",
+    "NHTSA recall 17V152000",
+    "NHTSA recall 15V759000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-020",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2007,
+    "make": "Kia",
+    "model": "RIO",
+    "full_name": "2007 Kia RIO",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2007",
+     "make": "Kia",
+     "model": "RIO",
+     "full_name": "2007 Kia RIO",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "AIR BAGS:FRONTAL:SENSOR/CONTROL MODULE-INACTIVE: KIA IS RECALLING CERTAIN MODEL YEAR 2006-2008 RIO VEHICLES, MANUFACTURED FROM FEBRUARY 20, 2005, THROUGH DECEMBER 9, 2007. THE FRONT PASSENGER SEAT OCCUPANT SENSOR MAT CAN EXPERIENCE FATIGUE CRACKING. IF SUFFICIENT CRACKING OCCURS, THE OCCUPANT CLASSIFICATION SYSTEM (OCS) WILL CEASE TO FUNCTION SUCH THAT THE SYSTEM WILL NOT BE ABLE TO DETECT WHETHER A CHILD PASSENGER IS IN THE SEAT AND THE AIRBAG WILL DEPLOY DURING A CRASH NECESSITATING DEPLOYMENT.",
+      "campaign": "12V244000",
+      "component": "AIR BAGS:FRONTAL:SENSOR/CONTROL MODULE-INACTIVE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Kia&model=RIO&modelYear=2007#campaign=12V244000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2007 Kia RIO",
+    "NHTSA recall 12V244000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-021",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2019,
+    "make": "Kia",
+    "model": "SORENTO",
+    "full_name": "2019 Kia SORENTO",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2019",
+     "make": "Kia",
+     "model": "SORENTO",
+     "full_name": "2019 Kia SORENTO",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "TRAILER HITCHES: Kia America, Inc. (Kia) is recalling certain 2016-2022 Sorento, 2021-2022 Sorento Hybrid (HEV), 2022-2023 Sorento Plug-In Hybrid (PHEV), and 2017-2022 Sportage vehicles equipped with a tow hitch harness installed as original equipment, or purchased as an accessory through a Kia dealership. Debris and moisture accumulation on the tow hitch harness module printed circuit board (PCB) may cause an electrical short, which can result in a fire.",
+      "campaign": "22V703000",
+      "component": "TRAILER HITCHES",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Kia&model=SORENTO&modelYear=2019#campaign=22V703000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "BACK OVER PREVENTION: SENSING SYSTEM: CAMERA: Kia America, Inc. (Kia) is recalling certain 2019 Sorento vehicles. Due to a manufacturing error, water may leak into the rearview camera, which can cause the rearview camera image not to appear on the display. As such, these vehicles fail to comply with the requirements of Federal Motor Vehicle Safety Standard number 111, \"Rear Visibility.\"",
+      "campaign": "23V639000",
+      "component": "BACK OVER PREVENTION: SENSING SYSTEM: CAMERA",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Kia&model=SORENTO&modelYear=2019#campaign=23V639000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2019 Kia SORENTO",
+    "NHTSA recall 22V703000",
+    "NHTSA recall 23V639000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-022",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2020,
+    "make": "Kia",
+    "model": "RIO",
+    "full_name": "2020 Kia RIO",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2020",
+     "make": "Kia",
+     "model": "RIO",
+     "full_name": "2020 Kia RIO",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "SERVICE BRAKES, HYDRAULIC:FOUNDATION COMPONENTS:MASTER CYLINDER: Kia Motors America (Kia) is recalling certain 2020-2021 Rio vehicles. The brake master cylinder may have been manufactured with sharp edges that can damage the inner oil seal, resulting in reduced braking performance.",
+      "campaign": "21V936000",
+      "component": "SERVICE BRAKES, HYDRAULIC:FOUNDATION COMPONENTS:MASTER CYLINDER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Kia&model=RIO&modelYear=2020#campaign=21V936000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2020 Kia RIO",
+    "NHTSA recall 21V936000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-023",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2003,
+    "make": "Subaru",
+    "model": "IMPREZA",
+    "full_name": "2003 Subaru IMPREZA",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2003",
+     "make": "Subaru",
+     "model": "IMPREZA",
+     "full_name": "2003 Subaru IMPREZA",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "SUSPENSION:FRONT:CONTROL ARM:LOWER ARM: SUBARU IS RECALLING CERTAIN MODEL YEAR 2002-2007 IMPREZA, MODEL YEAR 2003-2008 FORESTER, AND MODEL YEAR 2005-2006 SAAB 9-2X VEHICLES MANUFACTURED FROM SEPTEMBER 5, 2000 THROUGH NOVEMBER 26, 2007 ORIGINALLY SOLD, OR CURRENTLY REGISTERED IN, MASSACHUSETTS, MARYLAND, MICHIGAN, NEW HAMPSHIRE, NEW YORK, PENNSYLVANIA, VERMONT, WISCONSIN, CONNECTICUT, DELAWARE, IOWA, ILLINOIS, INDIANA, MAINE, MINNESOTA, MISSOURI, NEW JERSEY, OHIO, RHODE ISLAND, WEST VIRGINIA AND THE DISTRICT OF COLUMBIA. THE FRONT LOWER CONTROL ARMS MAY BREAK AT THE HANGER BRACKETS DUE TO CORROSION IF THE HANGER BRACKET IS EXPOSED TO SALTY AND HUMID ENVIRONMENTS SUCH AS ROADS CONTAINING SNOW MELTING AGENT.",
+      "campaign": "11V464000",
+      "component": "SUSPENSION:FRONT:CONTROL ARM:LOWER ARM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2003#campaign=11V464000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "LATCHES/LOCKS/LINKAGES:TAILGATE:LATCH: SUBARU IS RECALLING 36,791 MY 2002-2003 IMPREZA WAGONS. THE STUD BOLT(S) OF REAR GATE STAY MAY HAVE BEEN TIGHTENED WITH INSUFFICIENT TIGHTENING TORQUE AND A GAP MAY HAVE RESULTED BETWEEN THE REAR GATE PANEL AND STUD BOLT BASE. AFTER REPEATED REAR GATE OPERATIONS (OPENING AND CLOSING), THE REAR GATE INNER PANEL AT THE WELDING NUT MAY BREAK, WHICH WILL LEAD TO DETACHMENT OF THE REAR GATE STAY, AND THE REAR GATE DROPPING DOWN.",
+      "campaign": "08V135000",
+      "component": "LATCHES/LOCKS/LINKAGES:TAILGATE:LATCH",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2003#campaign=08V135000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP: SUBARU IS RECALLING CERTAIN MODEL YEAR 2002 AND 2003 IMPREZA WRX VEHICLES ORIGINALLY SOLD IN OR CURRENTLY REGISTERED IN THE STATES OF SOUTH DAKOTA, NEBRASKA, NORTH DAKOTA, MINNESOTA, IDAHO, IOWA, MONTANA, COLORADO, WISCONSIN, NEW YORK, WYOMING, MICHIGAN, ALASKA, NEW HAMPSHIRE, VERMONT, AND MAINE. DURING COLD STARTS, TYPICALLY UNDER EXTREMELY COLD TEMPERATURES, FUEL LEAKS IN THE FUEL DELIVERY LINE COULD OCCUR WHERE THE LINE CONNECTS WITH A RUBBER HOSE.",
+      "campaign": "09V468000",
+      "component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2003#campaign=09V468000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "VEHICLE SPEED CONTROL:CABLES: ON CERTAIN PASSENGER SEDANS, WAGONS, AND SPORT UTILITY VEHICLES, THE CRUISE CONTROL CABLE COULD COME OUT OF ITS TRACK ON THE CRUISE CONTROL LEVER AND LODGE ON THE CONTROL LEVER TAB WHEN THE ACCELERATOR PEDAL IS RELEASED. IF THIS CONDITION OCCURS, THE THROTTLE WILL NOT RETURN TO THE IDLE POSITION AND WILL REMAIN IN AN OPEN POSITION.",
+      "campaign": "04V128000",
+      "component": "VEHICLE SPEED CONTROL:CABLES",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2003#campaign=04V128000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SEATS: ON CERTAIN SEDAN AND WAGON MODEL VEHICLES, THE LEFT FRONT BOLT THAT RETAINS THE FORWARD PART OF THE DRIVER'S SEAT TO THE SEAT SLIDE RAIL MAY LOOSEN. IF THE SEAT SLIDE RAIL BOLT LOOSENS, IT WILL EVENTUALLY FALL OUT, AND THE SEAT MAY SEPARATE FROM THE SEAT SLIDE.",
+      "campaign": "04V342000",
+      "component": "SEATS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2003#campaign=04V342000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2003 Subaru IMPREZA",
+    "NHTSA recall 11V464000",
+    "NHTSA recall 08V135000",
+    "NHTSA recall 09V468000",
+    "NHTSA recall 04V128000",
+    "NHTSA recall 04V342000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-024",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2018,
+    "make": "Subaru",
+    "model": "CROSSTREK",
+    "full_name": "2018 Subaru CROSSTREK",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2018",
+     "make": "Subaru",
+     "model": "CROSSTREK",
+     "full_name": "2018 Subaru CROSSTREK",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "ENGINE AND ENGINE COOLING:EXHAUST SYSTEM:EMISSION CONTROL:CRANKCASE (PCV): Subaru of America, Inc. (Subaru) is recalling certain 2017-2018 Impreza and 2018 Crosstrek vehicles equipped with an aluminum Positive Crankcase Ventilation (PCV) valve. The PCV valve may come apart, allowing the separated components to enter the engine, possibly resulting in a loss of power while driving.",
+      "campaign": "19V744000",
+      "component": "ENGINE AND ENGINE COOLING:EXHAUST SYSTEM:EMISSION CONTROL:CRANKCASE (PCV)",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=CROSSTREK&modelYear=2018#campaign=19V744000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SUSPENSION:REAR: Subaru of America, Inc. (Subaru) is recalling certain 2018-2019 Subaru Crosstrek, 2019 Crosstrek Hybrid, and 2019 Forester vehicles. The rear stabilizer bracket bolts may loosen and detach.",
+      "campaign": "21V263000",
+      "component": "SUSPENSION:REAR",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=CROSSTREK&modelYear=2018#campaign=21V263000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM:SOFTWARE: Subaru of America, Inc. (Subaru) is recalling certain 2017-2019 Subaru Impreza and 2018-2019 Crosstrek vehicles. The Engine Control Module (ECM) may continue to power the ignition coil after the engine is shut off, causing a short circuit.",
+      "campaign": "21V264000",
+      "component": "ELECTRICAL SYSTEM:SOFTWARE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=CROSSTREK&modelYear=2018#campaign=21V264000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM:SOFTWARE: Subaru of America, Inc. (Subaru) is recalling certain 2017-2019 Impreza and 2018-2019 Crosstrek vehicles. The Engine Control Module (ECM) may continue to power the ignition coil after the engine is shut off, which could result in a short circuit and blown fuse.",
+      "campaign": "19V743000",
+      "component": "ELECTRICAL SYSTEM:SOFTWARE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=CROSSTREK&modelYear=2018#campaign=19V743000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SERVICE BRAKES: Subaru of America, Inc. (Subaru) is recalling certain 2018 Crosstrek vehicles. These vehicles may be equipped with an incorrect floor mat retention bracket, allowing the floor mat to move out of position and interfere with the accelerator or brake pedal operation.",
+      "campaign": "17V701000",
+      "component": "SERVICE BRAKES",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=CROSSTREK&modelYear=2018#campaign=17V701000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2018 Subaru CROSSTREK",
+    "NHTSA recall 19V744000",
+    "NHTSA recall 21V263000",
+    "NHTSA recall 21V264000",
+    "NHTSA recall 19V743000",
+    "NHTSA recall 17V701000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-025",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2008,
+    "make": "Subaru",
+    "model": "IMPREZA",
+    "full_name": "2008 Subaru IMPREZA",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2008",
+     "make": "Subaru",
+     "model": "IMPREZA",
+     "full_name": "2008 Subaru IMPREZA",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "EXTERIOR LIGHTING:BRAKE LIGHTS:SWITCH: Subaru of America, Inc. (Subaru) is recalling certain 2014-2016 Forester, 2008-2016 Impreza sedans, 2012-2016 Impreza station wagons, 2008-2014 WRX sedans (including STI), and 2013-2017 Crosstrek vehicles. Exposure to certain contaminants may cause the brake light switch to malfunction, preventing the brake lights from illuminating and also preventing keyless ignition vehicles from starting and CVT/automatic transmissions from being able to be shifted out of Park.",
+      "campaign": "19V149000",
+      "component": "EXTERIOR LIGHTING:BRAKE LIGHTS:SWITCH",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2008#campaign=19V149000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE: Subaru of America, Inc. (Subaru) is recalling certain 2009-2013 Forester, 2003-2006 Baja, 2004-2011 Impreza, 2004-2014 WRX (STI included), 2003-2014 Legacy and Outback, and 2005-2006 Saab 9-2X vehicles originally sold, or ever registered, in the states of Alabama, California, Florida, Georgia, Hawaii, Louisiana, Mississippi, South Carolina, Texas, Puerto Rico, American Samoa, Guam, the Northern Mariana Islands (Saipan), and the U.S. Virgin Islands or \"Zone A.\" These vehicles had their passenger frontal air bag inflators previously replaced under a prior recall using inflators of the same design. The inflators may explode due to propellant degradation occurring after long-term exposure to high absolute humidity, temperature and temperature cycling.",
+      "campaign": "20V001000",
+      "component": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2008#campaign=20V001000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE: Subaru of America, Inc. (Subaru) is recalling certain 2009-2013 Forester, 2003-2006 Baja, 2004-2011 Impreza, 2004-2014 WRX (including STI), 2003-2014 Legacy and Outback, and 2006 Saab 9-2X vehicles originally sold, or ever registered, in the states of Arizona, Arkansas, Delaware, District of Columbia, Illinois, Indiana, Kansas, Kentucky, Maryland, Missouri, Nebraska, Nevada, New Jersey, New Mexico, North Carolina, Ohio, Oklahoma, Pennsylvania, Tennessee, Virginia, and West Virginia or \"Zone B.\" These vehicles had their passenger frontal air bag inflators previously replaced under a prior recall using inflators of the same design. The inflators may explode due to propellant degradation occurring after long-term exposure to high absolute humidity, temperature and temperature cycling.",
+      "campaign": "20V002000",
+      "component": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2008#campaign=20V002000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE: Subaru of America, Inc. (Subaru) is recalling certain 2009-2013 Forester, 2003-2006 Baja, 2004-2011 Impreza, 2004-2014 WRX (including STI), 2003-2014 Legacy and Outback, and 2005-2006 Saab 9-2X vehicles originally sold, or ever registered, in the states of Alaska, Colorado, Connecticut, Idaho, Iowa, Maine, Massachusetts, Michigan, Minnesota, Montana, New Hampshire, New York, North Dakota, Oregon, Rhode Island, South Dakota, Utah, Vermont, Washington, Wisconsin, and Wyoming or \"Zone C.\" These vehicles had their passenger frontal air bag inflators previously replaced under a prior recall using inflators of the same design. The inflators may explode due to propellant degradation occurring after long-term exposure to high absolute humidity, temperature and temperature cycling.",
+      "campaign": "20V003000",
+      "component": "AIR BAGS:FRONTAL:PASSENGER SIDE:INFLATOR MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2008#campaign=20V003000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM:IGNITION:SWITCH: Subaru of America, Inc. (Subaru) is recalling certain 2009-2013 Forester vehicles, 2008-2011 Impreza vehicles, 2008-2014 WRX vehicles, 2005-2014 Legacy vehicles, 2005-2014 Outback vehicles and 2006-2008 Tribeca vehicles equipped with a mechanical key ignition switch installed as a replacement part. The ball spring inside the switch may break, reducing the strength of the ignition switch. If this occurs, the weight on the key ring and certain road conditions could cause the ignition switch to move out of the run position to the accessory position, turning off the engine.",
+      "campaign": "19V297000",
+      "component": "ELECTRICAL SYSTEM:IGNITION:SWITCH",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Subaru&model=IMPREZA&modelYear=2008#campaign=19V297000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2008 Subaru IMPREZA",
+    "NHTSA recall 19V149000",
+    "NHTSA recall 20V001000",
+    "NHTSA recall 20V002000",
+    "NHTSA recall 20V003000",
+    "NHTSA recall 19V297000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-026",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2012,
+    "make": "Volkswagen",
+    "model": "JETTA",
+    "full_name": "2012 Volkswagen JETTA",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2012",
+     "make": "Volkswagen",
+     "model": "JETTA",
+     "full_name": "2012 Volkswagen JETTA",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "UNKNOWN OR OTHER: Volkswagen Group of America, Inc. (Volkswagen) is recalling certain 2017 Volkswagen Passat, 2018 Tiguan LWB, 2007-2009 Jetta Sedan, 2011-2013, 2015 and 2019 Jetta, 2013 Jetta Hybrid, 2008-2009 Jetta Sportwagen, 2015 Golf Sportwagen, 2013 Golf, 2008-2010 and 2012-2013 Beetle and Beetle Convertible, 2008-2010 Beetle, and Beetle Convertible vehicles. Modifications made while the vehicles were in an internal evaluation period may cause the affected vehicles to not comply with all of the applicable regulatory requirements.",
+      "campaign": "19V679000",
+      "component": "UNKNOWN OR OTHER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volkswagen&model=JETTA&modelYear=2012#campaign=19V679000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM:IGNITION:ANTI-THEFT:CONTROL MODULE: Volkswagen Group of America, Inc. (Volkswagen) is recalling certain 2015-2019 GTI, 2015-2016 and 2018-2019 Golf, 2012-2019 Beetle and Beetle Convertible, 2017-2019 Golf SportWagen and 2011-2018 Jetta vehicles equipped with an automatic transmission, manual handbrake and keyless entry. A build-up of silicate on the shift lever micro switch contacts may enable the key to be removed from the ignition when the transmission shift lever is not in \"Park.\"",
+      "campaign": "19V615000",
+      "component": "ELECTRICAL SYSTEM:IGNITION:ANTI-THEFT:CONTROL MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volkswagen&model=JETTA&modelYear=2012#campaign=19V615000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ENGINE AND ENGINE COOLING:ENGINE: The Gates Corporation (Gates) is recalling certain aftermarket Tru-Flow Water Pumps, part number TFW 41127, sold at certain NAPA Auto Parts and/or installed by automotive service technicians after November 1, 2013 (and manufactured August 2013 through October 2013) that have a black-colored pulley/sprocket or do not have 'US9377' stamped on the water pump housing. These service replacement parts were sold for use in model year 1999-2005 Audi A4, 2000-2006 Audi TT, 1998-2005 Volkswagen Beetle, 1999-2006 Golf, 1999-2008 and 2011-2013 Volkswagen Jetta, and 2000-2005 Volkswagen Passat. In the affected water pumps, the pulley or sprocket that turns the timing belt may develop microfractures causing the timing belt to fail.",
+      "campaign": "14E007000",
+      "component": "ENGINE AND ENGINE COOLING:ENGINE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volkswagen&model=JETTA&modelYear=2012#campaign=14E007000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:FRONTAL: Volkswagen Group of America, Inc. (Volkswagen) is recalling certain model year 2010-2014 Volkswagen CC, and Passat, 2010-2013 Eos, 2011-2014 Golf, GTI, Jetta, and Tiguan, and 2012-2014 Jetta Sportwagen vehicles. In the affected vehicles, debris may contaminate the air bag clock spring, a spiral wound, flat cable that keeps the air bag powered while the steering wheel is being turned. This contamination may tear the cable and result in a loss of electrical connection to the driver's frontal air bag.",
+      "campaign": "15V483000",
+      "component": "AIR BAGS:FRONTAL",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volkswagen&model=JETTA&modelYear=2012#campaign=15V483000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SUSPENSION:REAR: Volkswagen Group of America, Inc. (Volkswagen) is recalling certain model year 2011-2013 Jetta vehicles manufactured March 1, 2010, to November 30, 2012, and 2012-2013 Beetle vehicles manufactured March 1, 2011, to July 31, 2013. The durability of the rear trailing arms may be reduced in vehicles whose rear trailing arms have been previously deformed, such as a result of a rear or side-rear impact crash.",
+      "campaign": "14V656000",
+      "component": "SUSPENSION:REAR",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volkswagen&model=JETTA&modelYear=2012#campaign=14V656000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2012 Volkswagen JETTA",
+    "NHTSA recall 19V679000",
+    "NHTSA recall 19V615000",
+    "NHTSA recall 14E007000",
+    "NHTSA recall 15V483000",
+    "NHTSA recall 14V656000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-027",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2002,
+    "make": "Audi",
+    "model": "A6",
+    "full_name": "2002 Audi A6",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2002",
+     "make": "Audi",
+     "model": "A6",
+     "full_name": "2002 Audi A6",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "FUEL SYSTEM, OTHER:STORAGE:TANK ASSEMBLY: VOLKSWAGEN IS RECALLING CERTAIN MODEL YEAR 2001-2004 AUDI A6, MODEL YEAR 2002-2003 S6 AND MODEL YEAR 2003 RS6 VEHICLES EQUIPPED WITH 4.2L ENGINES AND MANUFACTURED FROM JUNE 19, 2001, THROUGH JUNE 8, 2004. THE AGING OF THE PLASTIC MATERIAL IN THE FUEL TANK ROLLOVER VALVE COMBINED WITH BENDING STRESS FROM THE ALUMINUM VENTILATION LINE TO THE ROLLOVER VALVE NIPPLE MAY LEAD TO CRACKING OF THE NIPPLE. IF THIS HAPPENS, A FUEL LEAK MAY RESULT.",
+      "campaign": "11V267000",
+      "component": "FUEL SYSTEM, OTHER:STORAGE:TANK ASSEMBLY",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Audi&model=A6&modelYear=2002#campaign=11V267000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "FUEL SYSTEM, GASOLINE:STORAGE:TANK ASSEMBLY: VOLKSWAGEN IS RECALLING 68,240 MY 2001-2004 AUDI A6 QUATTRO VEHICLES EQUIPPED WITH 2.7L, 2.8L, OR 3.0L ENGINES AND MY 2001-2005 ALLROAD QUATTRO VEHICLES EQUIPPED WITH 2.7L OR 4.2L ENGINES. THE AGING OF THE PLASTIC MATERIAL IN THE FUEL TANK ROLLOVER VALVE COMBINED WITH BENDING STRESS FROM THE ALUMINUM VENTILATION LINE TO THE ROLLOVER VALVE NIPPLE MAY LEAD TO CRACKING OF THE NIPPLE. IF THIS HAPPENS, A FUEL LEAK MAY RESULT.",
+      "campaign": "08V157000",
+      "component": "FUEL SYSTEM, GASOLINE:STORAGE:TANK ASSEMBLY",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Audi&model=A6&modelYear=2002#campaign=08V157000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM: ON CERTAIN PASSENGER VEHICLES EQUIPPED WITH HALOGEN LOW BEAM HEADLIGHTS, CERTAIN CONNECTOR PINS IN THE HEADLIGHT SWITCH CONNECTOR COME INTO CONTACT WITH EACH OTHER CAUSING A SHORT CIRCUIT. NOTE: VEHICLES WITH XENON LOW BEAM HEADLIGHTS ARE NOT AFFECTED BECAUSE THE CIRCUIT IN THESE VEHICLES CONTAINS A FUSE, WHICH PRECLUDES EXCESSIVE CURRENT FLOW IN THE CASE OF A SHORT CIRCUIT. AUDI S6 AND S6 AVANT VEHICLES ARE ALL EQUIPPED WITH XENON LOW BEAM HEADLIGHTS AND, THEREFORE, ARE NOT LONGER AFFECTED BY THIS RECALL.",
+      "campaign": "06V198000",
+      "component": "ELECTRICAL SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Audi&model=A6&modelYear=2002#campaign=06V198000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ELECTRICAL SYSTEM: ON CERTAIN PASSENGER VEHICLES, IF A DRIVER'S KNEES PUSH AGAINST THE KNEE BOLSTER (CRASH ELEMENT) LOCATED UNDER THE DASHBOARD, IT CAN CONTACT THE HEADLIGHT SWITCH WIRING HARNESS, AND AN ELECTRICAL SHORT COULD OCCUR.",
+      "campaign": "04V133000",
+      "component": "ELECTRICAL SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Audi&model=A6&modelYear=2002#campaign=04V133000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2002 Audi A6",
+    "NHTSA recall 11V267000",
+    "NHTSA recall 08V157000",
+    "NHTSA recall 06V198000",
+    "NHTSA recall 04V133000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-028",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2014,
+    "make": "Audi",
+    "model": "A6",
+    "full_name": "2014 Audi A6",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2014",
+     "make": "Audi",
+     "model": "A6",
+     "full_name": "2014 Audi A6",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION: Volkswagen Group of America, Inc. (Volkswagen) is recalling certain 2013-2018 Audi S6 and S7, 2012-2018 A7 and A6 Sedan, and 2014-2018 RS7 vehicles equipped with basic seats (with or without heating). Stress or wear of the body-sensing mat within the front passenger seat may cause the Passenger Occupant Detection System (PODS) control module to malfunction.",
+      "campaign": "18V370000",
+      "component": "AIR BAGS:SENSOR:OCCUPANT CLASSIFICATION",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Audi&model=A6&modelYear=2014#campaign=18V370000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ENGINE AND ENGINE COOLING:COOLING SYSTEM: Volkswagen Group of America, Inc. (Volkswagen) is recalling certain 2013-2017 Audi A5, A5 Cabriolet and Q5 vehicles, 2013-2016 Audi Allroad and Audi A4 vehicles and 2012-2015 Audi A6 vehicles. These vehicles, equipped with 2.0l Turbo FSI engines, have an electric coolant pump that can be blocked with debris from the cooling system, resulting in the pump overheating.",
+      "campaign": "17V002000",
+      "component": "ENGINE AND ENGINE COOLING:COOLING SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Audi&model=A6&modelYear=2014#campaign=17V002000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ENGINE AND ENGINE COOLING:COOLING SYSTEM: Volkswagen Group of America, Inc. (Volkswagen) is recalling certain 2013-2017 Audi A5 Cabriolet, A5 Sedan and Audi Q5 vehicles, 2012-2015 Audi A6 vehicles and 2013-2016 Audi A4 Sedan and A4 allroad vehicles. These vehicles, equipped with 2.0l Turbo FSI engines, have an electric coolant pump that can either become blocked with debris from the cooling system causing it to overheat or can short-circuit from moisture within the pump.",
+      "campaign": "18V229000",
+      "component": "ENGINE AND ENGINE COOLING:COOLING SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Audi&model=A6&modelYear=2014#campaign=18V229000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "FUEL SYSTEM, GASOLINE:DELIVERY:HOSES, LINES/PIPING, AND FITTINGS: Volkswagen Group of America, Inc. (Volkswagen) is recalling certain 2012-2014 Audi A6 and A7 vehicles. The fuel line has a compression point that can weaken, potentially resulting in a fuel leak.",
+      "campaign": "17V781000",
+      "component": "FUEL SYSTEM, GASOLINE:DELIVERY:HOSES, LINES/PIPING, AND FITTINGS",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Audi&model=A6&modelYear=2014#campaign=17V781000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2014 Audi A6",
+    "NHTSA recall 18V370000",
+    "NHTSA recall 17V002000",
+    "NHTSA recall 18V229000",
+    "NHTSA recall 17V781000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-029",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2003,
+    "make": "Volvo",
+    "model": "S60",
+    "full_name": "2003 Volvo S60",
+    "engine": null,
+    "obd_era": "pre-CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2003",
+     "make": "Volvo",
+     "model": "S60",
+     "full_name": "2003 Volvo S60",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "AIR BAGS:FRONTAL:DRIVER SIDE:INFLATOR MODULE: Volvo Car USA, LLC (Volvo Car) is recalling certain 2001-2006 S80 and 2001-2009 S60 vehicles. The driver's air bag inflator may explode during deployment, due to propellant degradation occurring after long-term exposure to high absolute humidity, high temperatures, and high temperature cycling.",
+      "campaign": "21V766000",
+      "component": "AIR BAGS:FRONTAL:DRIVER SIDE:INFLATOR MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volvo&model=S60&modelYear=2003#campaign=21V766000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "AIR BAGS:FRONTAL:DRIVER SIDE:INFLATOR MODULE: Volvo Car USA LLC (Volvo Car) is recalling certain 2001-2003 S80 and S60 vehicles sold or ever registered in Alabama, Arkansas, Florida, Georgia, Hawaii, Louisiana, Mississippi, North Carolina, Oklahoma, South Carolina, Tennessee, Texas, Puerto Rico, American Samoa, Guam, the Northern Mariana Islands (Saipan), and the U.S. Virgin Islands. The driver side frontal air bag inflator may rupture, sending metal fragments into the passage compartment, when the driver side air bag is deployed.",
+      "campaign": "20V681000",
+      "component": "AIR BAGS:FRONTAL:DRIVER SIDE:INFLATOR MODULE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volvo&model=S60&modelYear=2003#campaign=20V681000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "EQUIPMENT:ELECTRICAL:NAVIGATIONAL SYSTEM(GLOBAL POSITIONING SYSTEM): VOLVO IS RECALLING CERTAIN VEHICLES EQUIPPED WITH GARMIN 760 PORTABLE GLOBAL POSITIONING SYSTEM (GPS) UNITS BECAUSE THE BATTERIES ON THOSE UNITS MAY OVERHEAT.",
+      "campaign": "10V566000",
+      "component": "EQUIPMENT:ELECTRICAL:NAVIGATIONAL SYSTEM(GLOBAL POSITIONING SYSTEM)",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volvo&model=S60&modelYear=2003#campaign=10V566000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP: VOLVO IS RECALLING CERTAIN MODEL YEAR 2001-2005 S80, MODEL YEAR 2001-2004 V70, S60, XC70 AND MODEL YEAR 2003-2005 XC90 VEHICLES SOLD IN OR REGISTERED IN THE STATES OF ALABAMA, ARIZONA, ARKANSAS, CALIFORNIA, FLORIDA, GEORGIA, HAWAII, KENTUCKY, LOUISIANA, MISSISSIPPI, NEVADA, NEW MEXICO, NORTH CAROLINA, OKLAHOMA, SOUTH CAROLINA, TENNESSEE, TEXAS, UTAH, VIRGINIA AND THE U.S. TERRITORIES. WHEN EXPOSED TO CERTAIN ENVIRONMENTAL CONDITIONS (HOT CLIMATE AND TEMPERATURE CYCLING) OVER TIME AND IN COMBINATION WITH VARYING FUEL QUALITY, THE FUEL PUMP CAN DEVELOP CRACKS IN THE FUEL PUMP FLANGE.",
+      "campaign": "09V483000",
+      "component": "FUEL SYSTEM, GASOLINE:DELIVERY:FUEL PUMP",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volvo&model=S60&modelYear=2003#campaign=09V483000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "SERVICE BRAKES, HYDRAULIC:FOUNDATION COMPONENTS:MASTER CYLINDER: CERTAIN CARDONE MASTER CYLINDERS WITH PART NUMBERS 10-2925, 10-2987, 10-2987MZA, 10-3083, 11-3015, 11-3042, 11-3044, 11-3045, 11-3047, 11-3064, AND 11-3156, AND WITH DATE CODES LOWER THAN DCA7078 SOLD AS REPLACEMENT EQUIPMENT FOR USE ON THE VEHICLES LISTED ABOVE. THE SEAL ON MASTER CYLINDER CAN FAIL AND LEAK BRAKE FLUID.",
+      "campaign": "07E023000",
+      "component": "SERVICE BRAKES, HYDRAULIC:FOUNDATION COMPONENTS:MASTER CYLINDER",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volvo&model=S60&modelYear=2003#campaign=07E023000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2003 Volvo S60",
+    "NHTSA recall 21V766000",
+    "NHTSA recall 20V681000",
+    "NHTSA recall 10V566000",
+    "NHTSA recall 09V483000",
+    "NHTSA recall 07E023000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  },
+  {
+   "case_id": "CL-030",
+   "case_type": "codeless",
+   "vehicle": {
+    "year": 2008,
+    "make": "Volvo",
+    "model": "XC90",
+    "full_name": "2008 Volvo XC90",
+    "engine": null,
+    "obd_era": "CAN"
+   },
+   "payload": {
+    "vehicle": {
+     "year": "2008",
+     "make": "Volvo",
+     "model": "XC90",
+     "full_name": "2008 Volvo XC90",
+     "engine": null,
+     "displacement": null,
+     "cylinders": null,
+     "transmission": null,
+     "drive": null,
+     "fuel_type": null,
+     "turbocharged": null,
+     "supercharged": null,
+     "horsepower": null
+    },
+    "trim": "",
+    "snapshot": {
+     "timestamp": "2026-09-26T00:00:00",
+     "dtc_codes": [],
+     "rpm": 720.0,
+     "speed_mph": 0.0,
+     "coolant_temp_f": 195.0,
+     "engine_load_pct": 22.0,
+     "intake_air_temp_f": 82.0,
+     "maf_rate_gs": null,
+     "fuel_pressure_psi": null,
+     "control_module_voltage": 14.1,
+     "pending_codes": [],
+     "permanent_codes": [],
+     "fuel_trims": [
+      {
+       "condition": "idle",
+       "stft_bank1": 1.0,
+       "ltft_bank1": 2.0,
+       "stft_bank2": 0.5,
+       "ltft_bank2": 1.5
+      }
+     ],
+     "freeze_frames": [],
+     "mode06": [],
+     "mileage": null,
+     "capability": {
+      "protocol": "ISO 15765-4 (CAN)",
+      "supported_pids": [],
+      "unsupported_pids": [],
+      "freeze_frame_available": true,
+      "mode06_available": true,
+      "pending_codes_available": true,
+      "permanent_codes_available": true,
+      "fuel_trim_available": true,
+      "limitations": []
+     },
+     "is_mock": true,
+     "fixture_name": null
+    }
+   },
+   "ground_truth": {
+    "documented_issues": [
+     {
+      "issue": "EQUIPMENT:ELECTRICAL:NAVIGATIONAL SYSTEM(GLOBAL POSITIONING SYSTEM): VOLVO IS RECALLING CERTAIN VEHICLES EQUIPPED WITH GARMIN 760 PORTABLE GLOBAL POSITIONING SYSTEM (GPS) UNITS BECAUSE THE BATTERIES ON THOSE UNITS MAY OVERHEAT.",
+      "campaign": "10V566000",
+      "component": "EQUIPMENT:ELECTRICAL:NAVIGATIONAL SYSTEM(GLOBAL POSITIONING SYSTEM)",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volvo&model=XC90&modelYear=2008#campaign=10V566000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "ENGINE AND ENGINE COOLING:ENGINE: VOLVO IS RECALLING 102 MY 2008 XC90 AND S80 VEHICLES EQUIPPED WITH V8 ENGINES. THESE VEHICLES MAY HAVE BEEN BUILT WITH INCORRECT BOLTS TO THE ENGINE MOUNT.",
+      "campaign": "08V206000",
+      "component": "ENGINE AND ENGINE COOLING:ENGINE",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volvo&model=XC90&modelYear=2008#campaign=08V206000",
+      "source_type": "nhtsa_recall"
+     },
+     {
+      "issue": "VISIBILITY:DEFROSTER/DEFOGGER/HVAC SYSTEM: ON CERTAIN SPORT UTILITY VEHICLES, UNDER CERTAIN CONDITIONS, THE CLIMATE CONTROL MODULE (CCM) MAY RECEIVE A 'SHUT-DOWN SIGNAL' FROM THE ENGINE CONTROL MODULE (ECM) AFTER IGNITION KEY INSERTION. IF THIS CONDITION OCCURS, THE CLIMATE CONTROL FUNCTIONS WILL NOT BE AVAILABLE (INCLUDING THE DEFROSTER) DURING THAT DRIVING CYCLE.",
+      "campaign": "07V563000",
+      "component": "VISIBILITY:DEFROSTER/DEFOGGER/HVAC SYSTEM",
+      "source_url": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=Volvo&model=XC90&modelYear=2008#campaign=07V563000",
+      "source_type": "nhtsa_recall"
+     }
+    ]
+   },
+   "h2_expected_specificity": [
+    "2008 Volvo XC90",
+    "NHTSA recall 10V566000",
+    "NHTSA recall 08V206000",
+    "NHTSA recall 07V563000"
+   ],
+   "provenance": {
+    "created": "2026-09-26",
+    "created_by": "brief-2a",
+    "notes": "No codes; warm idle within normal ranges (invented). Documented issues are the recalls the backend's own retrieval returns for this vehicle."
+   }
+  }
+ ]
+}
