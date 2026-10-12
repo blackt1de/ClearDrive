@@ -2,6 +2,27 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Tag polls fetch by explicit refspec, not `--tags`; Phase 6 VRAM limit 8 GB — 2026-10-12
+Context: the two sessions hand off through tags (`eval-v1-frozen`, `ft-v1-gguf-ready`,
+`phase2-base-scored`, `ft-v1-scored`). On the 5090, `git fetch --tags origin` printed
+`[new tag] eval-v1-frozen` but the tag did not exist locally afterwards. The same fetch
+rejects `V2.0_Beta_Release` ("would clobber existing tag": the local and remote tags
+differ), and with that rejection the new tag was not written. A poll built on
+`git fetch --tags` therefore never sees the tag; the 5090's first `eval-v1-frozen` poll
+could not have succeeded.
+Decision (Austin, 2026-10-12):
+- **Poll for a hand-off tag by its own refspec:**
+  `git fetch origin "refs/tags/<tag>:refs/tags/<tag>"`, then `git tag | grep <tag>`.
+  `git ls-remote --tags origin | grep <tag>` is an equivalent read-only check. Both
+  sessions use this; neither uses `--tags`.
+- The `V2.0_Beta_Release` mismatch is left alone (ruled 2026-09-25).
+- **5090 pre-flight.** The GPU-memory limit before training is **8 GB used** (raised from
+  3 GB; desktop apps on that box hold about 5 GB). It is checked at the start of Phase 6,
+  not before Phase 5, because synthesis does not use the GPU. Over 8 GB then is BLOCKED.
+Evidence: 2026-10-12 on the 5090, `git ls-remote` showed the tag at `8401b6a` (commit
+`aa308a1`); the explicit-refspec fetch created it locally and `git rev-parse
+eval-v1-frozen^{commit}` gave `aa308a1`.
+
 ## [DECIDED] Second H4 null, re-scoring rule, base abstention recorded as a finding — 2026-09-26
 Context: the H4 scorer review showed that the system-level null scores 0.0 partly by
 construction. It uses only system-category words, which `h4_hit` no longer counts. Generic
