@@ -2,6 +2,26 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] Output budget 8,192 for every condition — 2026-10-12
+Context: the first base run (`base-qwen3-14b-2026-09-26`, thinking on, `num_predict` 4,096)
+failed the truncation gate: 21 of 132 calls (15.9%, limit 5%) ended `finish_reason:
+length`. All 21 were no-codes profiles (21 of 30); thinking used the whole budget and the
+model wrote no sections. The same path serves clean-car scans in production.
+Decision (Austin, 2026-10-12): `num_predict` goes from 4,096 to **8,192** for every
+condition, including production. The 16k context is unchanged. **This is pre-registered
+after the truncated run and before any scoring.** That run stays committed as a record and
+is never scored. The base thinking-on and thinking-off runs are rerun under the new budget
+with the same 5% gate, warm-up excluded. Base runs are fixed-model conditions, not touches.
+Evidence that it fits, measured with the served model's tokenizer (Ollama
+`prompt_eval_count`) after the NHTSA fix:
+- The largest prompt among the 132 frozen eval items is 4,867 tokens (EV-072).
+- The largest fixture prompt is still 5,822 tokens (M6).
+- Worst case is 5,822 + 8,192 = 14,014 of 16,384.
+
+`test_diagnostics.py` pins 8,192; 199 tests pass.
+Supersedes: the 4,096 value in "[DECIDED] Output budget 4,096 with default thinking; finish
+reason exposed — 2026-09-25". The rest of that entry stands.
+
 ## [DECIDED] Second H4 null, re-scoring rule, base abstention recorded as a finding — 2026-09-26
 Context: the H4 scorer review showed that the system-level null scores 0.0 partly by
 construction. It uses only system-category words, which `h4_hit` no longer counts. Generic

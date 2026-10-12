@@ -428,7 +428,8 @@ def test_serving_model_is_pinned_qwen():
 
 
 def test_output_budget_leaves_room_for_thinking():
-    """Qwen3 thinking counts against num_predict; 4096 was ruled 2026-09-25.
+    """Qwen3 thinking counts against num_predict. 4096 (ruled 2026-09-25) truncated 21 of 30
+    no-codes profiles on the first base run, so 8192 was ruled 2026-10-12 for every condition.
     Also pins that thinking is left at the model default (no `think` key), so
     base and fine-tuned conditions are measured the same way."""
     import asyncio
@@ -443,7 +444,7 @@ def test_output_budget_leaves_room_for_thinking():
         return FakeResponse()
     with patch("httpx.AsyncClient.post", fake_post):
         asyncio.run(ollama_client.ask_ollama("x"))
-    assert sent["options"]["num_predict"] == 4096
+    assert sent["options"]["num_predict"] == 8192
     assert sent["options"]["num_ctx"] == 16384
     assert "think" not in sent
 

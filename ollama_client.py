@@ -27,7 +27,7 @@ OLLAMA_TAGS_URL = f"{OLLAMA_BASE}/api/tags"
 DEFAULT_MODEL = "cleardrive-qwen"
 
 # Seconds one /api/chat call may take. Raised from 180 s (ruling 2026-09-26): Qwen3
-# thinking with num_predict 4096 can run long, and a timeout is a failed call.
+# thinking with num_predict 8192 can run long, and a timeout is a failed call.
 MODEL_TIMEOUT_S = 300.0
 
 # Served thinking mode, an eval condition (notes/decisions.md, 2026-09-25):
@@ -93,7 +93,7 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
                         # A rich differential (7+ findings on a multi-system fault)
                         # needs room; at 1600 the M6 case truncated mid-sentence
                         # inside ESTIMATED REPAIR COST, losing the last 4 sections.
-                        "num_predict": 4096,
+                        "num_predict": 8192,
                         # num_ctx MUST be set explicitly. Ollama defaults it to
                         # 4096, and the payload-v2 prompt (vehicle context +
                         # tiered code definitions + computed differential +
@@ -103,9 +103,10 @@ async def ask_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
                         # of the window — which is why the model first invented
                         # its own structure and then degenerated into a loop.
                         "num_ctx": 16384,
-                        # Degeneracy control for the output. The 4096 num_predict
+                        # Degeneracy control for the output. The 8192 num_predict
                         # above is set for Qwen3 thinking tokens, which count
-                        # against it (ruled 2026-09-25, notes/decisions.md).
+                        # against it. 4096 left 21 of 30 no-codes responses empty
+                        # (ruled 2026-10-12, notes/decisions.md).
                         "repeat_penalty": 1.15,
                         "repeat_last_n": 256,
                     },
