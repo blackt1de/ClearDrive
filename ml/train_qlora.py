@@ -24,8 +24,17 @@ import torch
 from datasets import load_dataset
 from transformers import TrainerCallback
 from trl import SFTConfig, SFTTrainer
+import unsloth.utils.attention_dispatch as attention_dispatch
 from unsloth import FastLanguageModel
 from unsloth.chat_templates import train_on_responses_only
+
+# On this box Unsloth has no flash-attn or usable xFormers, so attention goes through
+# torch SDPA. Unsloth passes enable_gqa=True for Qwen3's grouped heads, and with that flag
+# torch 2.12 takes the math path and materialises a float32 (heads x L x L) score matrix:
+# 4.67 GiB at 5,600 tokens, 19 GB for a packed batch of two, which does not fit. With the
+# flag off Unsloth expands K/V itself and SDPA uses its memory-efficient kernel (0.6 GB).
+# The two are the same computation. Measured in notes/reports/logs/2026-10-13-phase-6.log.
+attention_dispatch.SDPA_HAS_GQA = False
 
 REPO = Path(__file__).resolve().parent.parent
 MODEL_ID = "Qwen/Qwen3-14B"            # notes/decisions.md 2026-09-25; fallback unsloth/Qwen3-14B
@@ -40,6 +49,11 @@ INSTRUCTION_PART = "<|im_start|>user\n"
 RESPONSE_PART = "<|im_start|>assistant\n"
 
 SEED = 42
+# Unsloth's auto "padding-free" mode packs a batch into one long sequence. Under the SDPA
+# fallback used here that doubles the attention length: 150-160 s per optimizer step packed
+# against 67 s padded, same data (notes/reports/logs/2026-10-13-phase-6.log). Padded batches
+# of 2 are used; pad tokens carry label -100 and are masked out of attention.
+PADDING_FREE = False
 
 
 class JsonlLogger(TrainerCallback):
@@ -59,7 +73,7 @@ class JsonlLogger(TrainerCallback):
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default=MODEL_ID)
-    ap.add_argument("--max-seq-length", type=int, default=8192)
+    ap.add_argument("--max-seq-length", type=int, default=5632)
     ap.add_argument("--pilot", action="store_true", help="5%% of train data, 200 steps")
     ap.add_argument("--report-to", default="none", help="HF Trainer report_to, e.g. wandb")
     args = ap.parse_args()
@@ -125,6 +139,7 @@ def main() -> int:
         dataset_text_field="text",
         max_length=args.max_seq_length,
         packing=False,
+        padding_free=PADDING_FREE,
         per_device_train_batch_size=2,
         gradient_accumulation_steps=8,
         per_device_eval_batch_size=2,
@@ -153,7 +168,7 @@ def main() -> int:
         train_dataset=train_ds,
         eval_dataset=ds["val"],
         args=config,
-        callbacks=[JsonlLogger(LOG_PATH)],
+        callbacks=[JsonlLogger(OUT / "pilot_log.jsonl" if args.pilot else LOG_PATH)],
     )
     trainer = train_on_responses_only(
         trainer, instruction_part=INSTRUCTION_PART, response_part=RESPONSE_PART,

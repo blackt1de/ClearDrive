@@ -26,7 +26,7 @@ ADAPTER_DIR = OUT / "cleardrive-qwen-lora"
 MERGED_DIR = OUT / "cleardrive-qwen-merged"
 GGUF_PATH = OUT / "cleardrive-qwen-Q4_K_M.gguf"
 GGUF_WORK = OUT / "cleardrive-qwen-gguf"
-MAX_SEQ_LENGTH = 8192  # keep equal to ml/train_qlora.py --max-seq-length
+MAX_SEQ_LENGTH = 5632  # keep equal to ml/train_qlora.py --max-seq-length
 
 
 def main() -> int:

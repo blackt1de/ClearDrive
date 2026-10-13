@@ -47,6 +47,8 @@ ml/data/pairs/*
 ml/out/*
 !ml/out/train_log.jsonl
 !ml/out/train_stdout.log
+!ml/out/pilot_log.jsonl
+!ml/out/pilot_stdout.log
 
 # Secrets
 .env

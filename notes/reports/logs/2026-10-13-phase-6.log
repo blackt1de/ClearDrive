@@ -1,0 +1,64 @@
+=== phase 6 pre-flight on BLACK_5090 2026-10-13T03:37:00Z
+--- GPU memory used (limit 8 GB = 8192 MiB)
+memory.used [MiB], memory.total [MiB]
+4489 MiB, 32607 MiB
+--- manifest hashes
+train.jsonl sha256=5be53983ae0ac556f883b285cc67ddd1e94be4e87d20d2936737c8ae595767ec lines=4750
+val.jsonl sha256=362104592b0aff56a19498c456f4177b4e7a1d5d94728d25b5dafc54fbf98279 lines=250
+cleardrive_sft.jsonl sha256=fb1409c58954492f96b6632ca4b27ca6dae9f207586a000bc6837128452e138c lines=5000
+    "cleardrive_sft.jsonl": {
+      "sha256": "fb1409c58954492f96b6632ca4b27ca6dae9f207586a000bc6837128452e138c",
+    "train.jsonl": {
+      "sha256": "5be53983ae0ac556f883b285cc67ddd1e94be4e87d20d2936737c8ae595767ec",
+    "val.jsonl": {
+      "sha256": "362104592b0aff56a19498c456f4177b4e7a1d5d94728d25b5dafc54fbf98279",
+--- tag
+eval-v1-frozen
+--- blackwell_check
+  torch:        2.12.1+cu130
+  cuda built:   13.0
+  cuda devices: 1
+  device[0]:    NVIDIA GeForce RTX 5090
+  capability:   sm_120
+  sdpa attn:    settable on Qwen/Qwen3-14B
+PASS
+=== pilot attempt 1 2026-10-13T04:11:01Z: started 03:37:13Z, crashed before step 1
+RuntimeError: Unsloth: No or negligible GPU memory available for fused cross entropy.
+  0%|          | 0/200 [05:19<?, ?it/s]
+=== diagnosis: SDPA kernel probe (L=5600, 40 heads, 8 KV heads, bf16, forward+backward)
+torch 2.12.1+cu130; xformers 0.0.35 unusable with this torch build; flash-attn absent (Windows)
+a) is_causal, enable_gqa: OOM, tried to allocate 4.67 GiB
+b) bool mask, enable_gqa: OOM, tried to allocate 4.67 GiB
+c) is_causal, KV expanded: peak 0.59 GB
+d) bool mask, KV expanded: peak 0.68 GB
+=== full-model step probe, SDPA_HAS_GQA=True (default), memory cap 80%
+batch 1 x 2048: peak 14.82 GB | batch 1 x 4096: FAILED | batch 1 x 5600: OOM (4.75 GiB) | batch 2 x 2048: 17.92 GB | batch 2 x 4096: OOM | batch 2 x 5600: OOM (9.50 GiB)
+=== full-model step probe, SDPA_HAS_GQA=False
+model resident: 11.50 GB; nvidia-smi 15958 MiB
+batch 1 x 2048 tokens: peak allocated 12.85 GB, reserved 13.11 GB, 2.6s, nvidia-smi 18108 MiB
+batch 1 x 5600 tokens: peak allocated 14.81 GB, reserved 15.33 GB, 7.8s, nvidia-smi 20204 MiB
+batch 2 x 5600 tokens: peak allocated 18.05 GB, reserved 19.17 GB, 12.8s, nvidia-smi 23940 MiB
+batch 2 x 8192 tokens: peak allocated 20.72 GB, reserved 21.75 GB, 20.4s, nvidia-smi 26571 MiB
+--- GPU before relaunch
+5256 MiB
+=== pilot attempt 2 started 2026-10-13T04:11:06Z: .venv\Scripts\python.exe ml\train_qlora.py --pilot (detached; stdout ml/out/pilot_stdout.log)
+=== pilot attempt 2 stopped by executor at 2026-10-13T04:25:20Z after 5 steps at ~160 s/step (projected 8.9 h pilot, 26 h full run) to benchmark gradient-checkpointing modes
+=== benchmark: raw fwd+bwd on 8 real training pairs, batch 2, SDPA_HAS_GQA=False 2026-10-13T04:28:33Z
+gc=unsloth dropout=0.05: steady 9.6 s per batch of 2; peak 18.3 GB
+gc=True    dropout=0.05: steady 8.8 s per batch of 2; peak 22.1 GB
+gc=unsloth dropout=0.0 : steady 7.6 s per batch of 2; peak 14.7 GB (information only; brief specifies 0.05)
+=== pilot attempt 3 started 2026-10-13T04:28:39Z (pid 6652): padding_free=False, SDPA_HAS_GQA=False; 5 steps in 5:39, ~67 s/step (attempt 2, padding-free: ~150-160 s/step)
+=== pilot attempt 3 stopped on Austin's instruction 2026-10-13T04:44:48Z at step 13/200, 62.6 s/it; step-10 train loss 1.339
+=== ruling (Austin, 2026-10-13): max_seq_length = measured max 5591 rounded up to 256 = 5632; batch 2 x accum 8 kept; pilot alone on the GPU; BLOCKED if over 30 s/step after 20 steps
+--- GPU before attempt 4: 2431 MiB; python processes: none; ollama: none
+=== pilot attempt 4 started 2026-10-13T04:44:51Z pid 14644: max_seq_length 5632, batch 2 x accum 8, gc=unsloth, padding_free=False, SDPA_HAS_GQA=False
+=== pilot attempt 4 step time after 20 steps 2026-10-13T05:05:47Z
+1/200 [01:04<3:33:31, 64.38s/it]
+5/200 [05:15<3:23:31, 62.63s/it]
+10/200 [10:17<3:08:28, 59.52s/it]
+15/200 [14:47<2:45:34, 53.70s/it]
+20/200 [19:21<2:44:34, 54.86s/it]
+{"step": 10, "epoch": 0.6722689075630253, "time": 1791867374.9951606, "loss": 1.3394269943237305, "grad_norm": 0.385934978723526, "learning_rate": 0.0
+{"step": 20, "epoch": 1.3361344537815127, "time": 1791867918.619532, "loss": 0.8666508674621582, "grad_norm": 0.26471611857414246, "learning_rate": 0.
+20 steps in 19:21 = 58.1 s/step; steps 11-20 in 9:04 = 54.4 s/step; limit 30 s/step -> BLOCKED
+GPU during run: 27428 MiB, 99 %; pilot left running, pid 14644
