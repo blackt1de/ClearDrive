@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P0171"
+ ],
+ "vehicle": "2001 Ford WINDSTAR",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2001 Ford WINDSTAR is showing code P0171. This means the engine is getting too much air and not enough fuel in Bank 1 (the left side of the engine). The vehicle\u2019s own readings could not be checked because data like coolant temperature, fuel trims, and engine load were unavailable. Without this data, the exact cause of the lean fuel mixture cannot be pinpointed. The code itself is not an immediate safety risk but may affect engine performance.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or stalling when the engine is cold. - The lean fuel mixture can cause uneven combustion.\n2. Hesitation or loss of power during acceleration. - Not enough fuel reaching the engine cylinders.\n3. The check engine light staying on. - The code is stored in the vehicle\u2019s computer.\n4. Increased fuel consumption. - The engine may compensate by burning more fuel.",
+ "if_ignored": "The engine may run poorly, have trouble starting, or cause damage to the catalytic converter over time. Long-term, this could lead to more expensive repairs. There is no immediate safety risk, but performance issues may worsen.",
+ "quick_checks": "- Check for loose or damaged vacuum hoses (rule fueltrimtriage; needed: visual inspection of intake system).\n- Ensure the mass airflow sensor is clean and functioning (rule fueltrimtriage; needed: inspect MAF sensor).\n- Verify the fuel filter is not clogged (rule fueltrimtriage; needed: check fuel pressure).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools to read fuel trim data and inspect the intake system. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The issue may not be urgent, but addressing it sooner can prevent further complications.",
+ "repair_cost": "Parts: $200 - $500 (depending on what\u2019s faulty). Labor: $150 - $300 at an independent shop. Total at independent shop: $350 - $800. Total at dealer: $450 - $1,000 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with the rear axle and suspension (source: NHTSA Complaints Database). These are separate from the P0171 code and relate to structural components, not the engine\u2019s fuel system.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-002",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcdn11.bigcommerce.com%2Fs-rnmf5r1skr%2Fproduct_images%2FVehicleGuideImages%2F2001FordWindstarClassicCar.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "fuel_trim_triage",
+   "reason": "Fuel trim readings were not available, so the cause of the fuel mixture code (P0171) could not be narrowed: fuel trim was not captured",
+   "missing": [
+    "fuel trims at idle",
+    "fuel trims under load"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature, fuel trims.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 156
+}

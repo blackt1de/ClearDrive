@@ -1,0 +1,111 @@
+{
+ "codes": [
+  "P0731",
+  "P0732"
+ ],
+ "vehicle": "2022 Ram 3500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2022 Ram 3500 is showing code P0731 (Gear 1 Incorrect Ratio) and P0732 (Gear 2 Incorrect Ratio). These codes mean the transmission is not shifting gears correctly, which could affect how the vehicle moves or responds. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we cannot confirm the exact condition. No live data or diagnostic details were captured, which limits our ability to pinpoint the issue. The codes are generic and do not yet have a verified rule to narrow down the cause.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The vehicle may jerk or hesitate when shifting gears. - This happens if the transmission is not engaging gears properly.\n2. The check engine light may stay on. - This is a general indicator of a problem the computer has detected.\n3. The truck might feel sluggish or unresponsive when accelerating. - This could occur if the transmission is not shifting efficiently.\n4. Unusual noises from the transmission area. - This might indicate internal wear or damage.",
+ "if_ignored": "- In the next few days/weeks, the transmission could fail completely, leaving you stranded.\n- Long-term, ignoring this could lead to costly repairs or replacement of the entire transmission.\n- The repair cost could increase significantly if the issue worsens.\n- There is a safety risk if the transmission fails while driving, potentially causing a loss of control.",
+ "quick_checks": "- Check for transmission fluid leaks under the vehicle.\n- Ensure the transmission fluid level is correct (if you have access to the dipstick).\n- Look for signs of damage or wear on the transmission housing.\n- If these checks are not possible, take the vehicle to a qualified mechanic.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools, diagnostic equipment, and expertise to inspect and repair the transmission. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don't drive more than necessary. Transmission issues can worsen quickly and pose safety risks.",
+ "repair_cost": "- Parts: $500 - $1500 (depending on the extent of damage).\n- Labor: $500 - $1000 (at an independent shop).\n- Total at independent shop: $1000 - $2500.\n- Total at dealer: $1500 - $3500 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "- Steering wheel seizing due to moisture in the steering sensor (NHTSA Complaints Database).\n- Engine fires linked to electrical system faults (NHTSA Complaints Database).\n- Transmission failure due to Aisin K1 Clutch/Input Shaft failure (NHTSA Complaints Database).\n- Drag link snapping on the passenger steering knuckle (NHTSA Complaints Database).\n- EPS warning light and steering jerking (NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-045",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F14681%2F2022-Ram-3500%2520Regular%2520Cab-front_14681_032_2400x1800_PL1.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0731",
+   "description": "Gear 1 Incorrect Ratio",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "transmission",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0732",
+   "description": "Gear 2 Incorrect Ratio",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "transmission",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0731, P0732. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0731, P0732"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 199
+}

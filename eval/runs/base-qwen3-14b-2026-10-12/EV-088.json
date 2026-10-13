@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0011"
+ ],
+ "vehicle": "2017 Hyundai SONATA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2017 Hyundai SONATA is showing code P0011. This code means the engine's camshaft timing is not aligning properly with the crankshaft, which can affect how the engine breathes and performs. The vehicle's engine is running at 720 RPM with no vehicle speed, coolant temperature is 195\u00b0F, and engine load is 22%. The computed values show a small imbalance in engine timing (bank asymmetry at idle is 1.0%), but the engine is operating at normal temperature. The exact meaning of this code is not fully verified, so further checks are needed.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or hesitation when accelerating - The engine's timing is off, causing uneven power delivery.\n2. Check engine light staying on - The code is stored in the system, indicating a detected issue.\n3. Reduced fuel efficiency - Improper timing can make the engine work harder.\n4. Slight engine vibration at idle - Imbalance in timing can cause minor shaking.",
+ "if_ignored": "The issue may not cause immediate harm, but over time, improper camshaft timing could lead to increased engine wear, higher repair costs, or potential stalling. Long-term, it might reduce engine lifespan or cause more serious mechanical problems.",
+ "quick_checks": "- Inspect the camshaft position sensors for damage or loose connections.\n- Check for signs of timing chain wear or slack.\n- Look for oil leaks near the engine front, which could indicate timing system issues.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves engine components that require specialized tools, diagnostic equipment, and mechanical expertise. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic soon to avoid potential long-term issues.",
+ "repair_cost": "Parts: $500 - $1000\nLabor: $300 - $600\nTotal at independent shop: $800 - $1600\nTotal at dealer: $1050 - $2100 (dealers charge 30-50% more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA Complaints Database reports:\n1. Engine issues (e.g., metallic knocking, piston failure) in 2017 Sonata models.\n2. Sunroof glass separation in 2014-2016 Sonata models (not this vehicle\u2019s year).\n3. Transmission problems after a recall (Campaign 92C).\nNHTSA Recalls Database lists recalls for airbags, turn signals, and trunk latches, but none directly related to P0011.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-088",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10688%2F2017-Hyundai-Sonata-front_10688_032_1818x754_W8_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0011",
+   "description": "'A' Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0011. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0011"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 242
+}

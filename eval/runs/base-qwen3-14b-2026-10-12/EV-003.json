@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P0A7A"
+ ],
+ "vehicle": "2004 Toyota PRIUS",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2004 Toyota PRIUS is showing code P0A7A. This is a standardized powertrain code, but its exact meaning is not defined in our records and depends on Toyota\u2019s specific system. The vehicle\u2019s own measurements\u2014like engine speed, coolant temperature, and mileage\u2014are unavailable, so we cannot directly link this code to a specific issue. No live data or diagnostic details were captured during the scan, which limits our ability to pinpoint the problem. This code alone does not indicate an immediate safety risk, but it requires further investigation.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Dashboard or odometer malfunctions (e.g., odometer stops at 299,999, digital dash goes dark) - Electrical system issues reported by other owners.\n2. Unpredictable drive selector behavior (e.g., lever not staying in Drive) - Mechanical or electrical failure in the transmission system.\n3. Phantom braking or loss of power steering - Potential issues with the vehicle\u2019s control systems or sensors.\n4. Sudden stalling with no restart - Possible electrical or engine-related faults, as noted in owner complaints.",
+ "if_ignored": "- In the short term, you may experience intermittent electrical failures, braking issues, or stalling, which could lead to unsafe driving conditions.\n- Long-term, unresolved issues could worsen, potentially causing more expensive repairs or safety risks (e.g., dashboard failures affecting speedometer/gas gauge).\n- Repair costs could increase if the problem escalates (e.g., replacing a water pump or fixing electrical system faults).",
+ "quick_checks": "- A diagnostic rule for P0A7A is needed to interpret the code (rule noruleforcode).\n- The vehicle must support data capture (e.g., live data, freeze frame) to narrow down the issue (rule capturelimitation).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and expertise to interpret the code and identify the root cause. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. The code and reported issues suggest potential safety risks, especially with electrical or braking system failures.",
+ "repair_cost": "Cannot be estimated without diagnosing the root cause. Parts and labor costs vary widely depending on the issue. At an independent shop, expect $200\u2013$1,000+ for diagnostics and repairs. At a dealer, costs could be 30\u201350% higher.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database:\n- Electrical system issues (odometer failure, dark dashboard).\n- Braking system problems (low pressure, leaks).\n- Transmission lever malfunction in Drive.\n- Phantom braking, loss of power steering, and stalling.\nFrom NHTSA Recalls Database:\n- Steering intermediate shaft recall (2004\u20132009 models).\n- Electric water pump recall (2004\u20132009 models).\n- Floor mat recall affecting accelerator pedal.\n- Air bag inflator recall.\n- Brake light switch recall.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-003",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Famv-prod-cad-assets%2Fimages%2F03q4%2F267348%2F2004-toyota-prius-road-test-review-car-and-driver-photo-9350-s-original.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0A7A",
+   "description": "Standardized powertrain code; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": null,
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0A7A. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0A7A"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 157
+}

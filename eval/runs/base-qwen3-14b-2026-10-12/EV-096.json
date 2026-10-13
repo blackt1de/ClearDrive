@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0401"
+ ],
+ "vehicle": "2009 Volkswagen ROUTAN",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2009 Volkswagen ROUTAN is showing code P0401. This means the engine\u2019s exhaust gas recirculation (EGR) system is not allowing enough exhaust gas to flow back into the engine, which can affect emissions and performance. The vehicle is at idle (720 RPM, 0 mph), with coolant at 195\u00b0F and engine load at 22%. The engine is operating at its normal temperature. However, no automated analysis exists yet for this code, so the exact cause is not confirmed.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light is on \u2013 This happens when the EGR system is not working properly.\n2. Rough idling \u2013 The engine may feel unstable when stopped.\n3. Reduced fuel efficiency \u2013 The engine might use more fuel than usual.\n4. Increased emissions \u2013 The vehicle may fail an emissions test.",
+ "if_ignored": "- In the next few days/weeks, the engine may run less smoothly or use more fuel.\n- Long-term, the EGR system could cause more serious engine damage or failure.\n- Repair costs could increase if the issue worsens.\n- No immediate safety risk, but performance and emissions will suffer.",
+ "quick_checks": "- Inspect the EGR valve for blockages or carbon buildup.\n- Check the EGR system hoses and pipes for leaks or damage.\n- Test the EGR valve\u2019s operation with a mechanic\u2019s diagnostic tool.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and knowledge of the EGR system. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 1-2 weeks to avoid potential long-term issues.",
+ "repair_cost": "- Parts: $200 - $500\n- Labor: $100 - $300\n- Total at independent shop: $300 - $800\n- Total at dealer: $400 - $1,000 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, some owners reported electrical system malfunctions, including random dashboard warnings, seat movement, and door lock failures after repairs.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-096",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fthumb.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Ff%2Ff2%2F2009_Volkswagen_Routan_SE.jpg%2F1280px-2009_Volkswagen_Routan_SE.jpg%3Futm_source%3Den.wikipedia.org%26utm_campaign%3Dindex%26utm_content%3Dthumbnail",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0401",
+   "description": "Exhaust Gas Recirculation Flow Insufficient Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0401. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0401"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 250
+}

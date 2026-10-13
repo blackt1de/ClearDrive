@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P129F"
+ ],
+ "vehicle": "2022 GMC SIERRA 1500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2022 GMC SIERRA 1500 is showing code P129F. This code relates to the fuel and air metering system, but its exact meaning is set by the manufacturer and not fully verified. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we can\u2019t see what\u2019s happening in real time. No live data or diagnostic rules were captured to narrow this down further. The code alone doesn\u2019t tell us what\u2019s wrong, but it\u2019s a signal that something needs attention.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Reduced engine power or hesitation during acceleration - (could indicate fuel delivery issues)\n2. Check engine light staying on - (common with unaddressed trouble codes)\n3. Unusual noises from the engine area - (may point to mechanical or electrical problems)\n4. Stalling or rough idling - (could relate to fuel or air metering issues)",
+ "if_ignored": "- In the next few days/weeks: The engine might misfire, lose power, or fail to start.\n- Long-term: Fuel system damage, increased emissions, or engine wear could occur.\n- Cost: Repairs could become more expensive if the issue worsens.\n- Safety: If the fuel system fails while driving, it could lead to sudden loss of power or engine shutdown.",
+ "quick_checks": "- Look for visible fuel leaks or damaged wiring near the fuel injectors.\n- Check if the check engine light is on and stays on.\n- Inspect the fuel filter and fuel pump for signs of wear or clogging.\n- Consult a mechanic with manufacturer-specific diagnostic tools to read the code accurately.",
+ "diy_fix": "This repair is NOT recommended for DIY because (it requires specialized diagnostic tools and manufacturer-specific service information to interpret the code accurately). A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary.",
+ "repair_cost": "Parts: $0 - $1,000 (depends on what\u2019s wrong)\nLabor: $100 - $500 (varies by shop and complexity)\nTotal at independent shop: $100 - $1,500\nTotal at dealer: $200 - $2,500 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database:\n1. Fuel pump failure causing reduced power.\n2. Transmission failure without warning lights.\n3. Grille deflector detachment (recall N242490120).\n4. Transmission jerking and unintended movement.\n5. Engine failure after an unknown recall repair.\nFrom NHTSA Recalls Database:\n- Issues with brake lights and daytime running lights.\n- Transmission control module software defects.\n- Chrome grille deflector detachment.\n- Engine component manufacturing defects.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-061",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F43195%2F2022-GMC-Sierra%25201500%2520Limited%2520Double%2520Cab-front_43195_032_2400x1800_GA0.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P129F",
+   "description": "Manufacturer-specific powertrain code, structurally in the fuel and air metering (injector circuit) group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering (injector circuit)",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P129F. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P129F"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 215
+}

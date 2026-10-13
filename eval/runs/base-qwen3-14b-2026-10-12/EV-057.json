@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0301"
+ ],
+ "vehicle": "2016 Honda ODYSSEY",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2016 Honda ODYSSEY is showing code P0301, which means cylinder 1 is misfiring (not burning fuel properly). This can happen if the spark plug is faulty, fuel isn\u2019t reaching the cylinder, or there\u2019s a problem with the ignition system. The vehicle\u2019s own readings couldn\u2019t confirm when the misfire happened (under load or at idle) because no freeze frame data was stored. No live data, fuel trims, or other diagnostic details were captured, so the exact cause isn\u2019t clear yet. This is not an immediate safety risk but needs attention to avoid long-term damage.",
+ "likely_causes": "1. Oil-fouled spark plugs (common in this model, per owner complaints).\n2. Deteriorated piston rings in cylinders 1-3 (mentioned in a recall and repair history).",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2014 the engine isn\u2019t firing smoothly.\n2. Check-engine light flashing \u2014 a misfire can trigger this, especially if unburned fuel reaches the catalytic converter.\n3. Decreased fuel efficiency \u2014 a misfire often makes the engine work harder.\n4. A smell of unburned fuel \u2014 if the misfire is severe, fuel might escape unburned.",
+ "if_ignored": "- In the next few days/weeks: The catalytic converter could overheat and fail, leading to expensive repairs.\n- Long-term: Continued misfires might damage the engine or exhaust system.\n- Cost: Repairs could rise from $1,000 (spark plugs) to $5,000+ (engine or converter replacement).\n- Safety: A failing catalytic converter could cause a fire risk if fuel leaks into the exhaust.",
+ "quick_checks": "1. Inspect spark plugs for oil fouling (look for black, wet deposits).\n2. Check for oil leaks around the engine (could indicate piston ring issues).\n3. Look for signs of catalytic converter damage (unusual smell, reduced power).",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves engine components, requires specialized tools, and may need computer programming to reset codes. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The misfire could worsen, and the catalytic converter is at risk.",
+ "repair_cost": "- Parts: $200\u2013$600 (spark plugs, ignition coils, or piston rings).\n- Labor: $300\u2013$800 (depending on complexity).\n- Total at independent shop: $500\u2013$1,400.\n- Total at dealer: $700\u2013$2,000 (higher labor rates).",
+ "known_issues": "- Oil-fouled spark plugs (recurring issue in complaints).\n- Deteriorated piston rings in cylinders 1-3 (linked to a recall and repair history).",
+ "owner_reports": "From NHTSA complaints:\n1. Repeated misfires linked to oil-fouled spark plugs (source: NHTSA Complaints Database).\n2. A recall for piston ring deterioration in cylinders 1-3 (source: NHTSA Recalls Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-057",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fdi-uploads-pod5.s3.amazonaws.com%2Fcheckeredflaghonda%2Fuploads%2F2016%2F03%2F2-HondaOdyssey.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0301",
+   "description": "Cylinder 1 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "misfire_triage",
+   "reason": "No freeze frame was stored for the misfire, so the conditions when it occurred are unknown \u2014 a misfire under load and a misfire at cold idle have different causes and cannot be told apart without it: freeze frame was not captured",
+   "missing": [
+    "freeze frame for the misfire code"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "caution",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0301) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "Whether the misfire happened under load could not be assessed: no freeze frame was stored for it.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 211
+}

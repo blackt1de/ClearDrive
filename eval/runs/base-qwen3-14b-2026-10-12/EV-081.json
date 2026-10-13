@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P0420"
+ ],
+ "vehicle": "2022 Ram 3500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2022 Ram 3500 is showing code P0420. This means the catalytic converter, which reduces harmful emissions, is not working efficiently. The vehicle\u2019s own readings show the converter is well past its manufacturer limit (0.9 vs. 0.5), meaning it\u2019s genuinely worn out. The engine is running at idle with 22% load and 195\u00b0F coolant temperature, which are normal for this condition. Mileage data was not available for this check.",
+ "likely_causes": "1. The catalytic converter is worn out and no longer meets the manufacturer\u2019s efficiency limit. This is confirmed by the catalyst monitor measuring 0.9 against a limit of 0.5.",
+ "symptoms": "1. The check engine light is on (due to the P0420 code).\n2. A sulfur or burning smell from the exhaust (sign of a failing converter).\n3. Reduced engine performance or hesitation under load.\n4. Increased exhaust emissions that could fail an emissions test.",
+ "if_ignored": "In the short term, the converter may fail completely, causing the engine to lose power or stall. Long-term, the vehicle could emit excessive pollutants, leading to legal issues or costly repairs. The converter itself could become expensive to replace if not addressed now.",
+ "quick_checks": "- Get a replacement quote; confirm no upstream fault remains",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and expertise to replace the catalytic converter safely and correctly. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The converter is already worn out and may worsen quickly.",
+ "repair_cost": "Parts: $500\u2013$1500 (converter varies by quality)\nLabor: $500\u2013$1000 (complex installation)\nTotal at independent shop: $1000\u2013$2500\nTotal at dealer: $1300\u2013$3250 (higher labor rates)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA complaints for this vehicle include electrical fires, steering sensor failures, brake issues, and transmission failures. These are unrelated to the catalytic converter issue but highlight other potential problems in this model.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-081",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F14681%2F2022-Ram-3500%2520Regular%2520Cab-front_14681_032_2400x1800_PL1.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0420",
+   "description": "Catalyst System Efficiency Below Threshold (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "catalyst_assessment",
+   "conclusion": "The converter is well past its limit, not borderline. This reading does not clear itself and the converter is genuinely worn out.",
+   "confidence": "high",
+   "basis": "manufacturer_limit",
+   "next_checks": [
+    "Get a replacement quote; confirm no upstream fault remains"
+   ],
+   "evidence": [
+    {
+     "pointer": "mode06[21]",
+     "restatement": "the catalyst monitor measured 0.9 against a manufacturer limit of 0.5"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Get a replacement quote; confirm no upstream fault remains"
+ ],
+ "safety": {
+  "verdict": "caution",
+  "basis": "manufacturer_limit",
+  "reasons": [
+   {
+    "rule": "manufacturer_limit_exceeded",
+    "statement": "A measurement is past a limit supplied by the vehicle itself, not a rule of thumb: The converter is well past its limit, not borderline. This reading does not clear itself and the converter is genuinely worn out.",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "mode06[21]",
+      "restatement": "the catalyst monitor measured 0.9 against a manufacturer limit of 0.5"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 235
+}

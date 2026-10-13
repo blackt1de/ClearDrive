@@ -1,0 +1,100 @@
+{
+ "codes": [
+  "P0457"
+ ],
+ "vehicle": "2017 Ford FIESTA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2017 Ford FIESTA is showing code P0457. This means the car\u2019s computer detected a leak in the fuel system, likely from the evaporative emission control system. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we can\u2019t confirm the exact issue. The code is common and often caused by a loose fuel cap or a faulty part in the EVAP system. The retrieved complaint suggests a canister purge valve failure might be involved, but this needs further checks.",
+ "likely_causes": "1. A loose or damaged fuel cap (common cause of P0457).\n2. A leaking canister purge valve (as reported in the NHTSA complaint).",
+ "symptoms": "1. The check engine light is on. - The car\u2019s computer triggered this when it detected a leak.\n2. A fuel smell near the car. - Leaking fuel vapors can escape into the air.\n3. Stalling or rough idling. - Air leaks in the EVAP system can disrupt fuel delivery.\n4. Difficulty starting the engine. - A faulty EVAP component might interfere with ignition.",
+ "if_ignored": "- The check engine light may stay on, causing issues during emissions tests.\n- Over time, the leak could worsen, leading to more expensive repairs.\n- Fuel vapors might escape, increasing emissions and potentially causing a fire hazard if the leak is severe.\n- Repair costs could rise if the issue spreads to other parts of the EVAP system.",
+ "quick_checks": "1. Check the fuel cap is tightened properly.\n2. Look for visible cracks or leaks in the EVAP system hoses or canister.\n3. Use a smoke test (requires a mechanic) to pinpoint the leak.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and knowledge of the EVAP system. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The issue isn\u2019t urgent, but delaying could increase repair costs or risks.",
+ "repair_cost": "- Parts: $100 - $200 (e.g., canister purge valve).\n- Labor: $150 - $300 (depending on shop).\n- Total at independent shop: $250 - $500.\n- Total at dealer: $350 - $700 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "One owner reported a canister purge valve failure (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-060",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10538%2F2017-Ford-Fiesta-front_10538_032_2400x1800_UX.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0457",
+   "description": "Evaporative Emission Control System Leak Detected (Fuel Cap Loose/Off)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0457. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0457"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 214
+}

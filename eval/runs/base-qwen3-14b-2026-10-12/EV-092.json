@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0340"
+ ],
+ "vehicle": "2007 Subaru OUTBACK",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2007 Subaru OUTBACK is showing code P0340. This means the car\u2019s computer detected a problem with the camshaft position sensor, which tells the engine when the camshaft is in the right position to time fuel and spark. The engine is running at 720 RPM with no vehicle speed, coolant is at 195\u00b0F, and engine load is 22%. The computed values show a small imbalance (3% and 2% fuel trim differences between engine banks) but no immediate danger. No automated analysis exists for this code, so further checks are needed.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine misfires or rough idling \u2013 The sensor helps time fuel injection, so a faulty one can cause uneven combustion.\n2. Check engine light \u2013 The car\u2019s computer stores the code when it detects a problem.\n3. Reduced power \u2013 The engine may not perform as strongly if timing is off.\n4. Stalling \u2013 In severe cases, the engine might stall if the sensor fails completely.",
+ "if_ignored": "The engine might run less efficiently in the next few days, leading to higher fuel use or emissions. Long-term, the engine could suffer wear from incorrect timing, and repairs could become more expensive if other components are damaged. No immediate safety risk exists, but ignoring it may increase costs over time.",
+ "quick_checks": "- Have a mechanic use a diagnostic tool to check the sensor\u2019s signal and wiring.\n- Inspect the camshaft position sensor and its wiring for damage or corrosion.\n- Verify the sensor\u2019s connection to the engine and computer.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and knowledge of engine timing systems. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic can diagnose the issue and confirm if the sensor or wiring is faulty.",
+ "repair_cost": "Parts: $100\u2013$200 (sensor and wiring).\nLabor: $150\u2013$300 (depending on shop).\nTotal at independent shop: $250\u2013$500.\nTotal at dealer: $350\u2013$700 (higher due to dealer markups).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with airbags, corroded brake lines, premature CV boot failures, and unexpected steering behavior in snowy conditions (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-092",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.edmunds.com%2Fassets%2Fm%2Fsubaru%2Foutback%2F2007%2Foem%2F2007_subaru_outback_sedan_30-r-llbean-edition_fq_oem_2_600.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0340",
+   "description": "Camshaft Position Sensor 'A' Circuit (Bank 1 or Single Sensor)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0340. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0340"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 246
+}

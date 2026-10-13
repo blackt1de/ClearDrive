@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P2195"
+ ],
+ "vehicle": "2007 Ford RANGER",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2007 Ford RANGER is showing code P2195. This means the oxygen sensor (Bank 1, Sensor 1) is detecting too little oxygen in the exhaust, which could be due to a faulty sensor or issues with the fuel system. The vehicle\u2019s own readings (like engine speed, coolant temperature, and fuel trims) are unavailable, so we can\u2019t confirm the exact cause. No live data or freeze frame was captured, which limits the diagnosis. The code is generic and doesn\u2019t point to a specific failure yet.",
+ "likely_causes": "- The oxygen sensor itself is faulty (measures exhaust oxygen levels).\n- A vacuum leak in the intake system (allows unmeasured air into the engine).\n- A problem with the fuel injectors or fuel pressure (affects air-fuel mixture).",
+ "symptoms": "1. The check engine light is on (alerts you to a fault).\n2. Rough idling or hesitation during acceleration (uneven air-fuel mixture).\n3. Increased fuel consumption (engine running inefficiently).\n4. Smell of unburned fuel (leak in the fuel system or exhaust).",
+ "if_ignored": "- In the short term, the engine may run inefficiently, increasing emissions and fuel costs.\n- Long-term, the catalytic converter could be damaged by the incorrect air-fuel mixture, leading to expensive repairs.\n- The check engine light may stay on, and the vehicle could fail emissions tests.",
+ "quick_checks": "- Inspect the oxygen sensor for damage or corrosion (look under the hood near the exhaust).\n- Check for vacuum leaks by listening for hissing sounds near the intake manifold.\n- Ensure the fuel system is intact (no visible leaks from fuel lines or injectors).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose the oxygen sensor and check fuel system integrity. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The code could indicate a developing issue that might worsen if ignored.",
+ "repair_cost": "- Parts: $100\u2013$300 (oxygen sensor or fuel system repair).\n- Labor: $150\u2013$400 (depending on the repair).\n- Total at independent shop: $250\u2013$700.\n- Total at dealer: $300\u2013$900 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with airbags (defective inflators) and electrical system problems (from NHTSA complaints). No specific reports about P2195 were found.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-013",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F7%2F7c%2F2007_Ford_Ranger_Thunder_TDCI_Automatic_3.0_Front.jpg%3Futm_source%3Den.wikipedia.org%26utm_campaign%3Dindex%26utm_content%3Doriginal",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2195",
+   "description": "O2 Sensor Signal Stuck Lean (Bank 1, Sensor 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2195. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2195"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 167
+}

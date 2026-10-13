@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0520"
+ ],
+ "vehicle": "2014 Jeep CHEROKEE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2014 Jeep CHEROKEE is showing code P0520. This code means the engine oil pressure sensor or its circuit is not working properly, which could affect the engine's ability to monitor oil pressure. The vehicle\u2019s own readings (like engine speed, coolant temperature, or oil pressure) are unavailable, so we can\u2019t confirm if the oil pressure is actually low or if the sensor is faulty. The code is present, but without more data, we can\u2019t pinpoint the exact issue.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light is on (due to the P0520 code).\n2. The engine may feel sluggish or lose power (as reported by other owners with PTU or transmission issues).\n3. The vehicle might jerk or shift unexpectedly into neutral (as described in owner complaints).\n4. You might hear unusual noises from the engine or transmission (related to potential PTU or transmission failures).",
+ "if_ignored": "- In the short term, the engine might run without immediate damage, but the oil pressure sensor issue could lead to undetected low oil pressure, risking engine wear.\n- Long-term, if the PTU or transmission issues from other owners\u2019 reports are present, the vehicle could fail unexpectedly, causing safety risks (like losing power on the road).\n- Repair costs could rise if the problem worsens (e.g., a used PTU replacement cost $2,300 in one case).\n- There is a safety risk if the transmission shifts to neutral while driving, as reported by other owners.",
+ "quick_checks": "- Check the oil pressure sensor and its wiring for damage or corrosion.\n- Inspect the engine oil level and condition (low or degraded oil could cause false readings).\n- Look for oil leaks under the vehicle that might affect the sensor.\n- Use a scan tool to check for additional codes or freeze frame data (if available).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a scan tool to read sensor data) and expertise to diagnose the exact cause (sensor failure, wiring issues, or engine problems). A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today\u2014don\u2019t drive more than necessary. The P0520 code and other owner-reported issues (like PTU or transmission failures) suggest potential safety risks that need immediate attention.",
+ "repair_cost": "- Parts: $100\u2013$300 (oil pressure sensor, wiring, or PTU replacement if needed).\n- Labor: $200\u2013$500 (depending on complexity).\n- Total at independent shop: $300\u2013$800.\n- Total at dealer: $400\u2013$1,000 (higher due to dealership markup).",
+ "known_issues": "- Active Drive 2 PTU failures (reported in NHTSA complaints).\n- Transmission shifting to neutral (linked to software issues in a 2019 recall not covering all VINs).\n- E-brake engagement due to electrical shorts (from leaks in rear storage).",
+ "owner_reports": "From NHTSA complaints:\n1. PTU failures causing loss of power (source: NHTSA Complaints Database).\n2. Transmission issues requiring expensive repairs (source: NHTSA Complaints Database).\n3. E-brake malfunctions due to electrical shorts (source: NHTSA Complaints Database).\n4. Transmission shifting to neutral on highways (source: NHTSA Complaints Database).\n5. A 2019 recall for transmission software issues that did not include all VINs (source: NHTSA Recalls Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-040",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F9434%2F2014-Jeep-Cherokee-front_9434_032_2400x1800_PW7.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0520",
+   "description": "Engine Oil Pressure Sensor/Switch Circuit",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "vehicle_speed_idle",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0520. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0520"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 194
+}

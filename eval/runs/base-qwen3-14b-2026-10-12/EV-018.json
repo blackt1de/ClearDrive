@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0420"
+ ],
+ "vehicle": "2014 Chevrolet SILVERADO 1500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2014 Chevrolet SILVERADO 1500 is showing code P0420. This means the catalytic converter (a part that reduces harmful emissions) is not working efficiently. The vehicle\u2019s own readings, like engine speed or coolant temperature, were not available to confirm the issue. The code could be caused by a failing converter, but without more data, it\u2019s unclear how serious it is. It\u2019s not an immediate safety risk but needs checking.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light staying on \u2014 this is the main indicator.\n2. Reduced fuel efficiency \u2014 a failing converter can make the engine work harder.\n3. A smell of burning or sulfur \u2014 this might happen if the converter is damaged.\n4. A rough idle or hesitation \u2014 if the engine is struggling to process exhaust gases.",
+ "if_ignored": "In the short term, the car may run less efficiently and fail an emissions test. Long-term, the catalytic converter could fail completely, leading to expensive repairs and potential damage to the exhaust system. The cost could rise significantly if other parts are affected.",
+ "quick_checks": "- Check for other trouble codes using an OBD2 scanner.\n- Inspect the catalytic converter for visible damage or blockage.\n- Look for exhaust leaks near the converter, which could cause the code.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and knowledge to diagnose the exact cause. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic to confirm the issue and prevent further damage.",
+ "repair_cost": "Parts: $500\u2013$1000 (catalytic converter replacement).\nLabor: $200\u2013$400 (at an independent shop).\nTotal at independent shop: $700\u2013$1400.\nTotal at dealer: $910\u2013$1950 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, some owners reported a catalytic converter failure (code P0420) and a separate incident of engine failure due to a broken piston connecting rod. Other issues included EPS failure, electrical system malfunctions, and seatbelt anchor problems.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-018",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F9164%2F2014-Chevrolet-Silverado%25201500%2520Regular%2520Cab-front_9164_032_1868x817_GAN_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0420",
+   "description": "Catalyst System Efficiency Below Threshold (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "emissions",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "catalyst_assessment",
+   "reason": "On-board monitor results for the catalyst were not available, so how close the converter is to its limit could not be measured \u2014 that is the difference between a marginal reading and a failed converter: mode06 was not captured",
+   "missing": [
+    "Mode 06 catalyst monitor test result"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0420"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 172
+}

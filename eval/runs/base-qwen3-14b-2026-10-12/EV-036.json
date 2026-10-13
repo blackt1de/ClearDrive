@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P17F0"
+ ],
+ "vehicle": "2015 Nissan ROGUE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2015 Nissan ROGUE is showing code P17F0. This is a manufacturer-specific transmission-related code, but its exact meaning is not verified for this vehicle. The scan did not capture live data, freeze frame details, or other diagnostic information needed to narrow it down. No engine speed, vehicle speed, or coolant temperature readings were available from the vehicle. The code itself does not immediately indicate a safety risk, but it requires further investigation.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Transmission shifting problems - The code relates to the transmission, which could cause hesitation or difficulty when shifting gears.\n2. Warning lights - The check engine light or other dashboard warnings may illuminate if the transmission system detects an issue.\n3. Unusual noises - You might hear grinding, whining, or clunking sounds from the transmission area.\n4. Reduced performance - The vehicle may feel less responsive or have trouble accelerating smoothly.",
+ "if_ignored": "- In the next few days/weeks, the transmission issue could worsen, leading to more expensive repairs or sudden failure.\n- Long-term, ignoring the code might cause permanent damage to the transmission, requiring a costly replacement.\n- Repair costs could increase significantly if the problem escalates.\n- There are no immediate safety concerns, but prolonged neglect could lead to unsafe driving conditions.",
+ "quick_checks": "- Check for visible leaks under the vehicle (transmission fluid).\n- Inspect the transmission fluid level and condition (if you know how).\n- Look for any dashboard warning lights that stay on.\n- Have a professional mechanic read the code with manufacturer-specific tools.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and expertise to interpret manufacturer-specific codes. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don't drive more than necessary.",
+ "repair_cost": "Parts: $0 - $500 (depending on what is found)\nLabor: $200 - $1,000 (depending on complexity)\nTotal at independent shop: $200 - $1,500\nTotal at dealer: $300 - $2,000 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with airbags, door handles, seat belts, and electrical systems (source: NHTSA Complaints Database). No specific transmission issues were mentioned for this vehicle.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-036",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10272%2F2015-Nissan-Rogue-front_10272_032_1857x913_EAP_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P17F0",
+   "description": "Manufacturer-specific powertrain code, structurally in the transmission group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "transmission",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P17F0. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P17F0"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 190
+}

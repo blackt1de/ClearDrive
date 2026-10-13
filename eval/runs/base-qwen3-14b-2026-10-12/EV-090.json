@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0011"
+ ],
+ "vehicle": "2022 Kia K5",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2022 Kia K5 is showing code P0011. This code means the engine\u2019s camshaft timing is too advanced (too far forward) for the current engine speed and load, which can affect how the engine runs. The vehicle\u2019s sensors show the engine is at idle (720 RPM), coolant is at operating temperature (195\u00b0F), and the engine load is 22%. The computed values show a small imbalance (1.0% asymmetry) between the two sides of the engine, but no critical thresholds are crossed. No measurements were available to narrow down the cause further.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or hesitation when starting the engine \u2013 The camshaft timing affects how the engine\u2019s valves open and close.\n2. The check engine light staying on \u2013 The code is stored in the vehicle\u2019s computer.\n3. Slight loss of power under load \u2013 The engine may not perform as smoothly when accelerating.\n4. Unusual engine noise \u2013 A misalignment in timing can cause knocking or rattling sounds.",
+ "if_ignored": "- In the next few days/weeks: The engine may run less efficiently, increasing fuel use or causing rough operation.\n- Long-term: Continued misalignment could lead to wear on engine components or reduced lifespan.\n- Cost: Repairs could become more expensive if the issue worsens.\n- Safety: No immediate safety risk, but prolonged neglect might eventually cause engine damage.",
+ "quick_checks": "- Inspect the camshaft timing components for damage or wear (a mechanic should do this).\n- Check for vacuum leaks around the intake manifold (a mechanic should do this).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools, engine disassembly, and precise adjustments. A professional mechanic should handle this.",
+ "urgency": "This can wait a few weeks, but don\u2019t forget about it. Schedule a check within 1-2 weeks if you notice rough idling or the check engine light persists.",
+ "repair_cost": "- Parts: $200\u2013$500 (camshaft timing components, sensors).\n- Labor: $200\u2013$400 (at an independent shop).\n- Total at independent shop: $400\u2013$900.\n- Total at dealer: $600\u2013$1200 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database: Some 2022 Kia K5 owners reported premature PCV valve or oil separator failures causing codes like P0171 and P0471, and fuel tank issues linked to safety recalls (SC356/NHTSA 25V794). From the NHTSA Recalls Database: Issues included fuel leaks, transmission failures, and improper airbag installation.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-090",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fstatic.overfuel.com%2Fphotos%2F794%2F707484%2F5fd20fe9b9e94e778721ce61b52282b5.webp",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0011",
+   "description": "'A' Camshaft Position - Timing Over-Advanced or System Performance (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0011. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0011"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 244
+}

@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0606"
+ ],
+ "vehicle": "2001 Volvo S60",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2001 Volvo S60 is showing code P0606. This code means the engine control module (ECM) or powertrain control module (PCM) has a problem with its processor, which handles engine operations. The vehicle\u2019s engine is running at 720 RPM with no movement, coolant is at 195\u00b0F, and engine load is 22%. The vehicle is operating at its normal temperature. No measurement in this scan shows immediate danger, so driving is safe for now.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine may run roughly or hesitate when accelerating \u2013 (the ECM/PCM might not be sending correct signals to the engine).\n2. Check engine light stays on \u2013 (the code is stored in the vehicle\u2019s computer).\n3. Poor fuel economy \u2013 (the processor might not be managing fuel delivery correctly).\n4. Stalling at idle \u2013 (the engine\u2019s air-fuel mixture could be imbalanced).",
+ "if_ignored": "- In the next few days/weeks: The engine might misfire or lose power, making driving less smooth.\n- Long-term: The ECM/PCM issue could worsen, leading to more expensive repairs or engine damage.\n- Cost: Fixing it later might cost more due to additional damage.\n- Safety: No immediate safety risk, but prolonged issues could affect reliability.",
+ "quick_checks": "- Check for loose or corroded wiring near the ECM/PCM.\n- Inspect the engine for any visible damage or leaks that might affect the computer.\n- Use a scan tool to check for additional codes that might help diagnose the issue.\n- If no tools are available, take the vehicle to a mechanic for a professional scan.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves complex electronics and requires specialized tools to diagnose and replace the ECM/PCM. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic soon to avoid potential complications.",
+ "repair_cost": "- Parts: $500 - $1,000 (ECM/PCM replacement).\n- Labor: $200 - $500 (depending on the mechanic\u2019s rates).\n- Total at independent shop: $700 - $1,500.\n- Total at dealer: $900 - $2,000 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database: Some owners reported fuel leaks from the fuel pump, strong gas smells inside the car, and airbag warning lights that wouldn\u2019t go away. Others mentioned electrical issues with headlights and wiring.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-101",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Famv-prod-cad-assets%2Fimages%2F02q3%2F267342%2F2001-volvo-s60-t5-photo-6370-s-original.jpg%3Ffill%3D1%3A1%26resize%3D1200%3A%2A",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0606",
+   "description": "ECM/PCM Processor",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "computer_output",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0606. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0606"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 255
+}

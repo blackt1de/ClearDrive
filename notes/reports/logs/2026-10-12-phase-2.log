@@ -1,0 +1,56 @@
+# Phase 2 (resumed) log — 2026-10-12T23:48:13+00:00 — host ajb1ubuntu
+### $ git log --oneline -1; git status --short --untracked-files=no; sudo systemctl restart cleardrive; sleep 8; systemctl is-active cleardrive; curl -s -w '\nHTTP %{http_code}\n' localhost:8000/health; grep -n '"num_predict"' ollama_client.py
+e07fc6e brief2/phase2: merge 5090 session's tag-poll and VRAM-limit entry
+ M features/brief-2-weekend.md
+active
+{"status":"ok","ai":{"status":"ok","models":["cleardrive-qwen:latest","qwen3:14b-q4_K_M","gemma4:e4b"],"host":"localhost"},"serving":{"model":"cleardrive-qwen","think":"default"}}
+HTTP 200
+96:                        "num_predict": 8192,
+### exit=0
+
+
+=== 2026-10-13T01:39:07Z eval_run.py --run-id base-qwen3-14b-2026-10-12 --expect-model cleardrive-qwen --expect-think default (tail of output) ===
+[128/132] CL-026 200 41.2s stop 
+[129/132] CL-027 200 15.4s stop 
+[130/132] CL-028 200 182.6s length 
+[131/132] CL-029 200 24.8s stop 
+[132/132] CL-030 200 181.3s length 
+{
+  "failed": 0,
+  "calls": 132,
+  "share": 0.0,
+  "limit": 0.05,
+  "gate": "PASS",
+  "case_ids": []
+ },
+  "truncated": 16,
+  "calls": 132,
+  "share": 0.1212,
+  "limit": 0.05,
+  "gate": "FAIL",
+  "case_ids": [
+   "CL-001",
+   "CL-002",
+   "CL-003",
+   "CL-004",
+   "CL-006",
+   "CL-010",
+   "CL-013",
+   "CL-015",
+   "CL-016",
+   "CL-019",
+   "CL-021",
+   "CL-022",
+   "CL-024",
+   "CL-025",
+   "CL-028",
+   "CL-030"
+  ]
+ },
+}
+TRUNCATION GATE FAILED: stop and report before scoring
+exit=1
+=== per-group truncation and latency, both base runs ===
+base-qwen3-14b-2026-09-26 (num_predict 4096): coded 102 trunc 0 mean 36.5s max 63.4s; codeless 30 trunc 21, truncated calls 86-95s, completed mean 32.4s
+base-qwen3-14b-2026-10-12 (num_predict 8192): coded 102 trunc 0 mean 32.2s max 50.5s; codeless 30 trunc 16, truncated calls 179-185s, completed mean 25.0s max 41.2s
+truncated in both runs: 13; only at 4096: CL-005 CL-007 CL-008 CL-011 CL-014 CL-018 CL-027 CL-029; only at 8192: CL-001 CL-013 CL-019

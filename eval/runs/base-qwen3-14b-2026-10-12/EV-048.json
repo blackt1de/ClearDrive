@@ -1,0 +1,103 @@
+{
+ "codes": [
+  "P144A"
+ ],
+ "vehicle": "2016 Ford FOCUS",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2016 Ford FOCUS is showing code P144A. This is a manufacturer-specific code related to the auxiliary emission controls, but its exact meaning is not verified and must be read by a shop with Ford service information. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we cannot check how the engine is performing in real time. The code alone does not indicate an immediate danger, but it needs to be diagnosed by a professional.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light may stay on or flash.\n2. A fuel smell or unusual noises from the fuel system.\n3. The car may stall or lose power unexpectedly.\n4. Transmission shuddering or warning messages about overheating.",
+ "if_ignored": "- In the short term, the vehicle may stall or have trouble starting, especially in traffic.\n- Long-term, ignoring the issue could lead to more expensive repairs, like a damaged fuel tank or transmission failure.\n- If the fuel system is leaking, there is a fire hazard.\n- Repair costs could rise if the problem worsens.",
+ "quick_checks": "- Have a professional check the canister purge valve (CPV) and fuel system for leaks.\n- Inspect the transmission for shuddering or overheating messages.\n- Verify if the vehicle has been recalled for CPV or transmission issues.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools, diagnostic equipment, and access to manufacturer-specific service information. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today\u2014don\u2019t drive more than necessary. The code could indicate a serious issue that needs immediate attention.",
+ "repair_cost": "- Parts: $0\u2013$500 (depends on diagnosis).\n- Labor: $100\u2013$300 (at an independent shop).\n- Total at independent shop: $100\u2013$800.\n- Total at dealer: $150\u2013$1,200 (dealers charge more).",
+ "known_issues": "- The canister purge valve (CPV) may malfunction, causing excessive vacuum and fuel tank damage (NHTSA recall).\n- The DPS6 transmission may shudder or overheat, especially after clutch replacement (NHTSA complaints).",
+ "owner_reports": "From NHTSA complaints:\n1. Fuel tank collapse due to a failed CPV, causing gasoline leaks and fire hazards.\n2. Transmission shuddering and overheating messages, even after repairs.\n3. Sudden stalling with no warning lights, linked to potential TCM failure.\n4. Issues with the fuel system, including a collapsed fuel tank.\n5. A recall for a faulty clutch that could fracture, damaging the transmission.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database",
+  "ClearDrive Known Issues KB"
+ ],
+ "obd_source": "Synthetic fixture: EV-048",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10798%2F2016-Ford-Focus-front_10798_032_1800x809_J7_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P144A",
+   "description": "Manufacturer-specific powertrain code, structurally in the auxiliary emission controls group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "auxiliary emission controls",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P144A. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P144A"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 202
+}

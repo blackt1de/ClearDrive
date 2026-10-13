@@ -1,0 +1,110 @@
+{
+ "codes": [
+  "P0171"
+ ],
+ "vehicle": "2002 Ford MUSTANG",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2002 Ford MUSTANG is showing code P0171. This means the engine is running too lean (not enough fuel) on bank 1. The vehicle\u2019s readings show the engine is adding 18% more fuel at idle and 4% more under load to compensate, which matches the pattern of an air leak after the mass airflow sensor. The engine is operating at normal temperature (195\u00b0F), and no other measurements are missing. This is not an immediate safety risk but needs attention to avoid long-term issues.",
+ "likely_causes": "1. Air is entering the engine after the mass airflow sensor. A fixed-size leak would cause a larger fuel trim adjustment at idle (18% increase) and a smaller one under load (4% increase), which matches the vehicle\u2019s data.",
+ "symptoms": "1. Rough idle or hesitation when accelerating \u2013 due to uneven fuel delivery.\n2. Increased fuel consumption \u2013 the engine burns more fuel to compensate for the lean condition.\n3. Check engine light staying on \u2013 the code is stored but not urgent.\n4. Possible misfires \u2013 if the air leak is severe enough to disrupt combustion.",
+ "if_ignored": "- In the next few weeks, the engine may run less smoothly, and fuel efficiency could drop further.\n- Long-term, the lean condition could damage the catalytic converter or cause engine knocking.\n- Repair costs could rise if the issue worsens, but no immediate safety risk exists.",
+ "quick_checks": "- Inspect the intake boot between the airflow sensor and the throttle body for cracks or disconnection.\n- Check PCV hoses and the intake manifold gasket for cracks or loose fittings.\n- Ensure the oil filler cap and dipstick seal properly to rule out leaks.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves inspecting and replacing engine components that require specialized tools and expertise. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a mechanic to inspect the intake system as soon as possible.",
+ "repair_cost": "- Parts: $100\u2013$300 (depending on the specific leak and replacement parts).\n- Labor: $200\u2013$500 (at an independent shop).\n- Total at independent shop: $300\u2013$800.\n- Total at dealer: $400\u2013$1,000 (dealers charge 30\u201350% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA Complaints Database: Some 2002 Ford Mustangs had fuel pump issues requiring replacement of the gas tank due to a design flaw. Others reported unexpected airbag deployments. These are unrelated to the current code but show potential long-term reliability concerns.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-063",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.jonathanmotorcars.com%2Fimagetag%2F1328%2Fmain%2Fl%2FUsed-2002-Ford-Mustang-GT-Deluxe-1624984310.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "fuel_trim_triage",
+   "conclusion": "Air is entering the engine after the mass airflow sensor. A fixed-size leak is a large share of the small airflow at idle and a small share of the large airflow under load, which is exactly the pattern here.",
+   "confidence": "high",
+   "basis": "heuristic",
+   "next_checks": [
+    "Inspect the intake boot between the airflow sensor and the throttle body",
+    "Check PCV hoses and the intake manifold gasket for cracks or loose fittings",
+    "Check that the oil filler cap and dipstick seal properly"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +18.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +4.0% on bank 1"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Inspect the intake boot between the airflow sensor and the throttle body",
+  "Check PCV hoses and the intake manifold gasket for cracks or loose fittings",
+  "Check that the oil filler cap and dipstick seal properly"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 217
+}

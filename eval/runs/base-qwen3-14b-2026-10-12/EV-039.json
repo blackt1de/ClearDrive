@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P1450"
+ ],
+ "vehicle": "2018 Ford FOCUS",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2018 Ford FOCUS is showing code P1450. This is a manufacturer-specific code related to the auxiliary emission controls, but its exact meaning is not confirmed. The vehicle\u2019s own readings (like engine speed, coolant temperature, or fuel trims) are unavailable, so we cannot pinpoint the issue. The code is not fully understood without the manufacturer\u2019s service information, and no live data was captured during the scan.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Stalling or sudden loss of power when accelerating or climbing hills \u2014 due to possible issues with the fuel system or emission controls.\n2. Rough idling or engine shaking \u2014 linked to improper fuel vapor management or vacuum leaks.\n3. Poor fuel economy \u2014 often tied to malfunctioning emission components like the Canister Purge Valve.\n4. The check engine light illuminating \u2014 a general indicator of a detected fault in the powertrain system.",
+ "if_ignored": "- In the next few days/weeks, the vehicle may stall unexpectedly, increasing the risk of accidents.\n- Long-term, unresolved issues could lead to engine damage or costly repairs.\n- Repair costs may rise significantly if the problem worsens (e.g., damaged sensors or fuel system components).\n- Safety concerns include sudden stalling in traffic or during critical driving moments.",
+ "quick_checks": "- Check if the vehicle is under any open recalls (e.g., related to the Canister Purge Valve).\n- Inspect the Canister Purge Valve for signs of damage or blockage.\n- Verify if the fuel tank or carbon canister shows leaks or unusual wear.\n- Look for diagnostic trouble codes using a scan tool with manufacturer-specific software.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools, manufacturer-specific diagnostic software, and expertise to interpret the code accurately. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 don\u2019t drive more than necessary. The code may indicate a serious issue with the fuel system or emission controls that could lead to unsafe driving conditions.",
+ "repair_cost": "- Parts: $200 - $500 (e.g., Canister Purge Valve, carbon canister).\n- Labor: $150 - $300 (depending on complexity).\n- Total at independent shop: $350 - $800.\n- Total at dealer: $450 - $1,000 (higher due to dealership overhead).",
+ "known_issues": "- The Canister Purge Valve may malfunction, causing excessive vacuum in the fuel vapor system (NHTSA recall).\n- The clutch may fracture in some models, leading to transmission issues (NHTSA recall).\n- The oil pump drive belt or tensioner may fail, causing loss of oil pressure (NHTSA recall).",
+ "owner_reports": "From NHTSA complaints, other 2018 Ford Focus owners reported stalling, loss of power, rough idling, and poor fuel economy. Some linked these issues to the Canister Purge Valve, while others mentioned problems with the engine\u2019s powertrain or oil system.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-039",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10831%2F2018-Ford-Focus-front_10831_032_1788x786_UX_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P1450",
+   "description": "Manufacturer-specific powertrain code, structurally in the auxiliary emission controls group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "auxiliary emission controls",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P1450. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P1450"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 193
+}

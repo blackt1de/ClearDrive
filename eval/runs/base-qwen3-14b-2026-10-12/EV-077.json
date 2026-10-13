@@ -1,0 +1,135 @@
+{
+ "codes": [
+  "P0202",
+  "P0302"
+ ],
+ "vehicle": "2017 Nissan MAXIMA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "STOP",
+ "safety_meaning": "High Urgency - Immediate Attention Required",
+ "safety_description": "Continuing to drive could cause permanent damage to your engine, transmission, or other major components. This could turn a $500 repair into a $5,000+ repair.",
+ "safety_action": "Go to a mechanic immediately or have vehicle towed",
+ "dont_panic": "Your 2017 Nissan MAXIMA is showing code P0202 (fuel injector circuit issue in cylinder 2) and P0302 (misfire in cylinder 2). The engine was running at 2400 RPM and 45% load when the misfire occurred, with coolant at 195\u00b0F (operating temperature). Unburned fuel from the misfire could damage the catalytic converter, which is expensive to replace. The vehicle\u2019s measurements confirm the engine was fully warm when the issue happened. No mileage data is available to confirm long-term trends.",
+ "likely_causes": "1. The misfire is confined to cylinder 2, pointing to a component specific to that cylinder (e.g., ignition coil, spark plug, or fuel injector).\nevidence [freezeframes[P0302]]: the misfire was recorded at 2400 RPM and 45% engine load with coolant at 195\u00b0F.",
+ "symptoms": "1. Engine shaking or rough idling \u2014 unburned fuel causes uneven combustion.\n2. Check engine light flashing \u2014 the ECU detects a misfire.\n3. Reduced power or hesitation when accelerating \u2014 fuel delivery or ignition failure in one cylinder.\n4. Burning smell \u2014 unburned fuel reaching the catalytic converter could overheat it.",
+ "if_ignored": "- In the next few days/weeks: The catalytic converter could fail, causing a loud noise, loss of power, or a smell of burning.\n- Long-term: Engine damage from unburned fuel, or a fire hazard (as reported by other owners).\n- Cost: A new catalytic converter could cost $1,000\u2013$3,000 at a dealer, plus labor.\n- Safety: A fire in the engine compartment (as reported by other owners) could occur if the catalytic converter fails.",
+ "quick_checks": "- Swap the ignition coil for cylinder 2 with a neighboring cylinder and rescan \u2014 if the code follows the coil, it\u2019s faulty.\n- Inspect cylinder 2\u2019s spark plug for cracks, oil, or carbon buildup.\n- Compare fuel injector operation for cylinder 2 with other cylinders (using a mechanic\u2019s scanner).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (e.g., OBD-II scanner, fuel pressure tester) and expertise to safely diagnose and replace components like the ignition coil or fuel injector. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 do not drive the car except to get it towed. The risk of catalytic converter failure or fire is too high.",
+ "repair_cost": "- Parts: $200\u2013$600 (ignition coil, spark plug, or fuel injector).\n- Labor: $150\u2013$400 (depending on the part).\n- Total at independent shop: $350\u2013$1,000.\n- Total at dealer: $500\u2013$1,500 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA complaints mention fire hazards (unrelated to this VIN), engine misfires, and electrical issues. One owner reported a fire in the engine compartment, and another described a misfire with flashing check engine lights and shaking.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-077",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F10489%2F2017-Nissan-Maxima-front_10489_032_1808x728_RBD_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0202",
+   "description": "Injector Circuit/Open - Cylinder 2",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0302",
+   "description": "Cylinder 2 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "misfire_triage",
+   "conclusion": "The misfire is confined to one cylinder (P0302), which points at a component specific to that cylinder rather than anything shared by the whole engine.",
+   "confidence": "high",
+   "basis": "heuristic",
+   "next_checks": [
+    "Swap the ignition coil for P0302 with a neighbouring cylinder and rescan \u2014 if the code follows the coil, the coil is the fault",
+    "Inspect that cylinder's spark plug",
+    "Compare fuel injector operation against the other cylinders"
+   ],
+   "evidence": [
+    {
+     "pointer": "freeze_frames[P0302]",
+     "restatement": "the misfire was recorded at 2400 RPM and 45% engine load with coolant at 195\u00b0F"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0202. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Swap the ignition coil for P0302 with a neighbouring cylinder and rescan \u2014 if the code follows the coil, the coil is the fault",
+  "Inspect that cylinder's spark plug",
+  "Compare fuel injector operation against the other cylinders"
+ ],
+ "safety": {
+  "verdict": "stop_driving",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0302) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0202, P0302"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "The misfire occurred while the engine was working hard or fully warm. Raw fuel entering a hot catalytic converter overheats and destroys it, which turns an ignition repair into a converter replacement (heuristic).",
+    "raises_to": "stop_driving",
+    "evidence": [
+     {
+      "pointer": "freeze_frames[P0302].coolant_temp_f",
+      "restatement": "the misfire was recorded with coolant at 195\u00b0F, i.e. at operating temperature (threshold 180\u00b0F, heuristic)"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 231
+}

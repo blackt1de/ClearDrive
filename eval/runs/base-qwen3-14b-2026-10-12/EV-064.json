@@ -1,0 +1,109 @@
+{
+ "codes": [
+  "P0171"
+ ],
+ "vehicle": "2014 Ford F-150 SUPERCAB",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2014 Ford F-150 SUPERCAB is showing code P0171. This means the engine is getting too little fuel compared to air, which can happen if air is leaking into the engine after the mass airflow sensor. The vehicle\u2019s readings show the engine is adjusting fuel delivery by +20% at idle and +7% under load, which matches the pattern of an air leak. Coolant temperature is normal at 195\u00b0F, and engine speed is 720 RPM at 0 mph. Mileage data was not available. This is not an immediate safety risk but needs attention.",
+ "likely_causes": "1. Air is entering the engine after the mass airflow sensor. This would explain the fuel trim adjustments (+20% at idle, +7% under load) because a leak adds extra air, making the engine run lean. The leak is likely a fixed-size one, like a cracked intake boot or loose fitting.\n2. The intake manifold gasket or PCV hoses may be damaged, allowing air to bypass the airflow sensor.\n3. The oil filler cap or dipstick seal might be faulty, letting air into the system.",
+ "symptoms": "1. Hesitation or rough idling when starting the engine. \u2014 The lean condition disrupts smooth combustion.\n2. Reduced power when accelerating. \u2014 The engine struggles to compensate for the air leak under load.\n3. Increased fuel consumption. \u2014 The engine burns more fuel to maintain performance.\n4. The check engine light staying on. \u2014 The system detects the lean condition continuously.",
+ "if_ignored": "In the next few days/weeks, the engine may misfire or run unevenly, which could damage the catalytic converter over time. Long-term, this could lead to more expensive repairs, like replacing the converter. The issue is not immediately dangerous but could become costly if left unaddressed.",
+ "quick_checks": "- Inspect the intake boot between the airflow sensor and the throttle body for cracks or disconnection.\n- Check PCV hoses and the intake manifold gasket for cracks or loose fittings.\n- Ensure the oil filler cap and dipstick seal properly, tightening if needed.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools like a smoke test machine to detect air leaks, and accessing some components may need lifting the vehicle or removing parts. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 1-2 weeks to avoid potential long-term damage.",
+ "repair_cost": "Parts: $50\u2013$150 (intake boots, gaskets, or seals).\nLabor: $100\u2013$300 at an independent shop.\nTotal at independent shop: $150\u2013$450.\nTotal at dealer: $200\u2013$600 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with fuel pumps, brakes, transmission, and steering (source: NHTSA Complaints Database). These are unrelated to the P0171 code but highlight that some 2014 F-150 models have had varied mechanical problems.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-064",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.nfiempire.com%2Fimagetag%2F1071%2Fmain%2Fl%2FUsed-2014-Ford-F150-Super-Cab-XLT-Pickup-4D-6-12-ft-1733871695.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0171",
+   "description": "System Too Lean (Bank 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "fuel_trim_triage",
+   "conclusion": "Air is entering the engine after the mass airflow sensor. A fixed-size leak is a large share of the small airflow at idle and a small share of the large airflow under load, which is exactly the pattern here.",
+   "confidence": "high",
+   "basis": "heuristic",
+   "next_checks": [
+    "Inspect the intake boot between the airflow sensor and the throttle body",
+    "Check PCV hoses and the intake manifold gasket for cracks or loose fittings",
+    "Check that the oil filler cap and dipstick seal properly"
+   ],
+   "evidence": [
+    {
+     "pointer": "fuel_trims[idle].bank1",
+     "restatement": "total fuel trim at idle is +20.0% on bank 1"
+    },
+    {
+     "pointer": "fuel_trims[loaded].bank1",
+     "restatement": "total fuel trim under load is +7.0% on bank 1"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Inspect the intake boot between the airflow sensor and the throttle body",
+  "Check PCV hoses and the intake manifold gasket for cracks or loose fittings",
+  "Check that the oil filler cap and dipstick seal properly"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0171"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 218
+}

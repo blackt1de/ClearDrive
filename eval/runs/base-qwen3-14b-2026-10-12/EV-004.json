@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P0174"
+ ],
+ "vehicle": "2002 Ford F-150",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2002 Ford F-150 is showing code P0174. This means the engine is running too lean (not enough fuel) on Bank 2, which could be caused by a fuel delivery issue, air intake problem, or sensor malfunction. The vehicle\u2019s own readings (like coolant temperature, fuel trims, or engine speed) were not available, so we cannot pinpoint the exact cause. The code was identified through a scan, but without live data or freeze frame information, the diagnosis is incomplete. This is not an immediate safety risk but needs investigation.",
+ "likely_causes": "- Fuel trim readings were not available, so the cause of the fuel mixture code (P0174) could not be narrowed.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2013 (engine not getting enough fuel).\n2. Check engine light staying on \u2013 (code P0174 is active).\n3. Decreased fuel efficiency \u2013 (lean mixtures often burn fuel less completely).\n4. Possible misfires \u2013 (unburned fuel or improper combustion).",
+ "if_ignored": "- In the short term, the engine may misfire or run unevenly, which could cause stalling.\n- Long-term, the lean condition could damage the catalytic converter or cause engine wear.\n- Repair costs could rise if secondary issues develop (e.g., damaged sensors or exhaust components).\n- No immediate safety risk, but driving with this code may lead to unexpected breakdowns.",
+ "quick_checks": "- Have a mechanic check fuel trim readings at idle and under load.\n- Inspect the fuel system for leaks or clogged injectors.\n- Check the mass air flow (MAF) sensor for dirt or damage.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a scan tool to read fuel trims) and expertise to diagnose the root cause. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. The code indicates a problem that could worsen if ignored.",
+ "repair_cost": "- Parts: $200\u2013$500 (depends on what\u2019s faulty, e.g., MAF sensor, fuel injectors).\n- Labor: $100\u2013$300 (at an independent shop).\n- Total at independent shop: $300\u2013$800.\n- Total at dealer: $400\u2013$1,200 (dealers charge 30\u201350% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database:\n1. A fuel tank strap broke due to rust, causing a fuel spill (source: NHTSA Complaints Database).\n2. A spark plug blew out while driving, though no repair was recommended (source: NHTSA Complaints Database).\n3. A recall for fuel tank straps with corrosion protection (source: NHTSA Recalls Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-004",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fimages.trailbuiltoffroad.com%2Fweb-compressed%2F2513383-1-2002-f-150-ford-xlt-rough-country-suspension-lift-5in-moto-metal-m0970-gunmetal.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0174",
+   "description": "System Too Lean (Bank 2)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "fuel_trim_triage",
+   "reason": "Fuel trim readings were not available, so the cause of the fuel mixture code (P0174) could not be narrowed: fuel trim was not captured",
+   "missing": [
+    "fuel trims at idle",
+    "fuel trims under load"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature, fuel trims.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0174"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 158
+}

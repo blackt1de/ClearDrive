@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P1604"
+ ],
+ "vehicle": "2020 Subaru CROSSTREK",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2020 Subaru CROSSTREK is showing code P1604. This code is related to a problem with the engine's ability to start or run properly, but the exact cause is not clear from the scan. The vehicle\u2019s own measurements (like engine speed, coolant temperature, or mileage) are not available, so we cannot see what the engine was doing when the code appeared. A similar issue was reported by another owner, where a blown ignition fuse and a melted ignition coil caused a sudden loss of power. This is not covered by a known recall for this model.",
+ "likely_causes": "1. A faulty ignition coil (like the one that melted in a similar case) could be causing electrical issues in the engine.\n2. A problem with the engine control module or its wiring, as P1604 relates to computer output circuits.",
+ "symptoms": "1. Sudden loss of power or stalling while driving \u2013 because the ignition system failed.\n2. The check engine light staying on \u2013 indicating a stored diagnostic code.\n3. Engine misfires or rough idling \u2013 if the ignition coil is not working properly.\n4. A burning smell or visible damage to the ignition system \u2013 if there was a thermal event.",
+ "if_ignored": "- In the next few days, the engine could stall unexpectedly, which could be dangerous if it happens while driving.\n- Long-term, the melted ignition coil could cause further electrical damage to the engine or other systems.\n- Repair costs could increase if the problem worsens, such as needing to replace additional components.\n- There is a safety risk if the engine fails while driving, especially on highways or in heavy traffic.",
+ "quick_checks": "- Check if the ignition coil shows visible damage (like melting or burning) \u2013 this would need a mechanic to inspect.\n- Verify if the vehicle is covered by any recalls related to ignition system failures \u2013 this requires checking with Subaru or NHTSA.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves electrical systems and requires specialized tools to diagnose and replace components like the ignition coil. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. The issue could cause sudden engine failure, which is a safety risk.",
+ "repair_cost": "- Parts: $200 - $500 (ignition coil or related components).\n- Labor: $150 - $300 (depending on the shop).\n- Total at independent shop: $350 - $800.\n- Total at dealer: $450 - $1,000 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "A 2020 Subaru Crosstrek owner reported a melted ignition coil and a blown fuse, causing a sudden loss of power. This issue is similar to a recall (NHTSA Campaign 21V825000) but that recall only covers 2018\u20132019 models. Source: NHTSA Complaints Database.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-058",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13994%2F2020-Subaru-Crosstrek-front_13994_032_1850x864_J8U_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P1604",
+   "description": "Manufacturer-specific powertrain code, structurally in the computer output circuit or control module group.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "computer output circuit or control module",
+   "caveat": "The specific meaning of this code is defined by the vehicle manufacturer and has not been verified for this make. A shop with manufacturer service information can read it exactly. Manufacturers are not required to follow the standard subsystem grouping inside their own code block, so the group above is indicative only."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P1604. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P1604"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 212
+}

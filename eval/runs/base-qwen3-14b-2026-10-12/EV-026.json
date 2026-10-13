@@ -1,0 +1,100 @@
+{
+ "codes": [
+  "P0191"
+ ],
+ "vehicle": "2008 Ford E-350 12 PASSENGER",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2008 Ford E-350 12 PASSENGER is showing code P0191. This code means the fuel rail pressure sensor is not working properly, which affects how the engine mixes fuel and air. The vehicle\u2019s own readings (like engine speed, coolant temperature, or fuel trims) are unavailable, so we can\u2019t see what\u2019s happening in real time. The scan tool couldn\u2019t narrow down the cause because no automated analysis exists for this code yet. This means we don\u2019t have enough data to know if it\u2019s a minor issue or something more serious.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine misfires or runs roughly \u2013 The fuel-air mixture is off, causing uneven combustion.\n2. Difficulty starting the engine \u2013 The sensor\u2019s failure may prevent proper fuel delivery.\n3. Check engine light staying on \u2013 The system detects a fault but can\u2019t pinpoint it.\n4. Poor fuel economy \u2013 Incorrect fuel pressure can reduce efficiency.",
+ "if_ignored": "In the short term, the engine may run poorly, hesitate, or stall unexpectedly. Long-term, the fuel system could suffer damage from incorrect pressure, leading to more expensive repairs. If the engine stalls while driving, it could be a safety risk, but this is unlikely unless the issue worsens.",
+ "quick_checks": "No recommended checks are available for this code.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose the fuel system and access parts under the hood that are not easily reachable. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. Don\u2019t drive more than necessary until it\u2019s checked.",
+ "repair_cost": "No specific cost ranges can be given because the cause is unknown. Parts and labor costs depend on what\u2019s wrong with the fuel system.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, other owners reported issues like odometer fraud, braking problems in wet conditions, a slipping drive shaft, and headlight failures. These are separate from the P0191 code and do not directly relate to the fuel rail pressure sensor issue.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-026",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fplatform.cstatic-images.com%2Fin%2Fv2%2Fstock_photos%2F873a0939-ac89-4f97-be6c-712ef624ba3b%2F83d30071-0b06-4d75-8ec6-0716feca3460.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0191",
+   "description": "Fuel Rail Pressure Sensor Circuit Range/Performance",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0191. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0191"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 180
+}

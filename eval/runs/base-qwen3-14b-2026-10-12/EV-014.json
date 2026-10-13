@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P0121"
+ ],
+ "vehicle": "2009 Toyota COROLLA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2009 Toyota COROLLA is showing code P0121. This code means the car\u2019s computer detected a problem with the throttle position sensor or pedal, which tells the engine how much gas to use. The vehicle\u2019s own readings (like engine speed, coolant temperature, and mileage) are unavailable, so we can\u2019t confirm the exact issue. No live data or freeze frame was captured, which limits what we can diagnose. This is not an immediate safety risk but needs checking to prevent long-term issues.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Hesitation or rough acceleration \u2013 The sensor might not be sending accurate signals to the engine.\n2. Check engine light on \u2013 The car\u2019s computer triggered this light when it detected the issue.\n3. Stalling or difficulty starting \u2013 A faulty sensor could disrupt fuel delivery.\n4. Unusual idle behavior \u2013 The engine might run unevenly when idling.",
+ "if_ignored": "In the short term, the car may run less efficiently or hesitate under load. Long-term, the engine could suffer wear from incorrect fuel delivery, and the problem might worsen, leading to more expensive repairs. No immediate safety risk is present, but ignoring it could increase repair costs over time.",
+ "quick_checks": "- Inspect the throttle body for dirt or debris that might interfere with the sensor.\n- Check wiring and connectors near the throttle position sensor for damage or corrosion.\n- Have a mechanic scan the vehicle again with a professional tool to retrieve freeze frame data.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves electrical systems and sensors that require specialized tools and knowledge. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic to diagnose the sensor and related systems.",
+ "repair_cost": "Parts: $100\u2013$300 (sensor or related components).\nLabor: $150\u2013$400 (depending on shop).\nTotal at independent shop: $250\u2013$700.\nTotal at dealer: $300\u2013$850 (higher due to dealership markup).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, some 2009 Corolla owners reported excessive oil consumption, steering drift, and airbag-related issues. These are separate from the P0121 code and not directly related to the current concern.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database",
+  "ClearDrive Known Issues KB"
+ ],
+ "obd_source": "Synthetic fixture: EV-014",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana.io%2Fstockimages%2F2009_TOYOTA_COROLLA_LE%2520SEDAN%25204D_RED_stock_mobile_640x640.png%3Fv%3D1649249410.311",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0121",
+   "description": "Throttle/Pedal Position Sensor/Switch 'A' Circuit Range/Performance",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0121. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0121"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 168
+}

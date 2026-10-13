@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0301"
+ ],
+ "vehicle": "2017 Hyundai ELANTRA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2017 Hyundai ELANTRA is showing code P0301. This means the engine\u2019s first cylinder is misfiring, which happens when the fuel-air mixture doesn\u2019t ignite properly. The vehicle\u2019s own readings (like engine speed, coolant temperature, or fuel trims) are unavailable, so we can\u2019t pinpoint exactly when or why the misfire happened. The code is active, which could mean unburned fuel is reaching the catalytic converter, risking damage. However, the cause\u2014whether it\u2019s under load or at idle\u2014can\u2019t be confirmed without a freeze frame.",
+ "likely_causes": "1. Faulty ignition coil (common in similar vehicles, per NHTSA complaints).\n2. Worn or damaged spark plug.\n3. Fuel delivery issue (like a clogged fuel injector).",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2014 the engine isn\u2019t firing smoothly.\n2. A noticeable loss of power, especially when climbing hills or speeding up.\n3. The check engine light staying on, even after repairs.\n4. A burning smell from the exhaust, possibly due to unburned fuel.",
+ "if_ignored": "- In the next few days/weeks, the catalytic converter could overheat and fail, leading to expensive repairs.\n- Long-term, the misfire might cause internal engine damage (like piston or valve wear).\n- Costs could rise sharply if the catalytic converter or engine components fail.\n- Safety risk: sudden stalling in traffic, as reported by other owners.",
+ "quick_checks": "- Inspect the ignition coil for cracks or burn marks.\n- Check spark plugs for fouling or damage.\n- Look for oil leaks under the vehicle (some owners reported oil burning without visible leaks).\n- Have a mechanic test the fuel system for pressure or injector issues.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a scan tool to check fuel trims) and expertise to diagnose the exact cause. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The misfire could worsen, and the catalytic converter risk is real.",
+ "repair_cost": "- Parts: $100\u2013$300 (ignition coil, spark plugs).\n- Labor: $200\u2013$500 (depending on shop).\n- Total at independent shop: $300\u2013$800.\n- Total at dealer: $400\u2013$1,200 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints: multiple ignition coil failures, sudden oil burning without leaks, and engine stalling in traffic. One owner spent ~$400 on a coil repair, but the issue recurred. Another reported a catastrophic engine failure after oil consumption.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-042",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F11080%2F2017-Hyundai-Elantra-front_11080_032_2400x1800_W8.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0301",
+   "description": "Cylinder 1 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "misfire_triage",
+   "reason": "No freeze frame was stored for the misfire, so the conditions when it occurred are unknown \u2014 a misfire under load and a misfire at cold idle have different causes and cannot be told apart without it: freeze frame was not captured",
+   "missing": [
+    "freeze frame for the misfire code"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "caution",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0301) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "Whether the misfire happened under load could not be assessed: no freeze frame was stored for it.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0301"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 196
+}

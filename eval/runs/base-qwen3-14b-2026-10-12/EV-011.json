@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P2716"
+ ],
+ "vehicle": "2006 Toyota COROLLA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2006 Toyota COROLLA is showing code P2716. This code is related to the transmission but its exact meaning is not defined in our records \u2014 the manufacturer sets it, and we have not verified it. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we cannot see what the engine or transmission is doing in real time. No live data or diagnostic details were captured, which limits what we can say about the problem.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. No specific symptoms are reported for this code.\n2. No specific symptoms are reported for this code.\n3. No specific symptoms are reported for this code.\n4. No specific symptoms are reported for this code.",
+ "if_ignored": "We cannot predict what might happen because the code\u2019s meaning is unclear and no data from the vehicle is available. Long-term risks are unknown, and repair costs cannot be estimated without further diagnosis.",
+ "quick_checks": "- No recommended checks are available for this code.",
+ "diy_fix": "This repair is NOT recommended for DIY because the code\u2019s meaning is unclear and requires professional diagnostic tools. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 don\u2019t drive more than necessary. The code\u2019s meaning is unknown, and no data from the vehicle is available to guide further steps.",
+ "repair_cost": "No estimate can be given without further diagnosis.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues with airbags (from NHTSA Complaints Database). Some noted airbag lights staying on, airbags failing to deploy in crashes, and seat belt buckles malfunctioning.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-011",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fcdn05.carsforsale.com%2F59b72b3185fdc183f9a0a76b8e31e37e%2F2006-toyota-corolla-ce.jpg%3Fwidth%3D960%26height%3D720%26format%3D%26sig%3D9774a8d822babfff",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2716",
+   "description": "Standardized powertrain code, in the transmission group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "transmission",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2716. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2716"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 165
+}

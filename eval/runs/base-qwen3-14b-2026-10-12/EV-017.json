@@ -1,0 +1,122 @@
+{
+ "codes": [
+  "P2101",
+  "P2111",
+  "P2135"
+ ],
+ "vehicle": "2012 Ford TRANSIT CONNECT",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2012 Ford TRANSIT CONNECT is showing code P2101 (Throttle Actuator Control Motor Circuit Range/Performance), P2111 (standardized powertrain code), and P2135 (Throttle/Pedal Position Sensor/Switch Voltage Correlation). These codes suggest a problem with the throttle system, possibly related to sensors or the throttle actuator motor. The vehicle\u2019s own readings (engine speed, coolant temperature, etc.) are unavailable, so the exact cause cannot be determined from this scan. No live data or freeze frame was captured, which limits the ability to diagnose further.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine hesitation or lack of power when accelerating \u2013 The throttle system may not be responding correctly to pedal input.\n2. The check engine light staying on \u2013 The vehicle\u2019s computer detected a fault in the throttle system.\n3. Unresponsive or erratic throttle behavior \u2013 The throttle actuator or sensors might not be communicating properly.\n4. Stalling or rough idling \u2013 A faulty sensor or actuator could disrupt engine operation.",
+ "if_ignored": "- In the short term, the vehicle may run poorly or stall unexpectedly, increasing the risk of being stranded.\n- Long-term, the throttle system could fail completely, leading to loss of power or engine damage.\n- Repair costs could rise if the issue worsens (e.g., sensor failure, wiring damage).\n- Safety concerns exist if the throttle becomes unresponsive during driving.",
+ "quick_checks": "1. Inspect the throttle body and wiring for visible damage, corrosion, or loose connections.\n2. Check the throttle actuator motor for proper operation (listen for unusual noises or lack of movement).\n3. Ensure the pedal position sensors are securely connected and not damaged.\n4. Verify the vehicle\u2019s battery and electrical system are functioning correctly (a weak battery can cause sensor malfunctions).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools, access to the vehicle\u2019s computer system, and expertise in throttle body systems. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. The throttle system is critical for safe operation, and unresolved issues could lead to sudden loss of power or control.",
+ "repair_cost": "- Parts: $200 - $500 (sensors, throttle actuator, wiring).\n- Labor: $150 - $300 (depending on shop).\n- Total at independent shop: $350 - $800.\n- Total at dealer: $450 - $1,000 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database:\n1. Water entering the vehicle through door seals, causing damp seat belts.\n2. Fuel tank melting due to exhaust heat, leading to leaks.\n3. Defective backseat seat belt buckles posing injury risks.\n4. Windshield wiper arms failing (recall exists for this issue).\n5. Tires showing sidewall dips, possibly due to manufacturing defects.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-017",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana.io%2Fstockimages%2F2012_FORD_TRANSIT%2520CONNECT%2520PASSENGER_XLT%2520PREMIUM%2520VAN%25204D_BLACK_stock_desktop_1920x1080.png%3Fv%3D1647990257.275",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2101",
+   "description": "Throttle Actuator Control Motor Circuit Range/Performance",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P2111",
+   "description": "Standardized powertrain code, in the fuel and air metering group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering",
+   "caveat": "This code is standardized but absent from our definition table."
+  },
+  {
+   "code": "P2135",
+   "description": "Throttle/Pedal Position Sensor/Switch 'A'/'B' Voltage Correlation",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2101, P2111, P2135. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2101, P2111, P2135"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 171
+}

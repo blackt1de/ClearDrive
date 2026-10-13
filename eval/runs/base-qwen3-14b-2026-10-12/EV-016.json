@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P2111",
+  "P2135"
+ ],
+ "vehicle": "2009 Ford ESCAPE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2009 Ford ESCAPE is showing code P2111 and P2135. Code P2111 is a standardized code, but its exact meaning is not verified and depends on the manufacturer. Code P2135 means the car\u2019s throttle/pedal position sensors are sending conflicting signals about how much the driver is pressing the gas pedal. The vehicle\u2019s own readings like engine speed, coolant temperature, and others are unavailable, so we can\u2019t confirm what\u2019s wrong. These codes are not serious on their own but need to be checked to avoid bigger issues.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The car may hesitate or jerk when accelerating \u2013 because the throttle sensors are confused.\n2. The engine might stall or not respond smoothly to the gas pedal \u2013 due to conflicting sensor signals.\n3. The check engine light could stay on \u2013 as the car detects a problem with the throttle system.\n4. The car might feel less responsive overall \u2013 because the engine isn\u2019t getting clear signals from the sensors.",
+ "if_ignored": "- In the next few days/weeks, the car might stall unexpectedly, making it unsafe to drive.\n- Long-term, the engine could suffer damage from incorrect fuel or air mixtures if the sensors remain faulty.\n- Repair costs could rise if the issue worsens, such as needing to replace the throttle body or related components.\n- There is a safety risk if the throttle fails while driving, potentially causing a loss of control.",
+ "quick_checks": "- Get a professional mechanic to scan the vehicle again with updated tools.\n- Check for visible damage or corrosion on the throttle position sensors.\n- Ensure the wiring to the sensors is intact and not frayed.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose and recalibrate the throttle sensors. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. These codes could affect the car\u2019s ability to accelerate safely.",
+ "repair_cost": "- Parts: $100 - $300\n- Labor: $150 - $300\n- Total at independent shop: $250 - $600\n- Total at dealer: $350 - $900",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues with the steering system (NHTSA Complaints Database), including a failed bar-yaw angle sensor and power steering failure. Some also mentioned fuel odors and stalling, though these may not be directly related to the codes P2111 and P2135.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-016",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana.io%2Fstockimages%2F2009_FORD_ESCAPE_HYBRID%2520SPORT%2520UTILITY%25204D_WHITE_stock_mobile_640x640.png%3Fv%3D1659526975.971",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2111",
+   "description": "Standardized powertrain code, in the fuel and air metering group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering",
+   "caveat": "This code is standardized but absent from our definition table."
+  },
+  {
+   "code": "P2135",
+   "description": "Throttle/Pedal Position Sensor/Switch 'A'/'B' Voltage Correlation",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2111, P2135. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2111, P2135"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 170
+}

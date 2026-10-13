@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P219B"
+ ],
+ "vehicle": "2019 Honda PILOT",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2019 Honda PILOT is showing code P219B. This code is part of the fuel and air metering group, but its exact meaning is not defined in our database (manufacturer-specific). The vehicle\u2019s own readings\u2014like engine speed, coolant temperature, and fuel trims\u2014were not captured, so we cannot link this code to specific sensor data. No automated analysis exists for this code yet, and the scan did not narrow it down further. The code may relate to fuel delivery, air intake, or emissions systems, but without more data, we cannot be certain.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. A check engine light that stays on or flashes intermittently \u2013 (the vehicle\u2019s computer detects an issue but cannot pinpoint it without more data).\n2. Reduced fuel efficiency \u2013 (a potential problem with fuel delivery or air intake could affect how the engine burns fuel).\n3. Unusual noises from the engine bay \u2013 (such as ticking, which some owners reported in similar models, possibly linked to timing components or fuel pumps).\n4. Warning lights related to emissions systems \u2013 (like the catalytic converter light, which some owners mentioned in complaints).",
+ "if_ignored": "- In the short term, the vehicle may run normally but could experience sudden stalling or loss of power if the issue worsens.\n- Long-term, unresolved fuel or air metering problems could damage the engine, catalytic converter, or other components, leading to costly repairs.\n- The cost could rise significantly if the issue leads to major repairs like replacing the fuel pump or engine parts.\n- Safety risks are unclear without knowing the exact cause, but emissions system failures could affect vehicle performance or compliance with regulations.",
+ "quick_checks": "- Get a diagnostic scan with a professional tool to retrieve live data and freeze frame information.\n- Consult a mechanic to inspect the fuel system, air intake, and emissions components for visible issues.",
+ "diy_fix": "This repair is NOT recommended for DIY because (the code\u2019s exact meaning is unknown, and it may require specialized tools or expertise to diagnose and fix). A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. The code indicates a potential issue that could worsen quickly, and without specific data, it\u2019s safest to have it checked immediately.",
+ "repair_cost": "Without knowing the exact cause, it\u2019s impossible to estimate. Parts and labor costs vary widely depending on the repair. At an independent shop, parts could range from $200\u2013$1,000, and labor from $200\u2013$500. At a dealer, costs would be 30\u201350% higher.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, some 2019 Honda Pilot owners reported issues like intermittent catalytic converter warnings, fuel injector problems, loud ticking noises from the engine bay, and electrical failures (e.g., camera system malfunctions). These are not directly linked to code P219B but highlight common concerns for this model.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-053",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13030%2F2019-Honda-Pilot-front_13030_032_2400x1800_WA.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P219B",
+   "description": "Standardized powertrain code, in the fuel and air metering group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P219B. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P219B"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 207
+}

@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0302"
+ ],
+ "vehicle": "2021 Kia K5",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "CAUTION",
+ "safety_meaning": "Medium Urgency - Schedule Service Soon",
+ "safety_description": "This issue needs attention within the next 1-2 weeks. Your vehicle is safe for short trips, but the problem will get worse or more expensive if ignored.",
+ "safety_action": "Schedule service within 1-2 weeks",
+ "dont_panic": "Your 2021 Kia K5 is showing code P0302, which means the engine's second cylinder is misfiring (not firing properly during combustion). This can happen if the spark plug, ignition coil, or fuel delivery to that cylinder is faulty. The vehicle\u2019s own data couldn\u2019t confirm when the misfire happened (under load or at idle) because no freeze frame was stored. No live data, fuel trims, or other diagnostic details were captured. This is not an immediate safety risk, but it needs attention to avoid further damage.",
+ "likely_causes": "1. Failed Purge Control/PCV valve (from a recall) causing excessive crankcase pressure, which may have damaged the ignition coil for cylinder 2.\n2. Faulty ignition coil for cylinder 2.\n3. Worn or damaged spark plug in cylinder 2.",
+ "symptoms": "1. Rough idling or hesitation when accelerating \u2013 the engine runs unevenly due to the misfire.\n2. Loss of power \u2013 the engine feels weaker, especially under load.\n3. Check Engine Light illuminated \u2013 the vehicle\u2019s computer stored the misfire code.\n4. Fuel smell or smoke \u2013 unburned fuel from the misfire may escape through the exhaust.",
+ "if_ignored": "- In the next few days/weeks: The misfire could damage the catalytic converter (a costly part) due to unburned fuel passing through.\n- Long-term: Continued misfiring may cause engine knocking, reduced fuel efficiency, or complete ignition system failure.\n- Cost: Repairing the catalytic converter later could cost $2,000\u2013$4,000, whereas fixing the misfire now may cost less.\n- Safety: No immediate safety risk, but prolonged neglect could lead to engine damage.",
+ "quick_checks": "1. Inspect the Purge Control/PCV valve for cracks or blockages (a recall fix may already address this).\n2. Check for visible damage or oil leaks on the ignition coil for cylinder 2.\n3. Look for signs of a faulty spark plug (oil fouling, cracks, or carbon buildup).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a scan tool to clear codes) and expertise to diagnose the exact cause. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. The misfire could worsen if left unaddressed.",
+ "repair_cost": "- Parts: $100\u2013$300 (ignition coil, spark plug, or PCV valve).\n- Labor: $150\u2013$300 (depending on shop).\n- Total at independent shop: $250\u2013$600.\n- Total at dealer: $300\u2013$750 (higher labor rates).",
+ "known_issues": "- A failed Purge Control/PCV valve (recall SC356 / 25V-794) can cause ignition coil failure in cylinder 2.",
+ "owner_reports": "A 2021 Kia K5 owner reported a severe engine misfire (P0302), rough running, and loss of power. The dealership replaced the PCV valve (under recall) but charged for the ignition coil, which failed due to the PCV valve issue. (Source: NHTSA Complaints Database)",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-062",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fhips.hearstapps.com%2Fhmg-prod%2Fimages%2F2021-kia-k5-gt-2-5t-hedrick-006-1613770025.jpg%3Fcrop%3D0.728xw%3A0.612xh%3B0.104xw%2C0.290xh%26resize%3D2048%3A%2A",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0302",
+   "description": "Cylinder 2 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "misfire_triage",
+   "reason": "No freeze frame was stored for the misfire, so the conditions when it occurred are unknown \u2014 a misfire under load and a misfire at cold idle have different causes and cannot be told apart without it: freeze frame was not captured",
+   "missing": [
+    "freeze frame for the misfire code"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "caution",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0302) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0302"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "Whether the misfire happened under load could not be assessed: no freeze frame was stored for it.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0302"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 216
+}

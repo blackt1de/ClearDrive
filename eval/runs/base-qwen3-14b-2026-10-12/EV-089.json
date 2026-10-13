@@ -1,0 +1,91 @@
+{
+ "codes": [
+  "P0016"
+ ],
+ "vehicle": "2004 Kia AMANTI",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2004 Kia AMANTI is showing code P0016. This code means the engine's computer detected a mismatch between the crankshaft and camshaft positions, which are parts that control the engine's timing. The vehicle's scan shows the engine is at operating temperature (195\u00b0F coolant), running at 720 RPM with 22% engine load. The computed values show a small difference (1.0%) between the two engine banks' timing, which might not be serious yet. No specific measurements were available to narrow down the cause further.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light may come on and off. - This happens when the computer detects a timing issue.\n2. The engine might idle roughly or hesitate during acceleration. - Timing misalignment can disrupt fuel and air mixing.\n3. The car could stall or have difficulty restarting. - Incorrect timing can prevent the engine from firing properly.\n4. Reduced power or fuel efficiency. - The engine may not run as smoothly as it should.",
+ "if_ignored": "In the next few days/weeks, the engine might misfire, reducing performance or causing rough idling. Long-term, this could damage the catalytic converter or lead to more expensive repairs. Costs could rise if the issue worsens, but there is no immediate safety risk.",
+ "quick_checks": "- Check if the camshaft position sensor or crankshaft position sensor is loose or damaged.\n- Ensure the engine is at operating temperature when testing.\n- Look for signs of a broken timing chain or worn tensioner.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose timing components and may involve complex engine work. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic to confirm the cause.",
+ "repair_cost": "Parts: $200 - $500 (sensors, timing components).\nLabor: $300 - $800 (depending on complexity).\nTotal at independent shop: $500 - $1,300.\nTotal at dealer: $650 - $1,690 (30-50% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues like sudden acceleration, stalling, electrical fires, and difficulty restarting the vehicle. These reports came from the NHTSA Complaints Database (api.nhtsa.gov).",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-089",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fplatform.cstatic-images.com%2Fin%2Fv2%2Fstock_photos%2F22a0825c-d1d3-4bd1-bc06-0bed5e7111d0%2Ff7befa2b-496b-4475-83cc-388d7fbd4cb5.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0016",
+   "description": "Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor A)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0016. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0016"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 243
+}

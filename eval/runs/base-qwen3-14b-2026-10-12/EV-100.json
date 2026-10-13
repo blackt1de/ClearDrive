@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0562"
+ ],
+ "vehicle": "2011 Audi Q7",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2011 Audi Q7 is showing code P0562. This means the car\u2019s electrical system is detecting low voltage, which could be from the battery, alternator, or wiring. The vehicle\u2019s engine is running at 720 RPM with no vehicle speed, coolant at 195\u00b0F, and engine load at 22%. The car is at operating temperature, but no mileage data is available. This code isn\u2019t an immediate safety risk, but it needs to be checked to prevent bigger issues.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Battery light on dashboard - The car\u2019s electrical system is struggling to maintain power.\n2. Lights flickering or dimming - Low voltage can cause electrical components to behave erratically.\n3. Car stalling or hesitation - If the alternator isn\u2019t charging properly, the engine may lose power.\n4. Check engine light staying on - The code is stored, and the system is continuously monitoring the issue.",
+ "if_ignored": "- In the next few days/weeks: The battery could drain completely, leaving you stranded.\n- Long-term: The alternator or battery might fail entirely, leading to costly repairs.\n- Repair costs could rise if corrosion or wiring damage worsens.\n- No immediate safety risk, but driving with low voltage can strain electrical systems.",
+ "quick_checks": "1. Check battery terminals for corrosion or loose connections.\n2. Test battery voltage with a multimeter (should read 12.6V when off, 13.7\u201314.7V when running).\n3. Inspect the alternator belt for cracks or wear.\n4. Look for loose or damaged wiring near the battery and alternator. If unsure, ask a mechanic.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the alternator and battery, and improper handling could damage systems or cause injury. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 5\u20137 days to avoid further issues.",
+ "repair_cost": "- Parts: $200\u2013$500 (battery, alternator, or wiring repairs).\n- Labor: $200\u2013$400 (at an independent shop).\n- Total at independent shop: $400\u2013$900.\n- Total at dealer: $520\u2013$1,175 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, some 2011 Audi Q7 owners reported sudden fuel pump failures (linked to recalls) and windshield wiper blade snapping off. These issues are unrelated to the P0562 code but highlight other potential concerns for this model.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-100",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.netcarshow.com%2FAudi-Q7-2011-wallpaper.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0562",
+   "description": "System Voltage Low",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "vehicle_speed_idle",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0562. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0562"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 254
+}

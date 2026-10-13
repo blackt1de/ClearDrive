@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P2135"
+ ],
+ "vehicle": "2010 Chevrolet MALIBU",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2010 Chevrolet MALIBU is showing code P2135. This means the car\u2019s computer detected a mismatch between the signals from two throttle/accelerator pedal sensors. The sensors tell the engine how hard you\u2019re pressing the gas pedal, and they should agree. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we can\u2019t see what\u2019s happening in real time. This code isn\u2019t an immediate safety risk, but it could affect how the car responds to your input.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The engine may not respond smoothly to pressing the gas pedal. - The sensors might be sending conflicting signals.\n2. The check engine light could stay on. - The computer detects a problem and alerts the driver.\n3. The car might hesitate or jerk when accelerating. - Mismatched sensor data can confuse the engine\u2019s timing.\n4. The speedometer or other dashboard gauges might behave erratically. - Electrical issues could affect multiple systems.",
+ "if_ignored": "In the next few days/weeks, the car might become harder to drive smoothly, and fuel efficiency could drop. Long-term, the engine might work harder than needed, increasing wear. If the sensors fail completely, the car could stall unexpectedly. Repair costs could rise if other systems (like the transmission or fuel system) are stressed by the issue.",
+ "quick_checks": "- Inspect the throttle pedal and its wiring for visible damage or corrosion.\n- Check the throttle position sensor for loose connections.\n- Use a multimeter (if available) to test the sensor\u2019s voltage output.\n- Take the car to a mechanic for a full diagnostic scan and freeze frame data.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test sensors and access the car\u2019s computer system. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. This code could affect driving safety if the throttle system malfunctions.",
+ "repair_cost": "Parts: $100 - $300\nLabor: $150 - $400\nTotal at independent shop: $250 - $700\nTotal at dealer: $325 - $910 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, other 2010 Chevrolet Malibu owners reported issues like the ESC light being on, transmission gear indicator errors, brake lights not working, and the vehicle entering LIMP Mode due to high resistance in the BCM harness.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-020",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fplatform.cstatic-images.com%2Fxxlarge%2Fin%2Fv2%2Fstock_photos%2F6972f5bb-dd01-4afc-8f9b-ec15fc692948%2F7a2766b9-57a2-4f96-8fa9-47589fecf4c8.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2135",
+   "description": "Throttle/Pedal Position Sensor/Switch 'A'/'B' Voltage Correlation",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2135. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2135"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 174
+}

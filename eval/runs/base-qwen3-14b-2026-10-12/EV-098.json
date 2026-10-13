@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0562"
+ ],
+ "vehicle": "2002 Audi S4",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2002 Audi S4 is showing code P0562. This means the vehicle\u2019s electrical system voltage is lower than normal, which could affect electronics like sensors or lights. The engine is running at 720 RPM with no vehicle speed, coolant is at 195\u00b0F (normal operating temperature), and engine load is 22%. The computed diagnosis shows no major imbalances in engine performance. The vehicle\u2019s systems are operating within safe limits, but the low voltage issue needs investigation.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Dashboard lights flickering or dimming - Electrical system instability can affect lighting.\n2. Unusual electrical smells - A sign of potential wiring issues or overheating.\n3. Warning lights staying on or flashing - Low voltage can disrupt sensor communication.\n4. Instrument cluster display issues - Other owners reported similar problems with the LCD screen.",
+ "if_ignored": "In the short term, electrical components may fail intermittently, causing dashboard malfunctions or sensor errors. Long-term, persistent low voltage could damage sensitive electronics or the battery. Repair costs may increase if the issue worsens. No immediate safety risk is present, but ignoring it risks further complications.",
+ "quick_checks": "- Inspect battery terminals for corrosion or loose connections.\n- Check for visible damage to wiring near the battery or engine.\n- Ensure all fuses related to the electrical system are intact.\n- Look for signs of burning or melting near the instrument panel.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves diagnosing electrical system voltage issues, which may require specialized tools and knowledge of the vehicle\u2019s wiring. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 1-2 weeks to avoid potential complications.",
+ "repair_cost": "Parts: $200 - $500\nLabor: $100 - $300\nTotal at independent shop: $300 - $800\nTotal at dealer: $400 - $1,000 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported instrument panel issues (NHTSA Complaints Database). Common problems included flickering lights, faded pixels, and LCD screen failures. No recall was found for this specific issue.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-098",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fhouse%2F2002%2F2002-Audi-S4-Front_AUS4SED011_505x375.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0562",
+   "description": "System Voltage Low",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "vehicle_speed_idle",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0562. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0562"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 252
+}

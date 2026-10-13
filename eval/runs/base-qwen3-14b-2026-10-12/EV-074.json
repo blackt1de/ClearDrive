@@ -1,0 +1,92 @@
+{
+ "codes": [
+  "P0102"
+ ],
+ "vehicle": "2008 Honda RIDGELINE",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2008 Honda RIDGELINE is showing code P0102. This means the engine\u2019s mass air flow (MAF) sensor is sending a signal that\u2019s too low for the computer to recognize, which affects how much air the engine thinks it\u2019s getting. The vehicle is at operating temperature (195\u00b0F coolant), idling at 720 RPM with 22% engine load. The computer detected a 1% difference in air intake between the engine\u2019s two sides, which is normal but not enough to trigger a warning. No measurements were available to narrow down the exact cause of the low signal.",
+ "likely_causes": "1. The mass air flow (MAF) sensor is faulty or dirty, causing it to send an incorrect signal.\n2. A wiring issue between the MAF sensor and the engine control unit (ECU), such as a loose connection or damaged wire.\n3. A vacuum leak near the MAF sensor, allowing unmeasured air to enter the engine.",
+ "symptoms": "1. The check engine light is on (code P0102).\n2. The engine may idle roughly or hesitate when accelerating.\n3. Fuel efficiency could drop slightly due to improper air-fuel mixture.\n4. The engine might feel less responsive during acceleration.",
+ "if_ignored": "The engine could run slightly lean (too much air, too little fuel) in the short term, which might cause rough idling or hesitation. Over time, this could lead to increased emissions or potential damage to the catalytic converter. Repair costs could rise if the issue worsens, but no immediate safety risk is present.",
+ "quick_checks": "- Inspect the MAF sensor for dirt, damage, or loose connections.\n- Check wiring between the MAF sensor and the ECU for fraying or corrosion.\n- Look for vacuum leaks near the air intake system.\n- Use a multimeter to test the MAF sensor\u2019s voltage output (needs a mechanic or diagnostic tool).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the MAF sensor and diagnose wiring issues. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic to clean or replace the MAF sensor and inspect wiring.",
+ "repair_cost": "Parts: $100\u2013$300 (MAF sensor replacement).\nLabor: $100\u2013$200 (at an independent shop).\nTotal at independent shop: $200\u2013$500.\nTotal at dealer: $250\u2013$600 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported fuel leaks and corrosion-related issues (source: NHTSA Complaints Database). These are separate from the P0102 code and not directly related to the MAF sensor.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-074",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.sbacdn.com%2Fevoximageupload-blob%2Fhonda%2Fridgeline%2F2008%2Frt%2Fexterior%2Fexterior_rt_sut-4459_st0640_037.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0102",
+   "description": "Mass or Volume Air Flow Sensor 'A' Circuit Low Input",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0102. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0102"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 228
+}

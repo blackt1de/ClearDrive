@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0335"
+ ],
+ "vehicle": "2015 Jeep COMPASS",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2015 Jeep COMPASS is showing code P0335 (Crankshaft Position Sensor 'A' Circuit). This means the sensor that tells the engine computer where the crankshaft is located may not be working properly. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we can\u2019t see how the engine is actually running. A complaint from another owner says their 2015 Jeep Compass stalled at 40 MPH and had the same code. This isn\u2019t an immediate safety risk, but it could cause the engine to misfire or stall.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The engine may stall suddenly while driving (due to the sensor failing to track crankshaft position).\n2. The check engine light will stay on (the code is stored in the computer).\n3. The car might be hard to start (the sensor helps the engine timing).\n4. The engine could run roughly or hesitate (incorrect timing from the faulty sensor).",
+ "if_ignored": "The engine could stall again, which might be dangerous if it happens while driving. Over time, the sensor failure could cause the engine to wear out faster or damage other parts like the catalytic converter. Repair costs could rise if the problem worsens. While not an immediate safety issue, it\u2019s a risk to drive without fixing.",
+ "quick_checks": "- Check the crankshaft position sensor wiring and connector for damage or looseness (a mechanic should do this).\n- Look for signs of oil or debris near the sensor (a mechanic should inspect this).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the sensor and access under the engine. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. If the car has already stalled, avoid driving it until it\u2019s checked.",
+ "repair_cost": "Parts: $100\u2013$200 (sensor replacement).\nLabor: $150\u2013$300 (at an independent shop).\nTotal at independent shop: $250\u2013$500.\nTotal at dealer: $325\u2013$650 (30\u201350% more than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "A 2015 Jeep Compass owner reported stalling at 40 MPH with code P0335 (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-034",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F9853%2F2015-Jeep-Compass-front_9853_032_2400x1800_PW7.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0335",
+   "description": "Crankshaft Position Sensor 'A' Circuit",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0335. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0335"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 188
+}

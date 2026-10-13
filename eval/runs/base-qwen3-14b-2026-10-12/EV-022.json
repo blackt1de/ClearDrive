@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P2A00"
+ ],
+ "vehicle": "2011 Nissan ALTIMA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2011 Nissan ALTIMA is showing code P2A00. This code is standardized but its exact meaning is not defined in our database, so we cannot say for sure what it means. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, which limits our ability to diagnose. No live data or freeze frame information was captured, so we cannot see what the engine was doing when the code appeared. This is not an urgent issue, but it needs to be checked to understand what it means.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. No specific symptoms are reported for this code.\n2. No specific symptoms are reported for this code.\n3. No specific symptoms are reported for this code.\n4. No specific symptoms are reported for this code.",
+ "if_ignored": "Without knowing what the code means, it\u2019s hard to predict short-term effects. Long-term, unresolved issues could lead to more complex problems or higher repair costs. There is no immediate safety risk mentioned, but the code should be investigated to avoid unexpected failures.",
+ "quick_checks": "- Get a diagnostic scan with live data and freeze frame information to understand what the code means.\n- Check if the Engine Control Module (ECM) is functioning properly, as other complaints mention ECM issues.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and expertise to interpret the code. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days.",
+ "repair_cost": "Parts: $0 - $500 (uncertain, as the cause is unknown).\nLabor: $100 - $300 (depending on the repair).\nTotal at independent shop: $100 - $800.\nTotal at dealer: $150 - $1,200 (dealers charge more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, other owners reported issues with the Engine Control Module (ECM) triggering P0101 codes, drive axle failures, idler tensioner pulley problems, and sunroof drainage issues. These are separate from the P2A00 code but show that some systems in this model have had recurring problems.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-022",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.nissanusa.com%2Fcontent%2Fdam%2FNissan%2Fus%2Fvehicles%2Faltima%2Fl33%2F1_minor_change%2Faltimaarchive%2F2011%2F2011-white-altima-sedan.jpg.ximg.l_full_m.smart.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2A00",
+   "description": "Standardized powertrain code; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": null,
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2A00. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2A00"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 176
+}

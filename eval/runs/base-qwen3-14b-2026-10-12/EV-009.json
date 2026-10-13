@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0607"
+ ],
+ "vehicle": "2006 Toyota MATRIX",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2006 Toyota MATRIX is showing code P0607. This code means the car\u2019s control module (a computer that manages engine functions) is not working properly. The vehicle\u2019s own readings, like engine speed, coolant temperature, and mileage, are unavailable, so we can\u2019t see what\u2019s happening in real time. The code is not specific to this car\u2019s engine or model, and no live data was captured during the scan. This means we can\u2019t tell exactly what\u2019s wrong, but the issue is with the control module\u2019s performance.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The car may not start or may stall unexpectedly - The control module might fail to send signals to the engine.\n2. Warning lights on the dashboard could flicker or stay on - The control module might be sending inconsistent signals.\n3. The car might feel sluggish or lose power - The control module might not be managing fuel or ignition properly.\n4. Electrical systems could behave unpredictably - The control module might be malfunctioning in ways that affect other components.",
+ "if_ignored": "- In the next few days/weeks, the car might fail to start or run roughly, making it hard to drive.\n- Long-term, the control module could fail completely, leaving the car undrivable and requiring expensive repairs.\n- Repair costs could increase if the issue worsens, as parts and labor for control module replacements are costly.\n- There are no immediate safety concerns, but ignoring this could lead to unexpected breakdowns.",
+ "quick_checks": "- Check if the battery is fully charged and the terminals are clean (a weak battery can cause electrical issues).\n- Inspect the fuse box for blown fuses or damaged wiring related to the control module.\n- Look for visible damage to the control module itself (located under the hood or near the engine).\n- Have a mechanic use a diagnostic tool to read live data and confirm the issue.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and knowledge to diagnose and replace the control module. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. The control module issue could lead to sudden failure, and the car may not be reliable for long.",
+ "repair_cost": "- Parts: $500 - $1,000 (control module replacement)\n- Labor: $300 - $600 (depending on the shop)\n- Total at independent shop: $800 - $1,600\n- Total at dealer: $1,000 - $2,000 (dealers charge more)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with airbags, suspension (rusted parts), and electrical problems (like a malfunctioning clock linked to airbags). These reports came from the NHTSA Complaints Database.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-009",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fstatic.tcimg.net%2Fvehicles%2Fprimary%2F02f8adba9c6ad70c%2F2006-Toyota-Matrix-silver-full_color-driver_side_profile.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0607",
+   "description": "Control Module Performance",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "computer_output",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0607. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0607"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 163
+}

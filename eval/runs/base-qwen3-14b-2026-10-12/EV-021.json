@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0335"
+ ],
+ "vehicle": "2012 Jeep PATRIOT",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2012 Jeep PATRIOT is showing code P0335. This code means the engine\u2019s crankshaft position sensor (which tells the engine computer where the crankshaft is) is not working properly. The vehicle\u2019s own readings (like engine speed, coolant temperature, or mileage) are unavailable, so we can\u2019t see how the engine is actually behaving. The code definition is standardized but not yet verified against the SAE standard, so its exact meaning is not fully confirmed.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine misfires or rough idling \u2013 The sensor helps time fuel injection and ignition. If it fails, the engine can\u2019t synchronize these events.\n2. Difficulty starting the engine \u2013 The computer may not know when to ignite the spark plugs.\n3. Check engine light staying on \u2013 The code is stored in the computer, so the light remains active.\n4. Reduced power or stalling \u2013 The engine may run unevenly or lose power under load.",
+ "if_ignored": "- In the next few days/weeks: The engine may misfire, run roughly, or fail to start.\n- Long-term: The engine could suffer internal damage from incorrect timing, and emissions may increase.\n- Cost: Repairs could become more expensive if other components (like the catalytic converter) are damaged.\n- Safety: If the engine stalls unexpectedly, it could pose a risk while driving.",
+ "quick_checks": "- Have a mechanic use a scan tool to check for additional codes or freeze-frame data.\n- Inspect the crankshaft position sensor and its wiring for physical damage or corrosion.\n- Test the sensor\u2019s voltage and resistance with a multimeter.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools (like a scan tool and multimeter) and expertise to diagnose the sensor\u2019s circuit properly. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2013 don\u2019t drive more than necessary. The issue could affect engine performance and safety.",
+ "repair_cost": "- Parts: $100\u2013$300 (sensor and related components)\n- Labor: $150\u2013$300 (at an independent shop)\n- Total at independent shop: $250\u2013$600\n- Total at dealer: $325\u2013$750 (30\u201350% higher than independent shops)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database:\n- Issues with airbags not deploying (airbags, seat belts).\n- Fuel system problems (fuel tank rollover valve failure).\n- Electrical issues causing the car to die while driving.\n- Suspension and powertrain concerns from a dealership.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-021",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana.io%2Fstockimages%2F2012_JEEP_PATRIOT_SPORT%2520SUV%25204D_BLACK_stock_desktop_1920x1080.png%3Fv%3D1645487543.181",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0335",
+   "description": "Crankshaft Position Sensor 'A' Circuit",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0335. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0335"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 175
+}

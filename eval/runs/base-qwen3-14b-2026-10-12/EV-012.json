@@ -1,0 +1,112 @@
+{
+ "codes": [
+  "P0261",
+  "P0611"
+ ],
+ "vehicle": "2005 Ford F-250 SD",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2005 Ford F-250 SD is showing code P0261, which relates to the fuel and air metering system (injector circuit), and code P0611, which relates to the computer output circuit or control module. These codes are standardized but their exact definitions are not available in our database, so their specific meaning for this vehicle is unknown. The vehicle\u2019s own measurements (like engine speed, coolant temperature, and mileage) are unavailable, so we cannot confirm what is happening with the engine or other systems. No live data or diagnostic details were captured, which limits our ability to narrow down the issue.",
+ "likely_causes": "- The fuel injection system or related sensors may not be functioning correctly.\n- The engine control module or its wiring could have a fault.",
+ "symptoms": "1. The check engine light may stay on or blink.\n2. The engine might misfire or run roughly.\n3. The vehicle could stall unexpectedly.\n4. There may be difficulty starting the engine.",
+ "if_ignored": "- The engine may continue to misfire or stall, which could lead to further damage over time.\n- Long-term, this could cause increased fuel consumption, reduced performance, or expensive repairs.\n- If the issue involves the control module or wiring, it could lead to sudden failures while driving, which may pose a safety risk.",
+ "quick_checks": "- Check for loose or damaged wiring near the engine and control module.\n- Inspect the fuel injectors for signs of leakage or corrosion.\n- Look for any visible damage to the engine control module or its connectors.\n- If you have access to a diagnostic tool, scan for additional codes or check for fault data.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves complex systems like the fuel injection and engine control module, which require specialized tools and expertise to diagnose and fix. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today\u2014don\u2019t drive more than necessary. These codes could indicate a serious issue that needs immediate attention to avoid further damage or safety risks.",
+ "repair_cost": "- Parts: $500\u2013$1,000 (depending on what is faulty).\n- Labor: $200\u2013$400 at an independent shop.\n- Total at independent shop: $700\u2013$1,400.\n- Total at dealer: $900\u2013$1,800 (dealers charge 30\u201350% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From the NHTSA Complaints Database, other owners of this vehicle have reported issues like engine stalling, loose steering, brake caliper dragging, and tire failures. However, these are separate from the codes currently present on your vehicle.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-012",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fplatform.cstatic-images.com%2Fxxlarge%2Fin%2Fv2%2Fstock_photos%2Ffd735e1f-9c5e-44fb-98b4-9d947cb9e9fc%2Fa05f59e8-1f95-48b0-8736-fa5debbe11d3.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0261",
+   "description": "Standardized powertrain code, in the fuel and air metering (injector circuit) group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "fuel and air metering (injector circuit)",
+   "caveat": "This code is standardized but absent from our definition table."
+  },
+  {
+   "code": "P0611",
+   "description": "Standardized powertrain code, in the computer output circuit or control module group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "computer output circuit or control module",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0261, P0611. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0261, P0611"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 166
+}

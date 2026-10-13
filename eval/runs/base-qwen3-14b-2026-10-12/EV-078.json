@@ -1,0 +1,91 @@
+{
+ "codes": [
+  "P0202"
+ ],
+ "vehicle": "2003 Jeep LAREDO",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2003 Jeep LAREDO is showing code P0202. This means the fuel injector for cylinder 2 may have an electrical problem, like a broken wire or poor connection. The engine is running at 720 RPM with no vehicle speed, coolant temperature is 195\u00b0F, and engine load is 22%. The vehicle\u2019s computer detected a 3% fuel trim difference between engine banks at idle, but no other measurements were available to narrow the cause. This is not an immediate safety risk, but it could affect engine performance.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Rough idling or hesitation when accelerating - The fuel injector may not be delivering fuel properly.\n2. Check engine light staying on - The vehicle\u2019s computer stored the code.\n3. Reduced fuel efficiency - A faulty injector could cause incomplete combustion.\n4. Engine misfires - Uneven fuel delivery might cause the engine to run unevenly.",
+ "if_ignored": "The engine may run less efficiently in the next few days, leading to higher fuel costs. Over time, the issue could cause more serious engine damage, increasing repair costs. There is no immediate safety risk, but delaying repairs may make the problem harder and more expensive to fix.",
+ "quick_checks": "No specific checks are recommended for this code in the provided information.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves electrical systems and fuel injectors, which require specialized tools and knowledge. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic can test the fuel injector circuit and confirm the cause.",
+ "repair_cost": "Parts: $200 - $500 (fuel injector and wiring).\nLabor: $100 - $300 (at an independent shop).\nTotal at independent shop: $300 - $800.\nTotal at dealer: $400 - $1,200 (dealers charge 30-50% more).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners of this vehicle reported issues like \"death wobble\" in the suspension, airbags not deploying in crashes, and electrical problems with turn signals. These reports came from the NHTSA Complaints Database.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-078",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fwww.biscayneauto.com%2Fgalleria_images%2F677%2F677_main_l.jpg",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0202",
+   "description": "Injector Circuit/Open - Cylinder 2",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0202. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0202"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 232
+}

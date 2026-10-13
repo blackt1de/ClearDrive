@@ -1,0 +1,102 @@
+{
+ "codes": [
+  "P0627"
+ ],
+ "vehicle": "2021 Ford EXPEDITION",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2021 Ford EXPEDITION is showing code P0627. This code is related to the computer output circuit or control module group, but its exact meaning isn\u2019t defined in our records. The vehicle\u2019s own readings\u2014like engine speed, coolant temperature, and mileage\u2014are unavailable, so we can\u2019t confirm what\u2019s happening. No live data or freeze frame was captured, which limits our ability to diagnose. The code isn\u2019t immediately dangerous, but it needs to be checked to rule out serious issues.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Sudden surging or jerking when shifting gears \u2013 due to transmission or control module issues.\n2. Strange noises from the engine or dashboard \u2013 possibly from electrical or sensor problems.\n3. Dashboard warning lights flickering \u2013 related to the control module or circuitry.\n4. Difficulty accelerating or hesitation \u2013 could indicate a communication failure between systems.",
+ "if_ignored": "The code might lead to more frequent malfunctions, potentially affecting drivability or safety. Long-term, it could cause damage to other components if the underlying issue isn\u2019t addressed. Repair costs could rise if the problem worsens, but there\u2019s no immediate safety risk based on the data provided.",
+ "quick_checks": "- A diagnostic rule for P0627 is needed to interpret the code.\n- Vehicle support (like live data or freeze frame) is required to confirm the issue.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools and expertise to diagnose and fix electrical or control module issues. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. It\u2019s not urgent, but scheduling a check soon will help avoid potential complications.",
+ "repair_cost": "It\u2019s hard to estimate without knowing the exact cause. Parts and labor costs vary widely depending on what\u2019s wrong. At an independent shop, expect $200\u2013$1,000 for diagnostics and repairs. At a dealer, costs could be 30\u201350% higher.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "From NHTSA complaints, some 2021 Ford Expedition owners reported transmission issues (like sudden neutral-out events), HVAC failures (toxic refrigerant leaks), seat belt buckle separations, and engine fires. From NHTSA recalls, there were issues with airbag sensors, windshield wiper arms, engine compartment fires, and missing airbag warning labels.",
+ "data_sources": [
+  "SAE J2012 code structure",
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-054",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F14084%2F2021-Ford-Expedition-front_14084_032_1847x907_J7_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0627",
+   "description": "Standardized powertrain code, in the computer output circuit or control module group; definition not in our table.",
+   "tier": "structural_only",
+   "source": "SAE J2012 code structure",
+   "system": "powertrain",
+   "subsystem": "computer output circuit or control module",
+   "caveat": "This code is standardized but absent from our definition table."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0627. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0627"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 208
+}

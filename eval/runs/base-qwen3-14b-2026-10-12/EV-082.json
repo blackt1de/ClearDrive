@@ -1,0 +1,103 @@
+{
+ "codes": [
+  "P0135"
+ ],
+ "vehicle": "2011 Ram 1500 CREW",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2011 Ram 1500 CREW is showing code P0135. This means the oxygen sensor\u2019s heater circuit is not working properly, which affects how the engine mixes fuel and air. The vehicle\u2019s coolant temperature is 195\u00b0F (normal for running), and the engine is idling at 720 RPM with 22% load. No measurements suggest immediate danger, but the code is stored.",
+ "likely_causes": "1. The oxygen sensor or its heater is faulty, or the wiring to it is damaged. This is suggested by the P0135 code and the computed diagnosis.",
+ "symptoms": "1. The check engine light is on (due to the stored code).\n2. Slight roughness in idle or hesitation when accelerating (if the sensor is not providing accurate data).\n3. Increased fuel consumption (if the sensor\u2019s fault causes the engine to run less efficiently).\n4. No immediate stalling or loss of power (since the safety level is safe).",
+ "if_ignored": "The engine may run slightly less efficiently in the short term, leading to higher fuel costs. Long-term, a faulty oxygen sensor could cause increased emissions or potential damage to the catalytic converter. Repair costs could rise if other components are affected.",
+ "quick_checks": "- Inspect the sensor connector and wiring for damage or corrosion (look for frayed wires, rust, or loose connections).\n- Have the sensor heater circuit tested before replacing anything (this requires a multimeter or professional diagnostic tool).",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the heater circuit and access under the vehicle. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check within 1-2 weeks to avoid potential long-term issues.",
+ "repair_cost": "- Parts: $100\u2013$200 (oxygen sensor).\n- Labor: $150\u2013$300 (depending on shop).\n- Total at independent shop: $250\u2013$500.\n- Total at dealer: $350\u2013$700 (30\u201350% higher than independent shops).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA Complaints Database (api.nhtsa.gov) reports issues with the rear driveshaft fracturing, brake light failures, motor mount fractures, and electrical problems. No specific mention of oxygen sensor issues.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-082",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fvexstockimages.fastly.carvana.io%2Fstockimages%2F2011_RAM_1500%2520CREW%2520CAB_LARAMIE%2520LONGHORN%2520ED%2520PICKUP%25204D%25205%25201%2F2%2520FT_BLACK_stock_1_desktop.png%3Fwidth%3D920%26format%3Dauto",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0135",
+   "description": "O2 Sensor Heater Circuit Malfunction (Bank 1, Sensor 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "oxygen_sensor_triage",
+   "conclusion": "An oxygen sensor is reporting an electrical fault (P0135) rather than an unusual reading. That points at the sensor, its heater, or its wiring, rather than at how the engine is running.",
+   "confidence": "moderate",
+   "basis": "heuristic",
+   "next_checks": [
+    "Inspect the sensor connector and wiring for damage or corrosion",
+    "Have the sensor heater circuit tested before replacing anything"
+   ],
+   "evidence": [
+    {
+     "pointer": "dtc_codes",
+     "restatement": "oxygen sensor codes present: P0135"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Inspect the sensor connector and wiring for damage or corrosion",
+  "Have the sensor heater circuit tested before replacing anything"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0135"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 236
+}

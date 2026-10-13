@@ -1,0 +1,91 @@
+{
+ "codes": [
+  "P0601"
+ ],
+ "vehicle": "2016 Volvo XC90 T6",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2016 Volvo XC90 T6 is showing code P0601. This code means the engine control module\u2019s memory has a checksum error, which could indicate a problem with the module\u2019s software or hardware. The vehicle\u2019s engine is running at 720 RPM with no vehicle speed, coolant temperature is 195\u00b0F, and engine load is 22%. The engine is at operating temperature, and the fuel trim asymmetry between the engine banks is low (1.0%). No specific symptoms are reported for this code, but the vehicle has other known issues unrelated to it.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. No specific symptoms are reported for this code.\n2. No specific symptoms are reported for this code.\n3. No specific symptoms are reported for this code.\n4. No specific symptoms are reported for this code.",
+ "if_ignored": "Ignoring this code may not cause immediate issues, but the check engine light will remain on. Over time, the control module\u2019s malfunction could lead to engine performance problems or unexpected behavior. Long-term, it might increase repair costs if other systems are affected.",
+ "quick_checks": "No specific quick checks are available for this code. A professional mechanic should inspect the engine control module and related systems.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized diagnostic tools and expertise to assess the control module\u2019s memory and software. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a diagnostic check with a mechanic to confirm the cause of the P0601 code.",
+ "repair_cost": "The cost cannot be estimated without a diagnosis. Parts and labor will vary depending on the repair needed.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA Complaints Database (api.nhtsa.gov) reports issues including coolant leaks from the plastic coolant bypass pipe, piston ring failures leading to oil consumption and engine power loss, AC evaporator leaks, and eRAD failures in the 2016 Volvo XC90 T8 PHEV.",
+ "data_sources": [
+  "NHTSA Complaints Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-102",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fautoimage.capitalone.com%2Fstock-media%2Fevox%2F2016-Volvo-XC90-T6_AWD_Momentum-467-10557_cc2400_032_467.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0601",
+   "description": "Internal Control Module Memory Check Sum Error",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "computer_output",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0601. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0601"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 256
+}

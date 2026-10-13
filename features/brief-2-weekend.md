@@ -32,6 +32,11 @@
 
 ## History
 
+- 2026-10-12 `0859ccb` — brief2/phase2: num_predict 8192 for every condition
+  - notes/decisions.md
+  - ollama_client.py
+  - test_diagnostics.py
+
 - 2026-09-26 `f480d59` — brief2/phase2: second H4 null baseline; re-scoring never overwrites
   - notes/decisions.md
   - scripts/eval_score.py

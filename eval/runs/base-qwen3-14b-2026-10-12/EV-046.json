@@ -1,0 +1,122 @@
+{
+ "codes": [
+  "P0016",
+  "P0017",
+  "P0335"
+ ],
+ "vehicle": "2016 Chevrolet EQUINOX",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2016 Chevrolet EQUINOX is showing code P0016 (Crankshaft Position - Camshaft Position Correlation, Bank 1 Sensor A), P0017 (same issue for Sensor B), and P0335 (Crankshaft Position Sensor 'A' Circuit). These codes suggest a problem with the engine's timing system or sensors that track engine position. The vehicle\u2019s own data (like RPM, coolant temperature, or oil pressure) is missing, so we can\u2019t confirm the exact issue. The codes are common but need more details to diagnose.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. Engine misfires or rough idling - (the timing system is out of sync)\n2. Stalling or difficulty starting - (sensor or timing issues disrupt ignition)\n3. Check Engine Light staying on - (the computer detects a persistent fault)\n4. Oil leaks or smoke from the engine - (related to PCV system issues reported by other owners)",
+ "if_ignored": "- In the next few days/weeks: The engine could misfire, stall, or fail completely, risking a breakdown.\n- Long-term: Timing chain wear or sensor failure could cause severe engine damage, requiring expensive repairs.\n- Cost: Repairs could rise from $500\u2013$1,500 (parts) and $300\u2013$800 (labor) at an independent shop, more at a dealer.\n- Safety: A sudden engine failure could cause loss of power, steering, or braking, increasing crash risk.",
+ "quick_checks": "- Inspect the PCV valve for clogs or damage (a clogged PCV can cause oil leaks and pressure issues).\n- Check for visible oil leaks around the timing cover or front main seal (common in this engine).\n- Look for frayed or broken timing chain guides (a known issue in this engine).\n- If you have a multimeter, test the crankshaft position sensor for continuity (faulty sensors trigger P0335).",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves internal engine components (timing chain, sensors) that require specialized tools, lifting the engine, and precise alignment. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today - don\u2019t drive more than necessary. These codes indicate a serious issue that could worsen quickly.",
+ "repair_cost": "Parts: $500 - $1,500\nLabor: $300 - $800\nTotal at independent shop: $800 - $2,300\nTotal at dealer: $1,000 - $3,000 (dealers charge more)",
+ "known_issues": "The 2.4L engine has known issues with timing chain wear and excessive oil consumption (source: ClearDrive local KB).",
+ "owner_reports": "NHTSA complaints report issues like excessive crankcase pressure (leading to oil leaks), timing chain guide failure (causing engine damage), and wiper failures (source: NHTSA Complaints Database).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database",
+  "ClearDrive Known Issues KB"
+ ],
+ "obd_source": "Synthetic fixture: EV-046",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fautoimage.capitalone.com%2Fstock-media%2Fevox%2F2016-Chevrolet-Equinox-LTZ-GAZ-11020_cc2400_014_GAZ.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0016",
+   "description": "Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor A)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0017",
+   "description": "Crankshaft Position - Camshaft Position Correlation (Bank 1 Sensor B)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0335",
+   "description": "Crankshaft Position Sensor 'A' Circuit",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0016, P0017, P0335. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0016, P0017, P0335"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner's manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 200
+}

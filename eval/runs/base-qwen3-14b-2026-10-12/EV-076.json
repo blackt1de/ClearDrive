@@ -1,0 +1,135 @@
+{
+ "codes": [
+  "P0304",
+  "P0351"
+ ],
+ "vehicle": "2019 Nissan ALTIMA",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "STOP",
+ "safety_meaning": "High Urgency - Immediate Attention Required",
+ "safety_description": "Continuing to drive could cause permanent damage to your engine, transmission, or other major components. This could turn a $500 repair into a $5,000+ repair.",
+ "safety_action": "Go to a mechanic immediately or have vehicle towed",
+ "dont_panic": "Your 2019 Nissan ALTIMA is showing code P0304. This means cylinder 4 is misfiring, which happens when the spark plug or ignition coil in that cylinder fails to ignite the fuel properly. The vehicle\u2019s engine was running at 2400 RPM and 45% engine load with coolant at 195\u00b0F (operating temperature) when the misfire occurred. Unburned fuel from the misfire could damage the catalytic converter, which is expensive to replace. No other measurements were available to narrow this down further.",
+ "likely_causes": "1. The misfire is confined to one cylinder (P0304), pointing to a component specific to that cylinder, like the ignition coil or spark plug. Evidence: the misfire was recorded at 2400 RPM and 45% engine load with coolant at 195\u00b0F.",
+ "symptoms": "1. The check engine light is on \u2014 this is how the car alerts you to a problem.\n2. Rough idling or hesitation when accelerating \u2014 the engine isn\u2019t firing smoothly.\n3. Decreased fuel efficiency \u2014 unburned fuel wastes energy.\n4. A smell of burning fuel \u2014 unburned fuel could escape through the exhaust.",
+ "if_ignored": "- In the next few days/weeks, the catalytic converter could overheat and fail, costing thousands to replace.\n- Long-term, the engine might suffer internal damage from unburned fuel, leading to costly repairs.\n- Safety risks increase if the engine fails while driving, especially at higher speeds.",
+ "quick_checks": "- Swap the ignition coil for P0304 with a neighboring cylinder and rescan \u2014 if the code follows the coil, the coil is faulty.\n- Inspect that cylinder\u2019s spark plug for cracks, carbon buildup, or damage.\n- Compare fuel injector operation against other cylinders using a mechanic\u2019s scanner.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test ignition coils and fuel injectors, and improper handling could worsen the issue. A professional mechanic should handle this.",
+ "urgency": "Go to a mechanic today \u2014 do not drive more than necessary. The misfire could damage the catalytic converter if left unaddressed.",
+ "repair_cost": "- Parts: $200\u2013$500 (ignition coil, spark plug, or fuel injector).\n- Labor: $150\u2013$300 (at an independent shop).\n- Total at independent shop: $350\u2013$800.\n- Total at dealer: $500\u2013$1200 (higher labor rates).",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues like a faulty backup camera, a failed active grille shutter, engine seizure, and a limp mode due to cam actuator failure. These were sourced from the NHTSA Complaints Database and do not directly relate to the P0304 code.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-076",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13157%2F2019-Nissan-Altima-front_13157_032_1815x722_KAD_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0304",
+   "description": "Cylinder 4 Misfire Detected",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  },
+  {
+   "code": "P0351",
+   "description": "Ignition Coil 'A' Primary/Secondary Circuit Malfunction",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "ignition_misfire",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "misfire_triage",
+   "conclusion": "The misfire is confined to one cylinder (P0304), which points at a component specific to that cylinder rather than anything shared by the whole engine.",
+   "confidence": "high",
+   "basis": "heuristic",
+   "next_checks": [
+    "Swap the ignition coil for P0304 with a neighbouring cylinder and rescan \u2014 if the code follows the coil, the coil is the fault",
+    "Inspect that cylinder's spark plug",
+    "Compare fuel injector operation against the other cylinders"
+   ],
+   "evidence": [
+    {
+     "pointer": "freeze_frames[P0304]",
+     "restatement": "the misfire was recorded at 2400 RPM and 45% engine load with coolant at 195\u00b0F"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0351. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Swap the ignition coil for P0304 with a neighbouring cylinder and rescan \u2014 if the code follows the coil, the coil is the fault",
+  "Inspect that cylinder's spark plug",
+  "Compare fuel injector operation against the other cylinders"
+ ],
+ "safety": {
+  "verdict": "stop_driving",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "misfire_active",
+    "statement": "An active misfire code (P0304) is stored. Unburned fuel from a misfire reaches the catalytic converter, so this needs attention before it becomes a converter repair (heuristic).",
+    "raises_to": "caution",
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0304, P0351"
+     }
+    ]
+   },
+   {
+    "rule": "misfire_under_load",
+    "statement": "The misfire occurred while the engine was working hard or fully warm. Raw fuel entering a hot catalytic converter overheats and destroys it, which turns an ignition repair into a converter replacement (heuristic).",
+    "raises_to": "stop_driving",
+    "evidence": [
+     {
+      "pointer": "freeze_frames[P0304].coolant_temp_f",
+      "restatement": "the misfire was recorded with coolant at 195\u00b0F, i.e. at operating temperature (threshold 180\u00b0F, heuristic)"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 230
+}

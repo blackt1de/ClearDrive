@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P2196"
+ ],
+ "vehicle": "2013 Volkswagen PASSAT",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2013 Volkswagen PASSAT is showing code P2196. This means the oxygen sensor in the engine\u2019s exhaust system is sending a signal that the fuel mixture is too rich (too much fuel). The vehicle\u2019s own readings could not be measured, so we don\u2019t know how bad the issue is. The code is not yet narrowed down by this scan, and no live data or freeze frame was captured. This is a generic issue that could be caused by a faulty sensor, wiring, or other factors.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light is on \u2013 This happens when the vehicle\u2019s computer detects a problem.\n2. Reduced fuel efficiency \u2013 A rich fuel mixture can use more fuel.\n3. Increased emissions \u2013 A faulty oxygen sensor can cause the engine to release more pollutants.\n4. Rough idling or hesitation \u2013 The engine may not run smoothly if the sensor is malfunctioning.",
+ "if_ignored": "- In the next few days/weeks: The engine may run less efficiently, and fuel costs could rise.\n- Long-term: The catalytic converter could be damaged due to the incorrect fuel mixture, leading to expensive repairs.\n- Safety concerns: While not directly a safety risk, poor engine performance could affect driving stability.",
+ "quick_checks": "- Check the oxygen sensor wiring for damage or corrosion.\n- Inspect the sensor itself for soot or debris that might block its function.\n- Ensure the sensor is properly connected to the engine computer.\n- If no obvious issues are found, consult a mechanic for a professional diagnosis.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to diagnose the exact cause and may involve complex engine components. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. A mechanic can test the oxygen sensor and determine the root cause.",
+ "repair_cost": "No specific cost information is available for this vehicle. Consult a mechanic for an accurate estimate.",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "Other owners reported issues with airbags (e.g., malfunctioning airbag light, recall delays) and exterior lighting (e.g., headlight failure not covered by recalls) from the NHTSA Complaints Database.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-024",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F8345%2F2013-Volkswagen-Passat-front_8345_032_2400x1800_B4B4.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P2196",
+   "description": "O2 Sensor Signal Stuck Rich (Bank 1, Sensor 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P2196. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P2196"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 178
+}

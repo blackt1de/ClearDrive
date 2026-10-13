@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0194"
+ ],
+ "vehicle": "2004 Volvo S60",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2004 Volvo S60 is showing code P0194. This code means the fuel rail pressure sensor circuit is not working properly, which could affect how the engine manages fuel. The vehicle\u2019s own readings (like engine speed, coolant temperature, or fuel trims) are not available, so we can\u2019t see what\u2019s happening in real time. The code is not fully verified by the manufacturer, so its exact meaning is not certain. No automated analysis exists yet for this code, and the vehicle\u2019s data is limited.",
+ "likely_causes": "The available evidence does not narrow this down to a specific cause.",
+ "symptoms": "1. The check engine light is on \u2014 this is the main indicator of the code.\n2. The car might have trouble starting or running smoothly \u2014 related to fuel pressure issues.\n3. Electrical problems like power windows or locks not working \u2014 reported by other owners, though not directly linked to this code.\n4. The fuel gauge might behave erratically \u2014 also reported by other owners, but not confirmed as related.",
+ "if_ignored": "- In the short term, the car might start and run but with reduced performance or fuel efficiency.\n- Long-term, the engine could misfire or fail to start if the fuel pressure sensor is faulty.\n- Repair costs could rise if the issue worsens (e.g., fuel pump failure).\n- No immediate safety risk is known, but the car\u2019s behavior is unpredictable without further checks.",
+ "quick_checks": "- Look for visible fuel leaks under the car (from the driver\u2019s side near the rear wheel, as reported by another owner).\n- Check if the fuel pump is making a humming noise when the engine is running (a sign it\u2019s working).\n- Inspect the fuel pressure sensor for damage or corrosion (located on the fuel rail).",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves the fuel system, which requires specialized tools and safety precautions (fuel leaks can be dangerous). A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it. Schedule a check with a mechanic who can test the fuel pressure sensor and inspect the fuel system.",
+ "repair_cost": "- Parts: $100\u2013$300 (fuel pressure sensor or related components).\n- Labor: $150\u2013$400 (depending on the shop).\n- Total at independent shop: $250\u2013$700.\n- Total at dealer: $350\u2013$1,000 (dealers charge more).",
+ "known_issues": "- A recall for the fuel pressure sensor (2007) \u2014 this vehicle may have been affected, but the recall period is unclear.\n- Other owners reported fuel leaks and electrical issues, but these are not confirmed as related to P0194.",
+ "owner_reports": "From NHTSA complaints:\n1. Electrical failures (power loss, brake lights, windows, locks) and engine starting issues.\n2. Fuel leaks near the driver\u2019s rear wheel.\n3. Instrument panel failures (speedometer, fuel gauge).\n4. Airbag and fuel gauge issues linked to a recall.\n5. Heated seat fire hazard (not directly related to this code).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-010",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Fplatform.cstatic-images.com%2Fin%2Fv2%2Fstock_photos%2F4639c236-6d6b-42cf-9045-2dd486d6e48d%2F3b3c0129-7edc-4565-8b84-54f1afa4798b.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0194",
+   "description": "Fuel Rail Pressure Sensor Circuit Intermittent",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0194. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0194"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 164
+}

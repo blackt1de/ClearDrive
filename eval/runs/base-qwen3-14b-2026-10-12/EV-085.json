@@ -1,0 +1,104 @@
+{
+ "codes": [
+  "P0135"
+ ],
+ "vehicle": "2021 GMC SIERRA 3500",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": 720,
+ "speed": 0,
+ "coolant_temp": 195,
+ "safety_level": "SAFE",
+ "safety_meaning": "Low Urgency - Safe to Drive",
+ "safety_description": "This issue is minor and won't damage your vehicle. You can continue driving normally while scheduling a repair at your convenience.",
+ "safety_action": "Schedule service when convenient",
+ "dont_panic": "Your 2021 GMC SIERRA 3500 is showing code P0135. This means the oxygen sensor\u2019s heater circuit is not working properly, which affects how the engine mixes air and fuel. The vehicle\u2019s coolant is at 195\u00b0F (normal operating temperature), and the engine is idling at 720 RPM with 22% load. The code points to an electrical issue with the sensor, its wiring, or its heater, not a problem with how the engine is running. No measurements suggest immediate danger.",
+ "likely_causes": "1. The oxygen sensor\u2019s heater circuit (which warms up the sensor to work properly) has an electrical fault. This could be due to damaged wiring, a corroded connector, or a failed sensor. Evidence: P0135 code is present.",
+ "symptoms": "1. The check engine light is on. - This is the main indicator of the code.\n2. Slight decrease in fuel efficiency. - A faulty sensor can cause the engine to run slightly richer or leaner.\n3. No noticeable performance issues. - The engine is running normally based on current measurements.\n4. No unusual noises or smells. - The issue is electrical, not mechanical.",
+ "if_ignored": "- In the next few weeks, fuel efficiency might drop slightly, and emissions could increase.\n- Long-term, the sensor could fail completely, leading to more expensive repairs.\n- No immediate safety risk, but ignoring it may cost more later.",
+ "quick_checks": "- Inspect the sensor connector and wiring for damage or corrosion.\n- Have the sensor heater circuit tested before replacing anything.",
+ "diy_fix": "This repair is NOT recommended for DIY because it requires specialized tools to test the heater circuit and access under the vehicle. A professional mechanic should handle this.",
+ "urgency": "This can wait a week or two, but don\u2019t forget about it.",
+ "repair_cost": "- Parts: $50 - $200\n- Labor: $100 - $300\n- Total at independent shop: $150 - $500\n- Total at dealer: $200 - $650 (30-50% more than independent shops)",
+ "known_issues": "No verified issue history was available for this vehicle.",
+ "owner_reports": "NHTSA complaints for this vehicle include issues with rear brake pads detaching, transmission acting like neutral, rear defroster causing melting plastic, backup camera failures, and infotainment screen blackouts. Source: NHTSA Complaints Database (api.nhtsa.gov).",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-085",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13990%2F2021-GMC-Sierra%25203500%2520HD%2520Crew%2520Cab-front_13990_032_1797x800_GAN_cropped.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [],
+ "code_definitions": [
+  {
+   "code": "P0135",
+   "description": "O2 Sensor Heater Circuit Malfunction (Bank 1, Sensor 1)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [
+  {
+   "rule": "oxygen_sensor_triage",
+   "conclusion": "An oxygen sensor is reporting an electrical fault (P0135) rather than an unusual reading. That points at the sensor, its heater, or its wiring, rather than at how the engine is running.",
+   "confidence": "moderate",
+   "basis": "heuristic",
+   "next_checks": [
+    "Inspect the sensor connector and wiring for damage or corrosion",
+    "Have the sensor heater circuit tested before replacing anything"
+   ],
+   "evidence": [
+    {
+     "pointer": "dtc_codes",
+     "restatement": "oxygen sensor codes present: P0135"
+    }
+   ]
+  }
+ ],
+ "not_assessed": [],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [
+  "Inspect the sensor connector and wiring for damage or corrosion",
+  "Have the sensor heater circuit tested before replacing anything"
+ ],
+ "safety": {
+  "verdict": "ok",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "no_escalation",
+    "statement": "Codes are stored, but no measurement in this scan crossed a threshold that would make continued driving risky.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0135"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 239
+}

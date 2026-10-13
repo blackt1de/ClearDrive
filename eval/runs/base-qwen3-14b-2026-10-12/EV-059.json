@@ -1,0 +1,101 @@
+{
+ "codes": [
+  "P0128"
+ ],
+ "vehicle": "2020 Chevrolet BLAZER",
+ "engine": "",
+ "fuel_type": "",
+ "drive": "",
+ "transmission": "",
+ "supercharged": null,
+ "turbocharged": null,
+ "hybrid": false,
+ "electric": false,
+ "performance_tier": "standard",
+ "mpg_city": "",
+ "mpg_highway": "",
+ "mpg_combined": "",
+ "tank_capacity": "",
+ "horsepower": "",
+ "rpm": null,
+ "speed": null,
+ "coolant_temp": null,
+ "safety_level": "UNKNOWN",
+ "safety_meaning": "Could Not Be Determined",
+ "safety_description": "The scan did not return the measurements needed to judge how safe this vehicle is to drive. Treat this as unassessed, not as safe.",
+ "safety_action": "Have the vehicle checked rather than assuming it is fine",
+ "dont_panic": "Your 2020 Chevrolet BLAZER is showing code P0128, which means the engine coolant temperature is too low for the thermostat to regulate properly. This code suggests the thermostat or coolant sensor might not be working as intended. The vehicle\u2019s own readings (coolant temperature, engine speed, etc.) are unavailable, so we can\u2019t confirm the exact issue from this scan. However, other owners have reported similar problems with the thermostat and coolant system. This is not an immediate safety risk, but it could affect engine performance.",
+ "likely_causes": "1. Faulty thermostat (controls coolant flow to maintain engine temperature).\n2. Malfunctioning coolant temperature sensor (measures engine temperature for the thermostat and dashboard).\n3. Low or contaminated coolant (affects thermostat and sensor operation).",
+ "symptoms": "1. The temperature gauge stays on cold or doesn\u2019t move. - The thermostat or sensor isn\u2019t sending correct signals.\n2. The air conditioner stops working. - Engine cooling issues can disable AC to prevent overheating.\n3. The cooling fan runs constantly. - The system thinks the engine is overheating.\n4. The vehicle enters limp mode. - A safety feature limits power to protect the engine.",
+ "if_ignored": "- In the next few days/weeks: The engine could overheat, causing damage to the engine or cooling system.\n- Long-term: Repeated overheating may lead to expensive repairs (e.g., warped cylinder heads, blown head gaskets).\n- Cost: Repairs could be more expensive if the engine or radiator is damaged.\n- Safety: Overheating could cause a fire risk if coolant leaks onto hot engine parts.",
+ "quick_checks": "- Check coolant level and condition (low or dirty coolant can trigger this code).\n- Inspect the thermostat for visible damage or sticking.\n- Look for coolant leaks under the vehicle.",
+ "diy_fix": "This repair is NOT recommended for DIY because it involves removing the thermostat and inspecting the cooling system, which requires specialized tools and knowledge to avoid damaging other components. A professional mechanic should handle this.",
+ "urgency": "Try to get this looked at in the next few days. If the temperature gauge behaves oddly or the AC stops working, schedule service immediately.",
+ "repair_cost": "- Parts: $500\u2013$1,000 (thermostat, coolant sensor, radiator if needed).\n- Labor: $300\u2013$600 (at an independent shop).\n- Total at independent shop: $800\u2013$1,600.\n- Total at dealer: $1,000\u2013$2,000 (higher labor rates).",
+ "known_issues": "Thermostat and coolant sensor failures are reported in NHTSA complaints. Some owners had to replace the radiator and thermostat before 35,000 miles.",
+ "owner_reports": "From NHTSA complaints:\n1. Thermostat and coolant sensor issues caused dashboard temperature gauge failure, AC disablement, and limp mode.\n2. Radiator and thermostat replacement was needed before 35,000 miles.\n3. Intermittent check engine light and engine overheating were reported.",
+ "data_sources": [
+  "NHTSA Complaints Database",
+  "NHTSA Recalls Database"
+ ],
+ "obd_source": "Synthetic fixture: EV-059",
+ "trim": "",
+ "vehicleImageURL": "/image-proxy?url=https%3A%2F%2Ffile.kelleybluebookimages.com%2Fkbb%2Fbase%2Fevox%2FCP%2F13417%2F2020-Chevrolet-Blazer-front_13417_032_2400x1800_GAZ.png",
+ "mileage": null,
+ "pending_codes": [],
+ "permanent_codes": [],
+ "capability_limitations": [
+  "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured."
+ ],
+ "code_definitions": [
+  {
+   "code": "P0128",
+   "description": "Coolant Thermostat (Coolant Temperature Below Thermostat Regulating Temperature)",
+   "tier": "standardized_unverified",
+   "source": "ml/data/sae_j2012.json (not yet verified against SAE J2012)",
+   "system": "powertrain",
+   "subsystem": "fuel_air_metering",
+   "caveat": "Standardized code definition. Our copy of the standard table has not yet been verified against the SAE J2012 document."
+  }
+ ],
+ "differential": [],
+ "not_assessed": [
+  {
+   "rule": "no_rule_for_code",
+   "reason": "No automated analysis exists yet for P0128. These codes are reported but were not narrowed down by this scan.",
+   "missing": [
+    "a diagnostic rule for these codes"
+   ]
+  },
+  {
+   "rule": "capture_limitation",
+   "reason": "Reconstructed from an NHTSA complaint narrative: only the stated trouble codes are known. No live data, freeze frame, fuel trims or Mode 06 were captured.",
+   "missing": [
+    "vehicle support"
+   ]
+  }
+ ],
+ "is_synthetic": true,
+ "code_status": [],
+ "recommended_checks": [],
+ "safety": {
+  "verdict": "insufficient_data",
+  "basis": "heuristic",
+  "reasons": [
+   {
+    "rule": "insufficient_data",
+    "statement": "A safety level could not be assigned because the payload is missing: coolant temperature.",
+    "raises_to": null,
+    "evidence": [
+     {
+      "pointer": "dtc_codes",
+      "restatement": "codes present: P0128"
+     }
+    ]
+   }
+  ]
+ },
+ "finish_reason": "stop",
+ "service_recommendations": "The correct oil specification and service interval for this engine are in the owner\u2019s manual or on the oil filler cap. We do not yet hold a verified maintenance record for this vehicle.",
+ "scan_id": 213
+}
