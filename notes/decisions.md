@@ -2,6 +2,34 @@
 
 Append-only. Most recent first. Each entry is a settled commitment — don't relitigate without escalating. For session-by-session strategic reviews, see `notes/council/decisions/`.
 
+## [DECIDED] QLoRA training shape as run on the 5090; pilot gate — 2026-10-13
+Context: the first pilot crashed and the next ran at 150–160 s per optimizer step. Log:
+`notes/reports/logs/2026-10-13-phase-6.log`.
+Decisions (Austin, 2026-10-13, except where marked):
+- **`lora_dropout` 0, changed from 0.05, for throughput.** It is the standard setting for
+  QLoRA with Unsloth, and it measured 21% faster in a raw training loop (7.6 s against
+  9.6 s per batch of two) because Unsloth's fused LoRA kernels only apply at dropout 0.
+  The pilot ran at 0.05; the full run is at 0.
+- **`max_seq_length` 5,632**: the longest pair in `train.jsonl` is 5,591 tokens, rounded
+  up to a multiple of 256. Batch 2 × gradient accumulation 8 is kept. The length check
+  still refuses over-length pairs.
+- **Gradient checkpointing stays in Unsloth's offloading mode.** The plain mode measured
+  8% faster but 4 GB more, which is too close to the card's limit.
+- **Step time of about 55 s is accepted.** WSL2 is not tried.
+- **Two executor fixes in `ml/train_qlora.py`, needed to train at all on this box:**
+  `unsloth.utils.attention_dispatch.SDPA_HAS_GQA = False` (with torch 2.12, SDPA's
+  `enable_gqa` takes the math path and builds a 4.67 GiB score matrix at 5,600 tokens;
+  with it off the same attention peaks at 0.6 GB), and `padding_free=False` (Unsloth's
+  packed batches ran at 150–160 s per step against about 60 s padded).
+- **Pilot gate: passed on training loss.** Attempt 4 (237 pairs, 200 steps, 13.3 epochs)
+  finished. Training loss fell at every logged step, 1.339 → 0.025. Validation loss rose
+  from 0.778 at step 100 to 1.268 at step 200, which is overfitting to 237 pairs seen 13
+  times, not a fault in the pipeline. The executor read "loss still decreasing" as the
+  training loss; the full run's validation loss at each 100 steps is the real check.
+Supersedes: the dropout 0.05 in brief 2 Phase 4.3, and the 8,192 `max_seq_length` in
+ruling 4 of "[DECIDED] Brief 2 fine-tune rulings" (2026-09-25). The 8,192 there for the
+served `num_ctx`/`num_predict` is unaffected.
+
 ## [DECIDED] Output budget 8,192 for every condition — 2026-10-12
 Context: the first base run (`base-qwen3-14b-2026-09-26`, thinking on, `num_predict` 4,096)
 failed the truncation gate: 21 of 132 calls (15.9%, limit 5%) ended `finish_reason:

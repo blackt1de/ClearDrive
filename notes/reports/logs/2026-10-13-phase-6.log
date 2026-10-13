@@ -62,3 +62,5 @@ gc=unsloth dropout=0.0 : steady 7.6 s per batch of 2; peak 14.7 GB (information 
 {"step": 20, "epoch": 1.3361344537815127, "time": 1791867918.619532, "loss": 0.8666508674621582, "grad_norm": 0.26471611857414246, "learning_rate": 0.
 20 steps in 19:21 = 58.1 s/step; steps 11-20 in 9:04 = 54.4 s/step; limit 30 s/step -> BLOCKED
 GPU during run: 27428 MiB, 99 %; pilot left running, pid 14644
+=== pilot attempt 4 finished: 200 steps, train_runtime 11501 s; train loss 1.339 (step 10) -> 0.025 (step 200); eval loss 0.778 (step 100) -> 1.268 (step 200); gate passed on training loss
+=== FULL RUN started 2026-10-13T19:14:36Z pid 76168: python ml\train_qlora.py (max_seq_length 5632, batch 2 x accum 8, lora_dropout 0, gc=unsloth, eval every 100 steps); GPU before start 1463 MiB

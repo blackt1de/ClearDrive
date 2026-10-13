@@ -97,7 +97,7 @@ def main() -> int:
         model,
         r=16,
         lora_alpha=32,
-        lora_dropout=0.05,
+        lora_dropout=0.0,   # ruled 2026-10-13: was 0.05; 21% faster, enables fused LoRA kernels
         target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
         bias="none",
         use_gradient_checkpointing="unsloth",

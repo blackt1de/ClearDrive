@@ -1,0 +1,54 @@
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+==((====))==  Unsloth 2026.9.11: Fast Qwen3 patching. Transformers: 5.5.0.
+   \\   /|    NVIDIA GeForce RTX 5090. Num GPUs = 1. Max memory: 31.842 GB. Platform: Windows.
+O^O/ \_/ \    Torch: 2.12.1+cu130. CUDA: 12.0. CUDA Toolkit: 13.0. Triton: 3.8.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+train: 4750 pairs, max 5591 tokens, 0 over 5632
+val: 250 pairs, max 5519 tokens, 0 over 5632
+PILOT: 237 train pairs, max_steps=200
+Unsloth: Will smartly offload gradients to save VRAM!
+Unsloth: Double buffering enabled (parallel H2D + compute) for backward pass.
+{'loss': '1.339', 'grad_norm': '0.3859', 'learning_rate': '0.0001999', 'epoch': '0.6723'}
+{'loss': '0.8667', 'grad_norm': '0.2647', 'learning_rate': '0.0001978', 'epoch': '1.336'}
+{'loss': '0.6622', 'grad_norm': '0.2752', 'learning_rate': '0.0001931', 'epoch': '2'}
+{'loss': '0.5459', 'grad_norm': '0.3001', 'learning_rate': '0.0001861', 'epoch': '2.672'}
+{'loss': '0.4623', 'grad_norm': '0.2822', 'learning_rate': '0.0001767', 'epoch': '3.336'}
+{'loss': '0.4142', 'grad_norm': '0.3672', 'learning_rate': '0.0001654', 'epoch': '4'}
+{'loss': '0.3297', 'grad_norm': '0.448', 'learning_rate': '0.0001523', 'epoch': '4.672'}
+{'loss': '0.3049', 'grad_norm': '0.4475', 'learning_rate': '0.0001379', 'epoch': '5.336'}
+{'loss': '0.2545', 'grad_norm': '0.4751', 'learning_rate': '0.0001225', 'epoch': '6'}
+{'loss': '0.1952', 'grad_norm': '0.5475', 'learning_rate': '0.0001065', 'epoch': '6.672'}
+{'eval_loss': '0.7783', 'eval_runtime': '327.8', 'eval_samples_per_second': '0.763', 'eval_steps_per_second': '0.381', 'epoch': '6.672'}
+{'loss': '0.1648', 'grad_norm': '0.5505', 'learning_rate': '9.03e-05', 'epoch': '7.336'}
+{'loss': '0.1419', 'grad_norm': '0.6072', 'learning_rate': '7.438e-05', 'epoch': '8'}
+{'loss': '0.09949', 'grad_norm': '0.6275', 'learning_rate': '5.913e-05', 'epoch': '8.672'}
+{'loss': '0.08122', 'grad_norm': '0.4534', 'learning_rate': '4.495e-05', 'epoch': '9.336'}
+{'loss': '0.06606', 'grad_norm': '0.6519', 'learning_rate': '3.221e-05', 'epoch': '10'}
+{'loss': '0.0433', 'grad_norm': '0.474', 'learning_rate': '2.124e-05', 'epoch': '10.67'}
+{'loss': '0.03769', 'grad_norm': '0.3698', 'learning_rate': '1.234e-05', 'epoch': '11.34'}
+{'loss': '0.03018', 'grad_norm': '0.4635', 'learning_rate': '5.727e-06', 'epoch': '12'}
+{'loss': '0.02484', 'grad_norm': '0.3111', 'learning_rate': '1.582e-06', 'epoch': '12.67'}
+{'loss': '0.02475', 'grad_norm': '0.3047', 'learning_rate': '1.311e-08', 'epoch': '13.34'}
+{'eval_loss': '1.268', 'eval_runtime': '291.3', 'eval_samples_per_second': '0.858', 'eval_steps_per_second': '0.429', 'epoch': '13.34'}
+{'train_runtime': '1.15e+04', 'train_samples_per_second': '0.278', 'train_steps_per_second': '0.017', 'train_loss': '0.3045', 'epoch': '13.34'}
+{
+  "train": {
+    "train_runtime": 11500.6813,
+    "train_samples_per_second": 0.278,
+    "train_steps_per_second": 0.017,
+    "total_flos": 1.2441801337822618e+18,
+    "train_loss": 0.3044574113935232,
+    "epoch": 13.336134453781513
+  },
+  "eval": {
+    "eval_loss": 1.2681584358215332,
+    "eval_runtime": 303.8329,
+    "eval_samples_per_second": 0.823,
+    "eval_steps_per_second": 0.411,
+    "epoch": 13.336134453781513
+  }
+}
+adapter saved: C:\Users\conor\Documents\ClearDriveProject\ClearDrive\ml\out\cleardrive-qwen-lora-pilot
