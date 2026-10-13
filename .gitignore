@@ -63,3 +63,15 @@ Thumbs.db
 
 # Unsloth runtime kernel cache (regenerated on import)
 unsloth_compiled_cache/
+
+# Brief 2c distillation: venv and large/regenerable artifacts stay local; the manifest,
+# counts, exclusions, synthesis prompt and reports are committed.
+.venv-distill/
+data/train/*
+!data/train/MANIFEST.json
+!data/train/exclusions.json
+!data/train/synthesis_prompt.txt
+!data/train/normalize_counts.json
+!data/train/sample_composition.json
+!data/train/filter_report.json
+!data/train/synthesis_cost.json

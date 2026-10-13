@@ -1,0 +1,290 @@
+=== phase 5 step 0 on BLACK_5090 2026-10-12T23:46:23Z
+=== 0.1 tag
+eval-v1-frozen
+aa308a1
+=== 0.4 key
+ANTHROPIC_API_KEY: SET
+=== anthropic sdk
+WARNING: Package(s) not found: anthropic
+CMD: .venv/Scripts/python -m pip install anthropic
+Successfully installed anthropic-1.13.0 httpcore2-2.13.1 httpx2-2.13.1 jiter-0.17.0 sniffio-1.3.1 truststore-0.10.5
+No broken requirements found.
+torch 2.12.1+cu130 True anthropic 1.13.0
+=== API probe: claude-opus-5-5 with and without temperature 2026-10-12T23:46:43Z
+no temperature: OK model=claude-opus-5-5 stop=end_turn text='READY' usage in=17 out=4
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+  File "C:\Users\conor\Documents\ClearDriveProject\ClearDrive\.venv\Lib\site-packages\anthropic\_utils\_utils.py", line 294, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: Messages.create() got an unexpected keyword argument 'temperature'
+=== API probe 2: temperature via extra_body
+temperature=0.3: 400 Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CfyEawqYrtLxBk3UJojiq'}
+temperature=0: 400 Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CfyEaxaCaeaqBiJ1EFwBp'}
+=== 0.2 locate raw data
+./backfill_reddit.py
+./code_scraper.py
+./corpus_stats.py
+./forum_scraper.py
+./migrate_corpus.py
+./ml/data/raw
+./notes/carsxe-raw-responses
+./notes/council/decisions/2026-05-10--corpus-cleanup-before-training.md
+./scrape_training_data.py
+./training_data/backfill_reddit.log
+./training_data/scrape.log
+./__pycache__/backfill_reddit.cpython-312.pyc
+./__pycache__/code_scraper.cpython-312.pyc
+./__pycache__/forum_scraper.cpython-312.pyc
+./__pycache__/migrate_corpus.cpython-312.pyc
+./__pycache__/scrape_training_data.cpython-312.pyc
+ls: cannot access 'data/': No such file or directory
+ml/:
+CLAUDE.md
+__pycache__
+configs
+data
+merge_and_export.py
+notes
+runs
+scripts
+smoke_load.py
+src
+train_qlora.py
+=== 0.3 existing distill/dataset scripts
+./docs/briefs/weekend/brief-2c-training-data-distillation.md
+./ml/notes/synthesis_design.md
+./ml/src/etl
+ml/scripts:
+blackwell_check.py
+build_sae_j2012.py
+
+ml/src/etl:
+__init__.py
+
+scripts:
+__pycache__
+baseline_format_validation.py
+baseline_score_responses.py
+baseline_validation_rerun.md
+eval_build.py
+eval_run.py
+eval_score.py
+eval_validate.py
+rubric_score.py
+smoke_run.py
+=== distill venv 2026-10-12T23:49:42Z
+CMD: py -3.12 -m venv .venv-distill; pip install -r requirements.txt anthropic
+Successfully installed annotated-types-0.8.0 anthropic-1.13.0 anyio-4.15.1 beautifulsoup4-4.15.0 certifi-2026.7.22 click-8.5.0 colorama-0.4.6 docstring-parser-0.18.0 fastapi-0.115.0 flexcache-0.3 flexparser-0.4 h11-0.16.0 httpcore-1.0.9 httpcore2-2.13.1 httptools-0.9.0 httpx-0.28.1 httpx2-2.13.1 idna-3.20 jiter-0.17.0 lxml-6.1.3 obd-0.7.3 pint-0.24.4 platformdirs-4.13.0 pydantic-2.9.2 pydantic-cor
+No broken requirements found.
+=== step 1 normalize 2026-10-12T23:51:38Z
+CMD: .venv-distill/Scripts/python scripts/distill_normalize.py
+files read: 15000
+source                              in       out
+reddit (all subreddits)          74605     74605
+carcomplaints                      247         1
+nhtsa_complaints                 83746     83746
+nhtsa_recalls                     1566         0
+repairpal                          681       680
+TOTAL                           160845    159032
+subreddits: 30; per-source counts in C:\Users\conor\Documents\ClearDriveProject\ClearDrive\data\train\normalize_counts.json
+exit=0 2026-10-12T23:52:22Z
+total 136464
+drwxr-xr-x 1 conor 197610         0 Oct 12 19:52 .
+drwxr-xr-x 1 conor 197610         0 Oct 12 19:51 ..
+-rw-r--r-- 1 conor 197610      2235 Oct 12 19:52 normalize_counts.json
+-rw-r--r-- 1 conor 197610 139731791 Oct 12 19:52 normalized.jsonl
+=== steps 2-3 exclude + sample 2026-10-12T23:53:37Z
+CMD: .venv-distill/Scripts/python scripts/distill_sample.py
+step 2: 12442 records dropped {'vehicle': 12292, 'tuple': 144, 'url': 6}; 146590 remain
+step 3: sampled 5142 of target 5500 from 11359 distinct inputs
+  with resolution 3823, no DTC 274, multi-DTC 1555
+  keys skipped by cap: {'label_cap': 1608, 'source_cap': 4609}
+  label                            n   share
+  unmapped                       420    8.2%
+  transmission                   400    7.8%
+  ignition_component             400    7.8%
+  evap_system                    400    7.8%
+  maf_sensor                     400    7.8%
+  air_fuel_metering_other        400    7.8%
+  valve_timing_air_aux           400    7.8%
+  ignition_system_sensor         400    7.8%
+  control_module                 400    7.8%
+  oxygen_sensor                  353    6.9%
+  idle_speed_auxiliary           344    6.7%
+  catalytic_converter            287    5.6%
+  emissions_control_other        208    4.0%
+  fuel_injector                  138    2.7%
+  vacuum_intake_leak             116    2.3%
+  fuel_delivery                   76    1.5%
+  source                           n   share
+  reddit/r/MechanicAdvice        825   16.0%
+  reddit/r/Cartalk               825   16.0%
+  nhtsa_complaints               641   12.5%
+  reddit/r/AskMechanics          502    9.8%
+  reddit/r/autorepair            465    9.0%
+  reddit/r/Ford                  306    6.0%
+  reddit/r/kia                   168    3.3%
+  reddit/r/Toyota                160    3.1%
+  reddit/r/Jeep                  139    2.7%
+  reddit/r/ram_trucks            137    2.7%
+  reddit/r/Honda                 124    2.4%
+  reddit/r/Nissan                102    2.0%
+  reddit/r/subaru                 97    1.9%
+  reddit/r/Chevrolet              85    1.7%
+  reddit/r/mazda                  73    1.4%
+  reddit/r/Hyundai                68    1.3%
+  reddit/r/mercedes_benz          58    1.1%
+  reddit/r/Lexus                  57    1.1%
+  reddit/r/BMW                    49    1.0%
+  reddit/r/gmc                    45    0.9%
+  reddit/r/Volkswagen             32    0.6%
+  reddit/r/Dodge                  29    0.6%
+  reddit/r/Acura                  26    0.5%
+  reddit/r/Audi                   25    0.5%
+  repairpal                       22    0.4%
+  reddit/r/Genesis                19    0.4%
+  reddit/r/infiniti               17    0.3%
+  reddit/r/Buick                  14    0.3%
+  reddit/r/MINI                   14    0.3%
+  reddit/r/Volvo                  10    0.2%
+  reddit/r/chrysler                8    0.2%
+exit=0
+=== steps 2-3 rerun: label cap 10% of target (550), source cap 15% of sampled 2026-10-12T23:54:01Z
+step 2: 12442 records dropped {'vehicle': 12292, 'tuple': 144, 'url': 6}; 146590 remain
+step 3: sampled 5500 of target 5500 from 11359 distinct inputs
+  with resolution 4181, no DTC 260, multi-DTC 1540
+  keys skipped by cap: {'source_cap': 2519, 'label_cap': 539}
+  label                            n   share
+  transmission                   550   10.0%
+  ignition_component             550   10.0%
+  evap_system                    550   10.0%
+  air_fuel_metering_other        550   10.0%
+  valve_timing_air_aux           550   10.0%
+  maf_sensor                     420    7.6%
+  control_module                 415    7.5%
+  ignition_system_sensor         359    6.5%
+  unmapped                       329    6.0%
+  idle_speed_auxiliary           309    5.6%
+  oxygen_sensor                  292    5.3%
+  catalytic_converter            221    4.0%
+  emissions_control_other        184    3.3%
+  vacuum_intake_leak              82    1.5%
+  fuel_injector                   81    1.5%
+  fuel_delivery                   58    1.1%
+  source                           n   share
+  reddit/r/MechanicAdvice        825   15.0%
+  reddit/r/Cartalk               825   15.0%
+  reddit/r/AskMechanics          543    9.9%
+  nhtsa_complaints               537    9.8%
+  reddit/r/autorepair            528    9.6%
+  reddit/r/Ford                  381    6.9%
+  reddit/r/Toyota                182    3.3%
+  reddit/r/kia                   179    3.3%
+  reddit/r/Jeep                  174    3.2%
+  reddit/r/Honda                 163    3.0%
+  reddit/r/ram_trucks            142    2.6%
+  reddit/r/Nissan                139    2.5%
+  reddit/r/Chevrolet             104    1.9%
+  reddit/r/subaru                 96    1.7%
+  reddit/r/mazda                  95    1.7%
+  reddit/r/Hyundai                94    1.7%
+  reddit/r/mercedes_benz          77    1.4%
+  reddit/r/Lexus                  69    1.3%
+  reddit/r/gmc                    60    1.1%
+  reddit/r/BMW                    39    0.7%
+  reddit/r/Dodge                === step 4 build prompts 2026-10-12T23:55:37Z
+CMD: .venv-distill/Scripts/python scripts/distill_build.py
+=== step 5 pilot: 40 records, effort medium 2026-10-12T23:58:36Z
+40 prompts, 0 already done or out of this run, 40 to synthesize; effort=medium, concurrency=16
+this run: 40 ok, 0 failed, in 275,893 out 95,544 tokens, $3.01
+running total: 40 ok, $3.01; raw targets on disk: 40
+exit=0
+=== step 5 pilot 2 (revised synthesis prompt: section budgets, source-only known issues): 40 records 2026-10-13T00:00:50Z
+40 prompts, 0 already done or out of this run, 40 to synthesize; effort=medium, concurrency=16
+this run: 40 ok, 0 failed, in 286,613 out 164,671 tokens, $4.44
+running total: 80 ok, $7.45; raw targets on disk: 40
+prompts 40; kept 39; dropped 1
+  schema                     1
+words per kept target: {'min': 194, 'max': 479, 'mean': 441.3}
+  500/5500 built; NHTSA cache 334 entries
+  1000/5500 built; NHTSA cache 400 entries
+  1500/5500 built; NHTSA cache 448 entries
+  2000/5500 built; NHTSA cache 470 entries
+  2500/5500 built; NHTSA cache 494 entries
+  3000/5500 built; NHTSA cache 506 entries
+  3500/5500 built; NHTSA cache 518 entries
+  4000/5500 built; NHTSA cache 532 entries
+  4500/5500 built; NHTSA cache 544 entries
+  5000/5500 built; NHTSA cache 550 entries
+  5500/5500 built; NHTSA cache 562 entries
+records in: 5500; prompts written: 5500 (coded 5240, no_codes 260)
+dropped: retrieval failed 0, backend error 0
+NHTSA cache: 562 lookups, 522 non-empty; failed lookups: 0
+exit=0 2026-10-13T00:04:21Z
+=== step 5 full synthesis 2026-10-13T00:04:31Z
+CMD: .venv-distill/Scripts/python scripts/distill_synthesize.py --effort medium
+=== phase 6 readiness probe 2026-10-13T00:05:36Z: ssh -o BatchMode=yes abrennan@ajb1ubuntu and alias a4500 -> Permission denied (publickey,password)
+5500 prompts, 40 already done or out of this run, 5460 to synthesize; effort=medium, concurrency=16
+  100 ok / 0 failed; in 737,470 out 443,720 tokens; $11.82; 252s
+  200 ok / 0 failed; in 1,459,815 out 869,073 tokens; $23.22; 488s
+  300 ok / 0 failed; in 2,192,676 out 1,298,055 tokens; $34.73; 721s
+  400 ok / 0 failed; in 2,896,843 out 1,711,205 tokens; $45.81; 954s
+  500 ok / 0 failed; in 3,602,020 out 2,125,285 tokens; $56.91; 1171s
+  600 ok / 0 failed; in 4,332,394 out 2,545,031 tokens; $68.23; 1393s
+  700 ok / 0 failed; in 5,043,508 out 2,977,082 tokens; $79.72; 1632s
+=== step 5: harness stopped the background synthesis at its time limit with 810 targets on disk; restarted detached (pid 32868) 2026-10-13T00:35:33Z; log data/train/synth_run.out.log
+=== filter fix 2026-10-13T01:05:25Z: NUMBER_RE captured a trailing comma ('20,' != '20'), dropping correctly sourced sentences in a preview over 1,594 targets; regex corrected before the final filter run
+=== step 5 result 2026-10-13T03:29:52Z
+this run: 4690 ok, 0 failed, in 33,252,676 out 19,177,384 tokens, $516.56
+running total: 4770 ok, $524.01; raw targets on disk: 5500
+final targets on disk: 5500; input 39,095,176 output 22,617,914 tokens; $608.74; stop reasons {'end_turn': 5500}; models {'claude-opus-5-5': 5500}
+pilot 1 (discarded, earlier synthesis prompt): 40 targets; input 275,893 output 95,544; $3.01
+total spend from saved usage: $611.75 (excludes up to 16 requests in flight when the harness stopped the first background run, and 5 probe calls)
+=== step 6 filter 2026-10-13T03:29:53Z
+CMD: .venv-distill/Scripts/python scripts/distill_filter.py
+prompts 5500; kept 5324; dropped 176
+  schema                    76
+  grounding                 71
+  length_over_500           29
+words per kept target: {'min': 133, 'max': 500, 'mean': 440.0}
+exit=0
+=== step 7 format 2026-10-13T03:34:00Z
+CMD: .venv/Scripts/python scripts/distill_format.py
+pairs 5000 (dropped over 8192 tokens: 0; trimmed to the 5000 target: 324); train 4750, val 250 (5.0%) on 17 held-out platforms of 138
+tokens per pair: max 5591, mean 4317
+  label                         train   val
+  air_fuel_metering_other         445    24
+  catalytic_converter             204    12
+  control_module                  382    21
+  emissions_control_other         172     8
+  evap_system                     446    23
+  fuel_delivery                    51     1
+  fuel_injector                    76     4
+  idle_speed_auxiliary            289    14
+  ignition_component              446    23
+  ignition_system_sensor          339    16
+  maf_sensor                      388    19
+  oxygen_sensor                   253    13
+  transmission                    446    24
+  unmapped                        294    20
+  vacuum_intake_leak               72     5
+  valve_timing_air_aux            447    23
+  cleardrive_sft.jsonl: 5000 lines, sha256 fb1409c58954492f96b6632ca4b27ca6dae9f207586a000bc6837128452e138c
+  train.jsonl: 4750 lines, sha256 5be53983ae0ac556f883b285cc67ddd1e94be4e87d20d2936737c8ae595767ec
+  val.jsonl: 250 lines, sha256 362104592b0aff56a19498c456f4177b4e7a1d5d94728d25b5dafc54fbf98279
+exit=0
+=== acceptance 2026-10-13T03:34:38Z
+CMD: .venv-distill/Scripts/python scripts/distill_verify.py
+PASS  2 pair count: train 4750, val 250 (5.0% of 5000)
+PASS  3 eval overlap: {'url': 0, 'tuple': 0, 'vehicle': 0} over 5000 pairs, 102 eval cases, 30 codeless profiles
+PASS  4 schema, grounding, length: 0 failing of 5000
+PASS  5a system prompt: 1 distinct system prompt(s); equals ollama_client.SYSTEM_PROMPT: True
+PASS  5b user layout: 100 pairs rebuilt through main.interpret; 0 differ outside retrieved_at
+PASS  6 manifest: 3 files hashed; mismatching: none
+ALL PASS
+exit=0
+--- criterion 1: tag before synthesis
+eval-v1-frozen tagged commit aa308a1 dated 2026-09-26T01:07:35Z
+tag object created 2026-09-26T01:07:41Z
+first synthesis call: pilot 1 at 2026-10-12T23:58:36Z (this log)

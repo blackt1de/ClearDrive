@@ -1,0 +1,383 @@
+{
+ "prompts": 5500,
+ "kept": 5324,
+ "dropped": {
+  "schema": 76,
+  "length_over_500": 29,
+  "grounding": 71
+ },
+ "dropped_total": 176,
+ "words": {
+  "min": 133,
+  "max": 500,
+  "mean": 440.0
+ },
+ "schema_examples": [
+  {
+   "record_id": "reddit:90729a80cd3a75b9",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:2575127c2ee6b7ae",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:79d17636ce8f43d8",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:40f8ac981b01c710",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:2fed0be865a4a1e7",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:4fbbd17e023158d1",
+   "reason": "backend parser reads OTHER OWNERS REPORT differently (stray header inside a section)"
+  },
+  {
+   "record_id": "reddit:81685be0b1b55a75",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:b5b20d34ffcdd023",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:269d24f659d0face",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:a2223e964aa72c9a",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:5f49b07cb2aae577",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:a91fe6bd6a69dd1e",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:8243d921c44b7b72",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:b9ef624932064a13",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:ff4e916cff662bec",
+   "reason": "backend parser reads OTHER OWNERS REPORT differently (stray header inside a section)"
+  },
+  {
+   "record_id": "reddit:781228f742b61a9a",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:93286c9664435f8d",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:87a00f6da57b52ea",
+   "reason": "markdown characters"
+  },
+  {
+   "record_id": "reddit:125c2599703b9445",
+   "reason": "backend parser reads OTHER OWNERS REPORT differently (stray header inside a section)"
+  },
+  {
+   "record_id": "reddit:ef74d06375b21176",
+   "reason": "markdown characters"
+  }
+ ],
+ "invented_facts": [
+  {
+   "record_id": "reddit:f607c7f9ead56511",
+   "invented": "known-issue sentence not found in context (0% of its words): These are summarised below."
+  },
+  {
+   "record_id": "reddit:6bd2a6a56de0ccf8",
+   "invented": "known-issue sentence not found in context (33% of its words): The retrieved information contains no recall or known-issue records for this vehicle."
+  },
+  {
+   "record_id": "reddit:26d984beb21fa47e",
+   "invented": "known-issue sentence not found in context (40% of its words): It contains no recall or service bulletin records."
+  },
+  {
+   "record_id": "reddit:a0b5fab358306fc3",
+   "invented": "known-issue sentence states 30, not in context: The second, recall T03, covers AWD 2014-2017 Chrysler 300s and replaces front driveshaft bolts that may loosen."
+  },
+  {
+   "record_id": "nhtsa_complaints:11435391",
+   "invented": "known-issue sentence not found in context (40% of its words): The owner mentions a TSB (technical service bulletin)."
+  },
+  {
+   "record_id": "reddit:c0124b2745f81bcc",
+   "invented": "known-issue sentence not found in context (25% of its words): No other known issues, recalls or failure patterns were provided."
+  },
+  {
+   "record_id": "reddit:84113a8e383ddb3e",
+   "invented": "known-issue sentence not found in context (25% of its words): Some cover only certain body styles."
+  },
+  {
+   "record_id": "reddit:1317c6a2f599f553",
+   "invented": "known-issue sentence not found in context (38% of its words): The retrieved information contained no recalls, service bulletins or engine failure patterns."
+  },
+  {
+   "record_id": "reddit:65f676ea66500742",
+   "invented": "known-issue sentence states 15, not in context: The NHTSA Recalls Database lists recalls for certain 2021 F-150s: underbody heat and noise insulators contacting the aluminum driveshaft, windshield not properly bonded, damaged front-door side impact pressure sensor modules, electronic brake booster leaking brake fluid, and incorrectly routed front seatbelt webbing (Super Cab)."
+  },
+  {
+   "record_id": "reddit:a286a2a3d51f4691",
+   "invented": "known-issue sentence not found in context (33% of its words): No other sourced issue history was provided."
+  },
+  {
+   "record_id": "reddit:26256c2a3090efa9",
+   "invented": "known-issue sentence not found in context (25% of its words): No recalls or service bulletins were provided."
+  },
+  {
+   "record_id": "reddit:3c4242f229d6584e",
+   "invented": "known-issue sentence not found in context (25% of its words): It contained no recalls, service bulletins or known engine issues."
+  },
+  {
+   "record_id": "reddit:82289a35cd8d4f73",
+   "invented": "known-issue sentence not found in context (38% of its words): The retrieved information contains no recalls, service bulletins or failure patterns."
+  },
+  {
+   "record_id": "reddit:dda14e310bee1b5c",
+   "invented": "known-issue sentence not found in context (33% of its words): No recalls, service bulletins or engine failure patterns were retrieved."
+  },
+  {
+   "record_id": "nhtsa_complaints:11686393",
+   "invented": "known-issue sentence not found in context (33% of its words): The remedy is ECM (engine computer) reprogramming."
+  },
+  {
+   "record_id": "reddit:0a0eae5ac95b45c9",
+   "invented": "known-issue sentence not found in context (33% of its words): No other verified issue history was provided."
+  },
+  {
+   "record_id": "nhtsa_complaints:11103617",
+   "invented": "known-issue sentence not found in context (33% of its words): - Vibration the dealership could not explain."
+  },
+  {
+   "record_id": "reddit:feacde3a404badaf",
+   "invented": "known-issue sentence not found in context (33% of its words): Another says CSP11 warranty coverage only extends to 120,000 miles."
+  },
+  {
+   "record_id": "reddit:2872d37deb68edaf",
+   "invented": "known-issue sentence not found in context (40% of its words): Some of these recalls cover only certain body styles."
+  },
+  {
+   "record_id": "reddit:113355021f077544",
+   "invented": "known-issue sentence not found in context (33% of its words): No other issues, recalls or bulletins were retrieved."
+  },
+  {
+   "record_id": "reddit:d60c9cc3cec45187",
+   "invented": "known-issue sentence not found in context (40% of its words): - Engine oil cooler (EOC) hose replacement on Hellcat-engined cars."
+  },
+  {
+   "record_id": "reddit:cb0fb2782d9d69df",
+   "invented": "known-issue sentence not found in context (40% of its words): The retrieved model list is cut off and does not visibly name the NX300."
+  },
+  {
+   "record_id": "nhtsa_complaints:11349103",
+   "invented": "known-issue sentence not found in context (33% of its words): It also includes one report of a vibration and one of automatic braking not engaging."
+  },
+  {
+   "record_id": "reddit:668b9a71a404b243",
+   "invented": "known-issue sentence not found in context (25% of its words): No recalls or service bulletins were included."
+  },
+  {
+   "record_id": "nhtsa_complaints:11654904",
+   "invented": "known-issue sentence not found in context (25% of its words): No recalls or known-issue records were retrieved."
+  },
+  {
+   "record_id": "nhtsa_complaints:10979667",
+   "invented": "known-issue sentence not found in context (45% of its words): One describes early CVT (continuously variable transmission, the automatic gearbox) failure and Honda Service Bulletins 21-046 and 21-047."
+  },
+  {
+   "record_id": "reddit:b8c01152e015bcb5",
+   "invented": "known-issue sentence not found in context (40% of its words): A second recall covers 2014-2017 Chrysler 300 AWD models."
+  },
+  {
+   "record_id": "nhtsa_complaints:11498888",
+   "invented": "known-issue sentence not found in context (0% of its words): No other known issues, recalls or bulletins were supplied."
+  },
+  {
+   "record_id": "reddit:763056b7b28b2a71",
+   "invented": "known-issue sentence not found in context (33% of its words): No recalls, service bulletins or failure patterns were retrieved."
+  },
+  {
+   "record_id": "reddit:b2ecd49ce2db8099",
+   "invented": "known-issue sentence not found in context (44% of its words): It also returned fuel pump recalls whose model lists, as shown, do not name the RX350."
+  },
+  {
+   "record_id": "reddit:0bcd2007e9bc10c1",
+   "invented": "known-issue sentence not found in context (25% of its words): No recalls or service bulletins were provided."
+  },
+  {
+   "record_id": "reddit:b42bc2f17c893346",
+   "invented": "known-issue sentence not found in context (40% of its words): No recalls or technical service bulletins were retrieved."
+  },
+  {
+   "record_id": "reddit:d02e63e9c37c58d6",
+   "invented": "known-issue sentence not found in context (25% of its words): It lists no known issues, recalls or service bulletins."
+  },
+  {
+   "record_id": "reddit:b4a0adcac1ccf735",
+   "invented": "known-issue sentence not found in context (33% of its words): The retrieved information contains no recall or known-issue records."
+  },
+  {
+   "record_id": "reddit:3517756178d9d191",
+   "invented": "known-issue sentence not found in context (20% of its words): The other says coverage was refused above 120,000 miles."
+  },
+  {
+   "record_id": "reddit:097cec1bd38e5ebe",
+   "invented": "known-issue sentence not found in context (33% of its words): The model list in the excerpt is cut off."
+  },
+  {
+   "record_id": "reddit:ca8c3ea7b67c74e8",
+   "invented": "known-issue sentence not found in context (25% of its words): It included no recalls or service bulletins."
+  },
+  {
+   "record_id": "reddit:354142ff6d3193b9",
+   "invented": "known-issue sentence not found in context (25% of its words): It includes no recalls, service bulletins or engine issues."
+  },
+  {
+   "record_id": "reddit:53a38fc6896887a9",
+   "invented": "known-issue sentence not found in context (33% of its words): It lists no recalls, service bulletins or failure patterns for this engine."
+  },
+  {
+   "record_id": "reddit:3d3cbf0bbcb7b2c1",
+   "invented": "known-issue sentence not found in context (25% of its words): No known issues, recalls or service bulletins were provided."
+  },
+  {
+   "record_id": "reddit:dc7a69cd80c5dd21",
+   "invented": "known-issue sentence not found in context (33% of its words): All three are remedied by reprogramming that module."
+  },
+  {
+   "record_id": "reddit:bca56735c72da120",
+   "invented": "known-issue sentence not found in context (40% of its words): No recall, service bulletin or other issue history was retrieved."
+  },
+  {
+   "record_id": "reddit:541ec592096f12dc",
+   "invented": "known-issue sentence not found in context (0% of its words): No other known issues were provided for this engine."
+  },
+  {
+   "record_id": "reddit:4239d9dc06be0469",
+   "invented": "known-issue sentence not found in context (33% of its words): No recalls, service bulletins or engine failure patterns were retrieved."
+  },
+  {
+   "record_id": "reddit:222e0dabdbd7965a",
+   "invented": "known-issue sentence not found in context (33% of its words): No other sourced issue history was provided."
+  },
+  {
+   "record_id": "reddit:468f16dafbdbac46",
+   "invented": "known-issue sentence not found in context (25% of its words): No recalls or service bulletins were provided."
+  },
+  {
+   "record_id": "reddit:30d110943d9b2cf7",
+   "invented": "known-issue sentence states 150, not in context: The NHTSA Recalls Database lists recalls for certain 2019 Ram 1500s: non-functioning windshield defrosting (V12), 48v auxiliary battery terminal overheating (V17), adjustable brake pedal separating (V07), Mopar Rear Step Kit contacting the fuel tank (V93), and battery ground fastener causing power steering assist loss (V04)."
+  },
+  {
+   "record_id": "reddit:4bdaec7e664fbea3",
+   "invented": "known-issue sentence not found in context (25% of its words): It contains no recalls or service bulletins."
+  },
+  {
+   "record_id": "reddit:01a6704f3bf8b88e",
+   "invented": "known-issue sentence not found in context (40% of its words): No recalls or technical service bulletins were retrieved."
+  },
+  {
+   "record_id": "reddit:aca717cd1f7c54fa",
+   "invented": "known-issue sentence not found in context (25% of its words): It lists no known engine issues, recalls or service bulletins for this vehicle."
+  },
+  {
+   "record_id": "reddit:228a9ff570298e7d",
+   "invented": "known-issue sentence not found in context (43% of its words): No recalls, technical service bulletins or known engine issues were included in the retrieved information."
+  },
+  {
+   "record_id": "reddit:2640065024cb72ab",
+   "invented": "known-issue sentence not found in context (25% of its words): - Recall T03 covers 2014-2017 all-wheel-drive models."
+  },
+  {
+   "record_id": "reddit:6c597dcb34d9b357",
+   "invented": "known-issue sentence not found in context (40% of its words): - engine oil cooler (EOC) line replacement on Hellcat-engine models"
+  },
+  {
+   "record_id": "reddit:418389c9f8712dc0",
+   "invented": "known-issue sentence not found in context (20% of its words): Another says CSP11 coverage was refused because of mileage."
+  },
+  {
+   "record_id": "nhtsa_complaints:11397015",
+   "invented": "known-issue sentence not found in context (33% of its words): - Engine (2), including engine temperature rising"
+  },
+  {
+   "record_id": "reddit:0f667b6b5aedd3b8",
+   "invented": "known-issue sentence not found in context (43% of its words): The other says the repair was refused because the mileage exceeded the warranty limit."
+  },
+  {
+   "record_id": "nhtsa_complaints:10724651",
+   "invented": "known-issue sentence not found in context (0% of its words): - An engine that may keep running after it is switched off (15C06)."
+  },
+  {
+   "record_id": "reddit:7417d08031bf521f",
+   "invented": "known-issue sentence not found in context (33% of its words): No engine-related entries were retrieved."
+  },
+  {
+   "record_id": "nhtsa_complaints:11175733",
+   "invented": "known-issue sentence not found in context (33% of its words): Its model list is cut off and does not name the NX300."
+  },
+  {
+   "record_id": "nhtsa_complaints:10883862",
+   "invented": "known-issue sentence not found in context (44% of its words): They reported steering problems (2 complaints), including loss of power steering at low speed."
+  },
+  {
+   "record_id": "reddit:47e5a9a1fe03081f",
+   "invented": "known-issue sentence not found in context (43% of its words): Another owner was refused repair because the car was beyond the warranty mileage."
+  },
+  {
+   "record_id": "nhtsa_complaints:11180030",
+   "invented": "known-issue sentence not found in context (40% of its words): - A defective CVT transmission (a type of automatic gearbox)"
+  },
+  {
+   "record_id": "reddit:641567c98bd91586",
+   "invented": "known-issue sentence not found in context (20% of its words): Another says CSP11 coverage ends at 120,000 miles."
+  },
+  {
+   "record_id": "nhtsa_complaints:11396140",
+   "invented": "known-issue sentence states 3, not in context: 3."
+  },
+  {
+   "record_id": "reddit:e0a0b4fe469c153d",
+   "invented": "known-issue sentence not found in context (40% of its words): It lists owner complaints only, summarised below."
+  },
+  {
+   "record_id": "nhtsa_complaints:11419536",
+   "invented": "known-issue sentence not found in context (33% of its words): Several recalls cover this."
+  },
+  {
+   "record_id": "reddit:14c7ed76ad4c3356",
+   "invented": "known-issue sentence not found in context (33% of its words): The other says CSP11 coverage was refused beyond its mileage limit."
+  },
+  {
+   "record_id": "reddit:5b4c24efa5ddf345",
+   "invented": "known-issue sentence not found in context (38% of its words): Another says CSP11 coverage was refused because their mileage exceeded the warranty limit."
+  },
+  {
+   "record_id": "repairpal:48a3034afcce4608",
+   "invented": "known-issue sentence states 2, not in context: 2."
+  },
+  {
+   "record_id": "reddit:14fac2fdb2da3fcd",
+   "invented": "known-issue sentence not found in context (38% of its words): The retrieved information contained no recalls, service bulletins or known-issue lists for this vehicle."
+  },
+  {
+   "record_id": "nhtsa_complaints:11732554",
+   "invented": "known-issue sentence states 150, not in context: The NHTSA Recalls Database lists recalls for certain 2019 Ram 1500s: non-functioning windshield defrosting and defogging; auxiliary battery wire terminal may overheat; adjustable brake pedal may separate; Mopar Rear Step Kit fuel tank contact risk; battery ground fastener may cause loss of power steering assist."
+  }
+ ]
+}

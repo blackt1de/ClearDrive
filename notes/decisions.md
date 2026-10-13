@@ -21,6 +21,58 @@ Evidence that it fits, measured with the served model's tokenizer (Ollama
 `test_diagnostics.py` pins 8,192; 199 tests pass.
 Supersedes: the 4,096 value in "[DECIDED] Output budget 4,096 with default thinking; finish
 reason exposed — 2026-09-25". The rest of that entry stands.
+
+## [DECIDED] Training data for ClearDrive-Qwen: how brief 2c was applied — 2026-10-12
+Context: brief 2c (weekend Phase 5) was written before anyone had looked inside
+`training_data/raw/`. It assumes about 15k flat records with one source, one URL, symptoms
+and a resolution each. The corpus is 15,000 per-(vehicle, code) files, each bundling five
+scraped sources. Several steps therefore needed a reading, made by the executor during a
+hands-off run (Austin, 2026-10-12: "do not stop for GO"). Full account:
+`notes/2026-10-12-brief-2c-report.md`.
+Decisions:
+1. **What the scraped corpus contributes.** Only which (year, make, model, DTC set)
+   combinations real owners wrote about, plus a label for stratifying. No scraped text
+   enters any prompt or any target. The model input is built by the backend's own
+   `/interpret` code (called in-process, model call intercepted), so its context is the
+   DTC definitions, NHTSA retrieval and `known_issues.json`, exactly as in production.
+   The targets are written by Claude Opus from that input alone.
+2. **Record.** One owner-written item: a Reddit post, an NHTSA complaint, or a
+   RepairPal/CarComplaints problem string. Recall notices are context, not records.
+3. **Exclusion is by vehicle.** Every record whose (year, make, model) matches an eval
+   case or a codeless profile is dropped, which contains the brief's URL and
+   (year, make, model, DTC) rules. Reason: held-out splits are by platform.
+4. **Sampling.** One record per distinct model input, 5,500 drawn. The per-label cap is
+   10% of the sample (550); the brief's 400 was 10% of its 4,000. "Source" is the site,
+   with Reddit split by subreddit; no source exceeds 15%. Unmapped is capped at 10%.
+5. **Inputs are code-only.** The corpus has no live data, so every measurement is null and
+   the capability note says so. Records with no stated code (260) use the backend's
+   clean-scan path. The fine-tune has therefore seen no input with fuel trims, freeze
+   frames or Mode 06, while 40 of the 102 eval cases carry them.
+6. **No temperature.** `claude-opus-5-5` rejects `temperature` with HTTP 400, so the
+   brief's 0.3 could not be set and was omitted. The same applies to the Phase 7 judge,
+   where temperature 0 was specified. No refusal fallback was configured, so no second
+   model could write a target.
+7. **Length.** The brief drops targets over 500 words. The synthesis prompt carries
+   per-section word budgets so a 12-section response fits; without them a 40-record pilot
+   came in at 487–619 words and nearly all would have been dropped.
+8. **Grounding check.** A recall or bulletin number must appear in the context. A sentence
+   in the KNOWN ISSUES section passes if its numbers appear in the context and at least
+   half of its content words do (case-insensitive, common endings ignored). The synthesis
+   prompt tells Opus to report only retrieved material in the two vehicle-fact sections.
+   Both were settled on the 40-record pilot before the main run.
+9. **Final set.** 5,324 targets passed; trimmed to 5,000 from the largest labels. 4,750
+   train, 250 validation. Validation holds out 17 whole platforms (make + model).
+10. **Storage.** `train.jsonl` (86 MB), the raw Opus outputs and intermediates stay on the
+    5090, outside git. The manifest with SHA-256 hashes, the exclusions, the synthesis
+    prompt and the counts are committed.
+Evidence: `scripts/distill_verify.py` passes all six 2c acceptance checks
+(`notes/reports/logs/2026-10-12-phase-5.log` L277–290), including 100 pairs rebuilt through
+`main.interpret` with 0 differences outside `retrieved_at`. Synthesis cost $611.75.
+Supersedes: closes `[OPEN] Scraped content in the training corpus` as "facts only,
+Opus-written targets, no verbatim prose" (hand-off override (c), 2026-09-25). Supersedes
+`ml/notes/synthesis_design.md` (hybrid rule/LLM stitching of 15,000 pairs) and brief 2c
+step 3.2's absolute cap of 400 and step 5.3's temperature.
+
 ## [DECIDED] Tag polls fetch by explicit refspec, not `--tags`; Phase 6 VRAM limit 8 GB — 2026-10-12
 Context: the two sessions hand off through tags (`eval-v1-frozen`, `ft-v1-gguf-ready`,
 `phase2-base-scored`, `ft-v1-scored`). On the 5090, `git fetch --tags origin` printed

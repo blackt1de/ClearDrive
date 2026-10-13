@@ -1,0 +1,131 @@
+{
+  "created": "2026-10-13T03:34:33Z",
+  "brief": "docs/briefs/weekend/brief-2c-training-data-distillation.md",
+  "files": {
+    "cleardrive_sft.jsonl": {
+      "sha256": "fb1409c58954492f96b6632ca4b27ca6dae9f207586a000bc6837128452e138c",
+      "lines": 5000,
+      "bytes": 90955294
+    },
+    "train.jsonl": {
+      "sha256": "5be53983ae0ac556f883b285cc67ddd1e94be4e87d20d2936737c8ae595767ec",
+      "lines": 4750,
+      "bytes": 86420350
+    },
+    "val.jsonl": {
+      "sha256": "362104592b0aff56a19498c456f4177b4e7a1d5d94728d25b5dafc54fbf98279",
+      "lines": 250,
+      "bytes": 4534944
+    }
+  },
+  "pairs": {
+    "total": 5000,
+    "train": 4750,
+    "val": 250,
+    "trimmed_to_target": 324,
+    "val_fraction": 0.05
+  },
+  "split": {
+    "unit": "platform (make + model)",
+    "seed": 42,
+    "val_platforms": [
+      "CHEVROLET|COLORADO",
+      "CHEVROLET|CORVETTE",
+      "CHRYSLER|300",
+      "FORD|FOCUS",
+      "FORD|RANGER",
+      "GENESIS|G90",
+      "HONDA|RIDGELINE",
+      "HYUNDAI|KONA",
+      "HYUNDAI|SONATA",
+      "INFINITI|QX60",
+      "LEXUS|NX300",
+      "MINI|COOPER",
+      "SUBARU|ASCENT",
+      "SUBARU|FORESTER",
+      "TOYOTA|PRIUS",
+      "VOLKSWAGEN|ATLAS",
+      "VOLKSWAGEN|GTI"
+    ],
+    "train_platforms": 121
+  },
+  "by_label": {
+    "air_fuel_metering_other": {
+      "train": 445,
+      "val": 24
+    },
+    "catalytic_converter": {
+      "train": 204,
+      "val": 12
+    },
+    "control_module": {
+      "train": 382,
+      "val": 21
+    },
+    "emissions_control_other": {
+      "train": 172,
+      "val": 8
+    },
+    "evap_system": {
+      "train": 446,
+      "val": 23
+    },
+    "fuel_delivery": {
+      "train": 51,
+      "val": 1
+    },
+    "fuel_injector": {
+      "train": 76,
+      "val": 4
+    },
+    "idle_speed_auxiliary": {
+      "train": 289,
+      "val": 14
+    },
+    "ignition_component": {
+      "train": 446,
+      "val": 23
+    },
+    "ignition_system_sensor": {
+      "train": 339,
+      "val": 16
+    },
+    "maf_sensor": {
+      "train": 388,
+      "val": 19
+    },
+    "oxygen_sensor": {
+      "train": 253,
+      "val": 13
+    },
+    "transmission": {
+      "train": 446,
+      "val": 24
+    },
+    "unmapped": {
+      "train": 294,
+      "val": 20
+    },
+    "vacuum_intake_leak": {
+      "train": 72,
+      "val": 5
+    },
+    "valve_timing_air_aux": {
+      "train": 447,
+      "val": 23
+    }
+  },
+  "by_path": {
+    "no_codes": 245,
+    "coded": 4755
+  },
+  "tokens": {
+    "tokenizer": "Qwen/Qwen3-14B",
+    "limit": 8192,
+    "max": 5591,
+    "mean": 4317,
+    "dropped_over_limit": 0
+  },
+  "system_prompt_sha256": "3501f81d2c8cf6aa902bfbe4b0237a369f726f566508c601d08cb5868d48ceb2",
+  "synthesis_prompt_sha256": "f871c337fe908e6b10627c913f848f8e6197a2aeee3072556c446bf0314a8343"
+}

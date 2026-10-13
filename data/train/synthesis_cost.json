@@ -1,0 +1,25 @@
+{
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "price_usd_per_mtok": {
+    "input": 4.0,
+    "output": 20.0
+  },
+  "final": {
+    "targets": 5500,
+    "input_tokens": 39095176,
+    "output_tokens": 22617914,
+    "usd": 608.74,
+    "stop_reasons": {
+      "end_turn": 5500
+    }
+  },
+  "pilot1_discarded": {
+    "targets": 40,
+    "input_tokens": 275893,
+    "output_tokens": 95544,
+    "usd": 3.01
+  },
+  "total_usd": 611.75,
+  "note": "Computed from the usage saved with each raw target. Excludes up to 16 requests in flight when the first background run was stopped by the harness, and the 5 API probe calls."
+}
